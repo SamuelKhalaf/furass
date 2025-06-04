@@ -20,7 +20,7 @@ use Spatie\Permission\Models\Role;
 |
 */
 
-Auth::routes(['register' => false]);
+Auth::routes(['register' => false,'verify' => false]);
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 

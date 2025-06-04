@@ -92,8 +92,8 @@ var KTUsersAddUser = function () {
                             processData: false,
                             contentType: false,
                             success: function (response) {
-                                submitButton.removeAttr("data-kt-indicator");
-                                submitButton.prop("disabled", false);
+                                submitButton.removeAttribute("data-kt-indicator");
+                                submitButton.disabled = false;
 
                                 Swal.fire({
                                     text: response.message,
@@ -107,13 +107,13 @@ var KTUsersAddUser = function () {
                                     if (result.isConfirmed) {
                                         modal.hide();
                                         form.reset();
-                                        $('#kt_permissions_table').DataTable().ajax.reload();
+                                        location.reload();
                                     }
                                 });
                             },
                             error: function (xhr) {
-                                submitButton.removeAttr("data-kt-indicator");
-                                submitButton.prop("disabled", false);
+                                submitButton.removeAttribute("data-kt-indicator");
+                                submitButton.disabled = false;
 
                                 let errorMessage = "Something went wrong! Please try again later.";
 

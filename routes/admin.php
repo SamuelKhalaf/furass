@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::middleware(['auth','verified'])->name('admin.')->group(function () {
+Route::middleware(['auth'])->name('admin.')->group(function () {
 
     // View Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])

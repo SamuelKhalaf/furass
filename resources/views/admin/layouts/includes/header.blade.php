@@ -38,7 +38,7 @@
                             <!--begin:Menu item-->
                             <div class="menu-item">
                                 <!--begin:Menu link-->
-                                <a class="menu-link" href="" target="_blank" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
+                                <a class="menu-link" href="#" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
 													<span class="menu-icon">
 														<!--begin::Svg Icon | path: icons/duotune/general/gen002.svg-->
 														<span class="svg-icon svg-icon-3">
@@ -57,7 +57,7 @@
                             <!--begin:Menu item-->
                             <div class="menu-item">
                                 <!--begin:Menu link-->
-                                <a class="menu-link" href="" target="_blank" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
+                                <a class="menu-link" href="#" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
 													<span class="menu-icon">
 														<!--begin::Svg Icon | path: icons/duotune/abstract/abs027.svg-->
 														<span class="svg-icon svg-icon-3">
@@ -76,7 +76,7 @@
                             <!--begin:Menu item-->
                             <div class="menu-item">
                                 <!--begin:Menu link-->
-                                <a class="menu-link" href="" target="_blank">
+                                <a class="menu-link" href="#">
 													<span class="menu-icon">
 														<!--begin::Svg Icon | path: icons/duotune/coding/cod003.svg-->
 														<span class="svg-icon svg-icon-3">
@@ -109,7 +109,7 @@
                             <!--begin:Menu item-->
                             <div class="menu-item">
                                 <!--begin:Menu link-->
-                                <a class="menu-link" href="" target="_blank" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
+                                <a class="menu-link" href="#" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
 													<span class="menu-icon">
 														<!--begin::Svg Icon | path: icons/duotune/general/gen002.svg-->
 														<span class="svg-icon svg-icon-3">
@@ -128,7 +128,7 @@
                             <!--begin:Menu item-->
                             <div class="menu-item">
                                 <!--begin:Menu link-->
-                                <a class="menu-link" href="" target="_blank" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
+                                <a class="menu-link" href="#" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
 													<span class="menu-icon">
 														<!--begin::Svg Icon | path: icons/duotune/abstract/abs027.svg-->
 														<span class="svg-icon svg-icon-3">
@@ -147,7 +147,7 @@
                             <!--begin:Menu item-->
                             <div class="menu-item">
                                 <!--begin:Menu link-->
-                                <a class="menu-link" href="" target="_blank">
+                                <a class="menu-link" href="#">
 													<span class="menu-icon">
 														<!--begin::Svg Icon | path: icons/duotune/coding/cod003.svg-->
 														<span class="svg-icon svg-icon-3">
