@@ -37,7 +37,8 @@ class PermissionService implements IPermissionService
                 $roleColors = [
                     'Admin' => 'primary',
                     'Consultant' => 'info',
-                    'School' => 'success'
+                    'School' => 'success',
+                    'Student' => 'danger',
                 ];
 
                 return $permission->roles->pluck('name')->map(function ($role) use ($roleColors) {
@@ -48,7 +49,7 @@ class PermissionService implements IPermissionService
             ->addColumn('actions', function ($permission) {
                 if (auth()->user()->hasPermissionTo(PermissionEnum::DELETE_PERMISSIONS->value)) {
                     return '<a href="#" class="btn btn-danger btn-sm me-lg-n7" data-id="' . $permission->id . '" data-kt-permissions-table-filter="delete_row">
-                           <i class="fas fa-trash"></i> Delete
+                           <i class="fas fa-trash"></i>
                             Delete
                         </a>
                 ';
