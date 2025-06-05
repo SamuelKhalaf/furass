@@ -1,3 +1,4 @@
+@php use App\Enums\PermissionEnum; @endphp
 <div data-kt-menu-trigger="click"
      class="menu-item menu-accordion {{setMenuOpenClass(['admin.dashboard'])}}">
                     <span class="menu-link {{setActiveClass('admin.dashboard')}}" href="{{route('admin.dashboard')}}">
@@ -388,22 +389,36 @@
                 <span class="menu-title">General Setting</span>
             </a>
         </div>
-        <div class="menu-item">
-            <a class="menu-link" href="#">
+        @if(auth()->user()->hasAnyPermission(PermissionEnum::rolePermissions()))
+            <!--begin:Menu item-->
+            <div class="menu-item">
+                <!--begin:Menu link-->
+                <a class="menu-link {{setActiveClass('admin.roles.index')}}"
+                   href="{{route('admin.roles.index')}}">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                <span class="menu-title">Roles</span>
-            </a>
-        </div>
-        <div class="menu-item">
-            <a class="menu-link" href="#">
-                                <span class="menu-bullet">
-                                    <span class="bullet bullet-dot"></span>
-                                </span>
-                <span class="menu-title">Permissions</span>
-            </a>
-        </div>
+                    <span class="menu-title">Roles</span>
+                </a>
+                <!--end:Menu link-->
+            </div>
+            <!--end:Menu item-->
+        @endif
+        @if(auth()->user()->hasAnyPermission(PermissionEnum::permissionPermissions()))
+            <!--begin:Menu item-->
+            <div class="menu-item">
+                <!--begin:Menu link-->
+                <a class="menu-link {{setActiveClass('admin.permissions.index')}}"
+                   href="{{route('admin.permissions.index')}}">
+                                        <span class="menu-bullet">
+                                            <span class="bullet bullet-dot"></span>
+                                        </span>
+                    <span class="menu-title">Permissions</span>
+                </a>
+                <!--end:Menu link-->
+            </div>
+            <!--end:Menu item-->
+        @endif
     </div>
 </div>
 <!--end:Menu item-->

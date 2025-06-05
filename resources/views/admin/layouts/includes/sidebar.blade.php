@@ -53,6 +53,8 @@
                     @include('admin.layouts.users.school')
                 @elseif(auth()->user()->hasRole('Student'))
                     @include('admin.layouts.users.student')
+                @else
+                    @include('admin.layouts.users.default')
                 @endif
             </div>
         </div>
