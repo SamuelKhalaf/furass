@@ -3,7 +3,8 @@
      data-kt-drawer-activate="{default: true, lg: false}" data-kt-drawer-overlay="true" data-kt-drawer-width="225px"
      data-kt-drawer-direction="start" data-kt-drawer-toggle="#kt_app_sidebar_mobile_toggle">
     <!--begin::Logo-->
-    <div class="app-sidebar-logo pe-6" id="kt_app_sidebar_logo" style="background-color: #f1f1f1; border-bottom: 1px solid #393945">
+    <div class="app-sidebar-logo pe-6" id="kt_app_sidebar_logo"
+         style="background-color: #f1f1f1; border-bottom: 1px solid #393945">
         <!--begin::Logo image-->
         <a href="">
             <img alt="Logo" src="{{asset('assets/media/logos/furass.png')}}"
@@ -45,13 +46,13 @@
             <div class="menu menu-column menu-rounded menu-sub-indention px-3" id="#kt_app_sidebar_menu"
                  data-kt-menu="true" data-kt-menu-expand="false">
                 @if(auth()->user()->hasRole('Admin'))
-                    @include('admin.layouts.includes.admin')
+                    @include('admin.layouts.users.admin')
                 @elseif(auth()->user()->hasRole('Consultant'))
-                    @include('admin.layouts.includes.consultant')
+                    @include('admin.layouts.users.consultant')
                 @elseif(auth()->user()->hasRole('School'))
-                    @include('admin.layouts.includes.school')
+                    @include('admin.layouts.users.school')
                 @elseif(auth()->user()->hasRole('Student'))
-                    @include('admin.layouts.includes.student')
+                    @include('admin.layouts.users.student')
                 @endif
             </div>
         </div>
