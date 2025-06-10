@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\admin;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\admin\CreateUserRequest;
-use App\Http\Requests\admin\UpdateUserRequest;
+use App\Http\Requests\Admin\CreateUserRequest;
+use App\Http\Requests\Admin\UpdateUserRequest;
 use App\Services\IRoleService;
 use App\Services\IUserService;
 use Illuminate\Contracts\View\Factory;

@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\admin;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\admin\StorePermissionRequest;
+use App\Http\Requests\Admin\StorePermissionRequest;
 use App\Services\IPermissionService;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;

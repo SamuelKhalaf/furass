@@ -13,6 +13,12 @@ enum PermissionEnum : string
     case UPDATE_USERS = 'Update Users';
     case DELETE_USERS = 'Delete Users';
 
+    // Students
+    case LIST_STUDENTS  = 'List Students';
+    case CREATE_STUDENTS = 'Create Students';
+    case UPDATE_STUDENTS = 'Update Students';
+    case DELETE_STUDENTS = 'Delete Students';
+
     // Roles
     case LIST_ROLES = 'List Roles';
     case VIEW_ROLES = 'View Roles';

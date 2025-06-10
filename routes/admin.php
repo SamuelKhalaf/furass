@@ -1,10 +1,11 @@
 <?php
 
 use App\Enums\PermissionEnum;
-use App\Http\Controllers\admin\DashboardController;
-use App\Http\Controllers\admin\PermissionsController;
-use App\Http\Controllers\admin\RolesController;
-use App\Http\Controllers\admin\UsersController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\PermissionsController;
+use App\Http\Controllers\Admin\RolesController;
+use App\Http\Controllers\Admin\StudentController;
+use App\Http\Controllers\Admin\UsersController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -42,6 +43,25 @@ Route::middleware(['auth'])->name('admin.')->group(function () {
         ->middleware('permission:'. PermissionEnum::DELETE_USERS->value)
         ->name('users.destroy');
     ###############################  End:Users Routes  #####################################
+    ##############################  Start:Students Routes  ####################################
+    Route::middleware('permission:'. PermissionEnum::LIST_STUDENTS->value)->group(function () {
+        Route::get('students', [StudentController::class, 'index'])->name('students.index');
+        Route::get('/students/all', [StudentController::class, 'getStudentsData'])->name('students.datatable');
+    });
+
+    Route::post('students', [StudentController::class, 'store'])
+        ->middleware('permission:'. PermissionEnum::CREATE_STUDENTS->value)
+        ->name('students.store');
+
+    Route::middleware('permission:'. PermissionEnum::UPDATE_STUDENTS->value)->group(function () {
+        Route::get('students/{student}/edit', [StudentController::class, 'edit'])->name('students.edit');
+        Route::put('students/{student}', [StudentController::class, 'update'])->name('students.update');
+    });
+
+    Route::delete('students/{student}', [StudentController::class, 'destroy'])
+        ->middleware('permission:'. PermissionEnum::DELETE_STUDENTS->value)
+        ->name('students.destroy');
+    ###############################  End:Students Routes  #####################################
 
     ############################### Start:Roles Routes #####################################
     Route::get('/roles', [RolesController::class, 'index'])

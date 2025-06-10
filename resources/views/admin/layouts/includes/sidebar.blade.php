@@ -45,17 +45,17 @@
             <!--begin::Menu-->
             <div class="menu menu-column menu-rounded menu-sub-indention px-3" id="#kt_app_sidebar_menu"
                  data-kt-menu="true" data-kt-menu-expand="false">
-                @if(auth()->user()->hasRole('Admin'))
+{{--                @if(auth()->user()->hasRole('Admin'))--}}
                     @include('admin.layouts.users.admin')
-                @elseif(auth()->user()->hasRole('Consultant'))
-                    @include('admin.layouts.users.consultant')
-                @elseif(auth()->user()->hasRole('School'))
-                    @include('admin.layouts.users.school')
-                @elseif(auth()->user()->hasRole('Student'))
-                    @include('admin.layouts.users.student')
-                @else
-                    @include('admin.layouts.users.default')
-                @endif
+{{--                @elseif(auth()->user()->hasRole('Consultant'))--}}
+{{--                    @include('admin.layouts.users.consultant')--}}
+{{--                @elseif(auth()->user()->hasRole('School'))--}}
+{{--                    @include('admin.layouts.users.school')--}}
+{{--                @elseif(auth()->user()->hasRole('Student'))--}}
+{{--                    @include('admin.layouts.users.student')--}}
+{{--                @else--}}
+{{--                    @include('admin.layouts.users.default')--}}
+{{--                @endif--}}
             </div>
         </div>
     </div>

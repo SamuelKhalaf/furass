@@ -220,6 +220,12 @@ var KTUsersAddUser = function () {
         // Public functions
         init: function () {
             initAddUser();
+            // Initialize Flatpickr for the birth date input
+            if (typeof flatpickr !== 'undefined') {
+                flatpickr("#student_birth_date", {
+                    dateFormat: "Y-m-d"
+                });
+            }
         }
     };
 }();

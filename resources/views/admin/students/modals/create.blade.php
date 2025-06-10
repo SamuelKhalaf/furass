@@ -70,19 +70,66 @@
                         <!--begin::Input group-->
                         <div class="fv-row mb-7">
                             <!--begin::Label-->
-                            <label class="required fw-semibold fs-6 mb-2">Role</label>
+                            <label class="required fw-semibold fs-6 mb-2">School</label>
                             <!--end::Label-->
                             <!--begin::Select-->
-                            <select name="role" class="form-select form-control-solid">
-                                @if($roles->isNotEmpty())
-                                    @foreach($roles as $role)
-                                        <option
-                                            value="{{ $role->name }}" >{{ $role->name }}
-                                        </option>
-                                    @endforeach
-                                @endif
+                            <select name="school_id" class="form-select form-control-solid">
+                                <option value="">Select School</option>
+                                @foreach($schools as $school)
+                                    <option value="{{ $school->id }}">{{ $school->user->name }}</option>
+                                @endforeach
                             </select>
                             <!--end::Select-->
+                        </div>
+                        <!--end::Input group-->
+                        <!--begin::Input group-->
+                        <div class="fv-row mb-7">
+                            <!--begin::Label-->
+                            <label class="required fw-semibold fs-6 mb-2">Grade</label>
+                            <!--end::Label-->
+                            <!--begin::Select-->
+                            <select name="grade" class="form-select form-control-solid">
+                                <option value="">Select Grade</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                            </select>
+                            <!--end::Select-->
+                        </div>
+                        <!--end::Input group-->
+                        <!--begin::Input group-->
+                        <div class="fv-row mb-7">
+                            <!--begin::Label-->
+                            <label class="required fw-semibold fs-6 mb-2">Birth Date</label>
+                            <!--end::Label-->
+                            <!--begin::Input-->
+                            <input type="date" name="birth_date" id="student_birth_date" class="form-control form-control-solid mb-3 mb-lg-0"/>
+                            <!--end::Input-->
+                        </div>
+                        <!--end::Input group-->
+                        <!--begin::Input group-->
+                        <div class="fv-row mb-7">
+                            <!--begin::Label-->
+                            <label class="required fw-semibold fs-6 mb-2">Gender</label>
+                            <!--end::Label-->
+                            <!--begin::Select-->
+                            <select name="gender" class="form-select form-control-solid">
+                                <option value="">Select Gender</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                            </select>
+                            <!--end::Select-->
+                        </div>
+                        <!--end::Input group-->
+                        <!--begin::Input group-->
+                        <div class="fv-row mb-7">
+                            <!--begin::Label-->
+                            <label class="fw-semibold fs-6 mb-2">Avatar</label>
+                            <!--end::Label-->
+                            <!--begin::Input-->
+                            <input type="file" name="avatar" class="form-control form-control-solid mb-3 mb-lg-0"
+                                   accept="image/*"/>
+                            <!--end::Input-->
                         </div>
                         <!--end::Input group-->
                         <!--begin::Input group-->
