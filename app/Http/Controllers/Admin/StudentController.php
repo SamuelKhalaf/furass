@@ -119,7 +119,8 @@ class StudentController extends Controller
                 'name' => $request->name,
                 'email' => $request->email,
                 'phone_number' => $request->phone_number,
-                'password' => Hash::make($request->password)
+                'password' => Hash::make($request->password),
+                'role' => RoleEnum::STUDENT->value,
             ]);
             if ($user) {
                 $user->assignRole(RoleEnum::STUDENT);
@@ -145,7 +146,8 @@ class StudentController extends Controller
             return response()->json(['message' => 'Student created successfully']);
         } catch (\Exception $e) {
             DB::rollBack();
-            return response()->json(['message' => 'Error creating student: ' . $e->getMessage()], 500);
+            return response()->json(['message' => 'Error creating student'], 500);
+
         }
     }
 

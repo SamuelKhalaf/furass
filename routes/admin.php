@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\PermissionsController;
 use App\Http\Controllers\Admin\RolesController;
 use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\UsersController;
+use App\Http\Controllers\Admin\SchoolController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -102,4 +103,24 @@ Route::middleware(['auth'])->name('admin.')->group(function () {
         ->middleware('permission:'.PermissionEnum::DELETE_PERMISSIONS->value)
         ->name('permissions.destroy');
     ###############################  End:Permissions Routes  #####################################
+
+    ############################### Start:Schools Routes #####################################
+    Route::middleware('permission:'. PermissionEnum::LIST_SCHOOLS->value)->group(function () {
+        Route::get('schools', [SchoolController::class, 'index'])->name('schools.index');
+        Route::get('schools/all', [SchoolController::class, 'getSchoolsData'])->name('schools.datatable');
+    });
+
+    Route::post('schools', [SchoolController::class, 'store'])
+        ->middleware('permission:'. PermissionEnum::CREATE_SCHOOLS->value)
+        ->name('schools.store');
+
+    Route::middleware('permission:'. PermissionEnum::UPDATE_SCHOOLS->value)->group(function () {
+        Route::get('schools/{school}/edit', [SchoolController::class, 'edit'])->name('schools.edit');
+        Route::put('schools/{school}', [SchoolController::class, 'update'])->name('schools.update');
+    });
+
+    Route::delete('schools/{school}', [SchoolController::class, 'destroy'])
+        ->middleware('permission:'. PermissionEnum::DELETE_SCHOOLS->value)
+        ->name('schools.destroy');
+    ###############################  End:Schools Routes  #####################################
 });

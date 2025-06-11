@@ -1,14 +1,16 @@
-<div class="modal fade" id="kt_modal_update_details" tabindex="-1" aria-hidden="true">
-<!--begin::Modal dialog-->
+<div class="modal fade" id="kt_modal_update_school" tabindex="-1" aria-hidden="true">
+    <!--begin::Modal dialog-->
     <div class="modal-dialog modal-dialog-centered mw-650px">
         <!--begin::Modal content-->
         <div class="modal-content">
             <!--begin::Form-->
-            <form class="form" action="#" id="kt_modal_update_user_form" data-user-id="">
+            <form class="form" action="#" id="kt_modal_update_school_form" method="POST" enctype="multipart/form-data">
+                @csrf
+                @method('PUT')
                 <!--begin::Modal header-->
-                <div class="modal-header" id="kt_modal_update_user_header">
+                <div class="modal-header" id="kt_modal_update_school_header">
                     <!--begin::Modal title-->
-                    <h2 class="fw-bold">Update Student Details</h2>
+                    <h2 class="fw-bold">Update School Details</h2>
                     <!--end::Modal title-->
 
                     <!--begin::Close-->
@@ -27,19 +29,16 @@
                 <!--begin::Modal body-->
                 <div class="modal-body py-10 px-lg-17">
                     <!--begin::Scroll-->
-                    <div class="d-flex flex-column scroll-y me-n7 pe-7" id="kt_modal_update_user_scroll" data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto" data-kt-scroll-dependencies="#kt_modal_update_user_header" data-kt-scroll-wrappers="#kt_modal_update_user_scroll" data-kt-scroll-offset="300px" style="max-height: 121px;">
-
-                        <!--begin::User form-->
-                        <div id="kt_modal_update_user_user_info" class="collapse show">
-                            @csrf
-                            @method('PUT')
+                    <div class="d-flex flex-column scroll-y me-n7 pe-7" id="kt_modal_update_school_scroll" data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto" data-kt-scroll-dependencies="#kt_modal_update_school_header" data-kt-scroll-wrappers="#kt_modal_update_school_scroll" data-kt-scroll-offset="300px">
+                        <!--begin::School form-->
+                        <div id="kt_modal_update_school_school_info" class="collapse show">
                             <!--begin::Input group-->
                             <div class="fv-row mb-7">
                                 <!--begin::Label-->
-                                <label class="required fw-semibold fs-6 mb-2">Student Name</label>
+                                <label class="required fw-semibold fs-6 mb-2">School Name</label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
-                                <input type="text" name="name" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Student name" />
+                                <input type="text" name="name" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="School name" required />
                                 <!--end::Input-->
                             </div>
                             <!--end::Input group-->
@@ -49,7 +48,7 @@
                                 <label class="required fw-semibold fs-6 mb-2">Email</label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
-                                <input type="email" name="email" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="example@domain.com" />
+                                <input type="email" name="email" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="example@domain.com" required />
                                 <!--end::Input-->
                             </div>
                             <!--end::Input group-->
@@ -59,77 +58,33 @@
                                 <label class="required fw-semibold fs-6 mb-2">Phone Number</label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
-                                <input type="text" name="phone_number" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="01122334455" />
+                                <input type="text" name="phone_number" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="01122334455" required />
                                 <!--end::Input-->
                             </div>
                             <!--end::Input group-->
                             <!--begin::Input group-->
                             <div class="fv-row mb-7">
                                 <!--begin::Label-->
-                                <label class="required fw-semibold fs-6 mb-2">School</label>
-                                <!--end::Label-->
-                                <!--begin::Select-->
-                                <select name="school_id" class="form-select form-control-solid">
-                                    <option value="">Select School</option>
-                                    @foreach($schools as $school)
-                                        <option value="{{ $school->id }}">{{ $school->user->name }}</option>
-                                    @endforeach
-                                </select>
-                                <!--end::Select-->
-                            </div>
-                            <!--end::Input group-->
-                            <!--begin::Input group-->
-                            <div class="fv-row mb-7">
-                                <!--begin::Label-->
-                                <label class="required fw-semibold fs-6 mb-2">Grade</label>
-                                <!--end::Label-->
-                                <!--begin::Select-->
-                                <select name="grade" class="form-select form-control-solid">
-                                    <option value="">Select Grade</option>
-                                    <option value="10">10</option>
-                                    <option value="11">11</option>
-                                    <option value="12">12</option>
-                                </select>
-                                <!--end::Select-->
-                            </div>
-                            <!--end::Input group-->
-                            <!--begin::Input group-->
-                            <div class="fv-row mb-7">
-                                <!--begin::Label-->
-                                <label class="required fw-semibold fs-6 mb-2">Birth Date</label>
+                                <label class="required fw-semibold fs-6 mb-2">Address</label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
-                                <input type="date" name="birth_date" id="student_birth_date_edit" class="form-control form-control-solid mb-3 mb-lg-0"/>
+                                <textarea name="address" class="form-control form-control-solid mb-3 mb-lg-0" required></textarea>
                                 <!--end::Input-->
                             </div>
                             <!--end::Input group-->
                             <!--begin::Input group-->
                             <div class="fv-row mb-7">
                                 <!--begin::Label-->
-                                <label class="required fw-semibold fs-6 mb-2">Gender</label>
-                                <!--end::Label-->
-                                <!--begin::Select-->
-                                <select name="gender" class="form-select form-control-solid">
-                                    <option value="">Select Gender</option>
-                                    <option value="male">Male</option>
-                                    <option value="female">Female</option>
-                                </select>
-                                <!--end::Select-->
-                            </div>
-                            <!--end::Input group-->
-                            <!--begin::Input group-->
-                            <div class="fv-row mb-7">
-                                <!--begin::Label-->
-                                <label class="fw-semibold fs-6 mb-2">Avatar</label>
+                                <label class="fw-semibold fs-6 mb-2">Logo</label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
-                                <input type="file" name="avatar" class="form-control form-control-solid mb-3 mb-lg-0"
+                                <input type="file" name="logo" class="form-control form-control-solid mb-3 mb-lg-0"
                                        accept="image/*"/>
                                 <!--end::Input-->
                             </div>
                             <!--end::Input group-->
                         </div>
-                        <!--end::User form-->
+                        <!--end::School form-->
                     </div>
                     <!--end::Scroll-->
                 </div>

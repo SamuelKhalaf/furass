@@ -31,6 +31,12 @@ enum PermissionEnum : string
     case CREATE_PERMISSIONS = 'Create Permissions';
     case DELETE_PERMISSIONS = 'Delete Permissions';
 
+    // School Permissions
+    case LIST_SCHOOLS = 'List Schools';
+    case CREATE_SCHOOLS = 'Create Schools';
+    case UPDATE_SCHOOLS = 'Update Schools';
+    case DELETE_SCHOOLS = 'Delete Schools';
+
     /**
      * @return array
      */

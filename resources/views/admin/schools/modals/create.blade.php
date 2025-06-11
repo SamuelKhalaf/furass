@@ -1,12 +1,12 @@
-<div class="modal fade" id="kt_modal_add_user" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="kt_modal_add_school" tabindex="-1" aria-hidden="true">
     <!--begin::Modal dialog-->
     <div class="modal-dialog modal-dialog-centered mw-650px">
         <!--begin::Modal content-->
         <div class="modal-content">
             <!--begin::Modal header-->
-            <div class="modal-header" id="kt_modal_add_user_header">
+            <div class="modal-header" id="kt_modal_add_school_header">
                 <!--begin::Modal title-->
-                <h2 class="fw-bold">Add Student</h2>
+                <h2 class="fw-bold">Add School</h2>
                 <!--end::Modal title-->
                 <!--begin::Close-->
                 <div class="btn btn-icon btn-sm btn-active-icon-primary" data-kt-users-modal-action="close">
@@ -27,21 +27,21 @@
             <!--begin::Modal body-->
             <div class="modal-body scroll-y mx-5 mx-xl-15 my-7">
                 <!--begin::Form-->
-                <form id="kt_modal_add_user_form" class="form" action="#">
+                <form id="kt_modal_add_school_form" class="form" action="{{ route('admin.schools.store') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
                     <!--begin::Scroll-->
-                    <div class="d-flex flex-column scroll-y me-n7 pe-7" id="kt_modal_add_user_scroll"
+                    <div class="d-flex flex-column scroll-y me-n7 pe-7" id="kt_modal_add_school_scroll"
                          data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}"
-                         data-kt-scroll-max-height="auto" data-kt-scroll-dependencies="#kt_modal_add_user_header"
-                         data-kt-scroll-wrappers="#kt_modal_add_user_scroll" data-kt-scroll-offset="300px">
-                        @csrf
+                         data-kt-scroll-max-height="auto" data-kt-scroll-dependencies="#kt_modal_add_school_header"
+                         data-kt-scroll-wrappers="#kt_modal_add_school_scroll" data-kt-scroll-offset="300px">
                         <!--begin::Input group-->
                         <div class="fv-row mb-7">
                             <!--begin::Label-->
-                            <label class="required fw-semibold fs-6 mb-2">Student Name</label>
+                            <label class="required fw-semibold fs-6 mb-2">School Name</label>
                             <!--end::Label-->
                             <!--begin::Input-->
                             <input type="text" name="name" class="form-control form-control-solid mb-3 mb-lg-0"
-                                   placeholder="Student name"/>
+                                   placeholder="School name" required/>
                             <!--end::Input-->
                         </div>
                         <!--end::Input group-->
@@ -52,7 +52,7 @@
                             <!--end::Label-->
                             <!--begin::Input-->
                             <input type="email" name="email" class="form-control form-control-solid mb-3 mb-lg-0"
-                                   placeholder="example@domain.com"/>
+                                   placeholder="example@domain.com" required/>
                             <!--end::Input-->
                         </div>
                         <!--end::Input group-->
@@ -62,72 +62,28 @@
                             <label class="required fw-semibold fs-6 mb-2">Phone Number</label>
                             <!--end::Label-->
                             <!--begin::Input-->
-                            <input type="number" name="phone_number"
-                                   class="form-control form-control-solid mb-3 mb-lg-0" placeholder="01122334455"/>
+                            <input type="text" name="phone_number"
+                                   class="form-control form-control-solid mb-3 mb-lg-0" placeholder="01122334455" required/>
                             <!--end::Input-->
                         </div>
                         <!--end::Input group-->
                         <!--begin::Input group-->
                         <div class="fv-row mb-7">
                             <!--begin::Label-->
-                            <label class="required fw-semibold fs-6 mb-2">School</label>
-                            <!--end::Label-->
-                            <!--begin::Select-->
-                            <select name="school_id" class="form-select form-control-solid">
-                                <option value="">Select School</option>
-                                @foreach($schools as $school)
-                                    <option value="{{ $school->id }}">{{ $school->user->name }}</option>
-                                @endforeach
-                            </select>
-                            <!--end::Select-->
-                        </div>
-                        <!--end::Input group-->
-                        <!--begin::Input group-->
-                        <div class="fv-row mb-7">
-                            <!--begin::Label-->
-                            <label class="required fw-semibold fs-6 mb-2">Grade</label>
-                            <!--end::Label-->
-                            <!--begin::Select-->
-                            <select name="grade" class="form-select form-control-solid">
-                                <option value="">Select Grade</option>
-                                <option value="10">10</option>
-                                <option value="11">11</option>
-                                <option value="12">12</option>
-                            </select>
-                            <!--end::Select-->
-                        </div>
-                        <!--end::Input group-->
-                        <!--begin::Input group-->
-                        <div class="fv-row mb-7">
-                            <!--begin::Label-->
-                            <label class="required fw-semibold fs-6 mb-2">Birth Date</label>
+                            <label class="required fw-semibold fs-6 mb-2">Address</label>
                             <!--end::Label-->
                             <!--begin::Input-->
-                            <input type="date" name="birth_date" id="student_birth_date" class="form-control form-control-solid mb-3 mb-lg-0"/>
+                            <textarea name="address" class="form-control form-control-solid mb-3 mb-lg-0" required></textarea>
                             <!--end::Input-->
                         </div>
                         <!--end::Input group-->
                         <!--begin::Input group-->
                         <div class="fv-row mb-7">
                             <!--begin::Label-->
-                            <label class="required fw-semibold fs-6 mb-2">Gender</label>
-                            <!--end::Label-->
-                            <!--begin::Select-->
-                            <select name="gender" class="form-select form-control-solid">
-                                <option value="">Select Gender</option>
-                                <option value="male">Male</option>
-                                <option value="female">Female</option>
-                            </select>
-                            <!--end::Select-->
-                        </div>
-                        <!--end::Input group-->
-                        <!--begin::Input group-->
-                        <div class="fv-row mb-7">
-                            <!--begin::Label-->
-                            <label class="fw-semibold fs-6 mb-2">Avatar</label>
+                            <label class="fw-semibold fs-6 mb-2">Logo</label>
                             <!--end::Label-->
                             <!--begin::Input-->
-                            <input type="file" name="avatar" class="form-control form-control-solid mb-3 mb-lg-0"
+                            <input type="file" name="logo" class="form-control form-control-solid mb-3 mb-lg-0"
                                    accept="image/*"/>
                             <!--end::Input-->
                         </div>

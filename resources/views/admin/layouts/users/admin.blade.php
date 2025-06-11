@@ -60,47 +60,14 @@
     <!--end:Menu link-->
 </div>
 <!--end:Menu item-->
-<div data-kt-menu-trigger="click"
-     class="menu-item menu-accordion">
-                    <span class="menu-link">
-                        <span class="menu-icon"><i class="bi bi-grid"></i></span>
-                        <span class="menu-title">Manage Schools</span>
-                        <span class="menu-arrow"></span>
-                    </span>
-    <div class="menu-sub menu-sub-accordion">
-        <div class="menu-item">
-            <a class="menu-link" href="#">
-                            <span class="menu-bullet">
-                                <span class="bullet bullet-dot"></span>
-                            </span>
-                <span class="menu-title">Display</span>
-            </a>
-        </div>
-        <div class="menu-item">
-            <a class="menu-link" href="#">
-                            <span class="menu-bullet">
-                                <span class="bullet bullet-dot"></span>
-                            </span>
-                <span class="menu-title">Create</span>
-            </a>
-        </div>
-        <div class="menu-item">
-            <a class="menu-link" href="#">
-                                <span class="menu-bullet">
-                                    <span class="bullet bullet-dot"></span>
-                                </span>
-                <span class="menu-title">Edit</span>
-            </a>
-        </div>
-        <div class="menu-item">
-            <a class="menu-link" href="#">
-                                <span class="menu-bullet">
-                                    <span class="bullet bullet-dot"></span>
-                                </span>
-                <span class="menu-title">Delete</span>
-            </a>
-        </div>
-    </div>
+<div class="menu-item {{setMenuOpenClass(['admin.schools.index'])}}">
+    <!--begin:Menu link-->
+    <a class="menu-link {{setActiveClass('admin.schools.index')}}"
+       href="{{route('admin.schools.index')}}">
+        <span class="menu-icon"><i class="fa-solid fa-school"></i></span>
+        <span class="menu-title">Manage Schools</span>
+    </a>
+    <!--end:Menu link-->
 </div>
 <!--end:Menu item-->
 <div data-kt-menu-trigger="click"
