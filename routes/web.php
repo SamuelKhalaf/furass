@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\URL;
 use Spatie\Permission\Models\Role;
+use App\Http\Controllers\LanguageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,3 +36,5 @@ Route::get('/test', function () {
     $adminRole = Role::firstOrCreate(['name' => RoleEnum::ADMIN->value]);
     $adminRole->givePermissionTo(PermissionEnum::all());
 });
+
+Route::get('language/{locale}', [LanguageController::class, 'switchLang'])->name('language.switch');

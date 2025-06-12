@@ -1,5 +1,5 @@
 @extends('admin.layouts.master')
-@section('title', 'Schools')
+@section('title', __('schools.title'))
 @section('content')
     <div class="d-flex flex-column flex-column-fluid">
         <!--begin::Toolbar-->
@@ -9,14 +9,13 @@
                 <!--begin::Page title-->
                 <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
                     <!--begin::Title-->
-                    <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">Schools
-                        List</h1>
+                    <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">{{ __('schools.list') }}</h1>
                     <!--end::Title-->
                     <!--begin::Breadcrumb-->
                     <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
                         <!--begin::Item-->
                         <li class="breadcrumb-item text-muted">
-                            <a href="{{route('admin.dashboard')}}" class="text-muted text-hover-primary">Home</a>
+                            <a href="{{route('admin.dashboard')}}" class="text-muted text-hover-primary">{{ __('dashboard.home') }}</a>
                         </li>
                         <!--end::Item-->
                         <!--begin::Item-->
@@ -25,7 +24,7 @@
                         </li>
                         <!--end::Item-->
                         <!--begin::Item-->
-                        <li class="breadcrumb-item text-muted">Schools</li>
+                        <li class="breadcrumb-item text-muted">{{ __('schools.title') }}</li>
                         <!--end::Item-->
                     </ul>
                     <!--end::Breadcrumb-->
@@ -49,7 +48,7 @@
                             <div class="d-flex align-items-center position-relative my-1">
                                 <span class="svg-icon svg-icon-1 position-absolute ms-6"><i class="fa-solid fa-magnifying-glass"></i></span>
                                 <input type="text" data-kt-user-table-filter="search"
-                                       class="form-control form-control-solid w-250px ps-14" placeholder="Search School"/>
+                                       class="form-control form-control-solid w-250px ps-14" placeholder="{{ __('schools.search') }}"/>
                             </div>
                             <!--end::Search-->
                         </div>
@@ -58,11 +57,11 @@
                         <div class="card-toolbar">
                             <!--begin::Toolbar-->
                             <div class="d-flex justify-content-end" data-kt-user-table-toolbar="base">
-                                @if(auth()->user()->hasPermissionTo(\App\Enums\PermissionEnum::CREATE_USERS->value))
+                                @if(auth()->user()->hasPermissionTo(\App\Enums\PermissionEnum::CREATE_SCHOOLS->value))
                                     <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                                             data-bs-target="#kt_modal_add_school">
                                         <span class="svg-icon svg-icon-2"><i class="fa-solid fa-plus"></i></span>
-                                        Add School
+                                        {{ __('schools.create') }}
                                     </button>
                                 @endif
                             </div>
@@ -78,12 +77,12 @@
                             <!--begin::Table head-->
                             <thead>
                             <!--begin::Table row-->
-                            <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
-                                <th class="min-w-200px">Name</th>
-                                <th class="min-w-125px">Address</th>
-                                <th class="min-w-125px">Email</th>
-                                <th class="min-w-125px">Phone</th>
-                                <th class="min-w-100px">Actions</th>
+                            <tr class="text-gray-400 fw-bold fs-7 text-uppercase gs-0 text-center">
+                                <th class="min-w-200px">{{ __('schools.name') }}</th>
+                                <th class="min-w-125px">{{ __('schools.address') }}</th>
+                                <th class="min-w-125px">{{ __('schools.email') }}</th>
+                                <th class="min-w-125px">{{ __('schools.phone') }}</th>
+                                <th class="min-w-100px">{{ __('schools.actions') }}</th>
                             </tr>
                             <!--end::Table row-->
                             </thead>
@@ -186,31 +185,36 @@
                                 data: 'name',
                                 name: 'name',
                                 orderable: false,
-                                searchable: false
+                                searchable: false,
+                                className: 'text-center'
                             },
                             {
                                 data: 'address',
                                 name: 'address',
                                 orderable: false,
-                                searchable: false
+                                searchable: false,
+                                className: 'text-center'
                             },
                             {
                                 data: 'email',
                                 name: 'email',
                                 orderable: false,
-                                searchable: false
+                                searchable: false,
+                                className: 'text-center'
                             },
                             {
                                 data: 'phone',
                                 name: 'phone',
                                 orderable: false,
-                                searchable: false
+                                searchable: false,
+                                className: 'text-center'
                             },
                             {
                                 data: 'actions',
                                 name: 'actions',
                                 orderable: false,
-                                searchable: false
+                                searchable: false,
+                                className: 'text-center'
                             }
                         ]
                     });

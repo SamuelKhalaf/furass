@@ -13,7 +13,7 @@ class UserRepository implements IUserRepository
      */
     public function getAll(): Builder
     {
-        return User::select('id', 'name', 'email','phone_number','created_at')->orderBy('id','desc');
+        return User::select('id', 'name', 'email','phone_number','role','created_at')->orderBy('id','desc');
     }
 
     public function findUserById(int $id): ?User

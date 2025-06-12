@@ -8,7 +8,7 @@
                 <!--begin::Modal header-->
                 <div class="modal-header" id="kt_modal_update_user_header">
                     <!--begin::Modal title-->
-                    <h2 class="fw-bold">Update User Details</h2>
+                    <h2 class="fw-bold">{{ __('users.modal.update_user') }}</h2>
                     <!--end::Modal title-->
 
                     <!--begin::Close-->
@@ -36,40 +36,41 @@
                             <!--begin::Input group-->
                             <div class="fv-row mb-7">
                                 <!--begin::Label-->
-                                <label class="required fw-semibold fs-6 mb-2">Full Name</label>
+                                <label class="required fw-semibold fs-6 mb-2">{{ __('users.modal.full_name') }}</label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
-                                <input type="text" name="name" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Full name" />
-                                <!--end::Input-->
+                                <input type="text" name="name" class="form-control form-control-solid mb-3 mb-lg-0"
+                                       placeholder="{{ __('users.modal.enter_full_name') }}" />                                <!--end::Input-->
                             </div>
                             <!--end::Input group-->
                             <!--begin::Input group-->
                             <div class="fv-row mb-7">
                                 <!--begin::Label-->
-                                <label class="required fw-semibold fs-6 mb-2">Email</label>
+                                <label class="required fw-semibold fs-6 mb-2">{{ __('users.modal.email') }}</label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
-                                <input type="email" name="email" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="example@domain.com" />
-                                <!--end::Input-->
+                                <input type="email" name="email" class="form-control form-control-solid mb-3 mb-lg-0"
+                                       placeholder="{{ __('users.modal.enter_email') }}" />                                <!--end::Input-->
                             </div>
                             <!--end::Input group-->
                             <!--begin::Input group-->
                             <div class="fv-row mb-7">
                                 <!--begin::Label-->
-                                <label class="required fw-semibold fs-6 mb-2">Phone Number</label>
+                                <label class="required fw-semibold fs-6 mb-2">{{ __('users.modal.phone_number') }}</label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
-                                <input type="text" name="phone_number" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="01122334455" />
-                                <!--end::Input-->
+                                <input type="text" name="phone_number" class="form-control form-control-solid mb-3 mb-lg-0"
+                                       placeholder="{{ __('users.modal.enter_phone') }}" />                                <!--end::Input-->
                             </div>
                             <!--end::Input group-->
                             <!--begin::Input group-->
                             <div class="fv-row mb-7">
                                 <!--begin::Label-->
-                                <label class="required fw-semibold fs-6 mb-2">Role</label>
+                                <label class="required fw-semibold fs-6 mb-2">{{ __('users.modal.role') }}</label>
                                 <!--end::Label-->
                                 <!--begin::Select-->
                                 <select name="role" class="form-select form-control-solid">
+                                    <option disabled selected>{{ __('users.modal.select_role') }}</option>
                                     @if($roles->isNotEmpty())
                                         @foreach($roles as $role)
                                             <option
@@ -92,17 +93,18 @@
                 <div class="modal-footer flex-center">
                     <!--begin::Button-->
                     <button type="reset" class="btn btn-light me-3" data-kt-users-modal-action="cancel">
-                        Discard
+                        {{ __('users.modal.discard') }}
                     </button>
                     <!--end::Button-->
 
                     <!--begin::Button-->
                     <button type="submit" class="btn btn-primary" data-kt-users-modal-action="submit">
                         <span class="indicator-label">
-                            Submit
+                            {{ __('users.modal.submit') }}
                         </span>
                         <span class="indicator-progress">
-                            Please wait... <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                            {{ __('users.modal.please_wait') }}
+                            <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
                         </span>
                     </button>
                     <!--end::Button-->

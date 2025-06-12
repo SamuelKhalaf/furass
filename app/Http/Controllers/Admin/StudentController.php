@@ -61,7 +61,7 @@ class StudentController extends Controller
                     PermissionEnum::DELETE_STUDENTS->value
                 ])) {
                     $actions = '<a href="#" class="btn btn-light btn-active-light-primary btn-sm" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                    Actions
+                                    '.__("students.actions").'
                                     <span class="svg-icon svg-icon-5 m-0">
                                        <i class="fa-solid fa-caret-down"></i>
                                    </span>
@@ -72,7 +72,7 @@ class StudentController extends Controller
                     if (auth()->user()->hasPermissionTo(PermissionEnum::UPDATE_STUDENTS->value)) {
                         $actions .= '<div class="menu-item px-3">
                             <a href="#" class="menu-link px-3" data-user-id="' . $student->id . '" data-bs-toggle="modal" data-bs-target="#kt_modal_update_details">
-                                Edit
+                                '.__("students.edit").'
                             </a>
                         </div>';
                     }
@@ -80,7 +80,7 @@ class StudentController extends Controller
                     if (auth()->user()->hasPermissionTo(PermissionEnum::DELETE_STUDENTS->value)) {
                         $actions .= '<div class="menu-item px-3">
                             <a href="#" class="menu-link px-3" data-kt-users-table-filter="delete_row"
-                               data-user-id="' . $student->id . '">Delete</a>
+                               data-user-id="' . $student->id . '">'.__("students.delete").'</a>
                         </div>';
                     }
 

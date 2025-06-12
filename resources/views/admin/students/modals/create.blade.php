@@ -6,7 +6,7 @@
             <!--begin::Modal header-->
             <div class="modal-header" id="kt_modal_add_user_header">
                 <!--begin::Modal title-->
-                <h2 class="fw-bold">Add Student</h2>
+                <h2 class="fw-bold">{{ __('students.modal.add_student') }}</h2>
                 <!--end::Modal title-->
                 <!--begin::Close-->
                 <div class="btn btn-icon btn-sm btn-active-icon-primary" data-kt-users-modal-action="close">
@@ -37,44 +37,44 @@
                         <!--begin::Input group-->
                         <div class="fv-row mb-7">
                             <!--begin::Label-->
-                            <label class="required fw-semibold fs-6 mb-2">Student Name</label>
+                            <label class="required fw-semibold fs-6 mb-2">{{ __('students.modal.student_name') }}</label>
                             <!--end::Label-->
                             <!--begin::Input-->
                             <input type="text" name="name" class="form-control form-control-solid mb-3 mb-lg-0"
-                                   placeholder="Student name"/>
+                                   placeholder="{{ __('students.modal.enter_student_name') }}"/>
                             <!--end::Input-->
                         </div>
                         <!--end::Input group-->
                         <!--begin::Input group-->
                         <div class="fv-row mb-7">
                             <!--begin::Label-->
-                            <label class="required fw-semibold fs-6 mb-2">Email</label>
+                            <label class="required fw-semibold fs-6 mb-2">{{ __('students.modal.email') }}</label>
                             <!--end::Label-->
                             <!--begin::Input-->
                             <input type="email" name="email" class="form-control form-control-solid mb-3 mb-lg-0"
-                                   placeholder="example@domain.com"/>
+                                   placeholder="{{ __('students.modal.enter_email') }}"/>
                             <!--end::Input-->
                         </div>
                         <!--end::Input group-->
                         <!--begin::Input group-->
                         <div class="fv-row mb-7">
                             <!--begin::Label-->
-                            <label class="required fw-semibold fs-6 mb-2">Phone Number</label>
+                            <label class="required fw-semibold fs-6 mb-2">{{ __('students.modal.phone_number') }}</label>
                             <!--end::Label-->
                             <!--begin::Input-->
                             <input type="number" name="phone_number"
-                                   class="form-control form-control-solid mb-3 mb-lg-0" placeholder="01122334455"/>
+                                   class="form-control form-control-solid mb-3 mb-lg-0" placeholder="{{ __('students.modal.enter_phone') }}"/>
                             <!--end::Input-->
                         </div>
                         <!--end::Input group-->
                         <!--begin::Input group-->
                         <div class="fv-row mb-7">
                             <!--begin::Label-->
-                            <label class="required fw-semibold fs-6 mb-2">School</label>
+                            <label class="required fw-semibold fs-6 mb-2">{{ __('students.modal.school') }}</label>
                             <!--end::Label-->
                             <!--begin::Select-->
                             <select name="school_id" class="form-select form-control-solid">
-                                <option value="">Select School</option>
+                                <option value="">{{ __('students.modal.select_school') }}</option>
                                 @foreach($schools as $school)
                                     <option value="{{ $school->id }}">{{ $school->user->name }}</option>
                                 @endforeach
@@ -85,11 +85,11 @@
                         <!--begin::Input group-->
                         <div class="fv-row mb-7">
                             <!--begin::Label-->
-                            <label class="required fw-semibold fs-6 mb-2">Grade</label>
+                            <label class="required fw-semibold fs-6 mb-2">{{ __('students.modal.grade') }}</label>
                             <!--end::Label-->
                             <!--begin::Select-->
                             <select name="grade" class="form-select form-control-solid">
-                                <option value="">Select Grade</option>
+                                <option value="">{{ __('students.modal.select_grade') }}</option>
                                 <option value="10">10</option>
                                 <option value="11">11</option>
                                 <option value="12">12</option>
@@ -100,7 +100,7 @@
                         <!--begin::Input group-->
                         <div class="fv-row mb-7">
                             <!--begin::Label-->
-                            <label class="required fw-semibold fs-6 mb-2">Birth Date</label>
+                            <label class="required fw-semibold fs-6 mb-2">{{ __('students.modal.birth_date') }}</label>
                             <!--end::Label-->
                             <!--begin::Input-->
                             <input type="date" name="birth_date" id="student_birth_date" class="form-control form-control-solid mb-3 mb-lg-0"/>
@@ -110,13 +110,13 @@
                         <!--begin::Input group-->
                         <div class="fv-row mb-7">
                             <!--begin::Label-->
-                            <label class="required fw-semibold fs-6 mb-2">Gender</label>
+                            <label class="required fw-semibold fs-6 mb-2">{{ __('students.modal.gender') }}</label>
                             <!--end::Label-->
                             <!--begin::Select-->
                             <select name="gender" class="form-select form-control-solid">
-                                <option value="">Select Gender</option>
-                                <option value="male">Male</option>
-                                <option value="female">Female</option>
+                                <option value="">{{ __('students.modal.select_gender') }}</option>
+                                <option value="male">{{ __('students.modal.male') }}</option>
+                                <option value="female">{{ __('students.modal.female') }}</option>
                             </select>
                             <!--end::Select-->
                         </div>
@@ -124,7 +124,7 @@
                         <!--begin::Input group-->
                         <div class="fv-row mb-7">
                             <!--begin::Label-->
-                            <label class="fw-semibold fs-6 mb-2">Avatar</label>
+                            <label class="fw-semibold fs-6 mb-2">{{ __('students.modal.avatar') }}</label>
                             <!--end::Label-->
                             <!--begin::Input-->
                             <input type="file" name="avatar" class="form-control form-control-solid mb-3 mb-lg-0"
@@ -135,7 +135,7 @@
                         <!--begin::Input group-->
                         <div class="fv-row mb-7">
                             <!--begin::Label-->
-                            <label class="required fw-semibold fs-6 mb-2">Password</label>
+                            <label class="required fw-semibold fs-6 mb-2">{{ __('students.modal.password') }}</label>
                             <!--end::Label-->
                             <!--begin::Input-->
                             <input type="password" name="password"
@@ -146,7 +146,7 @@
                         <!--begin::Input group-->
                         <div class="fv-row mb-7">
                             <!--begin::Label-->
-                            <label class="required fw-semibold fs-6 mb-2">Confirm Password</label>
+                            <label class="required fw-semibold fs-6 mb-2">{{ __('students.modal.confirm_password') }}</label>
                             <!--end::Label-->
                             <!--begin::Input-->
                             <input type="password" name="password_confirmation"
@@ -158,12 +158,11 @@
                     <!--end::Scroll-->
                     <!--begin::Actions-->
                     <div class="text-center pt-15">
-                        <button type="reset" class="btn btn-light me-3" data-kt-users-modal-action="cancel">Discard
-                        </button>
+                        <button type="reset" class="btn btn-light me-3" data-kt-users-modal-action="cancel">{{ __('students.modal.discard') }}</button>
                         <button type="submit" class="btn btn-primary" data-kt-users-modal-action="submit">
-                            <span class="indicator-label">Submit</span>
+                            <span class="indicator-label">{{ __('students.modal.submit') }}</span>
                             <span class="indicator-progress">
-                                Please wait...
+                                {{ __('students.modal.please_wait') }}
                                 <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
                             </span>
                         </button>

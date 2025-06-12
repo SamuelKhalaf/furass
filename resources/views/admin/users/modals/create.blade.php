@@ -6,7 +6,7 @@
             <!--begin::Modal header-->
             <div class="modal-header" id="kt_modal_add_user_header">
                 <!--begin::Modal title-->
-                <h2 class="fw-bold">Add User</h2>
+                <h2 class="fw-bold">{{ __('users.modal.add_user') }}</h2>
                 <!--end::Modal title-->
                 <!--begin::Close-->
                 <div class="btn btn-icon btn-sm btn-active-icon-primary" data-kt-users-modal-action="close">
@@ -37,43 +37,45 @@
                         <!--begin::Input group-->
                         <div class="fv-row mb-7">
                             <!--begin::Label-->
-                            <label class="required fw-semibold fs-6 mb-2">Full Name</label>
+                            <label class="required fw-semibold fs-6 mb-2">{{ __('users.modal.full_name') }}</label>
                             <!--end::Label-->
                             <!--begin::Input-->
                             <input type="text" name="name" class="form-control form-control-solid mb-3 mb-lg-0"
-                                   placeholder="Full name"/>
+                                   placeholder="{{ __('users.modal.enter_full_name') }}"/>
                             <!--end::Input-->
                         </div>
                         <!--end::Input group-->
                         <!--begin::Input group-->
                         <div class="fv-row mb-7">
                             <!--begin::Label-->
-                            <label class="required fw-semibold fs-6 mb-2">Email</label>
+                            <label class="required fw-semibold fs-6 mb-2">{{ __('users.modal.email') }}</label>
                             <!--end::Label-->
                             <!--begin::Input-->
                             <input type="email" name="email" class="form-control form-control-solid mb-3 mb-lg-0"
-                                   placeholder="example@domain.com"/>
+                                   placeholder="{{ __('users.modal.enter_email') }}"/>
                             <!--end::Input-->
                         </div>
                         <!--end::Input group-->
                         <!--begin::Input group-->
                         <div class="fv-row mb-7">
                             <!--begin::Label-->
-                            <label class="required fw-semibold fs-6 mb-2">Phone Number</label>
+                            <label class="required fw-semibold fs-6 mb-2">{{ __('users.modal.phone_number') }}</label>
                             <!--end::Label-->
                             <!--begin::Input-->
                             <input type="number" name="phone_number"
-                                   class="form-control form-control-solid mb-3 mb-lg-0" placeholder="01122334455"/>
+                                   class="form-control form-control-solid mb-3 mb-lg-0"
+                                   placeholder="{{ __('users.modal.enter_phone') }}"/>
                             <!--end::Input-->
                         </div>
                         <!--end::Input group-->
                         <!--begin::Input group-->
                         <div class="fv-row mb-7">
                             <!--begin::Label-->
-                            <label class="required fw-semibold fs-6 mb-2">Role</label>
+                            <label class="required fw-semibold fs-6 mb-2">{{ __('users.modal.role') }}</label>
                             <!--end::Label-->
                             <!--begin::Select-->
                             <select name="role" class="form-select form-control-solid">
+                            <option disabled selected>{{ __('users.modal.select_role') }}</option>
                                 @if($roles->isNotEmpty())
                                     @foreach($roles as $role)
                                         <option
@@ -88,7 +90,7 @@
                         <!--begin::Input group-->
                         <div class="fv-row mb-7">
                             <!--begin::Label-->
-                            <label class="required fw-semibold fs-6 mb-2">Password</label>
+                            <label class="required fw-semibold fs-6 mb-2">{{ __('users.modal.password') }}</label>
                             <!--end::Label-->
                             <!--begin::Input-->
                             <input type="password" name="password"
@@ -99,7 +101,7 @@
                         <!--begin::Input group-->
                         <div class="fv-row mb-7">
                             <!--begin::Label-->
-                            <label class="required fw-semibold fs-6 mb-2">Confirm Password</label>
+                            <label class="required fw-semibold fs-6 mb-2">{{ __('users.modal.confirm_password') }}</label>
                             <!--end::Label-->
                             <!--begin::Input-->
                             <input type="password" name="password_confirmation"
@@ -111,13 +113,13 @@
                     <!--end::Scroll-->
                     <!--begin::Actions-->
                     <div class="text-center pt-15">
-                        <button type="reset" class="btn btn-light me-3" data-kt-users-modal-action="cancel">Discard
+                        <button type="reset" class="btn btn-light me-3" data-kt-users-modal-action="cancel">{{ __('users.modal.discard') }}
                         </button>
                         <button type="submit" class="btn btn-primary" data-kt-users-modal-action="submit">
-                            <span class="indicator-label">Submit</span>
+                            <span class="indicator-label">{{ __('users.modal.submit') }}</span>
                             <span class="indicator-progress">
-                                Please wait...
-                                <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                            {{ __('users.modal.please_wait') }}
+                            <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
                             </span>
                         </button>
                     </div>

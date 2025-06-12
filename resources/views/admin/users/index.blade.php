@@ -1,5 +1,5 @@
 @extends('admin.layouts.master')
-@section('title', 'Users')
+@section('title', __('users.title'))
 @section('content')
     <div class="d-flex flex-column flex-column-fluid">
         <!--begin::Toolbar-->
@@ -9,14 +9,13 @@
                 <!--begin::Page title-->
                 <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
                     <!--begin::Title-->
-                    <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">Users
-                        List</h1>
+                    <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">{{__('users.list')}}</h1>
                     <!--end::Title-->
                     <!--begin::Breadcrumb-->
                     <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
                         <!--begin::Item-->
                         <li class="breadcrumb-item text-muted">
-                            <a href="{{route('admin.dashboard')}}" class="text-muted text-hover-primary">Home</a>
+                            <a href="{{route('admin.dashboard')}}" class="text-muted text-hover-primary">{{__('dashboard.home')}}</a>
                         </li>
                         <!--end::Item-->
                         <!--begin::Item-->
@@ -25,7 +24,7 @@
                         </li>
                         <!--end::Item-->
                         <!--begin::Item-->
-                        <li class="breadcrumb-item text-muted">Users</li>
+                        <li class="breadcrumb-item text-muted">{{__('users.title')}}</li>
                         <!--end::Item-->
                     </ul>
                     <!--end::Breadcrumb-->
@@ -60,7 +59,7 @@
                                 </span>
                                 <!--end::Svg Icon-->
                                 <input type="text" data-kt-user-table-filter="search"
-                                       class="form-control form-control-solid w-250px ps-14" placeholder="Search user"/>
+                                       class="form-control form-control-solid w-250px ps-14" placeholder="{{ __('users.search') }}"/>
                             </div>
                             <!--end::Search-->
                         </div>
@@ -71,8 +70,8 @@
                             <div class="d-flex justify-content-end" data-kt-user-table-toolbar="base">
                                 <!--begin::Filter-->
                                 <!--begin::DateRangePicker-->
-                                <input class="form-control form-control-solid w-100 mw-200px"
-                                       placeholder="Pick date range" id="kt_ecommerce_report_views_daterangepicker"/>
+                                <!-- <input class="form-control form-control-solid w-100 mw-200px"
+                                       placeholder="Pick date range" id="kt_ecommerce_report_views_daterangepicker"/> -->
                                 <!--end::DateRangePicker-->
                                 <!--end::Filter-->
                                 @if(auth()->user()->hasPermissionTo(\App\Enums\PermissionEnum::CREATE_USERS->value))
@@ -90,7 +89,7 @@
                                         </svg>
                                     </span>
                                         <!--end::Svg Icon-->
-                                        Add User
+                                        {{ __('users.create') }}
                                     </button>
                                     <!--end::Add user-->
                                 @endif
@@ -107,12 +106,13 @@
                             <!--begin::Table head-->
                             <thead>
                             <!--begin::Table row-->
-                            <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
-                                <th class="min-w-125px">User</th>
-                                <th class="min-w-125px">Email</th>
-                                <th class="min-w-125px">Phone Number</th>
-                                <th class="min-w-125px">Joined Date</th>
-                                <th class="text-end min-w-100px">Actions</th>
+                            <tr class="text-gray-400 fw-bold fs-7 text-uppercase gs-0 text-center">
+                                <th class="min-w-125px">{{ __('users.name') }}</th>
+                                <th class="min-w-125px">{{ __('users.email') }}</th>
+                                <th class="min-w-125px">{{ __('users.phone') }}</th>
+                                <th class="min-w-125px">{{ __('users.role') }}</th>
+                                <th class="min-w-125px">{{ __('users.created_at') }}</th>
+                                <th class="text-end min-w-100px">{{ __('users.actions') }}</th>
                             </tr>
                             <!--end::Table row-->
                             </thead>

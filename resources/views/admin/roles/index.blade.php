@@ -1,7 +1,7 @@
 @use(\App\Enums\PermissionEnum)
 @extends('admin.layouts.master')
 
-@section('title', 'Roles')
+@section('title', __('roles.title'))
 
 @section('content')
     <!--begin::Content wrapper-->
@@ -13,14 +13,13 @@
                 <!--begin::Page title-->
                 <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
                     <!--begin::Title-->
-                    <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">Roles
-                        List</h1>
+                    <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">{{ __('roles.list') }}</h1>
                     <!--end::Title-->
                     <!--begin::Breadcrumb-->
                     <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
                         <!--begin::Item-->
                         <li class="breadcrumb-item text-muted">
-                            <a href="{{route('admin.dashboard')}}" class="text-muted text-hover-primary">Home</a>
+                            <a href="{{route('admin.dashboard')}}" class="text-muted text-hover-primary">{{ __('dashboard.home') }}</a>
                         </li>
                         <!--end::Item-->
                         <!--begin::Item-->
@@ -29,15 +28,7 @@
                         </li>
                         <!--end::Item-->
                         <!--begin::Item-->
-                        <li class="breadcrumb-item text-muted">System Management</li>
-                        <!--end::Item-->
-                        <!--begin::Item-->
-                        <li class="breadcrumb-item">
-                            <span class="bullet bg-gray-400 w-5px h-2px"></span>
-                        </li>
-                        <!--end::Item-->
-                        <!--begin::Item-->
-                        <li class="breadcrumb-item text-muted">Roles</li>
+                        <li class="breadcrumb-item text-muted">{{ __('roles.title') }}</li>
                         <!--end::Item-->
                     </ul>
                     <!--end::Breadcrumb-->
@@ -78,27 +69,24 @@
                                     <!--begin::Card body-->
                                     <div class="card-body pt-1">
                                         <!--begin::Users-->
-                                        <div class="fw-bold text-gray-600 mb-5">Total users with this
-                                            role: {{$role->users_count}}</div>
+                                        <div class="fw-bold text-gray-600 mb-5">{{ __('roles.total_users') }}: {{$role->users_count}}</div>
                                         <!--end::Users-->
                                         <!--begin::Permissions-->
                                         <div class="d-flex flex-column text-gray-600">
                                             @if ($role->permissions->isNotEmpty())
                                                 @foreach ($role->permissions->take(5) as $permission)
                                                     <div class="d-flex align-items-center py-2">
-                                                        <span
-                                                            class="bullet bg-primary me-3"></span>{{ $permission->name }}
-                                                    </div>
+                                                        <span class="bullet bg-primary me-3"></span>{{ $permission->name }}</div>
                                                 @endforeach
 
                                                 @if ($role->permissions->count() > 5)
                                                     <div class="d-flex align-items-center py-2">
                                                         <span class="bullet bg-primary me-3"></span>
-                                                        <em>and {{ $role->permissions->count() - 5 }} more...</em>
+                                                        <em>{{ __('roles.and') }} {{ $role->permissions->count() - 5 }} {{ __('roles.more') }}...</em>
                                                     </div>
                                                 @endif
                                             @else
-                                                <div class="text-muted">No permissions assigned</div>
+                                                <div class="text-muted">{{ __('roles.no_permissions') }}</div>
                                             @endif
                                         </div>
                                         <!--end::Permissions-->
@@ -109,13 +97,13 @@
                                     <div class="card-footer flex-wrap pt-0">
                                         @if(auth()->user()->hasPermissionTo(PermissionEnum::VIEW_ROLES->value))
                                             <a href="{{route('admin.roles.show',$role->id)}}" class="btn btn-light btn-active-primary my-1 me-2">
-                                                View Role
+                                                {{ __('roles.view') }}
                                             </a>
                                         @endif
                                         @if(auth()->user()->hasPermissionTo(PermissionEnum::UPDATE_ROLES->value))
                                             <button type="button" id="editRoleButton" class="btn btn-light btn-active-light-primary my-1"
                                                     data-role-id="{{ $role->id }}" data-bs-toggle="modal" data-bs-target="#kt_modal_update_role">
-                                                Edit Role
+                                                {{ __('roles.edit') }}
                                             </button>
                                         @endif
                                     </div>
@@ -142,7 +130,7 @@
                                                  class="mw-100 mh-150px mb-7"/>
                                             <!--end::Illustration-->
                                             <!--begin::Label-->
-                                            <div class="fw-bold fs-3 text-gray-600 text-hover-primary">Add New Role</div>
+                                            <div class="fw-bold fs-3 text-gray-600 text-hover-primary">{{ __('roles.create') }}</div>
                                             <!--end::Label-->
                                         </button>
                                         <!--begin::Button-->
@@ -190,24 +178,23 @@
 
                 // Send AJAX request to fetch role data
                 $.ajax({
-                    url: '/roles/' + roleId + '/edit', // Make the request to the backend to fetch the role and its permissions
+                    url: '/roles/' + roleId + '/edit',
                     method: 'GET',
                     success: function(response) {
                         if (response.success) {
-
                             document.querySelector('#role_name').value = response.role.name;
                             document.querySelector('#role_id').value = response.role.id;
 
                             // Clear previous permissions
                             $('#permissions_table_body').empty();
                             var selectAllRow = `<tr>
-                                        <td class="text-gray-800">Administrator Access
-                                            <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="Allows a full access to the system"></i></td>
+                                        <td class="text-gray-800">{{ __('roles.modal.administrator_access') }}
+                                            <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="{{ __('roles.modal.administrator_tooltip') }}"></i></td>
                                         <td>
                                             <!--begin::Checkbox-->
                                             <label class="form-check form-check-sm form-check-custom form-check-solid me-9">
                                                 <input class="form-check-input" type="checkbox" value="" id="kt_roles_select_all" />
-                                                <span class="form-check-label" for="kt_roles_select_all">Select all</span>
+                                                <span class="form-check-label" for="kt_roles_select_all">{{ __('roles.modal.select_all') }}</span>
                                             </label>
                                             <!--end::Checkbox-->
                                         </td>
