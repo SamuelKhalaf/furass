@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\PermissionEnum;
+use App\Http\Controllers\Admin\CategoryOfExam;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\PermissionsController;
 use App\Http\Controllers\Admin\RolesController;
@@ -123,4 +124,12 @@ Route::middleware(['auth'])->name('admin.')->group(function () {
         ->middleware('permission:'. PermissionEnum::DELETE_SCHOOLS->value)
         ->name('schools.destroy');
     ###############################  End:Schools Routes  #####################################
+
+    ###############################  start:CatExams Routes  #####################################
+    Route::get('category-exam', [CategoryOfExam::class, 'index'])->name('category.index');
+
+
+
+    ###############################  End:CatExams Routes  #####################################
+
 });
