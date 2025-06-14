@@ -10,4 +10,7 @@ class categories_of_exam extends Model
     use HasFactory;
 
     protected $fillable = ['cat_name'];
+    protected $casts = [
+        'cat_name' => 'array',
+    ];
 }

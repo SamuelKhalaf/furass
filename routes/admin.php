@@ -1,7 +1,7 @@
 <?php
 
 use App\Enums\PermissionEnum;
-use App\Http\Controllers\Admin\CategoryOfExam;
+use App\Http\Controllers\Admin\CategoryOfExamController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\PermissionsController;
 use App\Http\Controllers\Admin\RolesController;
@@ -126,10 +126,23 @@ Route::middleware(['auth'])->name('admin.')->group(function () {
     ###############################  End:Schools Routes  #####################################
 
     ###############################  start:CatExams Routes  #####################################
-    Route::get('category-exam', [CategoryOfExam::class, 'index'])->name('category.index');
+    Route::middleware('permission:'. PermissionEnum::LIST_SCHOOLS->value)->group(function () {
+        Route::get('category-of-exam', [CategoryOfExamController::class, 'index'])->name('category.index');
+        Route::get('categories/all', [CategoryOfExamController::class, 'getCategoryData'])->name('category.datatable');
+    });
 
+    Route::post('category-of-exam', [CategoryOfExamController::class, 'store'])
+        ->middleware('permission:'. PermissionEnum::CREATE_SCHOOLS->value)
+        ->name('category.store');
 
+    Route::middleware('permission:'. PermissionEnum::UPDATE_SCHOOLS->value)->group(function () {
+        Route::get('categories/{school}/edit', [CategoryOfExamController::class, 'edit'])->name('categories.edit');
+        Route::put('categories/{school}', [CategoryOfExamController::class, 'update'])->name('categories.update');
+    });
 
+    Route::delete('category/{category}', [CategoryOfExamController::class, 'destroy'])
+        ->middleware('permission:'. PermissionEnum::DELETE_SCHOOLS->value)
+        ->name('category.destroy');
     ###############################  End:CatExams Routes  #####################################
 
 });
