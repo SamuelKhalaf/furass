@@ -37,7 +37,7 @@ class UpdateRoleRequest extends FormRequest
     {
         return new StoreRoleDto(
             $this->input('role_name'),
-            $this->input('permissions'),
+            $this->input('permissions', []),
         );
     }
 }

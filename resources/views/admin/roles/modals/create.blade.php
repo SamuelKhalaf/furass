@@ -7,7 +7,7 @@
             <!--begin::Modal header-->
             <div class="modal-header">
                 <!--begin::Modal title-->
-                <h2 class="fw-bold">Add a Role</h2>
+                <h2 class="fw-bold">{{ __('roles.modal.add_role') }}</h2>
                 <!--end::Modal title-->
                 <!--begin::Close-->
                 <div class="btn btn-icon btn-sm btn-active-icon-primary" data-kt-roles-modal-action="close">
@@ -33,18 +33,18 @@
                         <div class="fv-row mb-10">
                             <!--begin::Label-->
                             <label class="fs-5 fw-bold form-label mb-2">
-                                <span class="required">Role name</span>
+                                <span class="required">{{ __('roles.modal.role_name') }}</span>
                             </label>
                             <!--end::Label-->
                             <!--begin::Input-->
-                            <input class="form-control form-control-solid" placeholder="Enter a role name" name="role_name" />
+                            <input class="form-control form-control-solid" placeholder="{{ __('roles.modal.enter_role_name') }}" name="role_name" />
                             <!--end::Input-->
                         </div>
                         <!--end::Input group-->
                         <!--begin::Permissions-->
                         <div class="fv-row">
                             <!--begin::Label-->
-                            <label class="fs-5 fw-bold form-label mb-2">Role Permissions</label>
+                            <label class="fs-5 fw-bold form-label mb-2">{{ __('roles.modal.role_permissions') }}</label>
                             <!--end::Label-->
                             <!--begin::Table wrapper-->
                             <div class="table-responsive">
@@ -54,13 +54,13 @@
                                     <tbody class="text-gray-600 fw-semibold">
                                     <!--begin::Table row-->
                                     <tr>
-                                        <td class="text-gray-800">Administrator Access
-                                            <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="Allows a full access to the system"></i></td>
+                                        <td class="text-gray-800">{{ __('roles.modal.administrator_access') }}
+                                            <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="{{ __('roles.modal.administrator_tooltip') }}"></i></td>
                                         <td>
                                             <!--begin::Checkbox-->
                                             <label class="form-check form-check-custom form-check-solid me-9">
                                                 <input class="form-check-input" type="checkbox" value="" id="kt_roles_select_all" />
-                                                <span class="form-check-label" for="kt_roles_select_all">Select all</span>
+                                                <span class="form-check-label" for="kt_roles_select_all">{{ __('roles.modal.select_all') }}</span>
                                             </label>
                                             <!--end::Checkbox-->
                                         </td>
@@ -68,7 +68,7 @@
                                     <!--end::Table row-->
                                     @foreach ($formattedPermissions as $category => $permissions)
                                         <tr>
-                                            <td class="text-gray-800">{{ $category . ' Management' }}</td>
+                                            <td class="text-gray-800">{{ $category . 'Management' }}</td>
                                             <td>
                                                 <div class="d-flex flex-nowrap gap-3">
                                                     @foreach ($permissions as $permission)
@@ -93,11 +93,11 @@
                     <!--end::Scroll-->
                     <!--begin::Actions-->
                     <div class="text-center pt-15">
-                        <button type="reset" class="btn btn-light me-3" data-kt-roles-modal-action="cancel">Discard</button>
+                        <button type="reset" class="btn btn-light me-3" data-kt-roles-modal-action="cancel">{{ __('roles.modal.discard') }}</button>
                         <button type="submit" class="btn btn-primary" data-kt-roles-modal-action="submit">
-                            <span class="indicator-label">Submit</span>
+                            <span class="indicator-label">{{ __('roles.modal.submit') }}</span>
                             <span class="indicator-progress">
-                                Please wait...
+                                {{ __('roles.modal.please_wait') }}
                                 <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
                             </span>
                         </button>

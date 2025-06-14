@@ -1,6 +1,6 @@
 @extends('admin.layouts.master')
 
-@section('title', 'Roles')
+@section('title', __('roles.title'))
 
 @section('content')
     <!--begin::Content wrapper-->
@@ -12,13 +12,13 @@
                 <!--begin::Page title-->
                 <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
                     <!--begin::Title-->
-                    <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">View Role Details</h1>
+                    <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">{{ __('roles.view_details') }}</h1>
                     <!--end::Title-->
                     <!--begin::Breadcrumb-->
                     <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
                         <!--begin::Item-->
                         <li class="breadcrumb-item text-muted">
-                            <a href="{{'admin.dashboard'}}" class="text-muted text-hover-primary">Home</a>
+                            <a href="{{route('admin.dashboard')}}" class="text-muted text-hover-primary">{{ __('dashboard.home') }}</a>
                         </li>
                         <!--end::Item-->
                         <!--begin::Item-->
@@ -27,15 +27,7 @@
                         </li>
                         <!--end::Item-->
                         <!--begin::Item-->
-                        <li class="breadcrumb-item text-muted">System Management</li>
-                        <!--end::Item-->
-                        <!--begin::Item-->
-                        <li class="breadcrumb-item">
-                            <span class="bullet bg-gray-400 w-5px h-2px"></span>
-                        </li>
-                        <!--end::Item-->
-                        <!--begin::Item-->
-                        <li class="breadcrumb-item text-muted">Roles</li>
+                        <li class="breadcrumb-item text-muted">{{ __('roles.title') }}</li>
                         <!--end::Item-->
                     </ul>
                     <!--end::Breadcrumb-->
@@ -76,7 +68,7 @@
                                             </div>
                                         @endforeach
                                     @else
-                                        <div class="text-muted">No permissions assigned</div>
+                                        <div class="text-muted">{{ __('roles.no_permissions') }}</div>
                                     @endif
                                 </div>
                                 <!--end::Permissions-->
@@ -94,7 +86,7 @@
                             <div class="card-header pt-5">
                                 <!--begin::Card title-->
                                 <div class="card-title">
-                                    <h2 class="d-flex align-items-center">Users Assigned
+                                    <h2 class="d-flex align-items-center">{{ __('roles.assigned_users') }}
                                         <span class="text-gray-600 fs-6 ms-1">({{$role->users->count()}})</span></h2>
                                 </div>
                                 <!--end::Card title-->
@@ -110,14 +102,14 @@
                                             </svg>
                                         </span>
                                         <!--end::Svg Icon-->
-                                        <input type="text" data-kt-roles-table-filter="search" class="form-control form-control-solid w-250px ps-15" placeholder="Search Users" />
+                                        <input type="text" data-kt-roles-table-filter="search" class="form-control form-control-solid w-250px ps-15" placeholder="{{ __('roles.search_users') }}" />
                                     </div>
                                     <!--end::Search-->
                                     <!--begin::Group actions-->
                                     <div class="d-flex justify-content-end align-items-center d-none" data-kt-view-roles-table-toolbar="selected">
                                         <div class="fw-bold me-5">
-                                            <span class="me-2" data-kt-view-roles-table-select="selected_count"></span>Selected</div>
-                                        <button type="button" class="btn btn-danger" data-kt-view-roles-table-select="delete_selected">Delete Selected</button>
+                                            <span class="me-2" data-kt-view-roles-table-select="selected_count"></span>{{ __('roles.selected') }}</div>
+                                        <button type="button" class="btn btn-danger" data-kt-view-roles-table-select="delete_selected">{{ __('roles.delete_selected') }}</button>
                                     </div>
                                     <!--end::Group actions-->
                                 </div>
@@ -131,10 +123,10 @@
                                     <!--begin::Table head-->
                                     <thead>
                                     <!--begin::Table row-->
-                                    <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
-                                        <th class="min-w-150px">User</th>
-                                        <th class="min-w-125px">Joined Date</th>
-                                        <th class=" min-w-100px">Actions</th>
+                                    <tr class="text-gray-400 fw-bold fs-7 text-uppercase gs-0 text-center">
+                                        <th class="min-w-150px">{{ __('roles.user') }}</th>
+                                        <th class="min-w-125px">{{ __('roles.joined_date') }}</th>
+                                        <th class=" min-w-100px">{{ __('roles.actions') }}</th>
                                     </tr>
                                     <!--end::Table row-->
                                     </thead>

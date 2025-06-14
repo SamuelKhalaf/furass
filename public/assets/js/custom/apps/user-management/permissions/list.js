@@ -23,14 +23,32 @@ var KTUsersPermissionsList = function () {
             "serverSide": true,
             "ajax": "/permissions-data",
             "columns": [
-                { data: 'name', name: 'name' },
-                { data: 'assigned_roles', name: 'assigned_roles' },
-                { data: 'created_at', name: 'created_at'},
-                { data: 'actions', name: 'actions' }
+                { 
+                    data: 'name', 
+                    name: 'name',
+                    className: 'text-center'
+                },
+                { 
+                    data: 'assigned_roles', 
+                    name: 'assigned_roles',
+                    className: 'text-center'
+                },
+                { 
+                    data: 'created_at', 
+                    name: 'created_at',
+                    className: 'text-center'
+                },
+                { 
+                    data: 'actions', 
+                    name: 'actions',
+                    className: 'text-center'
+                }
             ],
             'order':[],
             'columnDefs': [
+                { orderable: false, targets: 0 },
                 { orderable: false, targets: 1 },
+                { orderable: false, targets: 2 },
                 { orderable: false, targets: 3 }
             ]
         });

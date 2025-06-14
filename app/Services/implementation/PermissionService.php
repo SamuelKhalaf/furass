@@ -50,14 +50,14 @@ class PermissionService implements IPermissionService
                 if (auth()->user()->hasPermissionTo(PermissionEnum::DELETE_PERMISSIONS->value)) {
                     return '<a href="#" class="btn btn-danger btn-sm me-lg-n7" data-id="' . $permission->id . '" data-kt-permissions-table-filter="delete_row">
                            <i class="fas fa-trash"></i>
-                            Delete
+                            '.__("permissions.delete").'
                         </a>
                 ';
                 }
                 return '';
             })
             ->editColumn('created_at', function ($permission) {
-                return Carbon::parse($permission->created_at)->format('d M Y, h:i A');
+                return Carbon::parse($permission->created_at)->format('d M Y');
             })
             ->rawColumns(['assigned_roles', 'actions'])
             ->make(true);

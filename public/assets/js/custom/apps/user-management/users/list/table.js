@@ -60,25 +60,45 @@ var KTUsersList = function () {
             columns: [
                 {
                     data: 'name',
-                    name: 'name'
+                    name: 'name',
+                    orderable: false,
+                    searchable: false,
+                    className: 'text-center'
                 },
                 {
                     data: 'email',
-                    name: 'email'
+                    name: 'email',
+                    orderable: false,
+                    searchable: false,
+                    className: 'text-center'
                 },
                 {
                     data: 'phone_number',
-                    name: 'phone_number'
+                    name: 'phone_number',
+                    orderable: false,
+                    searchable: false,
+                    className: 'text-center'
+                },
+                {
+                    data: 'role',
+                    name: 'role',
+                    orderable: false,
+                    searchable: false,
+                    className: 'text-center'
                 },
                 {
                     data: 'created_at',
-                    name: 'created_at'
+                    name: 'created_at',
+                    orderable: false,
+                    searchable: false,
+                    className: 'text-center'
                 },
                 {
                     data: 'actions',
                     name: 'actions',
                     orderable: false,
-                    searchable: false
+                    searchable: false,
+                    className: 'text-center'
                 }
             ]
         });

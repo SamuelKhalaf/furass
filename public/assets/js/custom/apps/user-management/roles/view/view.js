@@ -29,9 +29,21 @@ var KTUsersViewRole = function () {
                 type: 'GET',
             },
             columns: [
-                { data: 'name', name: 'name' },
-                { data: 'created_at', name: 'created_at' },
-                { data: 'actions', name: 'actions' }
+                { 
+                    data: 'name', 
+                    name: 'name',
+                    className: 'text-center'
+                },
+                { 
+                    data: 'created_at', 
+                    name: 'created_at',
+                    className: 'text-center'
+                },
+                { 
+                    data: 'actions', 
+                    name: 'actions',
+                    className: 'text-center'
+                }
             ],
             order: [],
             pageLength: 5,

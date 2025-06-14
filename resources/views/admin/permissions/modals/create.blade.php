@@ -6,7 +6,7 @@
             <!--begin::Modal header-->
             <div class="modal-header">
                 <!--begin::Modal title-->
-                <h2 class="fw-bold">Add a Permission</h2>
+                <h2 class="fw-bold">{{ __('permissions.modal.add_permission') }}</h2>
                 <!--end::Modal title-->
                 <!--begin::Close-->
                 <div class="btn btn-icon btn-sm btn-active-icon-primary" data-kt-permissions-modal-action="close">
@@ -31,22 +31,22 @@
                     <div class="fv-row mb-7">
                         <!--begin::Label-->
                         <label class="fs-6 fw-semibold form-label mb-2">
-                            <span class="required">Permission Name</span>
-                            <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true" data-bs-content="Permission names is required to be unique."></i>
+                            <span class="required">{{ __('permissions.modal.permission_name') }}</span>
+                            <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true" data-bs-content="{{ __('permissions.modal.name_tooltip') }}"></i>
                         </label>
                         <!--end::Label-->
                         <!--begin::Input-->
-                        <input class="form-control form-control-solid" autocomplete="off" placeholder="Enter a permission name" name="permission_name" />
+                        <input class="form-control form-control-solid" autocomplete="off" placeholder="{{ __('permissions.modal.enter_permission_name') }}" name="permission_name" />
                         <!--end::Input-->
                     </div>
                     <!--end::Input group-->
                     <!--begin::Actions-->
                     <div class="text-center pt-15">
-                        <button type="reset" class="btn btn-light me-3" data-kt-permissions-modal-action="cancel">Discard</button>
+                        <button type="reset" class="btn btn-light me-3" data-kt-permissions-modal-action="cancel">{{ __('permissions.modal.discard') }}</button>
                         <button type="submit" class="btn btn-primary" data-kt-permissions-modal-action="submit">
-                            <span class="indicator-label">Submit</span>
+                            <span class="indicator-label">{{ __('permissions.modal.submit') }}</span>
                             <span class="indicator-progress">
-                                Please wait...
+                                {{ __('permissions.modal.please_wait') }}
                                 <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
                             </span>
                         </button>

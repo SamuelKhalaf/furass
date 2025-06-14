@@ -10,7 +10,7 @@
                 <!--begin::Modal header-->
                 <div class="modal-header" id="kt_modal_update_school_header">
                     <!--begin::Modal title-->
-                    <h2 class="fw-bold">Update School Details</h2>
+                    <h2 class="fw-bold">{{ __('schools.modal.update_school') }}</h2>
                     <!--end::Modal title-->
 
                     <!--begin::Close-->
@@ -35,47 +35,47 @@
                             <!--begin::Input group-->
                             <div class="fv-row mb-7">
                                 <!--begin::Label-->
-                                <label class="required fw-semibold fs-6 mb-2">School Name</label>
+                                <label class="required fw-semibold fs-6 mb-2">{{ __('schools.modal.school_name') }}</label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
-                                <input type="text" name="name" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="School name" required />
+                                <input type="text" name="name" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="{{ __('schools.modal.enter_school_name') }}" required />
                                 <!--end::Input-->
                             </div>
                             <!--end::Input group-->
                             <!--begin::Input group-->
                             <div class="fv-row mb-7">
                                 <!--begin::Label-->
-                                <label class="required fw-semibold fs-6 mb-2">Email</label>
+                                <label class="required fw-semibold fs-6 mb-2">{{ __('schools.modal.email') }}</label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
-                                <input type="email" name="email" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="example@domain.com" required />
+                                <input type="email" name="email" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="{{ __('schools.modal.enter_email') }}" required />
                                 <!--end::Input-->
                             </div>
                             <!--end::Input group-->
                             <!--begin::Input group-->
                             <div class="fv-row mb-7">
                                 <!--begin::Label-->
-                                <label class="required fw-semibold fs-6 mb-2">Phone Number</label>
+                                <label class="required fw-semibold fs-6 mb-2">{{ __('schools.modal.phone_number') }}</label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
-                                <input type="text" name="phone_number" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="01122334455" required />
+                                <input type="text" name="phone_number" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="{{ __('schools.modal.enter_phone') }}" required />
                                 <!--end::Input-->
                             </div>
                             <!--end::Input group-->
                             <!--begin::Input group-->
                             <div class="fv-row mb-7">
                                 <!--begin::Label-->
-                                <label class="required fw-semibold fs-6 mb-2">Address</label>
+                                <label class="required fw-semibold fs-6 mb-2">{{ __('schools.modal.address') }}</label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
-                                <textarea name="address" class="form-control form-control-solid mb-3 mb-lg-0" required></textarea>
+                                <textarea name="address" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="{{ __('schools.modal.enter_address') }}" required></textarea>
                                 <!--end::Input-->
                             </div>
                             <!--end::Input group-->
                             <!--begin::Input group-->
                             <div class="fv-row mb-7">
                                 <!--begin::Label-->
-                                <label class="fw-semibold fs-6 mb-2">Logo</label>
+                                <label class="fw-semibold fs-6 mb-2">{{ __('schools.modal.logo') }}</label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
                                 <input type="file" name="logo" class="form-control form-control-solid mb-3 mb-lg-0"
@@ -94,17 +94,17 @@
                 <div class="modal-footer flex-center">
                     <!--begin::Button-->
                     <button type="reset" class="btn btn-light me-3" data-kt-users-modal-action="cancel">
-                        Discard
+                        {{ __('schools.modal.discard') }}
                     </button>
                     <!--end::Button-->
 
                     <!--begin::Button-->
                     <button type="submit" class="btn btn-primary" data-kt-users-modal-action="submit">
                         <span class="indicator-label">
-                            Submit
+                            {{ __('schools.modal.submit') }}
                         </span>
                         <span class="indicator-progress">
-                            Please wait... <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                            {{ __('schools.modal.please_wait') }} <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
                         </span>
                     </button>
                     <!--end::Button-->

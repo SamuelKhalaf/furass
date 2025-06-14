@@ -173,6 +173,26 @@
             <!--end::Menu wrapper-->
             <!--begin::Navbar-->
             <div class="app-navbar flex-shrink-0">
+                <!--begin::Language-->
+                <div class="app-navbar-item ms-1 ms-md-3">
+                    <div class="btn btn-icon btn-custom btn-icon-muted btn-active-light btn-active-color-primary w-35px h-35px w-md-40px h-md-40px" data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">
+                        @if(app()->getLocale() == 'ar')
+                            <span class="svg-icon svg-icon-2">
+                                <i class="fa-solid fa-globe fs-2"></i>
+                            </span>
+                        @else
+                            <span class="svg-icon svg-icon-2">
+                                <i class="fa-solid fa-globe fs-2"></i>
+                            </span>
+                        @endif
+                    </div>
+                    <!--begin::Menu-->
+                    <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg menu-state-primary fw-bold py-4 w-175px" data-kt-menu="true">
+                        @include('admin.layouts.partials.language-switcher')
+                    </div>
+                    <!--end::Menu-->
+                </div>
+                <!--end::Language-->
                 <!--begin::Notifications-->
                 <div class="app-navbar-item ms-1 ms-md-3">
                     <!--begin::Menu- wrapper-->

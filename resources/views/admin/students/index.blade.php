@@ -1,5 +1,5 @@
 @extends('admin.layouts.master')
-@section('title', 'Students')
+@section('title', __('students.title'))
 @section('content')
     <div class="d-flex flex-column flex-column-fluid">
         <!--begin::Toolbar-->
@@ -9,14 +9,13 @@
                 <!--begin::Page title-->
                 <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
                     <!--begin::Title-->
-                    <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">Students
-                        List</h1>
+                    <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">{{ __('students.list') }}</h1>
                     <!--end::Title-->
                     <!--begin::Breadcrumb-->
                     <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
                         <!--begin::Item-->
                         <li class="breadcrumb-item text-muted">
-                            <a href="{{route('admin.dashboard')}}" class="text-muted text-hover-primary">Home</a>
+                            <a href="{{route('admin.dashboard')}}" class="text-muted text-hover-primary">{{ __('dashboard.home') }}</a>
                         </li>
                         <!--end::Item-->
                         <!--begin::Item-->
@@ -25,7 +24,7 @@
                         </li>
                         <!--end::Item-->
                         <!--begin::Item-->
-                        <li class="breadcrumb-item text-muted">Students</li>
+                        <li class="breadcrumb-item text-muted">{{ __('students.title') }}</li>
                         <!--end::Item-->
                     </ul>
                     <!--end::Breadcrumb-->
@@ -49,7 +48,7 @@
                             <div class="d-flex align-items-center position-relative my-1">
                                 <span class="svg-icon svg-icon-1 position-absolute ms-6"><i class="fa-solid fa-magnifying-glass"></i></span>
                                 <input type="text" data-kt-user-table-filter="search"
-                                       class="form-control form-control-solid w-250px ps-14" placeholder="Search Student"/>
+                                       class="form-control form-control-solid w-250px ps-14" placeholder="{{ __('students.search') }}"/>
                             </div>
                             <!--end::Search-->
                         </div>
@@ -62,7 +61,7 @@
                                     <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                                             data-bs-target="#kt_modal_add_user">
                                         <span class="svg-icon svg-icon-2"><i class="fa-solid fa-plus"></i></span>
-                                        Add Student
+                                        {{ __('students.create') }}
                                     </button>
                                 @endif
                             </div>
@@ -78,13 +77,13 @@
                             <!--begin::Table head-->
                             <thead>
                             <!--begin::Table row-->
-                            <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
-                                <th class="min-w-125px">Name</th>
-                                <th class="min-w-125px">School</th>
-                                <th class="min-w-125px">Grade</th>
-                                <th class="min-w-125px">Birth Date</th>
-                                <th class="min-w-125px">Gender</th>
-                                <th class="min-w-100px">Actions</th>
+                            <tr class="text-gray-400 fw-bold fs-7 text-uppercase gs-0 text-center">
+                                <th class="min-w-125px">{{ __('students.name') }}</th>
+                                <th class="min-w-125px">{{ __('students.school') }}</th>
+                                <th class="min-w-125px">{{ __('students.grade') }}</th>
+                                <th class="min-w-125px">{{ __('students.birth_date') }}</th>
+                                <th class="min-w-125px">{{ __('students.gender') }}</th>
+                                <th class="min-w-100px">{{ __('students.actions') }}</th>
                             </tr>
                             <!--end::Table row-->
                             </thead>
@@ -187,37 +186,43 @@
                                 data: 'avatar_name',
                                 name: 'avatar_name',
                                 orderable: false,
-                                searchable: false
+                                searchable: false,
+                                className: 'text-center'
                             },
                             {
                                 data: 'school.name',
                                 name: 'school.name',
                                 orderable: false,
-                                searchable: false
+                                searchable: false,
+                                className: 'text-center'
                             },
                             {
                                 data: 'grade',
                                 name: 'grade',
                                 orderable: false,
-                                searchable: false
+                                searchable: false,
+                                className: 'text-center'
                             },
                             {
                                 data: 'birth_date',
                                 name: 'birth_date',
                                 orderable: false,
-                                searchable: false
+                                searchable: false,
+                                className: 'text-center'
                             },
                             {
                                 data: 'gender',
                                 name: 'gender',
                                 orderable: false,
-                                searchable: false
+                                searchable: false,
+                                className: 'text-center'
                             },
                             {
                                 data: 'actions',
                                 name: 'actions',
                                 orderable: false,
-                                searchable: false
+                                searchable: false,
+                                className: 'text-center'
                             }
                         ]
                     });
