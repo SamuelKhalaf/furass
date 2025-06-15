@@ -144,10 +144,8 @@ Route::middleware(['auth'])->name('admin.')->group(function () {
         ->middleware('permission:'. PermissionEnum::DELETE_SCHOOLS->value)
         ->name('category.destroy');
     ###############################  End:CatExams Routes  #####################################
-
-    Route::get('landing-page', function (){
-        return view('landing-page');
-    });
-
-
 });
+Route::get('landing-page', function (){
+    return view('landing-page');
+});
+
