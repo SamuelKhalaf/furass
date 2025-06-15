@@ -1,7 +1,10 @@
+body{
+    background-color: #eee;
+}
 .hero-section {
     background: linear-gradient(180deg,#543786 0%, #e6e9fa 100%);
     padding: 0 0 40px 0;
-    height: 100vh;
+
 }
 .hero-img-container {
     position: relative;
@@ -94,10 +97,48 @@
         padding-bottom: 3rem !important;
     }
 }
-
-
 .lead-section{
     font-size: 17px;
     font-weight: 500;
     /*width: inherit;*/
 }
+
+/*start box*/
+.h-section{
+    text-align: center;
+}
+.centered-image {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%; /* adjust to create left/right spacing */
+    border-radius: 10px; /* optional: to match your rounded look */
+}
+.card {
+    border: none !important;
+    text-align: center;
+    padding: 20px;
+    background-color: white;
+    border-radius: 20px;
+    width: 300px;
+    margin: 0 auto;
+    height: 450px;
+}
+
+.btn {
+    margin-top: 10px;
+    margin-bottom: 25px;
+    padding: 10px 20px;
+    border: 1px solid black;
+    border-radius: 999px;
+    background-color: white;
+    cursor: pointer;
+    width: max-content;
+}
+@media (max-width: 700px) {
+    .card{
+        margin-bottom: 10px;
+    }
+}
+
+/*end box*/
