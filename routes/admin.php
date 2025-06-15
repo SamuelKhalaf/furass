@@ -145,4 +145,9 @@ Route::middleware(['auth'])->name('admin.')->group(function () {
         ->name('category.destroy');
     ###############################  End:CatExams Routes  #####################################
 
+    Route::get('landing-page', function (){
+        return view('landing-page');
+    });
+
+
 });
