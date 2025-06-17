@@ -146,7 +146,7 @@ class SchoolController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . $school->user_id,
-            'phone_number' => 'required|string|max:20',
+            'phone_number' => 'required|string|max:20|unique:users,phone_number,' . $school->user_id,
             'address' => 'required|string',
             'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
@@ -185,7 +185,6 @@ class SchoolController extends Controller
 
     public function destroy(School $school)
     {
-
         try {
             DB::beginTransaction();
 

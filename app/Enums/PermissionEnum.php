@@ -37,6 +37,17 @@ enum PermissionEnum : string
     case UPDATE_SCHOOLS = 'Update Schools';
     case DELETE_SCHOOLS = 'Delete Schools';
 
+    // Consultant Permissions
+    case LIST_CONSULTANTS = 'List Consultants';
+    case CREATE_CONSULTANTS = 'Create Consultants';
+    case UPDATE_CONSULTANTS = 'Update Consultants';
+    case DELETE_CONSULTANTS = 'Delete Consultants';
+
+    // Consultation Permissions
+    case LIST_CONSULTATIONS = 'List Consultations';
+    case CREATE_CONSULTATIONS = 'Create Consultations';
+    case UPDATE_CONSULTATIONS = 'Update Consultations';
+    case DELETE_CONSULTATIONS = 'Delete Consultations';
     /**
      * @return array
      */

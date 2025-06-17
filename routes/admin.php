@@ -2,12 +2,15 @@
 
 use App\Enums\PermissionEnum;
 use App\Http\Controllers\Admin\CategoryOfExamController;
+use App\Http\Controllers\Admin\ConsultantController;
+use App\Http\Controllers\Admin\ConsultationController;
+use App\Http\Controllers\Admin\ConsultationNotesController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\PermissionsController;
 use App\Http\Controllers\Admin\RolesController;
+use App\Http\Controllers\Admin\SchoolController;
 use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\UsersController;
-use App\Http\Controllers\Admin\SchoolController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -125,7 +128,48 @@ Route::middleware(['auth'])->name('admin.')->group(function () {
         ->name('schools.destroy');
     ###############################  End:Schools Routes  #####################################
 
-    ###############################  start:CatExams Routes  #####################################
+    ############################### Start:Consultants Routes #####################################
+    Route::middleware('permission:'. PermissionEnum::LIST_CONSULTANTS->value)->group(function () {
+        Route::get('consultants', [ConsultantController::class, 'index'])->name('consultants.index');
+        Route::get('consultants/all', [ConsultantController::class, 'getConsultantsData'])->name('consultants.datatable');
+    });
+
+    Route::middleware('permission:'. PermissionEnum::CREATE_CONSULTANTS->value)->group(function () {
+        Route::get('consultants/create', [ConsultantController::class, 'create'])->name('consultants.create');
+        Route::post('consultants', [ConsultantController::class, 'store'])->name('consultants.store');
+    });
+
+    Route::middleware('permission:'. PermissionEnum::UPDATE_CONSULTANTS->value)->group(function () {
+        Route::get('consultants/{consultant}/edit', [ConsultantController::class, 'edit'])->name('consultants.edit');
+        Route::put('consultants/{consultant}', [ConsultantController::class, 'update'])->name('consultants.update');
+    });
+
+    Route::delete('consultants/{consultant}', [ConsultantController::class, 'destroy'])
+        ->middleware('permission:'. PermissionEnum::DELETE_CONSULTANTS->value)
+        ->name('consultants.destroy');
+    ###############################  End:Consultants Routes  #####################################
+
+    ############################### Start:Consultations Routes #####################################
+//    Route::middleware('permission:'. PermissionEnum::LIST_CONSULTANTS->value)->group(function () {
+//        Route::get('consultations', [ConsultationController::class, 'index'])->name('consultations.index');
+//        Route::get('consultations/all', [ConsultationController::class, 'getConsultationsData'])->name('consultations.datatable');
+//    });
+//
+//    Route::post('consultations', [ConsultationController::class, 'store'])
+//        ->middleware('permission:'. PermissionEnum::CREATE_CONSULTANTS->value)
+//        ->name('consultations.store');
+//
+//    Route::middleware('permission:'. PermissionEnum::UPDATE_CONSULTANTS->value)->group(function () {
+//        Route::get('consultations/{consultant}/edit', [ConsultationController::class, 'edit'])->name('consultations.edit');
+//        Route::put('consultations/{consultant}', [ConsultationController::class, 'update'])->name('consultations.update');
+//    });
+//
+//    Route::delete('consultations/{consultant}', [ConsultationController::class, 'destroy'])
+//        ->middleware('permission:'. PermissionEnum::DELETE_CONSULTANTS->value)
+//        ->name('consultations.destroy');
+    ###############################  End:Consultations Routes  #####################################
+
+    ##############################  start:CatExams Routes  ####################################
     Route::middleware('permission:'. PermissionEnum::LIST_SCHOOLS->value)->group(function () {
         Route::get('category-of-exam', [CategoryOfExamController::class, 'index'])->name('category.index');
         Route::get('categories/all', [CategoryOfExamController::class, 'getCategoryData'])->name('category.datatable');
@@ -151,3 +195,4 @@ Route::middleware(['auth'])->name('admin.')->group(function () {
 
 
 });
+//Route::resource('consultation-notes', ConsultationNotesController::class);
