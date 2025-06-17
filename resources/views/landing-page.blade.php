@@ -74,7 +74,7 @@
 <div class="container mb-5 mt-5 program" >
     <h1 class="h-section mb-5 mt-5">Choose Your Program</h1>
     <div class="row">
-        <div class="col-lg-4  col-sm-1 px-sm-5">
+        <div class="col-lg-4  col-sm-1">
             <div class="card">
                 <h4>Self Compass Plus program</h4>
                 <p>Take test & Know your potential</p>
@@ -82,7 +82,7 @@
                 <button class="btn">Learn more</button>
             </div>
         </div>
-        <div class="col-lg-4  col-sm-1 px-sm-5">
+        <div class="col-lg-4  col-sm-1 ">
             <div class="card">
                 <h4>Explore Your Career Destination program</h4>
                 <p>Go on trips & Discover the practical life on field</p>
@@ -90,7 +90,7 @@
                 <button class="btn">Learn more</button>
             </div>
         </div>
-        <div class="col-lg-4  col-sm-1 px-sm-5">
+        <div class="col-lg-4  col-sm-1 ">
             <div class="card">
                 <h4>Ready For The Future program</h4>
                 <p>Workshop to learn more about Different careers</p>
@@ -102,11 +102,9 @@
     </div>
 </div>
 
-<div class="row mt-5">
-    <div class="col-12 text-center">
+    <div class="col-12 text-center mb-5">
         <p class="fw-semibold mb-0">Trusted by schools and districts to connect education to careers</p>
     </div>
-</div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

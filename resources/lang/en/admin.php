@@ -157,4 +157,24 @@ return [
         'export' => 'Export',
         'import' => 'Import',
     ],
+
+    // Exams
+    'questionBank' => [
+        'nameTable' => 'name',
+        'action' => 'action',
+        'title_h' => 'Question Bank Type',
+        'title' => 'Manage Question Bank Type',
+        'list' => 'Question Bank Type List ',
+        'create' => 'Create Question Bank Type',
+        'edit' => 'Edit Question Bank Type',
+        'delete' => 'Delete Question Bank Type',
+        'details' => 'Question Bank Type Details',
+        'schedule' => 'Question Bank Type Schedule',
+        'results' => 'Question Bank Type Results',
+        'search' => 'Search Question Bank Type',
+        'questionBank_en' => 'name',
+        'questionBank_ar' => 'الاسم',
+        'add' => 'Add Question Bank Type',
+
+    ],
 ];

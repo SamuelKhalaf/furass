@@ -1,0 +1,48 @@
+<?php
+
+return [
+    'title' => 'Values Questions',
+    'list' => 'Values Questions List',
+    'create' => 'Create Values Questions',
+    'edit' => 'Edit Values Questions',
+    'delete' => 'Delete Values Questions',
+    'name' => 'Value Question Name',
+    'website' => 'Website',
+    'principal' => 'Principal',
+    'status' => 'Status',
+    'created_at' => 'Created At',
+    'updated_at' => 'Updated At',
+    'actions' => 'Actions',
+    'search' => 'Search Values Question',
+    'no_schools' => 'No schools found',
+    'confirm_delete' => 'Are you sure you want to delete this school?',
+    'sub_value'=>'Sub Value',
+    'value'=>'Value',
+    'title-sidebar'=>'Manage Values Questions',
+    'questionBank'=>'Question Bank',
+    'success' => [
+        'created' => 'Value Question created successfully',
+        'updated' => 'Value Question updated successfully',
+        'deleted' => 'Value Question deleted successfully',
+    ],
+    'error' => [
+        'not_found' => 'Value Question not found',
+        'delete_failed' => 'Value Question to delete school',
+    ],
+    'status_options' => [
+        'active' => 'Active',
+        'inactive' => 'Inactive',
+        'pending' => 'Pending',
+    ],
+    'modal' => [
+        'add_school' => 'Add Value Question',
+        'update_school' => 'Update Value Question Details',
+        'value_name' => 'Value Question Name',
+        'enter_value_name_en' => 'Value Question name',
+        'enter_value_name_ar' => 'اسم القيمه',
+        'discard' => 'Discard',
+        'question_bank' => 'question bank',
+        'submit' => 'Submit',
+        'please_wait' => 'Please wait...',
+    ],
+];
