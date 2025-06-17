@@ -13,4 +13,19 @@ class Consultant extends Model
         'user_id',
         'bio',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function consultations()
+    {
+        return $this->hasMany(Consultation::class);
+    }
+
+    public function schools()
+    {
+        return $this->belongsToMany(School::class, 'consultant_school');
+    }
 }

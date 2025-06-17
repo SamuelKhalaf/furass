@@ -48,6 +48,16 @@ return [
         'students' => 'Assigned Students',
     ],
 
+    // Consultations
+    'consultations' => [
+        'title' => 'Manage Consultations',
+        'list' => 'Consultations List',
+        'create' => 'Create Consultation',
+        'edit' => 'Edit Consultation',
+        'delete' => 'Delete Consultation',
+        'details' => 'Consultation Details',
+    ],
+
     // Students
     'students' => [
         'title' => 'Manage Students',

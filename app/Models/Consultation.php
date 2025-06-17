@@ -19,4 +19,19 @@ class Consultation extends Model
         'zoom_start_url',
         'zoom_password',
     ];
+
+    public function student()
+    {
+        return $this->belongsTo(Student::class);
+    }
+
+    public function consultant()
+    {
+        return $this->belongsTo(Consultant::class);
+    }
+
+    public function notes()
+    {
+        return $this->hasMany(ConsultationNotes::class);
+    }
 }

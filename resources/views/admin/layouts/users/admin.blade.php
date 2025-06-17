@@ -70,48 +70,26 @@
     <!--end:Menu link-->
 </div>
 <!--end:Menu item-->
-<div data-kt-menu-trigger="click"
-     class="menu-item menu-accordion">
-                    <span class="menu-link">
-                        <span class="menu-icon"><i class="bi bi-grid"></i></span>
-                        <span class="menu-title">{{ __('admin.consultants.title') }}</span>
-                        <span class="menu-arrow"></span>
-                    </span>
-    <div class="menu-sub menu-sub-accordion">
-        <div class="menu-item">
-            <a class="menu-link" href="#">
-                            <span class="menu-bullet">
-                                <span class="bullet bullet-dot"></span>
-                            </span>
-                <span class="menu-title">{{ __('admin.actions.display') }}</span>
-            </a>
-        </div>
-        <div class="menu-item">
-            <a class="menu-link" href="#">
-                            <span class="menu-bullet">
-                                <span class="bullet bullet-dot"></span>
-                            </span>
-                <span class="menu-title">{{ __('admin.actions.create') }}</span>
-            </a>
-        </div>
-        <div class="menu-item">
-            <a class="menu-link" href="#">
-                                <span class="menu-bullet">
-                                    <span class="bullet bullet-dot"></span>
-                                </span>
-                <span class="menu-title">{{ __('admin.actions.edit') }}</span>
-            </a>
-        </div>
-        <div class="menu-item">
-            <a class="menu-link" href="#">
-                                <span class="menu-bullet">
-                                    <span class="bullet bullet-dot"></span>
-                                </span>
-                <span class="menu-title">{{ __('admin.actions.delete') }}</span>
-            </a>
-        </div>
-    </div>
+<div class="menu-item {{setMenuOpenClass(['admin.consultants.index'])}}">
+    <!--begin:Menu link-->
+    <a class="menu-link {{setActiveClass('admin.consultants.index')}}"
+       href="{{route('admin.consultants.index')}}">
+        <span class="menu-icon"><i class="fa-solid fa-headset"></i></span>
+        <span class="menu-title">{{ __('admin.consultants.title') }}</span>
+    </a>
+    <!--end:Menu link-->
 </div>
+<!--end:Menu item-->
+<!--end:Menu item-->
+{{--<div class="menu-item {{setMenuOpenClass(['admin.consultations.index'])}}">--}}
+{{--    <!--begin:Menu link-->--}}
+{{--    <a class="menu-link {{setActiveClass('admin.consultations.index')}}"--}}
+{{--       href="{{route('admin.consultations.index')}}">--}}
+{{--        <span class="menu-icon"><i class="fa-solid fa-headset"></i></span>--}}
+{{--        <span class="menu-title">{{ __('admin.consultations.title') }}</span>--}}
+{{--    </a>--}}
+{{--    <!--end:Menu link-->--}}
+{{--</div>--}}
 <!--end:Menu item-->
 <div class="menu-item {{setMenuOpenClass(['admin.students.index'])}}">
     <!--begin:Menu link-->

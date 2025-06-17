@@ -24,4 +24,9 @@ class School extends Model
     {
         return $this->hasMany(Student::class);
     }
+
+    public function consultants()
+    {
+        return $this->belongsToMany(Consultant::class, 'consultant_school');
+    }
 }

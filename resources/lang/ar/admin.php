@@ -48,6 +48,15 @@ return [
         'students' => 'الطلاب المسندين',
     ],
 
+    // Consultations
+    'consultations' => [
+        'title' => 'إدارة الاستشارات',
+        'list' => 'قائمة الاستشارات',
+        'create' => 'إنشاء استشارة',
+        'edit' => 'تعديل الاستشارة',
+        'delete' => 'حذف الاستشارة',
+    ],
+
     // Students
     'students' => [
         'title' => 'إدارة الطلاب',
@@ -147,7 +156,6 @@ return [
         'export' => 'تصدير',
         'import' => 'استيراد',
     ],
-
 
     // questionBank
     'questionBank' => [

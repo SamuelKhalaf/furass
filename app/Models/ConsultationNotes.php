@@ -13,4 +13,9 @@ class ConsultationNotes extends Model
         'consultation_id',
         'notes',
     ];
+
+    public function consultation()
+    {
+        return $this->belongsTo(Consultation::class);
+    }
 }
