@@ -4,10 +4,12 @@ use App\Enums\PermissionEnum;
 use App\Http\Controllers\Admin\CategoryOfExamController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\PermissionsController;
+use App\Http\Controllers\Admin\QuestionBankTypeController;
 use App\Http\Controllers\Admin\RolesController;
 use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\SchoolController;
+use App\Http\Controllers\Admin\ValuesQuestionsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -144,6 +146,50 @@ Route::middleware(['auth'])->name('admin.')->group(function () {
         ->middleware('permission:'. PermissionEnum::DELETE_SCHOOLS->value)
         ->name('category.destroy');
     ###############################  End:CatExams Routes  #####################################
+
+    ###############################  start:question bank Routes  #####################################
+    Route::middleware('permission:'. PermissionEnum::LIST_SCHOOLS->value)->group(function () {
+        Route::get('question-bank', [QuestionBankTypeController::class, 'index'])->name('QuestionBank.index');
+        Route::get('question-bank/all', [QuestionBankTypeController::class, 'getQuestionBankData'])->name('QuestionBank.datatable');
+    });
+
+    Route::post('question-bank-store', [QuestionBankTypeController::class, 'store'])
+        ->middleware('permission:'. PermissionEnum::CREATE_SCHOOLS->value)
+        ->name('questionBank.store');
+
+    Route::middleware('permission:'. PermissionEnum::UPDATE_SCHOOLS->value)->group(function () {
+        Route::get('questionBank/{questionBank}/edit', [QuestionBankTypeController::class, 'edit'])->name('questionBank.edit');
+        Route::put('questionBank/{questionBank}', [QuestionBankTypeController::class, 'update'])->name('questionBank.update');
+    });
+
+    Route::delete('questionBank/{questionBank}', [QuestionBankTypeController::class, 'destroy'])
+        ->middleware('permission:'. PermissionEnum::DELETE_SCHOOLS->value)
+        ->name('questionBank.destroy');
+    ###############################  End:question bank Routes  #####################################
+
+    ###############################  start:value question Routes  #####################################
+    Route::middleware('permission:'. PermissionEnum::LIST_SCHOOLS->value)->group(function () {
+        Route::get('value-question', [ValuesQuestionsController::class, 'index'])->name('valueQuestion.index');
+        Route::get('value-question/all', [ValuesQuestionsController::class, 'getValueQuestionData'])->name('valueQuestion.datatable');
+    });
+
+    Route::get('value-question-store', [ValuesQuestionsController::class, 'getDataForCreate'])
+        ->middleware('permission:'. PermissionEnum::CREATE_SCHOOLS->value)
+        ->name('valueQuestion.getData.store');
+
+    Route::post('value-question-store-post', [ValuesQuestionsController::class, 'store'])
+        ->middleware('permission:'. PermissionEnum::CREATE_SCHOOLS->value)
+        ->name('questionValue.store');
+
+    Route::middleware('permission:'. PermissionEnum::UPDATE_SCHOOLS->value)->group(function () {
+        Route::get('value-question/{value}/edit', [ValuesQuestionsController::class, 'edit'])->name('questionValue.edit');
+        Route::put('value-question/{value}', [ValuesQuestionsController::class, 'update'])->name('questionValue.update');
+    });
+
+    Route::delete('value-question/{value}', [ValuesQuestionsController::class, 'destroy'])
+        ->middleware('permission:'. PermissionEnum::DELETE_SCHOOLS->value)
+        ->name('questionValue.destroy');
+    ###############################  End:value question Routes  #####################################
 });
 
 Route::get('landing-page', function (){
