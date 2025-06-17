@@ -12,7 +12,6 @@ use App\Http\Controllers\Admin\RolesController;
 use App\Http\Controllers\Admin\SchoolController;
 use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\UsersController;
-use App\Http\Controllers\Admin\SchoolController;
 use App\Http\Controllers\Admin\ValuesQuestionsController;
 use Illuminate\Support\Facades\Route;
 
