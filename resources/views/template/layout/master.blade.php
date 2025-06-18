@@ -10,7 +10,7 @@
 </head>
 <body>
 <!-- nav bar -->
-<nav class="navbar navbar-expand-lg navbar-light bg-white py-3 shadow-sm">
+{{--<nav class="navbar navbar-expand-lg navbar-light bg-white py-3 shadow-sm">
     <div class="container px-lg-5">
         <div class="d-flex align-items-center d-lg-none">
             <div class="d-flex flex-column lh-1">
@@ -49,6 +49,56 @@
                 </li>
             </ul>
         </div>
+    </div>
+</nav>--}}
+
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+        <a class="navbar-brand" href="#">
+            <div class="d-flex" style="margin-right: 60px">
+                <div class="d-flex flex-column lh-1">
+                    <span class="fw-bold" style="font-size:1.3rem; color:#4B3FA7; letter-spacing:1px;">فرص</span>
+                    <span class="fw-bold" style="font-size:1.1rem; color:#4B3FA7; letter-spacing:1px;">Furass</span>
+                </div>
+                <img src="{{asset('assets/imgs/favicon.png')}}" alt="Furass Logo" style="height:38px; margin-right:12px;">
+            </div>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 d-flex gap-5 gap-md-4">
+                <li class="nav-item ">
+                    <a class="nav-link active" aria-current="page" href="{{route('template.home')}}">Home</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link active" aria-current="page" href="#">Programs</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link active" aria-current="page" href="#">Resources</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link active" aria-current="page" href="#">About us</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link active" aria-current="page" href="#">Contact us</a>
+                </li>
+                <li class="nav-item d-flex">
+                    <a href="#" class="nav-link fw-semibold text-dark">
+                        <i class="fas fa-arrow-right-to-bracket" style="font-size: 20px;"></i>
+                        Login</a></li>
+                <li class="nav-item">
+                </li>
+                <li class="nav-item ">
+                    <a href="#" class="btn px-4 py-2 fw-bold"
+                       style="background:#543786; color:#fff; border-radius:24px;margin: 0">
+                        Request a demo
+                    </a>
+                </li>
+            </ul>
+        </div>
+
     </div>
 </nav>
 @yield('body')

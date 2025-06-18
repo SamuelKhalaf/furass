@@ -1,6 +1,13 @@
 body{
     background-color: #eee;
 }
+.nav-li{
+    margin-left: 21px;
+    margin-right: 21px;
+}
+.nav-li a{
+    font-weight: bold;
+}
 .hero-section {
     background: linear-gradient(180deg,#8091d7 0%, #ececed 72%);
     padding: 0 0 40px 0;
