@@ -3321,18 +3321,18 @@
       ], _a$2[detachedFromDom()] = [
         baseBehaviour,
         'representing',
-        'item-events',
+        'item-trips',
         'tooltipping'
       ], _a$2[mousedown()] = [
         'focusing',
         baseBehaviour,
-        'item-type-events'
+        'item-type-trips'
       ], _a$2[touchstart()] = [
         'focusing',
         baseBehaviour,
-        'item-type-events'
+        'item-type-trips'
       ], _a$2[mouseover()] = [
-        'item-type-events',
+        'item-type-trips',
         'tooltipping'
       ], _a$2[receive()] = [
         'receiving',
@@ -8248,7 +8248,7 @@
               initialValue: detail.data
             }
           }),
-          config('item-type-events', __spreadArray(__spreadArray([], pointerEvents(), true), [
+          config('item-type-trips', __spreadArray(__spreadArray([], pointerEvents(), true), [
             run$1(mouseover(), onHover),
             run$1(focusItem(), Focusing.focus)
           ], false))
@@ -9708,7 +9708,7 @@
         },
         behaviours: derive$1([
           Focusing.config({}),
-          config('notification-events', [run$1(focusin(), function (comp) {
+          config('notification-trips', [run$1(focusin(), function (comp) {
               memButton.getOpt(comp).each(Focusing.focus);
             })])
         ]),
@@ -10753,7 +10753,7 @@
       return derive$1([config(name, handlers)]);
     };
     var unnamedEvents = function (handlers) {
-      return namedEvents(generate$6('unnamed-events'), handlers);
+      return namedEvents(generate$6('unnamed-trips'), handlers);
     };
     var SimpleBehaviours = {
       namedEvents: namedEvents,
@@ -11240,7 +11240,7 @@
       'disabling',
       'alloy.base.behaviour',
       'toggling',
-      'item-events'
+      'item-trips'
     ], _a$1);
 
     var componentRenderPipeline = cat;
@@ -11254,7 +11254,7 @@
         eventOrder: menuItemEventOrder,
         hasSubmenu: spec.triggersSubmenu,
         itemBehaviours: derive$1([
-          config('item-events', [
+          config('item-trips', [
             onMenuItemExecute(spec, itemResponse),
             onControlAttached(spec, editorOffCell),
             onControlDetached(spec, editorOffCell)
@@ -13861,12 +13861,12 @@
           }),
           Tabstopping.config({}),
           Keying.config(deriveCollectionMovement(spec.columns, 'normal')),
-          config('collection-events', collectionEvents)
+          config('collection-trips', collectionEvents)
         ]),
         eventOrder: (_a = {}, _a[execute$5()] = [
           'disabling',
           'alloy.base.behaviour',
-          'collection-events'
+          'collection-trips'
         ], _a)
       });
       var extraClasses = ['tox-form__group--collection'];
@@ -14988,7 +14988,7 @@
               memColorButton.asSpec()
             ]
           }]),
-        fieldBehaviours: derive$1([config('form-field-events', [
+        fieldBehaviours: derive$1([config('form-field-trips', [
             run$1(colorInputChangeEvent, function (comp, se) {
               memColorButton.getOpt(comp).each(function (colorButton) {
                 set$7(colorButton.element, 'background-color', se.event.color);
@@ -16226,7 +16226,7 @@
             ],
             formBehaviours: derive$1([
               Invalidating.config({ invalidClass: getClass('form-invalid') }),
-              config('rgb-form-events', [
+              config('rgb-form-trips', [
                 run$1(validInput, onValidInput),
                 run$1(invalidInput, onInvalidInput),
                 run$1(validatingInput, onInvalidInput)
@@ -16450,7 +16450,7 @@
             memRgb.asSpec()
           ],
           behaviours: derive$1([
-            config('colour-picker-events', [
+            config('colour-picker-trips', [
               run$1(fieldsUpdate, onFieldsUpdate()),
               run$1(paletteUpdate, onPaletteUpdate()),
               run$1(sliderUpdate, onSliderUpdate())
@@ -16605,7 +16605,7 @@
           classes: ['tox-custom-editor']
         },
         behaviours: derive$1([
-          config('custom-editor-events', [runOnAttached(function (component) {
+          config('custom-editor-trips', [runOnAttached(function (component) {
               memReplaced.getOpt(component).each(function (ta) {
                 (isOldCustomEditor(spec) ? spec.init(ta.element.dom) : global$6.load(spec.scriptId, spec.scriptUrl).then(function (init) {
                   return init(ta.element.dom, spec.settings);
@@ -16752,7 +16752,7 @@
           },
           styles: { display: 'none' }
         },
-        behaviours: derive$1([config('input-file-events', [
+        behaviours: derive$1([config('input-file-trips', [
             cutter(click()),
             cutter(tap())
           ])])
@@ -16772,7 +16772,7 @@
               toggleClass: 'dragenter',
               toggleOnExecute: false
             }),
-            config('dropzone-events', [
+            config('dropzone-trips', [
               run$1('dragenter', sequence([
                 stopper,
                 Toggling.toggle
@@ -17728,7 +17728,7 @@
       'disabling',
       'alloy.base.behaviour',
       'toggling',
-      'toolbar-button-events'
+      'toolbar-button-trips'
     ], _a);
 
     var updateMenuText = generate$6('update-menu-text');
@@ -17795,7 +17795,7 @@
           receivingConfig(),
           Unselecting.config({}),
           Replacing.config({}),
-          config('dropdown-events', [
+          config('dropdown-trips', [
             onControlAttached(spec, editorOffCell),
             onControlDetached(spec, editorOffCell)
           ]),
@@ -17820,8 +17820,8 @@
           mousedown: [
             'focusing',
             'alloy.base.behaviour',
-            'item-type-events',
-            'normal-dropdown-events'
+            'item-type-trips',
+            'normal-dropdown-trips'
           ]
         }),
         sandboxBehaviours: derive$1([Keying.config({
@@ -18422,7 +18422,7 @@
             }),
             receivingConfig(),
             Tabstopping.config({}),
-            config('size-input-events', [
+            config('size-input-trips', [
               run$1(focusin(), function (component, _simulatedEvent) {
                 emitWith(component, ratioEvent, { isField1: isField1 });
               }),
@@ -18658,7 +18658,7 @@
         components: cropPanelComponents.map(function (mem) {
           return mem.asSpec();
         }),
-        containerBehaviours: derive$1([config('image-tools-crop-buttons-events', [
+        containerBehaviours: derive$1([config('image-tools-crop-buttons-trips', [
             run$1(external.disable(), function (comp, _se) {
               disableAllComponents(cropPanelComponents, comp);
             }),
@@ -18698,7 +18698,7 @@
         components: resizePanelComponents.map(function (mem) {
           return mem.asSpec();
         }),
-        containerBehaviours: derive$1([config('image-tools-resize-buttons-events', [
+        containerBehaviours: derive$1([config('image-tools-resize-buttons-trips', [
             run$1(external.disable(), function (comp, _se) {
               disableAllComponents(resizePanelComponents, comp);
             }),
@@ -18742,7 +18742,7 @@
         components: flipRotateComponents.map(function (mem) {
           return mem.asSpec();
         }),
-        containerBehaviours: derive$1([config('image-tools-fliprotate-buttons-events', [
+        containerBehaviours: derive$1([config('image-tools-fliprotate-buttons-trips', [
             run$1(external.disable(), function (comp, _se) {
               disableAllComponents(flipRotateComponents, comp);
             }),
@@ -18815,7 +18815,7 @@
           components: filterPanelComponents.map(function (mem) {
             return mem.asSpec();
           }),
-          containerBehaviours: derive$1([config('image-tools-filter-panel-buttons-events', [
+          containerBehaviours: derive$1([config('image-tools-filter-panel-buttons-trips', [
               run$1(external.disable(), function (comp, _se) {
                 disableAllComponents(filterPanelComponents, comp);
               }),
@@ -19498,7 +19498,7 @@
           },
           {
             dom: { tag: 'div' },
-            behaviours: derive$1([config('image-panel-crop-events', [
+            behaviours: derive$1([config('image-panel-crop-trips', [
                 runOnAttached(function (comp) {
                   memContainer.getOpt(comp).each(function (container) {
                     var el = container.element.dom;
@@ -19541,7 +19541,7 @@
         ],
         containerBehaviours: derive$1([
           Replacing.config({}),
-          config('image-panel-events', [runOnAttached(function (comp) {
+          config('image-panel-trips', [runOnAttached(function (comp) {
               updateSrc(comp, initialUrl);
             })])
         ])
@@ -19904,7 +19904,7 @@
               }
             }
           }),
-          config('image-tools-events', [
+          config('image-tools-trips', [
             run$1(internal.undo(), undo),
             run$1(internal.redo(), redo),
             run$1(internal.zoom(), zoom),
@@ -21014,7 +21014,7 @@
               }
             }),
             Tabstopping.config({}),
-            config('urlinput-events', flatten([
+            config('urlinput-trips', flatten([
               spec.filetype === 'file' ? [run$1(input(), function (comp) {
                   emitWith(comp, formChangeEvent, { name: spec.name });
                 })] : [],
@@ -21033,7 +21033,7 @@
         ])),
         eventOrder: (_a = {}, _a[input()] = [
           'streaming',
-          'urlinput-events',
+          'urlinput-trips',
           'invalidating'
         ], _a),
         model: {
@@ -21159,7 +21159,7 @@
             }
           }),
           receivingConfig(),
-          config('url-input-events', [run$1(browseUrlEvent, openUrlPicker)])
+          config('url-input-trips', [run$1(browseUrlEvent, openUrlPicker)])
         ])
       });
     };
@@ -21253,7 +21253,7 @@
             onSpace: toggleCheckboxHandler,
             stopSpaceKeyup: true
           }),
-          config('checkbox-events', [run$1(change(), function (component, _) {
+          config('checkbox-trips', [run$1(change(), function (component, _) {
               emitWith(component, formChangeEvent, { name: spec.name });
             })])
         ])
@@ -23033,7 +23033,7 @@
         components: [],
         behaviours: derive$1([
           Replacing.config({}),
-          config('menubar-events', [
+          config('menubar-trips', [
             runOnAttached(function (component) {
               detail.onSetup(component);
             }),
@@ -23638,7 +23638,7 @@
           }],
         behaviours: derive$1([
           ComposingConfigs.childAt(0),
-          config('sidebar-sliding-events', [
+          config('sidebar-sliding-trips', [
             run$1(fixSize, function (comp, se) {
               set$7(comp.element, 'width', se.event.width);
             }),
@@ -24493,7 +24493,7 @@
               }
             }
           }),
-          config('toolbar-toggle-events', [run$1(toolbarToggleEvent, function (toolbar) {
+          config('toolbar-toggle-trips', [run$1(toolbarToggleEvent, function (toolbar) {
               toggleToolbar(toolbar, detail);
             })])
         ]),
@@ -24572,7 +24572,7 @@
           onEscape: toolbarSpec.onEscape,
           selector: '.tox-toolbar__group'
         }),
-        config('toolbar-events', [onAttached])
+        config('toolbar-trips', [onAttached])
       ]);
     };
     var renderMoreToolbarCommon = function (toolbarSpec) {
@@ -26051,12 +26051,12 @@
         eventOrder: (_d = {}, _d[mousedown()] = [
           'focusing',
           'alloy.base.behaviour',
-          'common-button-display-events'
+          'common-button-display-trips'
         ], _d),
         buttonBehaviours: derive$1([
           DisablingConfigs.toolbarButton(providersBackstage.isDisabled),
           receivingConfig(),
-          config('common-button-display-events', [run$1(mousedown(), function (button, se) {
+          config('common-button-display-trips', [run$1(mousedown(), function (button, se) {
               se.event.prevent();
               emit(button, focusButtonEvent);
             })])
@@ -26111,7 +26111,7 @@
         components: structure.components,
         eventOrder: toolbarButtonEventOrder,
         buttonBehaviours: derive$1([
-          config('toolbar-button-events', [
+          config('toolbar-button-trips', [
             onToolbarButtonExecute({
               onAction: spec.onAction,
               getApi: specialisation.getApi
@@ -26227,7 +26227,7 @@
         splitDropdownBehaviours: derive$1([
           DisablingConfigs.splitButton(sharedBackstage.providers.isDisabled),
           receivingConfig(),
-          config('split-dropdown-events', [
+          config('split-dropdown-trips', [
             run$1(focusButtonEvent, Focusing.focus),
             onControlAttached(specialisation, editorOffCell),
             onControlDetached(specialisation, editorOffCell)
@@ -26236,7 +26236,7 @@
         ]),
         eventOrder: (_d = {}, _d[attachedToDom()] = [
           'alloy.base.behaviour',
-          'split-dropdown-events'
+          'split-dropdown-trips'
         ], _d),
         toggleClass: 'tox-tbtn--enabled',
         lazySink: sharedBackstage.getSink,
@@ -27445,7 +27445,7 @@
           remove$6(comp.element, 'width');
         },
         inlineBehaviours: derive$1([
-          config('context-toolbar-events', [
+          config('context-toolbar-trips', [
             runOnSource(transitionend(), function (comp, se) {
               if (se.event.raw.propertyName === 'width') {
                 remove$2(comp.element, resizingClass);
@@ -27575,7 +27575,7 @@
           components: [toolbarSpec],
           behaviours: derive$1([
             Keying.config({ mode: 'acyclic' }),
-            config('pop-dialog-wrap-events', [
+            config('pop-dialog-wrap-trips', [
               runOnAttached(function (comp) {
                 editor.shortcuts.add('ctrl+F9', 'focus statusbar', function () {
                   return Keying.focusIn(comp);
@@ -29679,7 +29679,7 @@
               }
             }
           }),
-          config('wordcount-events', [
+          config('wordcount-trips', [
             runOnExecute$1(function (comp) {
               var currentVal = Representing.getValue(comp);
               var newMode = currentVal.mode === 'words' ? 'characters' : 'words';
@@ -29704,7 +29704,7 @@
         eventOrder: (_a = {}, _a[execute$5()] = [
           'disabling',
           'alloy.base.behaviour',
-          'wordcount-events'
+          'wordcount-trips'
         ], _a)
       });
     };
@@ -30157,7 +30157,7 @@
           components: externalBlocker.components.concat([premade(dialog)]),
           behaviours: derive$1([
             Focusing.config({}),
-            config('dialog-blocker-events', [runOnSource(focusin(), function () {
+            config('dialog-blocker-trips', [runOnSource(focusin(), function () {
                 Keying.focusIn(dialog);
               })])
           ])
@@ -30185,7 +30185,7 @@
       var setIdle = function (dialog) {
         Blocking.unblock(dialog);
       };
-      var modalEventsId = generate$6('modal-events');
+      var modalEventsId = generate$6('modal-trips');
       var eventOrder = __assign(__assign({}, detail.eventOrder), (_a = {}, _a[attachedToDom()] = [modalEventsId].concat(detail.eventOrder['alloy.system.attached'] || []), _a));
       return {
         uid: detail.uid,
@@ -31155,7 +31155,7 @@
                       mode: 'acyclic',
                       useTabstopAt: not(isPseudoStop)
                     }),
-                    config('TabView.form.events', [
+                    config('TabView.form.trips', [
                       runOnAttached(setDataOnForm),
                       runOnDetached(updateDataWithForm)
                     ]),
@@ -31445,7 +31445,7 @@
         dragBlockClass: blockerClass,
         modalBehaviours: derive$1(__spreadArray([
           Focusing.config({}),
-          config('dialog-events', spec.dialogEvents.concat([runOnSource(focusin(), function (comp, _se) {
+          config('dialog-trips', spec.dialogEvents.concat([runOnSource(focusin(), function (comp, _se) {
               Keying.focusIn(comp);
             })])),
           config('scroll-lock', [
@@ -31457,13 +31457,13 @@
             })
           ])
         ], spec.extraBehaviours, true)),
-        eventOrder: __assign((_a = {}, _a[execute$5()] = ['dialog-events'], _a[attachedToDom()] = [
+        eventOrder: __assign((_a = {}, _a[execute$5()] = ['dialog-trips'], _a[attachedToDom()] = [
           'scroll-lock',
-          'dialog-events',
+          'dialog-trips',
           'alloy.base.behaviour'
         ], _a[detachedFromDom()] = [
           'alloy.base.behaviour',
-          'dialog-events',
+          'dialog-trips',
           'scroll-lock'
         ], _a), spec.eventOrder)
       });
@@ -31615,11 +31615,11 @@
           'scroll-lock',
           Reflecting.name(),
           'messages',
-          'dialog-events',
+          'dialog-trips',
           'alloy.base.behaviour'
         ], _a[detachedFromDom()] = [
           'alloy.base.behaviour',
-          'dialog-events',
+          'dialog-trips',
           'messages',
           Reflecting.name(),
           'scroll-lock'
@@ -32459,7 +32459,7 @@
             },
             fireDismissalEventInstead: {}
           }, isToolbarLocationTop ? {} : { fireRepositionEventInstead: {} }), {
-            inlineBehaviours: derive$1(__spreadArray([config('window-manager-inline-events', [run$1(dismissRequested(), function (_comp, _se) {
+            inlineBehaviours: derive$1(__spreadArray([config('window-manager-inline-trips', [run$1(dismissRequested(), function (_comp, _se) {
                   emit(dialogUi.dialog, formCancelEvent);
                 })])], inlineAdditionalBehaviours(editor, isStickyToolbar$1, isToolbarLocationTop), true)),
             isExtraPart: function (_comp, target) {
@@ -39900,8 +39900,8 @@
 
     var sketch$3 = function (rawSpec) {
       var navigateEvent = 'navigateEvent';
-      var wrapperAdhocEvents = 'serializer-wrapper-events';
-      var formAdhocEvents = 'form-events';
+      var wrapperAdhocEvents = 'serializer-wrapper-trips';
+      var formAdhocEvents = 'form-trips';
       var schema = objOf([
         required$1('fields'),
         defaulted('maxFieldIndex', rawSpec.fields.length - 1),
@@ -40392,18 +40392,18 @@
       ], _a[detachedFromDom()] = [
         baseBehaviour,
         'representing',
-        'item-events',
+        'item-trips',
         'tooltipping'
       ], _a[mousedown()] = [
         'focusing',
         baseBehaviour,
-        'item-type-events'
+        'item-type-trips'
       ], _a[touchstart()] = [
         'focusing',
         baseBehaviour,
-        'item-type-events'
+        'item-type-trips'
       ], _a[mouseover()] = [
-        'item-type-events',
+        'item-type-trips',
         'tooltipping'
       ], _a[receive$1()] = [
         'receiving',
@@ -40657,7 +40657,7 @@
               initialValue: detail.data
             }
           }),
-          config('item-type-events', __spreadArray(__spreadArray([], pointerEvents(), true), [
+          config('item-type-trips', __spreadArray(__spreadArray([], pointerEvents(), true), [
             run(mouseover(), onHover),
             run(focusItem(), Focusing.focus)
           ], false))

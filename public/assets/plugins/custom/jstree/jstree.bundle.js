@@ -84,7 +84,7 @@
 		idregex : /[\\:&!^|()\[\]<>@*'+~#";.,=\- \/${}%?`]/g,
 		root : '#'
 	};
-	
+
 	/**
 	 * creates a jstree instance
 	 * @name $.jstree.create(el [, options])
@@ -454,7 +454,7 @@
 		 */
 		restore_focus : true,
 		/**
-		 * Force to compute and set "aria-setsize" and "aria-posinset" explicitly for each treeitem. 
+		 * Force to compute and set "aria-setsize" and "aria-posinset" explicitly for each treeitem.
 		 * Some browsers may compute incorrect elements position and produce wrong announcements for screen readers. Defaults to `false`
 		 * @name $.jstree.defaults.core.compute_elements_positions
 		 */
@@ -595,7 +595,7 @@
 
 			this.bind();
 			/**
-			 * triggered after all events are bound
+			 * triggered after all trips are bound
 			 * @event
 			 * @name init.jstree
 			 */
@@ -729,7 +729,7 @@
 			this.element = null;
 		},
 		/**
-		 * bind all events. Used internally.
+		 * bind all trips. Used internally.
 		 * @private
 		 * @name bind()
 		 */
@@ -4963,7 +4963,7 @@
 		return d;
 	};
 	$.vakata.trim = function (text) {
-		return String.prototype.trim ? 
+		return String.prototype.trim ?
 			String.prototype.trim.call(text.toString()) :
 			text.toString().replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '');
 	};
@@ -5448,9 +5448,9 @@
 			this.element.find('.jstree-closed').not(':has(.jstree-children)')
 				.each(function () {
 					var tmp = tt.get_node(this), tmp2;
-					
+
 					if(!tmp) { return; }
-					
+
 					if(!tmp.state.loaded) {
 						if(tmp.original && tmp.original.state && tmp.original.state.undetermined && tmp.original.state.undetermined === true) {
 							if(o[tmp.id] === undefined && tmp.id !== $.jstree.root) {
@@ -5835,7 +5835,7 @@
 				this.trigger('uncheck_node', { 'node' : obj, 'selected' : this._data.checkbox.selected, 'event' : e });
 			}
 		};
-		
+
 		/**
 		 * checks all nodes in the tree (only if tie_selection in checkbox settings is false, otherwise select_all will be called internally)
 		 * @name check_all()
@@ -6063,7 +6063,7 @@
 		 * * `_disabled` - a boolean indicating if this action should be disabled
 		 * * `label` - a string - the name of the action (could be a function returning a string)
 		 * * `title` - a string - an optional tooltip for the item
-		 * * `action` - a function to be executed if this item is chosen, the function will receive 
+		 * * `action` - a function to be executed if this item is chosen, the function will receive
 		 * * `icon` - a string, can be a path to an icon or a className, if using an image that is in the current directory use a `./` prefix, otherwise it will be detected as a class
 		 * * `shortcut` - keyCode which will trigger the action if the menu is open (for example `113` for rename, which equals F2)
 		 * * `shortcut_label` - shortcut label (like for example `F2` for rename)
@@ -6749,7 +6749,7 @@
 		 */
 		large_drag_target : false,
 		/**
-		 * controls whether use HTML5 dnd api instead of classical. That will allow better integration of dnd events with other HTML5 controls.
+		 * controls whether use HTML5 dnd api instead of classical. That will allow better integration of dnd trips with other HTML5 controls.
 		 * @reference http://caniuse.com/#feat=dragndrop
 		 * @name $.jstree.defaults.dnd.use_html5
 		 * @plugin dnd
@@ -7355,7 +7355,7 @@
 	 *		"id1" : [{ "text" : "Child of ID1", "id" : "c1" }, { "text" : "Another child of ID1", "id" : "c2" }],
 	 *		"id2" : [{ "text" : "Child of ID2", "id" : "c3" }]
 	 *	}
-	 * 
+	 *
 	 * @name $.jstree.defaults.massload
 	 * @plugin massload
 	 */
@@ -7366,7 +7366,7 @@
 			parent.init.call(this, el, options);
 		};
 		this._load_nodes = function (nodes, callback, is_callback, force_reload) {
-			var s = this.settings.massload,				
+			var s = this.settings.massload,
 				toLoad = [],
 				m = this._model.data,
 				i, j, dom;
@@ -7940,7 +7940,7 @@
 		 */
 		key		: 'jstree',
 		/**
-		 * A space separated list of events that trigger a state save. Defaults to `changed.jstree open_node.jstree close_node.jstree`.
+		 * A space separated list of trips that trigger a state save. Defaults to `changed.jstree open_node.jstree close_node.jstree`.
 		 * @name $.jstree.defaults.state.events
 		 * @plugin state
 		 */

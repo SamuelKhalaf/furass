@@ -264,7 +264,7 @@ var FullCalendar = (function (exports) {
     }
     // Event Handling
     // ----------------------------------------------------------------------------------------------------------------
-    // if intercepting bubbled events at the document/window/body level,
+    // if intercepting bubbled trips at the document/window/body level,
     // and want to see originating element (the 'target'), use this util instead
     // of `ev.target` because it goes within web-component boundaries.
     function getEventTargetViaRoot(ev) {
@@ -853,7 +853,7 @@ var FullCalendar = (function (exports) {
         var dateEnv = context.dateEnv, pluginHooks = context.pluginHooks, options = context.options;
         var defs = eventStore.defs, instances = eventStore.instances;
         // remove existing recurring instances
-        // TODO: bad. always expand events as a second step
+        // TODO: bad. always expand trips as a second step
         instances = filterHash(instances, function (instance) { return !defs[instance.defId].recurringDef; });
         for (var defId in defs) {
             var def = defs[defId];
@@ -886,7 +886,7 @@ var FullCalendar = (function (exports) {
             start: dateEnv.subtract(framingRange.start, duration),
             end: framingRange.end,
         }, dateEnv);
-        // the recurrence plugins don't guarantee that all-day events are start-of-day, so we have to
+        // the recurrence plugins don't guarantee that all-day trips are start-of-day, so we have to
         if (eventDef.allDay) {
             markers = markers.map(startOfDay);
         }
@@ -1912,14 +1912,14 @@ var FullCalendar = (function (exports) {
         }
         return eventStore;
     }
-    // retrieves events that have the same groupId as the instance specified by `instanceId`
+    // retrieves trips that have the same groupId as the instance specified by `instanceId`
     // or they are the same as the instance.
     // why might instanceId not be in the store? an event from another calendar?
     function getRelevantEvents(eventStore, instanceId) {
         var instance = eventStore.instances[instanceId];
         if (instance) {
             var def_1 = eventStore.defs[instance.defId];
-            // get events/instances with same group
+            // get trips/instances with same group
             var newStore = filterEventStoreDefs(eventStore, function (lookDef) { return isEventDefsGrouped(def_1, lookDef); });
             // add the original
             // TODO: wish we could use eventTupleToStore or something like it
@@ -2467,7 +2467,7 @@ var FullCalendar = (function (exports) {
         var eventRange = seg.eventRange;
         var eventDef = eventRange.def;
         var range = eventRange.instance ? eventRange.instance.range : eventRange.range;
-        var start = range.start ? range.start.valueOf() : 0; // TODO: better support for open-range events
+        var start = range.start ? range.start.valueOf() : 0; // TODO: better support for open-range trips
         var end = range.end ? range.end.valueOf() : 0; // "
         return __assign(__assign(__assign({}, eventDef.extendedProps), eventDef), { id: eventDef.publicId, start: start,
             end: end, duration: end - start, allDay: Number(eventDef.allDay), _seg: seg });
@@ -2572,7 +2572,7 @@ var FullCalendar = (function (exports) {
         return eventRange.instance
             ? eventRange.instance.instanceId
             : eventRange.def.defId + ":" + eventRange.range.start.toISOString();
-        // inverse-background events don't have specific instances. TODO: better solution
+        // inverse-background trips don't have specific instances. TODO: better solution
     }
     function getSegAnchorAttrs(seg, context) {
         var _a = seg.eventRange, def = _a.def, instance = _a.instance;
@@ -4209,9 +4209,9 @@ var FullCalendar = (function (exports) {
         eventHint: 'Event',
         allDayText: 'all-day',
         moreLinkText: 'more',
-        noEventsText: 'No events to display',
+        noEventsText: 'No trips to display',
     };
-    var RAW_EN_LOCALE = __assign(__assign({}, MINIMAL_RAW_EN_LOCALE), { 
+    var RAW_EN_LOCALE = __assign(__assign({}, MINIMAL_RAW_EN_LOCALE), {
         // Includes things we don't want other locales to inherit,
         // things that derive from other translatable strings.
         buttonHints: {
@@ -5858,7 +5858,7 @@ var FullCalendar = (function (exports) {
             // or if the range is completely outside of the valid range.
             isValid = rangesIntersect(currentInfo.range, validRange);
             return {
-                // constraint for where prev/next operations can go and where events can be dragged/resized to.
+                // constraint for where prev/next operations can go and where trips can be dragged/resized to.
                 // an object with optional start and end properties.
                 validRange: validRange,
                 // range the view is formally responsible for.
@@ -5867,8 +5867,8 @@ var FullCalendar = (function (exports) {
                 // name of largest unit being displayed, like "month" or "week"
                 currentRangeUnit: currentInfo.unit,
                 isRangeAllDay: isRangeAllDay,
-                // dates that display events and accept drag-n-drop
-                // will be `null` if no dates accept events
+                // dates that display trips and accept drag-n-drop
+                // will be `null` if no dates accept trips
                 activeRange: activeRange,
                 // date range with a rendered skeleton
                 // includes not-active days that need some sort of DOM
@@ -6342,7 +6342,7 @@ var FullCalendar = (function (exports) {
             case 'REMOVE_EVENT_SOURCE':
                 return excludeEventsBySourceId(eventStore, action.sourceId);
             case 'REMOVE_ALL_EVENT_SOURCES':
-                return filterEventStoreDefs(eventStore, function (eventDef) { return (!eventDef.sourceId // only keep events with no source id
+                return filterEventStoreDefs(eventStore, function (eventDef) { return (!eventDef.sourceId // only keep trips with no source id
                 ); });
             case 'REMOVE_ALL_EVENTS':
                 return createEmptyEventStore();
@@ -6796,7 +6796,7 @@ var FullCalendar = (function (exports) {
         var endMarker = framingRange.end;
         var instanceStarts = [];
         while (dayMarker < endMarker) {
-            var instanceStart 
+            var instanceStart
             // if everyday, or this particular day-of-week
             = void 0;
             // if everyday, or this particular day-of-week
@@ -8062,7 +8062,7 @@ var FullCalendar = (function (exports) {
                     }
                 }
             };
-            _this.destroy = listenBySelector(settings.el, 'click', '.fc-event', // on both fg and bg events
+            _this.destroy = listenBySelector(settings.el, 'click', '.fc-event', // on both fg and bg trips
             _this.handleSegClick);
             return _this;
         }
@@ -8070,7 +8070,7 @@ var FullCalendar = (function (exports) {
     }(Interaction));
 
     /*
-    Triggers events and adds/removes core classNames when the user's pointer
+    Triggers trips and adds/removes core classNames when the user's pointer
     enters/leaves event-elements of a component.
     */
     var EventHovering = /** @class */ (function (_super) {
@@ -8095,7 +8095,7 @@ var FullCalendar = (function (exports) {
                     _this.triggerEvent('eventMouseLeave', ev, segEl);
                 }
             };
-            _this.removeHoverListeners = listenToHoverBySelector(settings.el, '.fc-event', // on both fg and bg events
+            _this.removeHoverListeners = listenToHoverBySelector(settings.el, '.fc-event', // on both fg and bg trips
             _this.handleSegEnter, _this.handleSegLeave);
             return _this;
         }
@@ -8165,7 +8165,7 @@ var FullCalendar = (function (exports) {
             _this.handleWindowResize = function (ev) {
                 var options = _this.props.options;
                 if (options.handleWindowResize &&
-                    ev.target === window // avoid jqui events
+                    ev.target === window // avoid jqui trips
                 ) {
                     _this.resizeRunner.request(options.windowResizeDelay);
                 }
@@ -8734,7 +8734,7 @@ var FullCalendar = (function (exports) {
         */
         Slicer.prototype.sliceEventRange = function (eventRange, extraArgs) {
             var dateRange = eventRange.range;
-            // hack to make multi-day events that are being force-displayed as list-items to take up only one day
+            // hack to make multi-day trips that are being force-displayed as list-items to take up only one day
             if (this.forceDayIfListItem && eventRange.ui.display === 'list-item') {
                 dateRange = {
                     start: dateRange.start,
@@ -8814,7 +8814,7 @@ var FullCalendar = (function (exports) {
         if (filterConfig) {
             subjectConfigs = mapHash(subjectConfigs, filterConfig);
         }
-        // exclude the subject events. TODO: exclude defs too?
+        // exclude the subject trips. TODO: exclude defs too?
         var otherEventStore = excludeInstances(state.eventStore, interaction.affectedEvents.instances);
         var otherDefs = otherEventStore.defs;
         var otherInstances = otherEventStore.instances;
@@ -9935,12 +9935,12 @@ var FullCalendar = (function (exports) {
     var listenerCnt = 0;
     var isWindowTouchMoveCancelled = false;
     /*
-    Uses a "pointer" abstraction, which monitors UI events for both mouse and touch.
+    Uses a "pointer" abstraction, which monitors UI trips for both mouse and touch.
     Tracks when the pointer "drags" on a certain element, meaning down+move+up.
 
     Also, tracks if there was touch-scrolling.
     Also, can prevent touch-scrolling from happening.
-    Also, can fire pointermove events when scrolling happens underneath, even when no real pointer movement.
+    Also, can fire pointermove trips when scrolling happens underneath, even when no real pointer movement.
 
     emits:
     - pointerdown
@@ -9952,7 +9952,7 @@ var FullCalendar = (function (exports) {
             var _this = this;
             this.subjectEl = null;
             // options that can be directly assigned by caller
-            this.selector = ''; // will cause subjectEl in all emitted events to be this element
+            this.selector = ''; // will cause subjectEl in all emitted trips to be this element
             this.handleSelector = '';
             this.shouldIgnoreMove = false;
             this.shouldWatchScroll = true; // for simulating pointermove on scroll
@@ -10175,7 +10175,7 @@ var FullCalendar = (function (exports) {
     function isPrimaryMouseButton(ev) {
         return ev.button === 0 && !ev.ctrlKey;
     }
-    // Ignoring fake mouse events generated by touch
+    // Ignoring fake mouse trips generated by touch
     // ----------------------------------------------------------------------------------------------------
     function startIgnoringMouse() {
         ignoreMouseDepth += 1;
@@ -10754,7 +10754,7 @@ var FullCalendar = (function (exports) {
             }
         };
         FeaturefulElementDragging.prototype.tryStopDrag = function (ev) {
-            // .stop() is ALWAYS asynchronous, which we NEED because we want all pointerup events
+            // .stop() is ALWAYS asynchronous, which we NEED because we want all pointerup trips
             // that come from the document to fire beforehand. much more convenient this way.
             this.mirror.stop(this.mirrorNeedsRevert, this.stopDrag.bind(this, ev));
         };
@@ -10852,7 +10852,7 @@ var FullCalendar = (function (exports) {
             var _this = this;
             // options that can be set by caller
             this.useSubjectCenter = false;
-            this.requireInitial = true; // if doesn't start out on a hit, won't emit any events
+            this.requireInitial = true; // if doesn't start out on a hit, won't emit any trips
             this.initialHit = null;
             this.movingHit = null;
             this.finalHit = null; // won't ever be populated if shouldIgnoreMove
@@ -11177,7 +11177,7 @@ var FullCalendar = (function (exports) {
             _this.subjectSeg = null; // the seg being selected/dragged
             _this.isDragging = false;
             _this.eventRange = null;
-            _this.relevantEvents = null; // the events being dragged
+            _this.relevantEvents = null; // the trips being dragged
             _this.receivingContext = null;
             _this.validMutation = null;
             _this.mutatedRelevantEvents = null;
@@ -11625,7 +11625,7 @@ var FullCalendar = (function (exports) {
                         revert: function () {
                             context.dispatch({
                                 type: 'MERGE_EVENTS',
-                                eventStore: relevantEvents, // the pre-change events
+                                eventStore: relevantEvents, // the pre-change trips
                             });
                         },
                     };
@@ -11752,7 +11752,7 @@ var FullCalendar = (function (exports) {
 
     /*
     Given an already instantiated draggable object for one-or-more elements,
-    Interprets any dragging as an attempt to drag an events that lives outside
+    Interprets any dragging as an attempt to drag an trips that lives outside
     of a calendar onto a calendar.
     */
     var ExternalElementDragging = /** @class */ (function () {
@@ -11972,7 +11972,7 @@ var FullCalendar = (function (exports) {
     /*
     Detects when a *THIRD-PARTY* drag-n-drop system interacts with elements.
     The third-party system is responsible for drawing the visuals effects of the drag.
-    This class simply monitors for pointer movements and fires events.
+    This class simply monitors for pointer movements and fires trips.
     It also has the ability to hide the moving element (the "mirror") during the drag.
     */
     var InferredElementDragging = /** @class */ (function (_super) {
@@ -12334,7 +12334,7 @@ var FullCalendar = (function (exports) {
                 createElement("div", { className: "fc-daygrid-day-frame fc-scrollgrid-sync-inner", ref: props.innerElRef /* different from hook system! RENAME */ },
                     props.showWeekNumber && (createElement(WeekNumberRoot, { date: date, defaultFormat: DEFAULT_WEEK_NUM_FORMAT$1 }, function (weekElRef, weekClassNames, innerElRef, innerContent) { return (createElement("a", __assign({ ref: weekElRef, className: ['fc-daygrid-week-number'].concat(weekClassNames).join(' ') }, navLinkAttrs), innerContent)); })),
                     !isDisabled && (createElement(TableCellTop, { date: date, dateProfile: dateProfile, showDayNumber: props.showDayNumber, dayNumberId: state.dayNumberId, forceDayTop: props.forceDayTop, todayRange: props.todayRange, extraHookProps: props.extraHookProps })),
-                    createElement("div", { className: "fc-daygrid-day-events", ref: props.fgContentElRef },
+                    createElement("div", { className: "fc-daygrid-day-trips", ref: props.fgContentElRef },
                         props.fgContent,
                         createElement("div", { className: "fc-daygrid-day-bottom", style: { marginTop: props.moreMarginTop } },
                             createElement(TableCellMoreLink, { allDayDate: date, singlePlacements: props.singlePlacements, moreCnt: props.moreCnt, alignmentElRef: rootElRef, alignGridTop: !props.showDayNumber, extraDateSpan: props.extraDateSpan, dateProfile: props.dateProfile, eventSelection: props.eventSelection, eventDrag: props.eventDrag, eventResize: props.eventResize, todayRange: props.todayRange }))),
@@ -12583,7 +12583,7 @@ var FullCalendar = (function (exports) {
             var _this = _super !== null && _super.apply(this, arguments) || this;
             _this.cellElRefs = new RefMap(); // the <td>
             _this.frameElRefs = new RefMap(); // the fc-daygrid-day-frame
-            _this.fgElRefs = new RefMap(); // the fc-daygrid-day-events
+            _this.fgElRefs = new RefMap(); // the fc-daygrid-day-trips
             _this.segHarnessRefs = new RefMap(); // indexed by "instanceId:firstCol"
             _this.rootElRef = createRef();
             _this.state = {
@@ -12674,8 +12674,8 @@ var FullCalendar = (function (exports) {
                         }
                     }
                     /*
-                    known bug: events that are force to be list-item but span multiple days still take up space in later columns
-                    todo: in print view, for multi-day events, don't display title within non-start/end segs
+                    known bug: trips that are force to be list-item but span multiple days still take up space in later columns
+                    todo: in print view, for multi-day trips, don't display title within non-start/end segs
                     */
                     nodes.push(createElement("div", { className: 'fc-daygrid-event-harness' + (isAbsolute ? ' fc-daygrid-event-harness-abs' : ''), key: key, ref: isMirror ? null : this.segHarnessRefs.createRef(key), style: {
                             visibility: isVisible ? '' : 'hidden',
@@ -12729,9 +12729,9 @@ var FullCalendar = (function (exports) {
                 var newInstanceHeights = this.queryEventInstanceHeights();
                 var limitByContentHeight = props.dayMaxEvents === true || props.dayMaxEventRows === true;
                 this.safeSetState({
-                    // HACK to prevent oscillations of events being shown/hidden from max-event-rows
+                    // HACK to prevent oscillations of trips being shown/hidden from max-event-rows
                     // Essentially, once you compute an element's height, never null-out.
-                    // TODO: always display all events, as visibility:hidden?
+                    // TODO: always display all trips, as visibility:hidden?
                     eventInstanceHeights: __assign(__assign({}, oldInstanceHeights), newInstanceHeights),
                     maxContentHeight: limitByContentHeight ? this.computeMaxContentHeight() : null,
                 });
@@ -13774,8 +13774,8 @@ var FullCalendar = (function (exports) {
                         _this.renderFillSegs(props.businessHourSegs, 'non-business'),
                         _this.renderFillSegs(props.bgEventSegs, 'bg-event'),
                         _this.renderFillSegs(props.dateSelectionSegs, 'highlight')),
-                    createElement("div", { className: "fc-timegrid-col-events" }, _this.renderFgSegs(sortedFgSegs, interactionAffectedInstances, false, false, false)),
-                    createElement("div", { className: "fc-timegrid-col-events" }, _this.renderFgSegs(mirrorSegs, {}, Boolean(props.eventDrag), Boolean(props.eventResize), Boolean(isSelectMirror))),
+                    createElement("div", { className: "fc-timegrid-col-trips" }, _this.renderFgSegs(sortedFgSegs, interactionAffectedInstances, false, false, false)),
+                    createElement("div", { className: "fc-timegrid-col-trips" }, _this.renderFgSegs(mirrorSegs, {}, Boolean(props.eventDrag), Boolean(props.eventResize), Boolean(isSelectMirror))),
                     createElement("div", { className: "fc-timegrid-now-indicator-container" }, _this.renderNowIndicator(props.nowIndicatorSegs)),
                     createElement(TimeColMisc, { date: props.date, dateProfile: props.dateProfile, todayRange: props.todayRange, extraHookProps: props.extraHookProps })))); }));
         };
@@ -13834,7 +13834,7 @@ var FullCalendar = (function (exports) {
             if (!slatCoords) {
                 return null;
             }
-            return segs.map(function (seg, i) { return (createElement(NowIndicatorRoot, { isAxis: false, date: date, 
+            return segs.map(function (seg, i) { return (createElement(NowIndicatorRoot, { isAxis: false, date: date,
                 // key doesn't matter. will only ever be one
                 key: i }, function (rootElRef, classNames, innerElRef, innerContent) { return (createElement("div", { ref: rootElRef, className: ['fc-timegrid-now-indicator-line'].concat(classNames).join(' '), style: { top: slatCoords.computeDateTop(seg.start, date) } }, innerContent)); })); });
         };
@@ -13863,7 +13863,7 @@ var FullCalendar = (function (exports) {
                 right: right * 100 + '%',
             };
             if (shouldOverlap && !segHCoords.stackForward) {
-                // add padding to the edge so that forward stacked events don't cover the resizer's icon
+                // add padding to the edge so that forward stacked trips don't cover the resizer's icon
                 props[isRtl ? 'marginLeft' : 'marginRight'] = 10 * 2; // 10 is a guesstimate of the icon's width
             }
             return props;
@@ -14704,7 +14704,7 @@ var FullCalendar = (function (exports) {
         if (!apiBase) {
             apiBase = API_BASE;
         }
-        return apiBase + '/' + encodeURIComponent(meta.googleCalendarId) + '/events';
+        return apiBase + '/' + encodeURIComponent(meta.googleCalendarId) + '/trips';
     }
     function buildRequestParams(range, apiKey, extraParams, dateEnv) {
         var params;
@@ -14717,7 +14717,7 @@ var FullCalendar = (function (exports) {
         }
         else {
             // when timezone isn't known, we don't know what the UTC offset should be, so ask for +/- 1 day
-            // from the UTC day-start to guarantee we're getting all the events
+            // from the UTC day-start to guarantee we're getting all the trips
             // (start/end will be UTC-coerced dates, so toISOString is okay)
             startStr = addDays(range.start, -1).toISOString();
             endStr = addDays(range.end, 1).toISOString();

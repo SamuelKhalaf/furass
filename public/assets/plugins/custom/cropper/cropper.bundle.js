@@ -263,7 +263,7 @@
     minCropBoxHeight: 0,
     minContainerWidth: MIN_CONTAINER_WIDTH,
     minContainerHeight: MIN_CONTAINER_HEIGHT,
-    // Shortcuts of events
+    // Shortcuts of trips
     ready: null,
     cropstart: null,
     cropmove: null,

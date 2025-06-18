@@ -13,4 +13,9 @@ class Program extends Model
         'title',
         'description'
     ];
+
+    public function events()
+    {
+        return $this->belongsToMany(Event::class, 'event_program');
+    }
 }

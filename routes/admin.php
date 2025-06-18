@@ -11,8 +11,8 @@ use App\Http\Controllers\Admin\QuestionBankTypeController;
 use App\Http\Controllers\Admin\RolesController;
 use App\Http\Controllers\Admin\SchoolController;
 use App\Http\Controllers\Admin\StudentController;
+use App\Http\Controllers\Admin\TripsController;
 use App\Http\Controllers\Admin\UsersController;
-use App\Http\Controllers\Admin\SchoolController;
 use App\Http\Controllers\Admin\ValuesQuestionsController;
 use Illuminate\Support\Facades\Route;
 
@@ -151,6 +151,27 @@ Route::middleware(['auth'])->name('admin.')->group(function () {
         ->middleware('permission:'. PermissionEnum::DELETE_CONSULTANTS->value)
         ->name('consultants.destroy');
     ###############################  End:Consultants Routes  #####################################
+
+    ############################### Start:Trips Routes #####################################
+    Route::middleware('permission:'. PermissionEnum::LIST_TRIPS->value)->group(function () {
+        Route::get('trips', [TripsController::class, 'index'])->name('trips.index');
+        Route::get('trips/all', [TripsController::class, 'getTripsData'])->name('trips.datatable');
+    });
+
+    Route::middleware('permission:'. PermissionEnum::CREATE_TRIPS->value)->group(function () {
+        Route::get('trips/create', [TripsController::class, 'create'])->name('trips.create');
+        Route::post('trips', [TripsController::class, 'store'])->name('trips.store');
+    });
+
+    Route::middleware('permission:'. PermissionEnum::UPDATE_TRIPS->value)->group(function () {
+        Route::get('trips/{trip}/edit', [TripsController::class, 'edit'])->name('trips.edit');
+        Route::put('trips/{trip}', [TripsController::class, 'update'])->name('trips.update');
+    });
+
+    Route::delete('trips/{trip}', [TripsController::class, 'destroy'])
+        ->middleware('permission:'. PermissionEnum::DELETE_TRIPS->value)
+        ->name('trips.destroy');
+    ###############################  End:Trips Routes  #####################################
 
     ############################### Start:Consultations Routes #####################################
 //    Route::middleware('permission:'. PermissionEnum::LIST_CONSULTANTS->value)->group(function () {

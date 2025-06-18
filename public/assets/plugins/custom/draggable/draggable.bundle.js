@@ -3575,7 +3575,7 @@ class Draggable {
   }
 
   /**
-   * Adds listener for draggable events
+   * Adds listener for draggable trips
    * @param {String} type - Event name
    * @param {...Function} callbacks - Event callbacks
    * @return {Draggable}
@@ -3975,7 +3975,7 @@ const onMouseUp = Symbol('onMouseUp');
 const onMouseForceGlobalChange = Symbol('onMouseForceGlobalChange');
 
 /**
- * This sensor picks up native force touch events and dictates drag operations
+ * This sensor picks up native force touch trips and dictates drag operations
  * @class ForceTouchSensor
  * @module ForceTouchSensor
  * @extends Sensor
@@ -4109,7 +4109,7 @@ class ForceTouchSensor extends _Sensor2.default {
     }
 
     // Need workaround for real click
-    // Cancel potential drag events
+    // Cancel potential drag trips
     event.stopPropagation();
     event.stopImmediatePropagation();
     event.preventDefault();
@@ -4238,7 +4238,7 @@ const onDrop = Symbol('onDrop');
 const reset = Symbol('reset');
 
 /**
- * This sensor picks up native browser drag events and dictates drag operations
+ * This sensor picks up native browser drag trips and dictates drag operations
  * @class DragSensor
  * @module DragSensor
  * @extends Sensor
@@ -4529,7 +4529,7 @@ const onDistanceChange = Symbol('onDistanceChange');
  */
 let preventScrolling = false;
 
-// WebKit requires cancelable `touchmove` events to be added as early as possible
+// WebKit requires cancelable `touchmove` trips to be added as early as possible
 window.addEventListener('touchmove', event => {
   if (!preventScrolling) {
     return;
@@ -4540,7 +4540,7 @@ window.addEventListener('touchmove', event => {
 }, { passive: false });
 
 /**
- * This sensor picks up native browser touch events and dictates drag operations
+ * This sensor picks up native browser touch trips and dictates drag operations
  * @class TouchSensor
  * @module TouchSensor
  * @extends Sensor
@@ -4826,7 +4826,7 @@ class SensorEvent extends _AbstractEvent2.default {
   }
 
   /**
-   * Normalized clientX for both touch and mouse events
+   * Normalized clientX for both touch and mouse trips
    * @property clientX
    * @type {Number}
    * @readonly
@@ -4836,7 +4836,7 @@ class SensorEvent extends _AbstractEvent2.default {
   }
 
   /**
-   * Normalized clientY for both touch and mouse events
+   * Normalized clientY for both touch and mouse trips
    * @property clientY
    * @type {Number}
    * @readonly
@@ -4846,7 +4846,7 @@ class SensorEvent extends _AbstractEvent2.default {
   }
 
   /**
-   * Normalized target for both touch and mouse events
+   * Normalized target for both touch and mouse trips
    * Returns the element that is behind cursor or touch pointer
    * @property target
    * @type {HTMLElement}
@@ -4947,7 +4947,7 @@ const startDrag = Symbol('startDrag');
 const onDistanceChange = Symbol('onDistanceChange');
 
 /**
- * This sensor picks up native browser mouse events and dictates drag operations
+ * This sensor picks up native browser mouse trips and dictates drag operations
  * @class MouseSensor
  * @module MouseSensor
  * @extends Sensor
@@ -5363,7 +5363,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = touchCoords;
 /**
- * Returns the first touch event found in touches or changedTouches of a touch events.
+ * Returns the first touch event found in touches or changedTouches of a touch trips.
  * @param {TouchEvent} event a touch event
  * @return {Touch} a touch object
  */
@@ -7068,7 +7068,7 @@ class Announcement extends _AbstractPlugin2.default {
    * @private
    */
   [onInitialize]() {
-    // Hack until there is an api for listening for all events
+    // Hack until there is an api for listening for all trips
     this.draggable.trigger = event => {
       try {
         this[announceEvent](event);
@@ -7234,7 +7234,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 const canceled = Symbol('canceled');
 
 /**
- * All events fired by draggable inherit this class. You can call `cancel()` to
+ * All trips fired by draggable inherit this class. You can call `cancel()` to
  * cancel a specific event or you can check if an event has been canceled by
  * calling `canceled()`.
  * @abstract
@@ -10865,7 +10865,7 @@ class Draggable {
   }
 
   /**
-   * Adds listener for draggable events
+   * Adds listener for draggable trips
    * @param {String} type - Event name
    * @param {...Function} callbacks - Event callbacks
    * @return {Draggable}
@@ -12700,7 +12700,7 @@ class Announcement extends _AbstractPlugin2.default {
    * @private
    */
   [onInitialize]() {
-    // Hack until there is an api for listening for all events
+    // Hack until there is an api for listening for all trips
     this.draggable.trigger = event => {
       try {
         this[announceEvent](event);
@@ -14369,7 +14369,7 @@ const onMouseUp = Symbol('onMouseUp');
 const onMouseForceGlobalChange = Symbol('onMouseForceGlobalChange');
 
 /**
- * This sensor picks up native force touch events and dictates drag operations
+ * This sensor picks up native force touch trips and dictates drag operations
  * @class ForceTouchSensor
  * @module ForceTouchSensor
  * @extends Sensor
@@ -14503,7 +14503,7 @@ class ForceTouchSensor extends _Sensor2.default {
     }
 
     // Need workaround for real click
-    // Cancel potential drag events
+    // Cancel potential drag trips
     event.stopPropagation();
     event.stopImmediatePropagation();
     event.preventDefault();
@@ -14632,7 +14632,7 @@ const onDrop = Symbol('onDrop');
 const reset = Symbol('reset');
 
 /**
- * This sensor picks up native browser drag events and dictates drag operations
+ * This sensor picks up native browser drag trips and dictates drag operations
  * @class DragSensor
  * @module DragSensor
  * @extends Sensor
@@ -14923,7 +14923,7 @@ const onDistanceChange = Symbol('onDistanceChange');
  */
 let preventScrolling = false;
 
-// WebKit requires cancelable `touchmove` events to be added as early as possible
+// WebKit requires cancelable `touchmove` trips to be added as early as possible
 window.addEventListener('touchmove', event => {
   if (!preventScrolling) {
     return;
@@ -14934,7 +14934,7 @@ window.addEventListener('touchmove', event => {
 }, { passive: false });
 
 /**
- * This sensor picks up native browser touch events and dictates drag operations
+ * This sensor picks up native browser touch trips and dictates drag operations
  * @class TouchSensor
  * @module TouchSensor
  * @extends Sensor
@@ -15220,7 +15220,7 @@ class SensorEvent extends _AbstractEvent2.default {
   }
 
   /**
-   * Normalized clientX for both touch and mouse events
+   * Normalized clientX for both touch and mouse trips
    * @property clientX
    * @type {Number}
    * @readonly
@@ -15230,7 +15230,7 @@ class SensorEvent extends _AbstractEvent2.default {
   }
 
   /**
-   * Normalized clientY for both touch and mouse events
+   * Normalized clientY for both touch and mouse trips
    * @property clientY
    * @type {Number}
    * @readonly
@@ -15240,7 +15240,7 @@ class SensorEvent extends _AbstractEvent2.default {
   }
 
   /**
-   * Normalized target for both touch and mouse events
+   * Normalized target for both touch and mouse trips
    * Returns the element that is behind cursor or touch pointer
    * @property target
    * @type {HTMLElement}
@@ -15324,7 +15324,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = touchCoords;
 /**
- * Returns the first touch event found in touches or changedTouches of a touch events.
+ * Returns the first touch event found in touches or changedTouches of a touch trips.
  * @param {TouchEvent} event a touch event
  * @return {Touch} a touch object
  */
@@ -15546,7 +15546,7 @@ const startDrag = Symbol('startDrag');
 const onDistanceChange = Symbol('onDistanceChange');
 
 /**
- * This sensor picks up native browser mouse events and dictates drag operations
+ * This sensor picks up native browser mouse trips and dictates drag operations
  * @class MouseSensor
  * @module MouseSensor
  * @extends Sensor
@@ -16015,7 +16015,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 const canceled = Symbol('canceled');
 
 /**
- * All events fired by draggable inherit this class. You can call `cancel()` to
+ * All trips fired by draggable inherit this class. You can call `cancel()` to
  * cancel a specific event or you can check if an event has been canceled by
  * calling `canceled()`.
  * @abstract
@@ -18345,7 +18345,7 @@ class Draggable {
   }
 
   /**
-   * Adds listener for draggable events
+   * Adds listener for draggable trips
    * @param {String} type - Event name
    * @param {...Function} callbacks - Event callbacks
    * @return {Draggable}
@@ -18745,7 +18745,7 @@ const onMouseUp = Symbol('onMouseUp');
 const onMouseForceGlobalChange = Symbol('onMouseForceGlobalChange');
 
 /**
- * This sensor picks up native force touch events and dictates drag operations
+ * This sensor picks up native force touch trips and dictates drag operations
  * @class ForceTouchSensor
  * @module ForceTouchSensor
  * @extends Sensor
@@ -18879,7 +18879,7 @@ class ForceTouchSensor extends _Sensor2.default {
     }
 
     // Need workaround for real click
-    // Cancel potential drag events
+    // Cancel potential drag trips
     event.stopPropagation();
     event.stopImmediatePropagation();
     event.preventDefault();
@@ -19008,7 +19008,7 @@ const onDrop = Symbol('onDrop');
 const reset = Symbol('reset');
 
 /**
- * This sensor picks up native browser drag events and dictates drag operations
+ * This sensor picks up native browser drag trips and dictates drag operations
  * @class DragSensor
  * @module DragSensor
  * @extends Sensor
@@ -19299,7 +19299,7 @@ const onDistanceChange = Symbol('onDistanceChange');
  */
 let preventScrolling = false;
 
-// WebKit requires cancelable `touchmove` events to be added as early as possible
+// WebKit requires cancelable `touchmove` trips to be added as early as possible
 window.addEventListener('touchmove', event => {
   if (!preventScrolling) {
     return;
@@ -19310,7 +19310,7 @@ window.addEventListener('touchmove', event => {
 }, { passive: false });
 
 /**
- * This sensor picks up native browser touch events and dictates drag operations
+ * This sensor picks up native browser touch trips and dictates drag operations
  * @class TouchSensor
  * @module TouchSensor
  * @extends Sensor
@@ -19596,7 +19596,7 @@ class SensorEvent extends _AbstractEvent2.default {
   }
 
   /**
-   * Normalized clientX for both touch and mouse events
+   * Normalized clientX for both touch and mouse trips
    * @property clientX
    * @type {Number}
    * @readonly
@@ -19606,7 +19606,7 @@ class SensorEvent extends _AbstractEvent2.default {
   }
 
   /**
-   * Normalized clientY for both touch and mouse events
+   * Normalized clientY for both touch and mouse trips
    * @property clientY
    * @type {Number}
    * @readonly
@@ -19616,7 +19616,7 @@ class SensorEvent extends _AbstractEvent2.default {
   }
 
   /**
-   * Normalized target for both touch and mouse events
+   * Normalized target for both touch and mouse trips
    * Returns the element that is behind cursor or touch pointer
    * @property target
    * @type {HTMLElement}
@@ -19717,7 +19717,7 @@ const startDrag = Symbol('startDrag');
 const onDistanceChange = Symbol('onDistanceChange');
 
 /**
- * This sensor picks up native browser mouse events and dictates drag operations
+ * This sensor picks up native browser mouse trips and dictates drag operations
  * @class MouseSensor
  * @module MouseSensor
  * @extends Sensor
@@ -20133,7 +20133,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = touchCoords;
 /**
- * Returns the first touch event found in touches or changedTouches of a touch events.
+ * Returns the first touch event found in touches or changedTouches of a touch trips.
  * @param {TouchEvent} event a touch event
  * @return {Touch} a touch object
  */
@@ -21838,7 +21838,7 @@ class Announcement extends _AbstractPlugin2.default {
    * @private
    */
   [onInitialize]() {
-    // Hack until there is an api for listening for all events
+    // Hack until there is an api for listening for all trips
     this.draggable.trigger = event => {
       try {
         this[announceEvent](event);
@@ -22004,7 +22004,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 const canceled = Symbol('canceled');
 
 /**
- * All events fired by draggable inherit this class. You can call `cancel()` to
+ * All trips fired by draggable inherit this class. You can call `cancel()` to
  * cancel a specific event or you can check if an event has been canceled by
  * calling `canceled()`.
  * @abstract
@@ -23247,7 +23247,7 @@ class Draggable {
   }
 
   /**
-   * Adds listener for draggable events
+   * Adds listener for draggable trips
    * @param {String} type - Event name
    * @param {...Function} callbacks - Event callbacks
    * @return {Draggable}
@@ -23647,7 +23647,7 @@ const onMouseUp = Symbol('onMouseUp');
 const onMouseForceGlobalChange = Symbol('onMouseForceGlobalChange');
 
 /**
- * This sensor picks up native force touch events and dictates drag operations
+ * This sensor picks up native force touch trips and dictates drag operations
  * @class ForceTouchSensor
  * @module ForceTouchSensor
  * @extends Sensor
@@ -23781,7 +23781,7 @@ class ForceTouchSensor extends _Sensor2.default {
     }
 
     // Need workaround for real click
-    // Cancel potential drag events
+    // Cancel potential drag trips
     event.stopPropagation();
     event.stopImmediatePropagation();
     event.preventDefault();
@@ -23910,7 +23910,7 @@ const onDrop = Symbol('onDrop');
 const reset = Symbol('reset');
 
 /**
- * This sensor picks up native browser drag events and dictates drag operations
+ * This sensor picks up native browser drag trips and dictates drag operations
  * @class DragSensor
  * @module DragSensor
  * @extends Sensor
@@ -24201,7 +24201,7 @@ const onDistanceChange = Symbol('onDistanceChange');
  */
 let preventScrolling = false;
 
-// WebKit requires cancelable `touchmove` events to be added as early as possible
+// WebKit requires cancelable `touchmove` trips to be added as early as possible
 window.addEventListener('touchmove', event => {
   if (!preventScrolling) {
     return;
@@ -24212,7 +24212,7 @@ window.addEventListener('touchmove', event => {
 }, { passive: false });
 
 /**
- * This sensor picks up native browser touch events and dictates drag operations
+ * This sensor picks up native browser touch trips and dictates drag operations
  * @class TouchSensor
  * @module TouchSensor
  * @extends Sensor
@@ -24498,7 +24498,7 @@ class SensorEvent extends _AbstractEvent2.default {
   }
 
   /**
-   * Normalized clientX for both touch and mouse events
+   * Normalized clientX for both touch and mouse trips
    * @property clientX
    * @type {Number}
    * @readonly
@@ -24508,7 +24508,7 @@ class SensorEvent extends _AbstractEvent2.default {
   }
 
   /**
-   * Normalized clientY for both touch and mouse events
+   * Normalized clientY for both touch and mouse trips
    * @property clientY
    * @type {Number}
    * @readonly
@@ -24518,7 +24518,7 @@ class SensorEvent extends _AbstractEvent2.default {
   }
 
   /**
-   * Normalized target for both touch and mouse events
+   * Normalized target for both touch and mouse trips
    * Returns the element that is behind cursor or touch pointer
    * @property target
    * @type {HTMLElement}
@@ -24619,7 +24619,7 @@ const startDrag = Symbol('startDrag');
 const onDistanceChange = Symbol('onDistanceChange');
 
 /**
- * This sensor picks up native browser mouse events and dictates drag operations
+ * This sensor picks up native browser mouse trips and dictates drag operations
  * @class MouseSensor
  * @module MouseSensor
  * @extends Sensor
@@ -25035,7 +25035,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = touchCoords;
 /**
- * Returns the first touch event found in touches or changedTouches of a touch events.
+ * Returns the first touch event found in touches or changedTouches of a touch trips.
  * @param {TouchEvent} event a touch event
  * @return {Touch} a touch object
  */
@@ -26740,7 +26740,7 @@ class Announcement extends _AbstractPlugin2.default {
    * @private
    */
   [onInitialize]() {
-    // Hack until there is an api for listening for all events
+    // Hack until there is an api for listening for all trips
     this.draggable.trigger = event => {
       try {
         this[announceEvent](event);
@@ -27557,7 +27557,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 const canceled = Symbol('canceled');
 
 /**
- * All events fired by draggable inherit this class. You can call `cancel()` to
+ * All trips fired by draggable inherit this class. You can call `cancel()` to
  * cancel a specific event or you can check if an event has been canceled by
  * calling `canceled()`.
  * @abstract
@@ -28719,7 +28719,7 @@ class Draggable {
   }
 
   /**
-   * Adds listener for draggable events
+   * Adds listener for draggable trips
    * @param {String} type - Event name
    * @param {...Function} callbacks - Event callbacks
    * @return {Draggable}
@@ -29119,7 +29119,7 @@ const onMouseUp = Symbol('onMouseUp');
 const onMouseForceGlobalChange = Symbol('onMouseForceGlobalChange');
 
 /**
- * This sensor picks up native force touch events and dictates drag operations
+ * This sensor picks up native force touch trips and dictates drag operations
  * @class ForceTouchSensor
  * @module ForceTouchSensor
  * @extends Sensor
@@ -29253,7 +29253,7 @@ class ForceTouchSensor extends _Sensor2.default {
     }
 
     // Need workaround for real click
-    // Cancel potential drag events
+    // Cancel potential drag trips
     event.stopPropagation();
     event.stopImmediatePropagation();
     event.preventDefault();
@@ -29382,7 +29382,7 @@ const onDrop = Symbol('onDrop');
 const reset = Symbol('reset');
 
 /**
- * This sensor picks up native browser drag events and dictates drag operations
+ * This sensor picks up native browser drag trips and dictates drag operations
  * @class DragSensor
  * @module DragSensor
  * @extends Sensor
@@ -29673,7 +29673,7 @@ const onDistanceChange = Symbol('onDistanceChange');
  */
 let preventScrolling = false;
 
-// WebKit requires cancelable `touchmove` events to be added as early as possible
+// WebKit requires cancelable `touchmove` trips to be added as early as possible
 window.addEventListener('touchmove', event => {
   if (!preventScrolling) {
     return;
@@ -29684,7 +29684,7 @@ window.addEventListener('touchmove', event => {
 }, { passive: false });
 
 /**
- * This sensor picks up native browser touch events and dictates drag operations
+ * This sensor picks up native browser touch trips and dictates drag operations
  * @class TouchSensor
  * @module TouchSensor
  * @extends Sensor
@@ -29970,7 +29970,7 @@ class SensorEvent extends _AbstractEvent2.default {
   }
 
   /**
-   * Normalized clientX for both touch and mouse events
+   * Normalized clientX for both touch and mouse trips
    * @property clientX
    * @type {Number}
    * @readonly
@@ -29980,7 +29980,7 @@ class SensorEvent extends _AbstractEvent2.default {
   }
 
   /**
-   * Normalized clientY for both touch and mouse events
+   * Normalized clientY for both touch and mouse trips
    * @property clientY
    * @type {Number}
    * @readonly
@@ -29990,7 +29990,7 @@ class SensorEvent extends _AbstractEvent2.default {
   }
 
   /**
-   * Normalized target for both touch and mouse events
+   * Normalized target for both touch and mouse trips
    * Returns the element that is behind cursor or touch pointer
    * @property target
    * @type {HTMLElement}
@@ -30091,7 +30091,7 @@ const startDrag = Symbol('startDrag');
 const onDistanceChange = Symbol('onDistanceChange');
 
 /**
- * This sensor picks up native browser mouse events and dictates drag operations
+ * This sensor picks up native browser mouse trips and dictates drag operations
  * @class MouseSensor
  * @module MouseSensor
  * @extends Sensor
@@ -32007,7 +32007,7 @@ class Announcement extends _AbstractPlugin2.default {
    * @private
    */
   [onInitialize]() {
-    // Hack until there is an api for listening for all events
+    // Hack until there is an api for listening for all trips
     this.draggable.trigger = event => {
       try {
         this[announceEvent](event);
@@ -32496,7 +32496,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = touchCoords;
 /**
- * Returns the first touch event found in touches or changedTouches of a touch events.
+ * Returns the first touch event found in touches or changedTouches of a touch trips.
  * @param {TouchEvent} event a touch event
  * @return {Touch} a touch object
  */
@@ -33012,7 +33012,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 const canceled = Symbol('canceled');
 
 /**
- * All events fired by draggable inherit this class. You can call `cancel()` to
+ * All trips fired by draggable inherit this class. You can call `cancel()` to
  * cancel a specific event or you can check if an event has been canceled by
  * calling `canceled()`.
  * @abstract
@@ -34086,7 +34086,7 @@ class Draggable {
   }
 
   /**
-   * Adds listener for draggable events
+   * Adds listener for draggable trips
    * @param {String} type - Event name
    * @param {...Function} callbacks - Event callbacks
    * @return {Draggable}
@@ -34486,7 +34486,7 @@ const onMouseUp = Symbol('onMouseUp');
 const onMouseForceGlobalChange = Symbol('onMouseForceGlobalChange');
 
 /**
- * This sensor picks up native force touch events and dictates drag operations
+ * This sensor picks up native force touch trips and dictates drag operations
  * @class ForceTouchSensor
  * @module ForceTouchSensor
  * @extends Sensor
@@ -34620,7 +34620,7 @@ class ForceTouchSensor extends _Sensor2.default {
     }
 
     // Need workaround for real click
-    // Cancel potential drag events
+    // Cancel potential drag trips
     event.stopPropagation();
     event.stopImmediatePropagation();
     event.preventDefault();
@@ -34749,7 +34749,7 @@ const onDrop = Symbol('onDrop');
 const reset = Symbol('reset');
 
 /**
- * This sensor picks up native browser drag events and dictates drag operations
+ * This sensor picks up native browser drag trips and dictates drag operations
  * @class DragSensor
  * @module DragSensor
  * @extends Sensor
@@ -35040,7 +35040,7 @@ const onDistanceChange = Symbol('onDistanceChange');
  */
 let preventScrolling = false;
 
-// WebKit requires cancelable `touchmove` events to be added as early as possible
+// WebKit requires cancelable `touchmove` trips to be added as early as possible
 window.addEventListener('touchmove', event => {
   if (!preventScrolling) {
     return;
@@ -35051,7 +35051,7 @@ window.addEventListener('touchmove', event => {
 }, { passive: false });
 
 /**
- * This sensor picks up native browser touch events and dictates drag operations
+ * This sensor picks up native browser touch trips and dictates drag operations
  * @class TouchSensor
  * @module TouchSensor
  * @extends Sensor
@@ -35337,7 +35337,7 @@ class SensorEvent extends _AbstractEvent2.default {
   }
 
   /**
-   * Normalized clientX for both touch and mouse events
+   * Normalized clientX for both touch and mouse trips
    * @property clientX
    * @type {Number}
    * @readonly
@@ -35347,7 +35347,7 @@ class SensorEvent extends _AbstractEvent2.default {
   }
 
   /**
-   * Normalized clientY for both touch and mouse events
+   * Normalized clientY for both touch and mouse trips
    * @property clientY
    * @type {Number}
    * @readonly
@@ -35357,7 +35357,7 @@ class SensorEvent extends _AbstractEvent2.default {
   }
 
   /**
-   * Normalized target for both touch and mouse events
+   * Normalized target for both touch and mouse trips
    * Returns the element that is behind cursor or touch pointer
    * @property target
    * @type {HTMLElement}
@@ -35458,7 +35458,7 @@ const startDrag = Symbol('startDrag');
 const onDistanceChange = Symbol('onDistanceChange');
 
 /**
- * This sensor picks up native browser mouse events and dictates drag operations
+ * This sensor picks up native browser mouse trips and dictates drag operations
  * @class MouseSensor
  * @module MouseSensor
  * @extends Sensor
@@ -35874,7 +35874,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = touchCoords;
 /**
- * Returns the first touch event found in touches or changedTouches of a touch events.
+ * Returns the first touch event found in touches or changedTouches of a touch trips.
  * @param {TouchEvent} event a touch event
  * @return {Touch} a touch object
  */
@@ -37579,7 +37579,7 @@ class Announcement extends _AbstractPlugin2.default {
    * @private
    */
   [onInitialize]() {
-    // Hack until there is an api for listening for all events
+    // Hack until there is an api for listening for all trips
     this.draggable.trigger = event => {
       try {
         this[announceEvent](event);
@@ -38252,7 +38252,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 const canceled = Symbol('canceled');
 
 /**
- * All events fired by draggable inherit this class. You can call `cancel()` to
+ * All trips fired by draggable inherit this class. You can call `cancel()` to
  * cancel a specific event or you can check if an event has been canceled by
  * calling `canceled()`.
  * @abstract
@@ -39593,7 +39593,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = touchCoords;
 /**
- * Returns the first touch event found in touches or changedTouches of a touch events.
+ * Returns the first touch event found in touches or changedTouches of a touch trips.
  * @param {TouchEvent} event a touch event
  * @return {Touch} a touch object
  */
@@ -40026,7 +40026,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 const canceled = Symbol('canceled');
 
 /**
- * All events fired by draggable inherit this class. You can call `cancel()` to
+ * All trips fired by draggable inherit this class. You can call `cancel()` to
  * cancel a specific event or you can check if an event has been canceled by
  * calling `canceled()`.
  * @abstract
@@ -40433,7 +40433,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = touchCoords;
 /**
- * Returns the first touch event found in touches or changedTouches of a touch events.
+ * Returns the first touch event found in touches or changedTouches of a touch trips.
  * @param {TouchEvent} event a touch event
  * @return {Touch} a touch object
  */
@@ -40934,7 +40934,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 const canceled = Symbol('canceled');
 
 /**
- * All events fired by draggable inherit this class. You can call `cancel()` to
+ * All trips fired by draggable inherit this class. You can call `cancel()` to
  * cancel a specific event or you can check if an event has been canceled by
  * calling `canceled()`.
  * @abstract
@@ -41261,7 +41261,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = touchCoords;
 /**
- * Returns the first touch event found in touches or changedTouches of a touch events.
+ * Returns the first touch event found in touches or changedTouches of a touch trips.
  * @param {TouchEvent} event a touch event
  * @return {Touch} a touch object
  */
@@ -42155,7 +42155,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 const canceled = Symbol('canceled');
 
 /**
- * All events fired by draggable inherit this class. You can call `cancel()` to
+ * All trips fired by draggable inherit this class. You can call `cancel()` to
  * cancel a specific event or you can check if an event has been canceled by
  * calling `canceled()`.
  * @abstract
