@@ -249,7 +249,7 @@ var KTFileManagerList = function () {
         const toolbarSelected = document.querySelector('[data-kt-filemanager-table-toolbar="selected"]');
         const selectedCount = document.querySelector('[data-kt-filemanager-table-select="selected_count"]');
 
-        // Select refreshed checkbox DOM elements 
+        // Select refreshed checkbox DOM elements
         const allCheckboxes = table.querySelectorAll('tbody [type="checkbox"]');
 
         // Detect checkboxes state & count
@@ -453,7 +453,7 @@ var KTFileManagerList = function () {
 
     // Handle rename file or folder
     const handleRename = () => {
-        const renameButton = table.querySelectorAll('[data-kt-filemanager-table="rename"]');     
+        const renameButton = table.querySelectorAll('[data-kt-filemanager-table="rename"]');
 
         renameButton.forEach(button => {
             button.addEventListener('click', renameCallback);
@@ -567,7 +567,7 @@ var KTFileManagerList = function () {
                                         <a href="?page=apps/file-manager/files/" class="text-gray-800 text-hover-primary">${newValue}</a>
                                     </div>`;
 
-                                    // Draw datatable with new content -- Add more events here for any server-side events
+                                    // Draw datatable with new content -- Add more trips here for any server-side trips
                                     datatable.cell($(nameCol)).data(newData).draw();
                                 });
                             } else if (result.dismiss === 'cancel') {
@@ -604,7 +604,7 @@ var KTFileManagerList = function () {
                 // Remove spinner
                 cancelInputButton.removeAttribute("data-kt-indicator");
 
-                // Draw datatable with new content -- Add more events here for any server-side events
+                // Draw datatable with new content -- Add more trips here for any server-side trips
                 datatable.cell($(nameCol)).data(revertTemplate).draw();
 
                 // Toggle toastr
@@ -854,8 +854,8 @@ var KTFileManagerList = function () {
                                 }
                             }).then(function (result) {
                                 if (result.isConfirmed) {
-                                    form.reset(); // Reset form	
-                                    moveModal.hide(); // Hide modal			
+                                    form.reset(); // Reset form
+                                    moveModal.hide(); // Hide modal
 
                                     toastr.options = {
                                         "closeButton": true,

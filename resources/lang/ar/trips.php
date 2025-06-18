@@ -1,0 +1,213 @@
+<?php
+
+return [
+    // Page titles and headers
+    'title' => 'الرحلات',
+    'list' => 'قائمة الرحلات',
+    'create' => 'إنشاء رحلة',
+    'edit' => 'تعديل الرحلة',
+    'delete' => 'حذف الرحلة',
+    'view' => 'عرض الرحلة',
+    'back_to_list' => 'العودة إلى قائمة الرحلات',
+
+    // Table columns
+    'name' => 'اسم الرحلة',
+    'company_name' => 'اسم الشركة',
+    'location' => 'الموقع',
+    'date' => 'التاريخ',
+    'media' => 'الوسائط',
+    'documents' => 'المستندات',
+    'description' => 'الوصف',
+    'programs' => 'البرامج',
+    'event_type' => 'نوع الحدث',
+    'trips_count' => 'عدد الرحلات',
+    'status' => 'الحالة',
+    'created_at' => 'تاريخ الإنشاء',
+    'updated_at' => 'تاريخ التحديث',
+    'actions' => 'الإجراءات',
+    'search' => 'بحث في الرحلات',
+    'no_trips' => 'لا توجد رحلات',
+    'loading' => 'جاري التحميل...',
+    'processing' => 'جاري المعالجة...',
+
+    // Status options
+    'status_options' => [
+        'active' => 'نشط',
+        'inactive' => 'غير نشط',
+        'pending' => 'قيد الانتظار',
+        'completed' => 'مكتمل',
+        'cancelled' => 'ملغى',
+    ],
+
+    // Messages
+    'messages' => [
+        'created' => 'تم إنشاء الرحلة بنجاح',
+        'updated' => 'تم تحديث الرحلة بنجاح',
+        'deleted' => 'تم حذف الرحلة بنجاح',
+        'delete_failed' => 'فشل في حذف الرحلة',
+        'not_found' => 'الرحلة غير موجودة',
+        'update_failed' => 'فشل في تحديث الرحلة',
+        'create_failed' => 'فشل في إنشاء الرحلة',
+        'file_uploaded' => 'تم رفع الملف بنجاح',
+        'file_upload_failed' => 'فشل في رفع الملف',
+        'file_deleted' => 'تم حذف الملف بنجاح',
+        'file_delete_failed' => 'فشل في حذف الملف',
+        'invalid_file' => 'ملف غير صالح. يرجى التحقق من نوع الملف وحجمه',
+    ],
+
+    // Confirmation dialogs
+    'confirm' => [
+        'delete' => [
+            'title' => 'حذف الرحلة',
+            'message' => 'هل أنت متأكد من رغبتك في حذف هذه الرحلة؟ لا يمكن التراجع عن هذا الإجراء.',
+            'button' => 'نعم، احذفها!',
+            'cancel' => 'إلغاء',
+        ],
+        'cancel' => [
+            'title' => 'إلغاء التغييرات',
+            'message' => 'هل أنت متأكد من رغبتك في الإلغاء؟ سيتم فقدان جميع التغييرات غير المحفوظة.',
+            'button' => 'نعم، ألغِ',
+            'cancel' => 'لا، استمر في التحرير',
+        ],
+    ],
+
+    // Buttons
+    'buttons' => [
+        'add' => 'إضافة جديد',
+        'create' => 'إنشاء رحلة',
+        'edit' => 'تعديل',
+        'update' => 'تحديث',
+        'delete' => 'حذف',
+        'view' => 'عرض',
+        'save' => 'حفظ التغييرات',
+        'cancel' => 'إلغاء',
+        'close' => 'إغلاق',
+        'back' => 'رجوع',
+        'preview' => 'معاينة',
+        'download' => 'تحميل',
+        'remove' => 'إزالة',
+        'upload' => 'رفع',
+        'browse' => 'استعراض',
+        'clear' => 'مسح',
+        'reset' => 'إعادة تعيين',
+        'submit' => 'إرسال',
+        'search' => 'بحث',
+        'filter' => 'تصفية',
+        'export' => 'تصدير',
+        'import' => 'استيراد',
+        'print' => 'طباعة',
+        'send' => 'إرسال',
+        'ok' => 'موافق',
+        'yes' => 'نعم',
+        'no' => 'لا',
+        'confirm' => 'تأكيد',
+    ],
+
+    // Modal
+    'modal' => [
+        'add_trip' => 'إضافة رحلة جديدة',
+        'edit_trip' => 'تعديل الرحلة',
+        'view_trip' => 'عرض الرحلة',
+        'update_trip' => 'تحديث بيانات الرحلة',
+        'trip_name' => 'اسم الرحلة',
+        'company_name' => 'اسم الشركة',
+        'location' => 'الموقع',
+        'enter_trip_name' => 'أدخل اسم الرحلة',
+        'enter_company_name' => 'أدخل اسم الشركة',
+        'enter_location' => 'أدخل الموقع',
+        'event_date_time' => 'تاريخ ووقت الحدث',
+        'description' => 'الوصف',
+        'enter_description' => 'أدخل وصف الرحلة',
+        'media' => 'ملف الوسائط',
+        'document' => 'المستند',
+        'allowed_media' => 'صيغ الملفات المسموح بها: JPG, JPEG, PNG, MP4. الحد الأقصى للحجم: 10 ميجابايت',
+        'allowed_documents' => 'صيغ الملفات المسموح بها: PDF, DOC, DOCX, TXT. الحد الأقصى للحجم: 10 ميجابايت',
+        'preview' => 'معاينة',
+        'programs' => 'البرامج',
+        'select_programs' => 'اختر البرامج',
+        'discard' => 'تجاهل',
+        'submit' => 'إرسال',
+        'please_wait' => 'يرجى الانتظار...',
+        'loading' => 'جاري التحميل...',
+        'saving' => 'جاري الحفظ...',
+        'updating' => 'جاري التحديث...',
+        'deleting' => 'جاري الحذف...',
+    ],
+
+    // File upload
+    'file_upload' => [
+        'select_file' => 'اختر ملفًا',
+        'change_file' => 'تغيير الملف',
+        'remove_file' => 'إزالة الملف',
+        'no_file_selected' => 'لم يتم اختيار أي ملف',
+        'file_selected' => 'ملف واحد محدد',
+        'files_selected' => 'ملفات محددة',
+        'drop_files_here' => 'قم بإسقاط الملفات هنا أو انقر للرفع',
+        'uploading' => 'جاري الرفع...',
+        'upload_complete' => 'اكتمل الرفع',
+        'upload_failed' => 'فشل الرفع',
+        'file_too_large' => 'حجم الملف كبير جدًا',
+        'invalid_file_type' => 'نوع الملف غير صالح',
+        'max_file_size' => 'الحد الأقصى لحجم الملف: :size',
+        'allowed_file_types' => 'صيغ الملفات المسموح بها: :types',
+        'preview_not_available' => 'المعاينة غير متوفرة',
+    ],
+
+    // Preview modal
+    'preview' => [
+        'title' => 'معاينة الملف',
+        'close' => 'إغلاق المعاينة',
+        'download' => 'تحميل الملف',
+        'loading' => 'جاري تحميل المعاينة...',
+        'error' => 'خطأ في تحميل المعاينة',
+        'unsupported' => 'المعاينة غير متوفرة لهذا النوع من الملفات',
+    ],
+
+    // Validation
+    'validation' => [
+        'event_name_required' => 'حقل اسم الرحلة مطلوب.',
+        'company_name_required' => 'حقل اسم الشركة مطلوب.',
+        'location_required' => 'حقل الموقع مطلوب.',
+        'event_time_required' => 'حقل وقت الحدث مطلوب.',
+        'event_time_date' => 'يجب أن يكون وقت الحدث تاريخًا صالحًا.',
+        'programs_required' => 'يجب اختيار برنامج واحد على الأقل.',
+        'programs_array' => 'يجب أن تكون البرامج مصفوفة.',
+        'programs_exists' => 'واحد أو أكثر من البرامج المحددة غير صالحة.',
+        'media_file' => 'يجب أن يكون الوسائط ملفًا.',
+        'media_mimes' => 'يجب أن يكون الوسائط من نوع: jpeg, png, jpg, gif, webp, mp4, webm, ogg, pdf.',
+        'media_max' => 'يجب ألا يتجاوز حجم الوسائط 10 ميجابايت.',
+        'document_file' => 'يجب أن يكون المستند ملفًا.',
+        'document_mimes' => 'يجب أن يكون المستند من نوع: pdf, doc, docx, xls, xlsx, txt.',
+        'document_max' => 'يجب ألا يتجاوز حجم المستند 10 ميجابايت.',
+    ],
+
+    // Tooltips
+    'tooltips' => [
+        'edit' => 'تعديل هذه الرحلة',
+        'delete' => 'حذف هذه الرحلة',
+        'view' => 'عرض تفاصيل الرحلة',
+        'preview_media' => 'معاينة الوسائط',
+        'download_document' => 'تحميل المستند',
+    ],
+
+    // Help text
+    'help' => [
+        'event_name' => 'أدخل اسمًا وصفيًا للرحلة',
+        'company_name' => 'أدخل اسم الشركة المنظمة للرحلة',
+        'location' => 'أدخل موقع الرحلة',
+        'event_time' => 'حدد تاريخ ووقت الرحلة',
+        'programs' => 'اختر برنامجًا واحدًا أو أكثر مرتبطًا بهذه الرحلة',
+        'description' => 'أدخل تفاصيل إضافية عن الرحلة',
+        'media' => 'قم برفع صور أو مقاطع فيديو أو ملفات PDF متعلقة بالرحلة (الحد الأقصى 10 ميجابايت)',
+        'documents' => 'قم برفع مستندات مثل البرامج أو النماذج (الحد الأقصى 10 ميجابايت)',
+    ],
+
+    // Breadcrumbs
+    'breadcrumbs' => [
+        'home' => 'الرئيسية',
+        'trips' => 'الرحلات',
+        'create' => 'إنشاء رحلة',
+        'edit' => 'تعديل الرحلة',
+        'view' => 'عرض الرحلة',
+    ],
+];

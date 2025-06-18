@@ -13,6 +13,7 @@
         <link href="{{asset('assets/plugins/global/plugins.bundle.css')}}" rel="stylesheet" type="text/css" />
         <link href="{{asset('assets/css/style.bundle.css')}}" rel="stylesheet" type="text/css" />
         <!--end::Global Stylesheets Bundle-->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     </head>
     <!--end::Head-->
     <!--begin::Body-->
@@ -35,6 +36,7 @@
     <script src="{{asset('assets/js/scripts.bundle.js')}}"></script>
     <!--end::Global Javascript Bundle-->
     <!--begin::Custom Javascript(used for this page only)-->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     @yield('scripts')
     <!--end::Custom Javascript-->
     <!--end::Javascript-->

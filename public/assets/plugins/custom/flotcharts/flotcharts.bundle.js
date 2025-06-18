@@ -98,7 +98,7 @@ from the max value plus 1 (with a spacing of 1 between each).
 Internally, the plugin works by transforming the input data through an auto-
 generated mapping where the first category becomes 0, the second 1, etc.
 Hence, a point like ["February", 34] becomes [0, 34] internally in Flot (this
-is visible in hover and click events that return numbers rather than the
+is visible in hover and click trips that return numbers rather than the
 category labels). The plugin also overrides the tick generator to spit out the
 categories as ticks instead of the values.
 
@@ -921,7 +921,7 @@ More detail and specific examples can be found in the included HTML file.
                 highlight(item.series, eventname);
             }
 
-            // trigger any hover bind events
+            // trigger any hover bind trips
 
             var pos = { pageX: e.pageX, pageY: e.pageY };
             target.trigger(eventname, [pos, item]);

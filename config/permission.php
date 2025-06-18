@@ -117,7 +117,7 @@ return [
      * \Spatie\Permission\Events\PermissionAttached
      * \Spatie\Permission\Events\PermissionDetached
      *
-     * To enable, set to true, and then create listeners to watch these events.
+     * To enable, set to true, and then create listeners to watch these trips.
      */
     'events_enabled' => false,
 
