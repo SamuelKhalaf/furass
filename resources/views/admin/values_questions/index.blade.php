@@ -80,8 +80,8 @@
                             <thead>
                             <!--begin::Table row-->
                             <tr class="text-gray-400 fw-bold fs-7 text-uppercase gs-0 text-center">
-                                <th class="min-w-200px">{{ __('valueQuestion.sub_value') }}</th>
                                 <th class="min-w-200px">{{ __('valueQuestion.value') }}</th>
+                                <th class="min-w-200px">{{ __('valueQuestion.parent') }}</th>
                                 <th class="min-w-200px">{{ __('valueQuestion.questionBank') }}</th>
                                 <th class="min-w-100px">{{ __('valueQuestion.actions') }}</th>
                             </tr>

@@ -38,3 +38,11 @@ Route::get('/test', function () {
 });
 
 Route::get('language/{locale}', [LanguageController::class, 'switchLang'])->name('language.switch');
+
+Route::get('home', function (){
+    return view('template.home');
+})->name('template.home');
+
+Route::get('about', function (){
+    return view('template.about');
+})->name('template.about');

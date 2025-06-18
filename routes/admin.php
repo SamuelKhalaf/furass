@@ -235,9 +235,3 @@ Route::middleware(['auth'])->name('admin.')->group(function () {
         ->name('questionValue.destroy');
     ###############################  End:value question Routes  #####################################
 });
-
-//Route::resource('consultation-notes', ConsultationNotesController::class);
-Route::get('landing-page', function (){
-    return view('landing-page');
-});
-
