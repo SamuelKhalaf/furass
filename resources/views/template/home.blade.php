@@ -6,8 +6,8 @@
             <div class="row align-items-center">
                 <!-- Left: Text -->
                 <div class="col-lg-6 mb-4 mb-lg-0 mt-5">
-                    <h1 class="display-5 fw-bold mb-3">Equip students for college<br>and career success based<br>on their unique aptitudes</h1>
-                    <p class="lead-section mb-3">Furass is the only career readiness (CCR) platform specifically built to ensure compliance and deliver measurable impact for students</p>
+                    <h1 class="display-5 fw-bold mb-3" style="font-size: 43px">Equip students for college<br>and career success based<br>on their unique aptitudes</h1>
+                    <p class="lead-section mb-3" style="font-size: 150%">Furass is the only career readiness (CCR) platform specifically built to ensure compliance and deliver measurable impact for students</p>
 
 
                     <div class="abilities">
