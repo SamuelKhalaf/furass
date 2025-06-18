@@ -2,7 +2,7 @@ body{
     background-color: #eee;
 }
 .hero-section {
-    background: linear-gradient(180deg,#543786 0%, #e6e9fa 100%);
+    background: linear-gradient(180deg,#8091d7 0%, #ececed 72%);
     padding: 0 0 40px 0;
 
 }
@@ -98,7 +98,7 @@ body{
     }
 }
 .lead-section{
-    font-size: 17px;
+    font-size: 21px;
     font-weight: 500;
     /*width: inherit;*/
 }
@@ -140,5 +140,110 @@ body{
         margin-bottom: 10px;
     }
 }
-
 /*end box*/
+
+/*start abilities*/
+.abilities{
+    width: 80%;
+    background-color: #ececed;
+    border-radius: 15px;
+}
+.abilities .pro-title{
+    background-color: white;
+    border-radius: 10px;
+}
+.abilities button{
+    border: none;
+    border-radius: 6px;
+    height: max-content;
+    width: 25%;
+    top: 35%;
+    right: 0;
+    background-color: #1BBFB9;
+}
+
+@media (min-width: 992px) {
+    .abilities {
+        width: 60% !important;
+    }
+}
+
+@media (max-width: 576px) {
+    .logo-phone{
+        display: none;
+    }
+    .abilities {
+        width: 100% !important;
+    }
+}
+/*end abilities*/
+
+/*start about page*/
+.section-img {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    color: white;
+    height: 80vh;
+
+}
+
+.section-img img {
+    width: 100%;
+    height: auto; /* ensure full image height shows */
+    object-fit: cover;
+    display: block;
+    position: absolute;
+}
+
+.overlay-text {
+    position: absolute;
+    top: 0;
+    left: 5%;
+    transform: translateY(-50%);
+    padding: 2rem;
+    max-width: 400px;
+    z-index: 2;
+}
+.overlay-text h1{
+    font-size: 3.3rem;
+}
+@media (min-width: 770px) {
+    .overlay-text {
+        transform: none;
+        margin: 1rem auto;
+        max-width: 100%;
+    }
+
+    .section-img {
+        text-align: center;
+    }
+    .section-img img{
+        top: -72px;
+    }
+}
+
+@media (max-width: 768px) {
+    .overlay-text{
+        top: 25%;
+    }
+    .overlay-text h1{
+        font-size: 1.3rem;
+    }
+    .iframe{
+        margin-top: -170px !important;
+    }
+    .iframe .element{
+        width: 100% !important;
+    }
+}
+
+.text-left{
+    text-align: left;
+}
+
+.iframe .element{
+    width: 70%;
+}
+/*end about page*/
+

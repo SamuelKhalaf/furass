@@ -23,6 +23,7 @@ return [
     'confirm_delete' => 'هل أنت متأكد من حذف هذه المدرسة؟',
     'sub_value'=>'القيمة الفرعية',
     'value'=>'القيمة',
+    'parent'=>'الوالد',
     'questionBank'=>'بنك الاسئله',
     'title-sidebar'=>'اداره قيم الاسئله',
     'success' => [

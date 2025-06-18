@@ -18,6 +18,8 @@ return [
     'confirm_delete' => 'Are you sure you want to delete this school?',
     'sub_value'=>'Sub Value',
     'value'=>'Value',
+    'parent'=>'parent',
+
     'title-sidebar'=>'Manage Values Questions',
     'questionBank'=>'Question Bank',
     'success' => [
