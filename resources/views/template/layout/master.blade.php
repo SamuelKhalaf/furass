@@ -10,52 +10,9 @@
 </head>
 <body class="d-flex flex-column min-vh-100">
 <!-- nav bar -->
-{{--<nav class="navbar navbar-expand-lg navbar-light bg-white py-3 shadow-sm">
-    <div class="container px-lg-5">
-        <div class="d-flex align-items-center d-lg-none">
-            <div class="d-flex flex-column lh-1">
-                <span class="fw-bold" style="font-size:1.3rem; color:#4B3FA7; letter-spacing:1px;">فرص</span>
-                <span class="fw-bold" style="font-size:1.1rem; color:#4B3FA7; letter-spacing:1px;">Furass</span>
-            </div>
-            <img src="{{asset('assets/imgs/favicon.png')}}" alt="Furass Logo" style="height:38px; margin-right:12px;">
-        </div>
-        <button class="navbar-toggler ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
-            <ul class="navbar-nav mx-auto mb-2 mb-lg-0 gap-lg-4 gap-2">
-                <li class="nav-item logo-phone">
-                    <div class="d-flex align-items-center">
-                        <div class="d-flex flex-column lh-1">
-                            <span class="fw-bold" style="font-size:1.3rem; color:#4B3FA7; letter-spacing:1px;">فرص</span>
-                            <span class="fw-bold" style="font-size:1.1rem; color:#4B3FA7; letter-spacing:1px;">Furass</span>
-                        </div>
-                        <img src="{{asset('assets/imgs/favicon.png')}}" alt="Furass Logo" style="height:38px; margin-right:12px;">
-                    </div>
-                </li>
-                <li class="nav-item"><a class="nav-link fw-semibold" href="{{route('template.home')}}">Home</a></li>
-                <li class="nav-item"><a class="nav-link fw-semibold" href="#">Programs</a></li>
-                <li class="nav-item"><a class="nav-link fw-semibold" href="#">Resources</a></li>
-                <li class="nav-item"><a class="nav-link fw-semibold" href="{{route('template.about')}}">About us</a></li>
-                <li class="nav-item"><a class="nav-link fw-semibold" href="#">Contact us</a></li>
-                <li class="nav-item"> <a href="#" class="nav-link fw-semibold text-dark">
-                        <i class="fas fa-arrow-right-to-bracket" style="font-size: 20px;"></i>
-                        Login</a></li>
-                <li class="nav-item">
-                    <a href="#" class="btn px-4 py-2 fw-bold"
-                       style="background:#543786; color:#fff; border-radius:24px;margin: 0">
-                        Request a demo
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>--}}
-
-
-<nav class="navbar navbar-expand-lg navbar-light bg-light" {{--style="height: 100px"--}}>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="{{route('template.home')}}">
             <div class="d-flex" style="margin-right: 60px">
                 <div class="d-flex flex-column lh-1">
                     <span class="fw-bold" style="font-size:1.3rem; color:#4B3FA7; letter-spacing:1px;">فرص</span>
@@ -69,20 +26,20 @@
         </button>
         <div class="collapse navbar-collapse w-100 " id="navbarSupportedContent">
             <ul class="navbar-nav m-auto mb-2 mb-lg-0 w-100 d-flex gap-5 gap-md-5 text-center">
-                <li class="nav-item ">
-                    <a class="nav-link active" aria-current="page" href="{{route('template.home')}}">Home</a>
+                <li class="nav-item nav-button">
+                    <a class="nav-link {{ Request::routeIs('template.home') ? 'active' : '' }}"  href="{{route('template.home')}}">Home</a>
                 </li>
-                <li class="nav-item ">
-                    <a class="nav-link active" aria-current="page" href="{{route('template.programs')}}">Programs</a>
+                <li class="nav-item nav-button">
+                    <a class="nav-link {{ Request::routeIs('template.programs') ? 'active' : '' }}"  href="{{route('template.programs')}}">Programs</a>
                 </li>
-                <li class="nav-item ">
-                    <a class="nav-link active" aria-current="page" href="#">Resources</a>
+                <li class="nav-item nav-button">
+                    <a class="nav-link "  aria-current="page" href="#">Resources</a>
                 </li>
-                <li class="nav-item ">
-                    <a class="nav-link active" aria-current="page" href="#">About us</a>
+                <li class="nav-item nav-button">
+                    <a class="nav-link {{ Request::routeIs('template.about') ? 'active' : '' }}" aria-current="page" href="{{route('template.about')}}">About us</a>
                 </li>
-                <li class="nav-item ">
-                    <a class="nav-link active" aria-current="page" href="#">Contact us</a>
+                <li class="nav-item nav-button">
+                    <a class="nav-link {{ Request::routeIs('template.contact') ? 'active' : '' }}" aria-current="page" href="{{route('template.contact')}}">Contact us</a>
                 </li>
                 <li class="nav-item d-flex">
                     <a href="#" class="nav-link fw-semibold text-dark">
@@ -90,9 +47,6 @@
                         Login</a></li>
                 <li class="nav-item">
                 </li>
-{{--                <li class="nav-item ms-auto" style="/*margin-left: 40px*/ ">--}}
-{{--               --}}
-{{--                </li>--}}
             </ul>
             <a href="#" class="btn  fw-bold"
                style="background:#543786; color:#fff; border-radius:24px;margin: 0 ; padding: 7px ; width: 19%" >
@@ -103,6 +57,65 @@
     </div>
 </nav>
 @yield('body')
+
+{{--foorer--}}
+<footer class="footer-main">
+    <div class="container">
+        <div class="row gy-4 align-items-start justify-content-between">
+            <div class="col-12 col-md-6 col-lg-4 d-flex flex-column justify-content-start">
+                <a class="navbar-brand mb-3" href="{{route('template.home')}}">
+                    <div class="d-flex" style="margin-right: 60px">
+                        <div class="d-flex flex-column lh-1">
+                            <span class="fw-bold" style="font-size:1.3rem; color:#4B3FA7; letter-spacing:1px;">فرص</span>
+                            <span class="fw-bold" style="font-size:1.1rem; color:#4B3FA7; letter-spacing:1px;">Furass</span>
+                        </div>
+                        <img src="{{asset('assets/imgs/favicon.png')}}" alt="Furass Logo" style="height:38px; margin-right:12px;">
+                    </div>
+                </a>
+                <div class="footer-desc">We connect education and careers to help students succeed in school and life.</div>
+                <div class="footer-social mb-2">
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="col-6 col-md-3 col-lg-2 d-flex flex-column justify-content-start">
+                <div class="footer-title">Links</div>
+                <ul class="footer-links">
+                    <li><a href="{{route('template.home')}}">Home</a></li>
+                    <li><a href="{{route('template.programs')}}">Programs</a></li>
+                    <li><a href="#">Resources</a></li>
+                    <li><a href="{{route('template.about')}}">About us</a></li>
+                    <li><a href="{{route('template.contact')}}">Contact us</a></li>
+                </ul>
+            </div>
+            <div class="col-6 col-md-3 col-lg-2 d-flex flex-column justify-content-start">
+                <div class="footer-title">Programs</div>
+                <ul class="footer-programs">
+                    <li><a href="#">Program 1</a></li>
+                    <li><a href="#">Program 2</a></li>
+                    <li><a href="#">Program 3</a></li>
+                </ul>
+            </div>
+            <div class="col-12 col-md-12 col-lg-4 d-flex flex-column justify-content-start align-items-start">
+                <div class="footer-title">Contacts</div>
+                <div class="footer-contact mb-1">Tel: <a href="tel:+123456789"><strong>+0123456789</strong></a></div>
+                <div class="footer-contact mb-3">E-mail: <a href="mailto:example@gmail.com"><strong>example@gmail.com</strong></a></div>
+            </div>
+        </div>
+        <div class="footer-trusted">Trusted by educators and industry leaders in Saudi Arabia</div>
+        <div class="footer-divider"></div>
+        <div class="footer-bottom row w-100 mx-0">
+            <div class="col-12 col-md-4 text-start mb-2 mb-md-0">Copyrights ©2025 Furass. Build by <a href="#">Altarek</a></div>
+            <div class="col-12 col-md-4 text-md-end text-start">
+                <span class="footer-language"><i class="fa fa-globe"></i> Language <i class="fa fa-angle-up"></i></span>
+                <a href="#">Terms of use</a>
+                <a href="#">Privacy policy</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
