@@ -8,7 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{asset('assets/css/template.css')}}">
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
 <!-- nav bar -->
 {{--<nav class="navbar navbar-expand-lg navbar-light bg-white py-3 shadow-sm">
     <div class="container px-lg-5">
@@ -53,7 +53,7 @@
 </nav>--}}
 
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-light" {{--style="height: 100px"--}}>
     <div class="container">
         <a class="navbar-brand" href="#">
             <div class="d-flex" style="margin-right: 60px">
@@ -67,13 +67,13 @@
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0 d-flex gap-5 gap-md-4">
+        <div class="collapse navbar-collapse w-100 " id="navbarSupportedContent">
+            <ul class="navbar-nav m-auto mb-2 mb-lg-0 w-100 d-flex gap-5 gap-md-5 text-center">
                 <li class="nav-item ">
                     <a class="nav-link active" aria-current="page" href="{{route('template.home')}}">Home</a>
                 </li>
                 <li class="nav-item ">
-                    <a class="nav-link active" aria-current="page" href="#">Programs</a>
+                    <a class="nav-link active" aria-current="page" href="{{route('template.programs')}}">Programs</a>
                 </li>
                 <li class="nav-item ">
                     <a class="nav-link active" aria-current="page" href="#">Resources</a>
@@ -90,13 +90,14 @@
                         Login</a></li>
                 <li class="nav-item">
                 </li>
-                <li class="nav-item ">
-                    <a href="#" class="btn px-4 py-2 fw-bold"
-                       style="background:#543786; color:#fff; border-radius:24px;margin: 0">
-                        Request a demo
-                    </a>
-                </li>
+{{--                <li class="nav-item ms-auto" style="/*margin-left: 40px*/ ">--}}
+{{--               --}}
+{{--                </li>--}}
             </ul>
+            <a href="#" class="btn  fw-bold"
+               style="background:#543786; color:#fff; border-radius:24px;margin: 0 ; padding: 7px ; width: 19%" >
+                Request a demo
+            </a>
         </div>
 
     </div>
