@@ -1,13 +1,25 @@
 @extends('template/layout/master')
 @section('body')
     <!-- Hero Section -->
-    <div class="hero-section">
+    <div class="hero-section position-relative" style="
+    background-image: url('{{ asset('assets/imgs/template/home.jpeg') }}');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh;">
+
+        <!-- Overlay -->
+        <div class="overlay position-absolute top-0 start-0 w-100 h-100" style="
+        background: linear-gradient(180deg, rgba(111, 66, 193, 0.5) 0%, rgba(111, 66, 193, 0) 100%);
+        z-index: 1;">
+        </div>
+
         <div class="container ssmall-section">
             <div class="row align-items-center">
                 <!-- Left: Text -->
                 <div class="col-lg-6 mb-4 mb-lg-0 mt-5">
-                    <h1 class="display-5 fw-bold mb-3" style="font-size: 43px">Equip students for college<br>and career success based<br>on their unique aptitudes</h1>
-                    <p class="lead-section mb-3" style="font-size: 150%">Furass is the only career readiness (CCR) platform specifically built to ensure compliance and deliver measurable impact for students</p>
+                    <h1 class="display-5 fw-bold mb-3" style="font-size: 43px; color: white">Equip students for college<br>and career success based<br>on their unique aptitudes</h1>
+                    <p class="lead-section mb-3" style="font-size: 150% ; color: white">Furass is the only career readiness (CCR) platform specifically built to ensure compliance and deliver measurable impact for students</p>
                     <div class="abilities">
                         <div class="element m-4">
                             <p class="pt-3" style="font-size: 18px">Want to discover your abilities?</p>
@@ -25,15 +37,14 @@
                 <div class="col-lg-6 d-flex justify-content-center align-items-center position-relative">
                     <div class="position-relative" style="display:inline-block;">
                         <!-- Main Image in rounded rectangle -->
-                        <div class="  position-relative" style="overflow:hidden; width:460px; max-width:100%;">
+                       {{-- <div class="  position-relative" style="overflow:hidden; width:460px; max-width:100%;">
                             <img src="{{asset('assets/imgs/hero.png')}}" alt="Student with headphones" class="img-fluid w-75" style="margin-left: 15%">
                             <!-- Floating Card -->
-                        </div>
+                        </div>--}}
                     </div>
                 </div>
             </div>
             <!-- Centered Text at Bottom -->
-
         </div>
 
     </div>
@@ -45,7 +56,7 @@
                 <div class="card">
                     <h4>Self Compass Plus program</h4>
                     <p>Take test & Know your potential</p>
-                    <img src="{{asset('assets/imgs/section_1.jpg')}}" class="centered-image  mb-5" alt="Furass Logo">
+                    <img src="{{asset('assets/imgs/template/program1.jpg')}}" class="centered-image  mb-5" alt="Furass Logo">
                     <button class="btn">Learn more</button>
                 </div>
             </div>
@@ -53,7 +64,7 @@
                 <div class="card">
                     <h4>Explore Your Career Destination program</h4>
                     <p>Go on trips & Discover the practical life on field</p>
-                    <img src="{{asset('assets/imgs/section_2.webp')}}" class="centered-image  mb-5" alt="Furass Logo">
+                    <img src="{{asset('assets/imgs/template/program2.jpg')}}" class="centered-image  mb-5" alt="Furass Logo">
                     <button class="btn">Learn more</button>
                 </div>
             </div>
@@ -61,15 +72,11 @@
                 <div class="card">
                     <h4>Ready For The Future program</h4>
                     <p>Workshop to learn more about Different careers</p>
-                    <img src="{{asset('assets/imgs/section_3.webp')}}" style="height: 138px" class="centered-image mb-5" alt="Furass Logo">
+                    <img src="{{asset('assets/imgs/template/program3.jpg')}}" class="centered-image mb-5" alt="Furass Logo">
                     <button class="btn">Learn more</button>
                 </div>
             </div>
 
         </div>
-    </div>
-    {{--footer--}}
-    <div class="col-12 text-center mb-5">
-        <p class="fw-semibold mb-0">Trusted by schools and districts to connect education to careers</p>
     </div>
 @endsection

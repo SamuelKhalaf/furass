@@ -8,7 +8,7 @@
                 <div class="card">
                     <h4>Self Compass Plus program</h4>
                     <p>Take test & Know your potential</p>
-                    <img src="{{asset('assets/imgs/section_1.jpg')}}" class="centered-image  mb-5" alt="Furass Logo">
+                    <img src="{{asset('assets/imgs/template/program1.jpg')}}" class="centered-image  mb-5" alt="Furass Logo">
                     <button class="btn">Learn more</button>
                 </div>
             </div>
@@ -16,7 +16,7 @@
                 <div class="card">
                     <h4>Explore Your Career Destination program</h4>
                     <p>Go on trips & Discover the practical life on field</p>
-                    <img src="{{asset('assets/imgs/section_2.webp')}}" class="centered-image  mb-5" alt="Furass Logo">
+                    <img src="{{asset('assets/imgs/template/program2.jpg')}}" class="centered-image  mb-5" alt="Furass Logo">
                     <button class="btn">Learn more</button>
                 </div>
             </div>
@@ -24,7 +24,7 @@
                 <div class="card">
                     <h4>Ready For The Future program</h4>
                     <p>Workshop to learn more about Different careers</p>
-                    <img src="{{asset('assets/imgs/section_3.webp')}}" style="height: 138px" class="centered-image mb-5" alt="Furass Logo">
+                    <img src="{{asset('assets/imgs/template/program3.jpg')}}" class="centered-image mb-5" alt="Furass Logo">
                     <button class="btn">Learn more</button>
                 </div>
             </div>
@@ -32,7 +32,7 @@
         </div>
     </div>
     {{--footer--}}
-    <div class="text-center mt-auto">
+   {{-- <div class="text-center mt-auto">
         <h1 style="background-color: white" class="p-3">How Furass can Help You</h1>
-    </div>
+    </div>--}}
 @endsection
