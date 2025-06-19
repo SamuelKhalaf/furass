@@ -1,18 +1,18 @@
-<!--begin::Modal - Update Trip-->
-<div class="modal fade" id="kt_modal_update_trip" tabindex="-1" aria-hidden="true">
+<!--begin::Modal - Update Workshop-->
+<div class="modal fade" id="kt_modal_update_workshop" tabindex="-1" aria-hidden="true">
     <!--begin::Modal dialog-->
     <div class="modal-dialog modal-dialog-centered mw-750px">
         <!--begin::Modal content-->
         <div class="modal-content">
             <!--begin::Form-->
-            <form class="form" id="kt_modal_update_trip_form" method="POST" enctype="multipart/form-data" novalidate="novalidate">
+            <form class="form" id="kt_modal_update_workshop_form" method="POST" enctype="multipart/form-data" novalidate="novalidate">
                 @csrf
                 @method('PUT')
 
                 <!--begin::Modal header-->
-                <div class="modal-header" id="kt_modal_update_trip_header">
+                <div class="modal-header" id="kt_modal_update_workshop_header">
                     <!--begin::Modal title-->
-                    <h2 class="fw-bold">{{ __('trips.modal.update_trip') }}</h2>
+                    <h2 class="fw-bold">{{ __('workshops.modal.update_workshop') }}</h2>
                     <!--end::Modal title-->
                     <!--begin::Close-->
                     <div class="btn btn-icon btn-sm btn-active-icon-primary" data-kt-users-modal-action="close">
@@ -30,21 +30,21 @@
                 <!--begin::Modal body-->
                 <div class="modal-body py-10 px-lg-17">
                     <!--begin::Scroll-->
-                    <div class="scroll-y me-n7 pe-7" id="kt_modal_update_trip_scroll" data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto" data-kt-scroll-dependencies="#kt_modal_update_trip_header" data-kt-scroll-wrappers="#kt_modal_update_trip_scroll" data-kt-scroll-offset="300px">
+                    <div class="scroll-y me-n7 pe-7" id="kt_modal_update_workshop_scroll" data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto" data-kt-scroll-dependencies="#kt_modal_update_workshop_header" data-kt-scroll-wrappers="#kt_modal_update_workshop_scroll" data-kt-scroll-offset="300px">
                         <!--begin::Input group-->
                         <div class="row g-9 mb-7">
                             <!--begin::Col-->
                             <div class="col-md-6 fv-row">
-                                <label class="required fs-6 fw-semibold mb-2">{{ __('trips.modal.trip_name') }}</label>
-                                <input type="text" class="form-control form-control-lg form-control-solid" name="event_name" placeholder="{{ __('trips.modal.enter_trip_name') }}" required />
+                                <label class="required fs-6 fw-semibold mb-2">{{ __('workshops.modal.workshop_name') }}</label>
+                                <input type="text" class="form-control form-control-lg form-control-solid" name="event_name" placeholder="{{ __('workshops.modal.enter_workshop_name') }}" required />
                                 <div class="fv-plugins-message-container invalid-feedback"></div>
                             </div>
                             <!--end::Col-->
 
                             <!--begin::Col-->
                             <div class="col-md-6 fv-row">
-                                <label class="required fs-6 fw-semibold mb-2">{{ __('trips.modal.company_name') }}</label>
-                                <input type="text" class="form-control form-control-lg form-control-solid" name="company_name" placeholder="{{ __('trips.modal.enter_company_name') }}" required />
+                                <label class="required fs-6 fw-semibold mb-2">{{ __('workshops.modal.company_name') }}</label>
+                                <input type="text" class="form-control form-control-lg form-control-solid" name="company_name" placeholder="{{ __('workshops.modal.enter_company_name') }}" required />
                                 <div class="fv-plugins-message-container invalid-feedback"></div>
                             </div>
                             <!--end::Col-->
@@ -55,16 +55,16 @@
                         <div class="row g-9 mb-7">
                             <!--begin::Col-->
                             <div class="col-md-6 fv-row">
-                                <label class="required fs-6 fw-semibold mb-2">{{ __('trips.modal.location') }}</label>
-                                <input type="text" class="form-control form-control-lg form-control-solid" name="location" placeholder="{{ __('trips.modal.enter_location') }}" required />
+                                <label class="required fs-6 fw-semibold mb-2">{{ __('workshops.modal.location') }}</label>
+                                <input type="text" class="form-control form-control-lg form-control-solid" name="location" placeholder="{{ __('workshops.modal.enter_location') }}" required />
                                 <div class="fv-plugins-message-container invalid-feedback"></div>
                             </div>
                             <!--end::Col-->
 
                             <!--begin::Col-->
                             <div class="col-md-6 fv-row">
-                                <label class="required fs-6 fw-semibold mb-2">{{ __('trips.modal.event_date_time') }}</label>
-                                <input type="text" placeholder="{{__('trips.modal.select_date_time')}}" class="form-control form-control-lg form-control-solid flatpickr-input" name="event_time" required />
+                                <label class="required fs-6 fw-semibold mb-2">{{ __('workshops.modal.event_date_time') }}</label>
+                                <input type="text" placeholder="{{__('workshops.modal.select_date_time')}}" class="form-control form-control-lg form-control-solid flatpickr-input" name="event_time" required />
                                 <div class="fv-plugins-message-container invalid-feedback"></div>
                             </div>
                             <!--end::Col-->
@@ -75,8 +75,8 @@
                         <div class="row g-9 mb-7">
                             <!--begin::Col-->
                             <div class="col-12 fv-row">
-                                <label class="fs-6 fw-semibold mb-2">{{ __('trips.modal.description') }}</label>
-                                <textarea class="form-control form-control-lg form-control-solid" name="description" rows="3" placeholder="{{ __('trips.modal.enter_description') }}"></textarea>
+                                <label class="fs-6 fw-semibold mb-2">{{ __('workshops.modal.description') }}</label>
+                                <textarea class="form-control form-control-lg form-control-solid" name="description" rows="3" placeholder="{{ __('workshops.modal.enter_description') }}"></textarea>
                             </div>
                             <!--end::Col-->
                         </div>
@@ -87,8 +87,8 @@
                             <!--begin::Col-->
                             <div class="col-md-6 fv-row">
                                 <label class="fs-6 fw-semibold mb-2">
-                                    <span>{{ __('trips.modal.media') }}</span>
-                                    <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="{{ __('trips.modal.allowed_media') }}"></i>
+                                    <span>{{ __('workshops.modal.media') }}</span>
+                                    <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="{{ __('workshops.modal.allowed_media') }}"></i>
                                 </label>
                                 <div class="position-relative">
                                     <input type="file" id="edit_media" name="media" class="form-control form-control-lg form-control-solid" accept="image/*,video/*" />
@@ -109,8 +109,8 @@
                             <!--begin::Col-->
                             <div class="col-md-6 fv-row">
                                 <label class="fs-6 fw-semibold mb-2">
-                                    <span>{{ __('trips.modal.document') }}</span>
-                                    <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="{{ __('trips.modal.allowed_documents') }}"></i>
+                                    <span>{{ __('workshops.modal.document') }}</span>
+                                    <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="{{ __('workshops.modal.allowed_documents') }}"></i>
                                 </label>
                                 <div class="position-relative">
                                     <input type="file" id="edit_document" name="document" class="form-control form-control-lg form-control-solid" accept=".pdf,.doc,.docx,.txt" />
@@ -134,8 +134,8 @@
                         <div class="row g-9 mb-7">
                             <!--begin::Col-->
                             <div class="col-12 fv-row">
-                                <label class="fs-6 fw-semibold mb-2">{{ __('trips.modal.programs') }}</label>
-                                <select name="program_ids[]" id="edit_program_ids" class="form-select form-select-solid" data-control="select2" data-close-on-select="false" data-placeholder="{{ __('trips.modal.select_programs') }}" multiple="multiple" required>
+                                <label class="fs-6 fw-semibold mb-2">{{ __('workshops.modal.programs') }}</label>
+                                <select name="program_ids[]" id="edit_program_ids" class="form-select form-select-solid" data-control="select2" data-close-on-select="false" data-placeholder="{{ __('workshops.modal.select_programs') }}" multiple="multiple" required>
                                     @foreach(\App\Models\Program::all() as $program)
                                         <option value="{{ $program->id }}">{{app()->getLocale() == 'ar' ? $program->title_ar : $program->title_en }}</option>
                                     @endforeach
@@ -154,15 +154,15 @@
                 <div class="modal-footer flex-center">
                     <!--begin::Button-->
                     <button type="reset" class="btn btn-light me-3" data-kt-users-modal-action="cancel">
-                        {{ __('trips.modal.discard') }}
+                        {{ __('workshops.modal.discard') }}
                     </button>
                     <!--end::Button-->
 
                     <!--begin::Button-->
-                    <button type="submit" id="kt_modal_update_trip_submit" class="btn btn-primary" data-kt-users-modal-action="submit">
-                        <span class="indicator-label">{{ __('trips.modal.submit') }}</span>
+                    <button type="submit" id="kt_modal_update_workshop_submit" class="btn btn-primary" data-kt-users-modal-action="submit">
+                        <span class="indicator-label">{{ __('workshops.modal.submit') }}</span>
                         <span class="indicator-progress">
-                            {{ __('trips.modal.please_wait') }}
+                            {{ __('workshops.modal.please_wait') }}
                             <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
                         </span>
                     </button>
@@ -174,7 +174,7 @@
         </div>
     </div>
 </div>
-<!--end::Modal - Update Trip-->
+<!--end::Modal - Update Workshop-->
 
 @push('scripts')
 

@@ -46,11 +46,11 @@ class ProgramsController extends Controller
                                    </span>
                                 </a>';
 
-                    $actions .= '<div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4" data-kt-menu="true">';
+                    $actions .= '<div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-2" data-kt-menu="true">';
 
                     if (auth()->user()->hasPermissionTo(PermissionEnum::UPDATE_PROGRAMS->value)) {
                         $actions .= '<div class="menu-item px-3">
-                            <a href="#" class="menu-link px-3" data-program-id="' . $program->id . '" data-bs-toggle="modal" data-bs-target="#kt_modal_update_program">
+                            <a href="#" class="menu-link " data-program-id="' . $program->id . '" data-bs-toggle="modal" data-bs-target="#kt_modal_update_program">
                                 '.__("programs.edit").'
                             </a>
                         </div>';

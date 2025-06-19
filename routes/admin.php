@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\TripsController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\ValuesQuestionsController;
+use App\Http\Controllers\Admin\WorkshopsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -173,6 +174,27 @@ Route::middleware(['auth'])->name('admin.')->group(function () {
         ->middleware('permission:'. PermissionEnum::DELETE_TRIPS->value)
         ->name('trips.destroy');
     ###############################  End:Trips Routes  #####################################
+
+    ############################### Start:Workshops Routes #####################################
+    Route::middleware('permission:'. PermissionEnum::LIST_WORKSHOPS->value)->group(function () {
+        Route::get('workshops', [WorkshopsController::class, 'index'])->name('workshops.index');
+        Route::get('workshops/all', [WorkshopsController::class, 'getWorkshopsData'])->name('workshops.datatable');
+    });
+
+    Route::middleware('permission:'. PermissionEnum::CREATE_WORKSHOPS->value)->group(function () {
+        Route::get('workshops/create', [WorkshopsController::class, 'create'])->name('workshops.create');
+        Route::post('workshops', [WorkshopsController::class, 'store'])->name('workshops.store');
+    });
+
+    Route::middleware('permission:'. PermissionEnum::UPDATE_WORKSHOPS->value)->group(function () {
+        Route::get('workshops/{workshop}/edit', [WorkshopsController::class, 'edit'])->name('workshops.edit');
+        Route::put('workshops/{workshop}', [WorkshopsController::class, 'update'])->name('workshops.update');
+    });
+
+    Route::delete('workshops/{workshop}', [WorkshopsController::class, 'destroy'])
+        ->middleware('permission:'. PermissionEnum::DELETE_WORKSHOPS->value)
+        ->name('workshops.destroy');
+    ###############################  End:Workshops Routes  #####################################
 
     ############################### Start:Programs Routes #####################################
     Route::middleware('permission:'. PermissionEnum::LIST_PROGRAMS->value)->group(function () {

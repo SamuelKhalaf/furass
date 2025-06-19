@@ -1,6 +1,6 @@
 @php use App\Enums\PermissionEnum; @endphp
 @extends('admin.layouts.master')
-@section('title', __('trips.title'))
+@section('title', __('workshops.title'))
 @push('styles')
     <style>
         /* Calendar container styling */
@@ -79,7 +79,7 @@
                 <!--begin::Page title-->
                 <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
                     <!--begin::Title-->
-                    <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">{{ __('trips.list') }}</h1>
+                    <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">{{ __('workshops.list') }}</h1>
                     <!--end::Title-->
                     <!--begin::Breadcrumb-->
                     <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
@@ -95,7 +95,7 @@
                         </li>
                         <!--end::Item-->
                         <!--begin::Item-->
-                        <li class="breadcrumb-item text-muted">{{ __('trips.title') }}</li>
+                        <li class="breadcrumb-item text-muted">{{ __('workshops.title') }}</li>
                         <!--end::Item-->
                     </ul>
                     <!--end::Breadcrumb-->
@@ -121,7 +121,7 @@
                                         class="fa-solid fa-magnifying-glass"></i></span>
                                 <input type="text" data-kt-user-table-filter="search"
                                        class="form-control form-control-solid w-250px ps-14"
-                                       placeholder="{{ __('trips.search') }}"/>
+                                       placeholder="{{ __('workshops.search') }}"/>
                             </div>
                             <!--end::Search-->
                         </div>
@@ -130,11 +130,11 @@
                         <div class="card-toolbar">
                             <!--begin::Toolbar-->
                             <div class="d-flex justify-content-end" data-kt-user-table-toolbar="base">
-                                @if(auth()->user()->hasPermissionTo(PermissionEnum::CREATE_TRIPS->value))
+                                @if(auth()->user()->hasPermissionTo(PermissionEnum::CREATE_WORKSHOPS->value))
                                     <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                            data-bs-target="#kt_modal_add_trip">
+                                            data-bs-target="#kt_modal_add_workshop">
                                         <span class="svg-icon svg-icon-2"><i class="fa-solid fa-plus"></i></span>
-                                        {{ __('trips.create') }}
+                                        {{ __('workshops.create') }}
                                     </button>
                                 @endif
                             </div>
@@ -151,13 +151,13 @@
                             <thead>
                             <!--begin::Table row-->
                             <tr class="text-gray-400 fw-bold fs-7 text-uppercase gs-0 text-center">
-                                <th class="min-w-125px">{{ __('trips.name') }}</th>
-                                <th class="min-w-125px">{{ __('trips.company_name') }}</th>
-                                <th class="min-w-100px">{{ __('trips.location') }}</th>
-                                <th class="min-w-150px">{{ __('trips.date') }}</th>
-                                <th class="min-w-50px">{{ __('trips.media') }}</th>
-                                <th class="min-w-50px">{{ __('trips.documents') }}</th>
-                                <th class="min-w-100px">{{ __('trips.actions') }}</th>
+                                <th class="min-w-125px">{{ __('workshops.name') }}</th>
+                                <th class="min-w-125px">{{ __('workshops.company_name') }}</th>
+                                <th class="min-w-100px">{{ __('workshops.location') }}</th>
+                                <th class="min-w-150px">{{ __('workshops.date') }}</th>
+                                <th class="min-w-50px">{{ __('workshops.media') }}</th>
+                                <th class="min-w-50px">{{ __('workshops.documents') }}</th>
+                                <th class="min-w-100px">{{ __('workshops.actions') }}</th>
                             </tr>
                             <!--end::Table row-->
                             </thead>
@@ -179,17 +179,17 @@
         </div>
         <!--end::Content-->
     </div>
-    @if(auth()->user()->hasPermissionTo(PermissionEnum::CREATE_TRIPS->value))
+    @if(auth()->user()->hasPermissionTo(PermissionEnum::CREATE_WORKSHOPS->value))
         <!--begin::Modal - Add Users-->
-        @include('admin.trips.modals.create')
+        @include('admin.workshops.modals.create')
         <!--end::Modal - Add Users-->
     @endif
-    @if(auth()->user()->hasPermissionTo(PermissionEnum::UPDATE_TRIPS->value))
+    @if(auth()->user()->hasPermissionTo(PermissionEnum::UPDATE_WORKSHOPS->value))
         <!--begin::Modal - Update user-->
-        @include('admin.trips.modals.edit')
+        @include('admin.workshops.modals.edit')
         <!--end::Modal - Update user-->
     @endif
-    @include('admin.trips.modals.preview')
+    @include('admin.workshops.modals.preview')
 @endsection
 @section('scripts')
     <script>
@@ -205,7 +205,7 @@
             });
         });
     </script>
-    @if(auth()->user()->hasPermissionTo(PermissionEnum::LIST_TRIPS->value))
+    @if(auth()->user()->hasPermissionTo(PermissionEnum::LIST_WORKSHOPS->value))
         <script>
             $('#kt_table_users').on('draw.dt', function () {
                 KTMenu.createInstances();
@@ -268,7 +268,7 @@
                     datatable = $(table).DataTable({
                         processing: true,
                         serverSide: true,
-                        ajax: "/trips/all",
+                        ajax: "/workshops/all",
                         columns: [
                             {
                                 data: 'name',
@@ -528,15 +528,15 @@
         </script>
     @endif
 
-    @if(auth()->user()->hasPermissionTo(PermissionEnum::CREATE_TRIPS->value))
+    @if(auth()->user()->hasPermissionTo(PermissionEnum::CREATE_WORKSHOPS->value))
         <script>
             "use strict";
 
             // Class definition
             var KTUsersAddUser = function () {
                 // Shared variables
-                const element = document.getElementById('kt_modal_add_trip');
-                const form = element.querySelector('#kt_modal_add_trip_form');
+                const element = document.getElementById('kt_modal_add_workshop');
+                const form = element.querySelector('#kt_modal_add_workshop_form');
                 const modal = new bootstrap.Modal(element);
 
                 // Init add schedule modal
@@ -550,7 +550,7 @@
                                 'event_name': {
                                     validators: {
                                         notEmpty: {
-                                            message: 'Trip name is required'
+                                            message: 'Workshop name is required'
                                         }
                                     }
                                 },
@@ -749,31 +749,31 @@
         </script>
     @endif
 
-    @if(auth()->user()->hasPermissionTo(PermissionEnum::UPDATE_TRIPS->value))
+    @if(auth()->user()->hasPermissionTo(PermissionEnum::UPDATE_WORKSHOPS->value))
         <script>
             "use strict";
 
             // Class definition
             var KTUsersUpdateDetails = function () {
                 // Shared variables
-                const element = document.getElementById('kt_modal_update_trip');
-                const form = element.querySelector('#kt_modal_update_trip_form');
+                const element = document.getElementById('kt_modal_update_workshop');
+                const form = element.querySelector('#kt_modal_update_workshop_form');
                 const modal = new bootstrap.Modal(element);
 
-                // Function to populate the form with trip data
+                // Function to populate the form with workshop data
                 var populateForm = (response) => {
                     // Populate basic fields
-                    form.querySelector('[name="event_name"]').value = response.trip.event_name || "";
-                    form.querySelector('[name="company_name"]').value = response.trip.company_name || "";
-                    form.querySelector('[name="location"]').value = response.trip.location || "";
-                    form.querySelector('[name="event_time"]').value = response.trip.event_time || "";
-                    form.querySelector('[name="description"]').value = response.trip.description || "";
+                    form.querySelector('[name="event_name"]').value = response.workshop.event_name || "";
+                    form.querySelector('[name="company_name"]').value = response.workshop.company_name || "";
+                    form.querySelector('[name="location"]').value = response.workshop.location || "";
+                    form.querySelector('[name="event_time"]').value = response.workshop.event_time || "";
+                    form.querySelector('[name="description"]').value = response.workshop.description || "";
 
                     // Handle media file
-                    if (response.trip.media_path) {
-                        $('#current_media_path').val(response.trip.media_path);
-                        $('#current_media_name').text(response.trip.media_name || 'Current Media File');
-                        $('#edit_media_preview_btn').removeClass('d-none').attr('data-content', response.trip.media_path);
+                    if (response.workshop.media_path) {
+                        $('#current_media_path').val(response.workshop.media_path);
+                        $('#current_media_name').text(response.workshop.media_name || 'Current Media File');
+                        $('#edit_media_preview_btn').removeClass('d-none').attr('data-content', response.workshop.media_path);
                         $('#remove_media_btn').removeClass('d-none');
                     } else {
                         $('#current_media_path').val('');
@@ -783,10 +783,10 @@
                     }
 
                     // Handle document file
-                    if (response.trip.document_path) {
-                        $('#current_document_path').val(response.trip.document_path);
-                        $('#current_document_name').text(response.trip.document_name || 'Current Document File');
-                        $('#edit_document_preview_btn').removeClass('d-none').attr('data-content', response.trip.document_path);
+                    if (response.workshop.document_path) {
+                        $('#current_document_path').val(response.workshop.document_path);
+                        $('#current_document_name').text(response.workshop.document_name || 'Current Document File');
+                        $('#edit_document_preview_btn').removeClass('d-none').attr('data-content', response.workshop.document_path);
                         $('#remove_document_btn').removeClass('d-none');
                     } else {
                         $('#current_document_path').val('');
@@ -802,8 +802,8 @@
                         $('#edit_program_ids').val([]).trigger('change');
                     }
 
-                    // Set the trip ID for the form
-                    $("#kt_modal_update_trip_form").attr("data-user-id", response.trip.id);
+                    // Set the workshop ID for the form
+                    $("#kt_modal_update_workshop_form").attr("data-user-id", response.workshop.id);
                 };
 
                 // Reset form function
@@ -820,22 +820,22 @@
                     $('#remove_document_btn').addClass('d-none');
                 };
 
-                // Fetch trip data when modal is opened
+                // Fetch workshop data when modal is opened
                 element.addEventListener('show.bs.modal', function (event) {
                     let button = event.relatedTarget;
-                    let tripId = button.getAttribute('data-user-id');
+                    let workshopId = button.getAttribute('data-user-id');
 
-                    if (tripId) {
+                    if (workshopId) {
                         $.ajax({
-                            url: `/trips/${tripId}/edit`,
+                            url: `/workshops/${workshopId}/edit`,
                             type: "GET",
                             success: function (response) {
                                 populateForm(response);
                             },
                             error: function (xhr) {
-                                console.error("Error fetching trip data", xhr);
+                                console.error("Error fetching workshop data", xhr);
                                 Swal.fire({
-                                    text: "Error loading trip data. Please try again.",
+                                    text: "Error loading workshop data. Please try again.",
                                     icon: "error",
                                     buttonsStyling: false,
                                     confirmButtonText: "Ok, got it!",
@@ -848,7 +848,7 @@
                     }
                 });
 
-                // Init update trip modal
+                // Init update workshop modal
                 var initUpdateDetails = () => {
                     // Init form validation
                     var validator = FormValidation.formValidation(
@@ -858,7 +858,7 @@
                                 'event_name': {
                                     validators: {
                                         notEmpty: {
-                                            message: 'Trip name is required'
+                                            message: 'Workshop name is required'
                                         }
                                     }
                                 },
@@ -915,8 +915,8 @@
 
                                     // Get form data and send AJAX request
                                     let formData = new FormData(form);
-                                    let tripId = $('#kt_modal_update_trip_form').data('user-id');
-                                    let updateUrl = `/trips/${tripId}`;
+                                    let workshopId = $('#kt_modal_update_workshop_form').data('user-id');
+                                    let updateUrl = `/workshops/${workshopId}`;
 
                                     $.ajax({
                                         url: updateUrl,
@@ -929,7 +929,7 @@
                                             submitButton.disabled = false;
 
                                             Swal.fire({
-                                                text: response.message || "Trip updated successfully!",
+                                                text: response.message || "Workshop updated successfully!",
                                                 icon: "success",
                                                 buttonsStyling: false,
                                                 confirmButtonText: "Ok, got it!",
@@ -1051,7 +1051,7 @@
             KTUtil.onDOMContentLoaded(function () {
                 KTUsersUpdateDetails.init();
                 $('#edit_program_ids').select2({
-                    dropdownParent: $('#kt_modal_update_trip')
+                    dropdownParent: $('#kt_modal_update_workshop')
                 });
             });
 
@@ -1080,7 +1080,7 @@
         </script>
     @endif
 
-    @if(auth()->user()->hasPermissionTo(PermissionEnum::DELETE_TRIPS->value))
+    @if(auth()->user()->hasPermissionTo(PermissionEnum::DELETE_WORKSHOPS->value))
         <script>
             // handle delete user
             $(document).on("click", '[data-kt-users-table-filter="delete_row"]', function (e) {
@@ -1089,7 +1089,7 @@
                 var userId = $(this).data("user-id");
 
                 Swal.fire({
-                    text: "Are you sure you want to delete this Trip?",
+                    text: "Are you sure you want to delete this Workshop?",
                     icon: "warning",
                     showCancelButton: true,
                     buttonsStyling: false,
@@ -1102,7 +1102,7 @@
                 }).then(function (result) {
                     if (result.isConfirmed) {
                         $.ajax({
-                            url: "{{ route('admin.trips.destroy', ':id') }}".replace(':id', userId),
+                            url: "{{ route('admin.workshops.destroy', ':id') }}".replace(':id', userId),
                             type: 'DELETE',
                             data: {_token: '{{ csrf_token() }}'},
                             success: function (response) {
@@ -1132,7 +1132,7 @@
                             },
                             error: function () {
                                 Swal.fire({
-                                    text: "Failed to delete the Trip. Try again Later!",
+                                    text: "Failed to delete the Workshop. Try again Later!",
                                     icon: "error",
                                     buttonsStyling: false,
                                     confirmButtonText: "Ok",

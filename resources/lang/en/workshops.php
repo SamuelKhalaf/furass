@@ -2,13 +2,13 @@
 
 return [
     // Page titles and headers
-    'title' => 'Trips',
-    'list' => 'Trips List',
-    'create' => 'Create Trip',
+    'title' => 'Workshops',
+    'list' => 'Workshops List',
+    'create' => 'Create Workshop',
     'edit' => 'Edit',
     'delete' => 'Delete',
-    'view' => 'View',
-    'back_to_list' => 'Back to Trips List',
+    'view' => 'View Workshop',
+    'back_to_list' => 'Back to Workshops List',
 
     // Table columns
     'name' => 'Name',
@@ -20,13 +20,13 @@ return [
     'description' => 'Description',
     'programs' => 'Programs',
     'event_type' => 'Event Type',
-    'trips_count' => 'Trips Count',
+    'workshops_count' => 'Workshops Count',
     'status' => 'Status',
     'created_at' => 'Created At',
     'updated_at' => 'Updated At',
     'actions' => 'Actions',
-    'search' => 'Search Trips',
-    'no_trips' => 'No trips found',
+    'search' => 'Search Workshops',
+    'no_workshops' => 'No workshops found',
     'loading' => 'Loading...',
     'processing' => 'Processing...',
 
@@ -41,13 +41,13 @@ return [
 
     // Messages
     'messages' => [
-        'created' => 'Trip created successfully',
-        'updated' => 'Trip updated successfully',
-        'deleted' => 'Trip deleted successfully',
-        'delete_failed' => 'Failed to delete trip',
-        'not_found' => 'Trip not found',
-        'update_failed' => 'Failed to update trip',
-        'create_failed' => 'Failed to create trip',
+        'created' => 'Workshop created successfully',
+        'updated' => 'Workshop updated successfully',
+        'deleted' => 'Workshop deleted successfully',
+        'delete_failed' => 'Failed to delete workshop',
+        'not_found' => 'Workshop not found',
+        'update_failed' => 'Failed to update workshop',
+        'create_failed' => 'Failed to create workshop',
         'file_uploaded' => 'File uploaded successfully',
         'file_upload_failed' => 'Failed to upload file',
         'file_deleted' => 'File deleted successfully',
@@ -58,8 +58,8 @@ return [
     // Confirmation dialogs
     'confirm' => [
         'delete' => [
-            'title' => 'Delete',
-            'message' => 'Are you sure you want to delete this trip? This action cannot be undone.',
+            'title' => 'Delete Workshop',
+            'message' => 'Are you sure you want to delete this workshop? This action cannot be undone.',
             'button' => 'Yes, delete it!',
             'cancel' => 'Cancel',
         ],
@@ -74,7 +74,7 @@ return [
     // Buttons
     'buttons' => [
         'add' => 'Add New',
-        'create' => 'Create Trip',
+        'create' => 'Create Workshop',
         'edit' => 'Edit',
         'update' => 'Update',
         'delete' => 'Delete',
@@ -105,20 +105,20 @@ return [
 
     // Modal
     'modal' => [
-        'add_trip' => 'Add New Trip',
-        'edit_trip' => 'Edit ',
-        'view_trip' => 'View ',
-        'update_trip' => 'Update Trip Details',
-        'trip_name' => ' Name',
-        'company_name' => 'Company ',
+        'add_workshop' => 'Add New Workshop',
+        'edit_workshop' => 'Edit',
+        'view_workshop' => 'View',
+        'update_workshop' => 'Update Workshop Details',
+        'workshop_name' => 'Name',
+        'company_name' => 'Company',
         'location' => 'Location',
-        'enter_trip_name' => 'Enter trip name',
+        'enter_workshop_name' => 'Enter workshop name',
         'enter_company_name' => 'Enter company name',
         'enter_location' => 'Enter location',
         'event_date_time' => 'Event Date',
         'select_date_time' => 'Select Workshop date',
         'description' => 'Description',
-        'enter_description' => 'Enter trip description',
+        'enter_description' => 'Enter workshop description',
         'media' => 'Media File',
         'document' => 'Document',
         'allowed_media' => 'Allowed file types: JPG, JPEG, PNG, MP4. Max size: 10MB',
@@ -166,7 +166,7 @@ return [
 
     // Validation
     'validation' => [
-        'event_name_required' => 'The trip name field is required.',
+        'event_name_required' => 'The workshop name field is required.',
         'company_name_required' => 'The company name field is required.',
         'location_required' => 'The location field is required.',
         'event_time_required' => 'The event time field is required.',
@@ -184,31 +184,31 @@ return [
 
     // Tooltips
     'tooltips' => [
-        'edit' => 'Edit this trip',
-        'delete' => 'Delete this trip',
-        'view' => 'View trip details',
+        'edit' => 'Edit this workshop',
+        'delete' => 'Delete this workshop',
+        'view' => 'View workshop details',
         'preview_media' => 'Preview media',
         'download_document' => 'Download document',
     ],
 
     // Help text
     'help' => [
-        'event_name' => 'Enter a descriptive name for the trip',
-        'company_name' => 'Enter the name of the company organizing the trip',
-        'location' => 'Enter the location where the trip will take place',
-        'event_time' => 'Select the date and time of the trip',
-        'programs' => 'Select one or more programs associated with this trip',
-        'description' => 'Provide additional details about the trip',
-        'media' => 'Upload images, videos, or PDFs related to the trip (max 10MB)',
+        'event_name' => 'Enter a descriptive name for the workshop',
+        'company_name' => 'Enter the name of the company organizing the workshop',
+        'location' => 'Enter the location where the workshop will take place',
+        'event_time' => 'Select the date and time of the workshop',
+        'programs' => 'Select one or more programs associated with this workshop',
+        'description' => 'Provide additional details about the workshop',
+        'media' => 'Upload images, videos, or PDFs related to the workshop (max 10MB)',
         'documents' => 'Upload documents such as itineraries or forms (max 10MB)',
     ],
 
     // Breadcrumbs
     'breadcrumbs' => [
         'home' => 'Home',
-        'trips' => 'Trips',
-        'create' => 'Create Trip',
-        'edit' => 'Edit Trip',
-        'view' => 'View Trip',
+        'workshops' => 'Workshops',
+        'create' => 'Create Workshop',
+        'edit' => 'Edit Workshop',
+        'view' => 'View Workshop',
     ],
 ];

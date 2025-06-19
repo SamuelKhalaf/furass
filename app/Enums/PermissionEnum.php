@@ -55,6 +55,12 @@ enum PermissionEnum : string
     case UPDATE_TRIPS = 'Update Trips';
     case DELETE_TRIPS = 'Delete Trips';
 
+    // Workshop Permissions
+    case LIST_WORKSHOPS = 'List Workshops';
+    case CREATE_WORKSHOPS = 'Create Workshops';
+    case UPDATE_WORKSHOPS = 'Update Workshops';
+    case DELETE_WORKSHOPS = 'Delete Workshops';
+
     // Program Permissions
     case LIST_PROGRAMS = 'List Programs';
     case CREATE_PROGRAMS = 'Create Programs';

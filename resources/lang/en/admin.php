@@ -26,7 +26,7 @@ return [
 
     // Schools
     'schools' => [
-        'title' => 'Manage Schools',
+        'title' => ' Schools',
         'list' => 'Schools List',
         'create' => 'Create School',
         'edit' => 'Edit School',
@@ -38,7 +38,7 @@ return [
 
     // Consultants
     'consultants' => [
-        'title' => 'Manage Consultants',
+        'title' => ' Consultants',
         'list' => 'Consultants List',
         'create' => 'Create Consultant',
         'edit' => 'Edit Consultant',
@@ -50,7 +50,7 @@ return [
 
     // Consultations
     'consultations' => [
-        'title' => 'Manage Consultations',
+        'title' => ' Consultations',
         'list' => 'Consultations List',
         'create' => 'Create Consultation',
         'edit' => 'Edit Consultation',
@@ -60,7 +60,7 @@ return [
 
     // Students
     'students' => [
-        'title' => 'Manage Students',
+        'title' => ' Students',
         'list' => 'Students List',
         'create' => 'Create Student',
         'edit' => 'Edit Student',
@@ -72,7 +72,7 @@ return [
 
     // Trips
     'trips' => [
-        'title' => 'Manage Trips',
+        'title' => ' Trips',
         'list' => 'Trips List',
         'create' => 'Create Trip',
         'edit' => 'Edit Trip',
@@ -84,7 +84,7 @@ return [
 
     // Workshops
     'workshops' => [
-        'title' => 'Manage Workshops',
+        'title' => ' Workshops',
         'list' => 'Workshops List',
         'create' => 'Create Workshop',
         'edit' => 'Edit Workshop',
@@ -96,7 +96,7 @@ return [
 
     // Pages
     'pages' => [
-        'title' => 'Manage Pages',
+        'title' => ' Pages',
         'list' => 'Pages List',
         'create' => 'Create Page',
         'edit' => 'Edit Page',
@@ -106,7 +106,7 @@ return [
 
     // Programs
     'programs' => [
-        'title' => 'Manage Programs',
+        'title' => ' Programs',
         'list' => 'Programs List',
         'create' => 'Create Program',
         'edit' => 'Edit Program',
@@ -118,15 +118,15 @@ return [
     'settings' => [
         'title' => 'System Settings',
         'general' => 'General Settings',
-        'roles' => 'Manage Roles',
-        'permissions' => 'Manage Permissions',
+        'roles' => ' Roles',
+        'permissions' => ' Permissions',
         'profile' => 'Profile Settings',
         'security' => 'Security Settings',
     ],
 
     // Exams
     'exams' => [
-        'title' => 'Manage Exams',
+        'title' => ' Exams',
         'list' => 'Exams List',
         'create' => 'Create Exam',
         'edit' => 'Edit Exam',
@@ -163,7 +163,7 @@ return [
         'nameTable' => 'name',
         'action' => 'action',
         'title_h' => 'Question Bank Type',
-        'title' => 'Manage Question Bank Type',
+        'title' => ' Question Bank Type',
         'list' => 'Question Bank Type List ',
         'create' => 'Create Question Bank Type',
         'edit' => 'Edit Question Bank Type',
