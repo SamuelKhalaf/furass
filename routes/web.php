@@ -43,10 +43,14 @@ Route::get('home', function (){
     return view('template.home');
 })->name('template.home');
 
-//Route::get('about', function (){
-//    return view('template.about');
-//})->name('template.about');
+Route::get('about', function (){
+    return view('template.about');
+})->name('template.about');
 
 Route::get('programs', function (){
     return view('template.programs');
 })->name('template.programs');
+
+Route::get('contact', function (){
+    return view('template.contact');
+})->name('template.contact');
