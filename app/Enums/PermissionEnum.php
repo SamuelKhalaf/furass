@@ -54,6 +54,11 @@ enum PermissionEnum : string
     case CREATE_TRIPS = 'Create Trips';
     case UPDATE_TRIPS = 'Update Trips';
     case DELETE_TRIPS = 'Delete Trips';
+
+    // Program Permissions
+    case LIST_PROGRAMS = 'List Programs';
+    case CREATE_PROGRAMS = 'Create Programs';
+    case UPDATE_PROGRAMS = 'Update Programs';
     /**
      * @return array
      */

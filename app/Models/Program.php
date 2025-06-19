@@ -18,4 +18,9 @@ class Program extends Model
     {
         return $this->belongsToMany(Event::class, 'event_program');
     }
+
+    public function PathPoints()
+    {
+        return $this->belongsToMany(PathPoint::class)->withPivot('order')->orderBy('pivot_order');
+    }
 }

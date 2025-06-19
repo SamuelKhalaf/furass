@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\ConsultationController;
 use App\Http\Controllers\Admin\ConsultationNotesController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\PermissionsController;
+use App\Http\Controllers\Admin\ProgramsController;
 use App\Http\Controllers\Admin\QuestionBankTypeController;
 use App\Http\Controllers\Admin\RolesController;
 use App\Http\Controllers\Admin\SchoolController;
@@ -172,6 +173,18 @@ Route::middleware(['auth'])->name('admin.')->group(function () {
         ->middleware('permission:'. PermissionEnum::DELETE_TRIPS->value)
         ->name('trips.destroy');
     ###############################  End:Trips Routes  #####################################
+
+    ############################### Start:Programs Routes #####################################
+    Route::middleware('permission:'. PermissionEnum::LIST_PROGRAMS->value)->group(function () {
+        Route::get('programs', [ProgramsController::class, 'index'])->name('programs.index');
+        Route::get('programs/all', [ProgramsController::class, 'getProgramsData'])->name('programs.datatable');
+    });
+
+    Route::middleware('permission:'. PermissionEnum::UPDATE_PROGRAMS->value)->group(function () {
+        Route::get('programs/{program}/edit', [ProgramsController::class, 'edit'])->name('programs.edit');
+        Route::put('programs/{program}', [ProgramsController::class, 'update'])->name('programs.update');
+    });
+    ###############################  End:Programs Routes  #####################################
 
     ############################### Start:Consultations Routes #####################################
 //    Route::middleware('permission:'. PermissionEnum::LIST_CONSULTANTS->value)->group(function () {

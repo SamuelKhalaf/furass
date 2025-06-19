@@ -101,6 +101,16 @@
     <!--end:Menu link-->
 </div>
 <!--end:Menu item-->
+<div class="menu-item {{setMenuOpenClass(['admin.programs.index'])}}">
+    <!--begin:Menu link-->
+    <a class="menu-link {{setActiveClass('admin.programs.index')}}"
+       href="{{route('admin.programs.index')}}">
+        <span class="menu-icon"><i class="fa-solid fa-route"></i></span>
+        <span class="menu-title">{{ __('admin.programs.title') }}</span>
+    </a>
+    <!--end:Menu link-->
+</div>
+<!--end:Menu item-->
 <div class="menu-item {{setMenuOpenClass(['admin.trips.index'])}}">
     <!--begin:Menu link-->
     <a class="menu-link {{setActiveClass('admin.trips.index')}}"
@@ -116,49 +126,6 @@
                     <span class="menu-link">
                         <span class="menu-icon"><i class="bi bi-grid"></i></span>
                         <span class="menu-title">{{ __('admin.workshops.title') }}</span>
-                        <span class="menu-arrow"></span>
-                    </span>
-    <div class="menu-sub menu-sub-accordion">
-        <div class="menu-item">
-            <a class="menu-link" href="#">
-                            <span class="menu-bullet">
-                                <span class="bullet bullet-dot"></span>
-                            </span>
-                <span class="menu-title">{{ __('admin.actions.display') }}</span>
-            </a>
-        </div>
-        <div class="menu-item">
-            <a class="menu-link" href="#">
-                            <span class="menu-bullet">
-                                <span class="bullet bullet-dot"></span>
-                            </span>
-                <span class="menu-title">{{ __('admin.actions.create') }}</span>
-            </a>
-        </div>
-        <div class="menu-item">
-            <a class="menu-link" href="#">
-                                <span class="menu-bullet">
-                                    <span class="bullet bullet-dot"></span>
-                                </span>
-                <span class="menu-title">{{ __('admin.actions.edit') }}</span>
-            </a>
-        </div>
-        <div class="menu-item">
-            <a class="menu-link" href="#">
-                                <span class="menu-bullet">
-                                    <span class="bullet bullet-dot"></span>
-                                </span>
-                <span class="menu-title">{{ __('admin.actions.delete') }}</span>
-            </a>
-        </div>
-    </div>
-</div>
-<!--end:Menu item-->
-<div data-kt-menu-trigger="click"
-     class="menu-item menu-accordion">
-                    <span class="menu-link">
-                        <span class="menu-icon"><i class="bi bi-grid"></i></span>
-                        <span class="menu-title">{{ __('admin.programs.title') }}</span>
                         <span class="menu-arrow"></span>
                     </span>
     <div class="menu-sub menu-sub-accordion">
