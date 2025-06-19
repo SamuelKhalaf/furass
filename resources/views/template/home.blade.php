@@ -1,15 +1,13 @@
 @extends('template/layout/master')
 @section('body')
     <!-- Hero Section -->
-    <section class="hero-section">
+    <div class="hero-section">
         <div class="container ssmall-section">
             <div class="row align-items-center">
                 <!-- Left: Text -->
                 <div class="col-lg-6 mb-4 mb-lg-0 mt-5">
                     <h1 class="display-5 fw-bold mb-3" style="font-size: 43px">Equip students for college<br>and career success based<br>on their unique aptitudes</h1>
                     <p class="lead-section mb-3" style="font-size: 150%">Furass is the only career readiness (CCR) platform specifically built to ensure compliance and deliver measurable impact for students</p>
-
-
                     <div class="abilities">
                         <div class="element m-4">
                             <p class="pt-3" style="font-size: 18px">Want to discover your abilities?</p>
@@ -38,10 +36,10 @@
 
         </div>
 
-    </section>
+    </div>
     <!-- program Section -->
     <div class="container mb-5 mt-5 program" >
-        <h1 class="h-section mb-5 mt-5">Choose Your Program</h1>
+        <h1 class="h-section mb-5 mt-5 text-center">Choose Your Program</h1>
         <div class="row">
             <div class="col-lg-4  col-sm-1">
                 <div class="card">
