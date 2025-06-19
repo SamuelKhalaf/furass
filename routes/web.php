@@ -47,6 +47,6 @@ Route::get('home', function (){
 //    return view('template.about');
 //})->name('template.about');
 
-Route::get('programs', function (){
+Route::get('our-programs', function (){
     return view('template.programs');
 })->name('template.programs');
