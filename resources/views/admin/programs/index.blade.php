@@ -887,10 +887,22 @@
                     html += `
                 <div class="available-point border rounded p-2 mb-2" data-id="${point.id}">
                     <div class="d-flex align-items-center">
-                        <i class="fas fa-plus-circle text-success me-2"></i>
-                        <div style="padding:10px 4px">
+                        <i class="fas fa-location-dot text-success me-2"></i>
+                        <div class="flex-grow-1">
                             <strong>${point.title_en}</strong> / ${point.title_ar}
                         </div>
+                        <button class="btn btn-sm btn-icon btn-light-success ms-2"
+                                onclick="event.preventDefault();
+                                KTProgramsUpdateDetails.addPathPoint(${point.id})"
+                                title="Add to new step">
+                            <i class="fa-solid fa-plus-circle"></i>
+                        </button>
+                        <button class="btn btn-sm btn-icon btn-light-primary ms-2"
+                                onclick="event.preventDefault();
+                                KTProgramsUpdateDetails.addPathPoint(${point.id}, true)"
+                                title="Add to current step">
+                            <i class="fas fa-layer-group"></i>
+                        </button>
                     </div>
                 </div>
             `;
@@ -898,17 +910,16 @@
 
                 container.innerHTML = html;
 
-                // Add click listeners
-                container.querySelectorAll('.available-point').forEach(point => {
-                    point.addEventListener('click', function() {
-                        const pathPointId = parseInt(this.dataset.id);
-                        addPathPoint(pathPointId);
-                    });
-                });
+                // // Add click listeners
+                // container.querySelectorAll('.available-point').forEach(point => {
+                //     point.addEventListener('click', function() {
+                //         const pathPointId = parseInt(this.dataset.id);
+                //         addPathPoint(pathPointId);
+                //     });
+                // });
             }
-
             // Add path point to program
-            function addPathPoint(pathPointId) {
+            function addPathPoint(pathPointId, sameOrder = false) {
                 const point = availablePathPoints[pathPointId];
                 if (!point) return;
 
@@ -926,18 +937,29 @@
                     return;
                 }
 
+                // Determine the order number
+                let order;
+                if (sameOrder && programPathData.length > 0) {
+                    // Use the same order as the last point
+                    order = programPathData[programPathData.length - 1].order;
+                } else {
+                    // Use the next sequential order
+                    order = programPathData.length > 0
+                        ? Math.max(...programPathData.map(p => p.order)) + 1
+                        : 1;
+                }
+
                 programPathData.push({
                     id: point.id,
                     title_en: point.title_en,
                     title_ar: point.title_ar,
                     table_name: point.table_name,
-                    order: programPathData.length + 1
+                    order: order
                 });
 
                 updatePathVisual();
                 updatePathData();
             }
-
             // Remove path point from program
             function removePathPoint(pathPointId) {
                 programPathData = programPathData.filter(p => p.id !== pathPointId);
@@ -988,47 +1010,77 @@
                 </div>
             `;
                 } else {
-                    let html = '';
-                    programPathData.forEach((point, index) => {
-                        html += `
-                    <div class="path-point-item card mb-3 p-3" data-id="${point.id}">
-                        <div class="d-flex align-items-center">
-                            <div class="path-step-number">${index + 1}</div>
-                            <div class="flex-grow-1">
-                                <h6 class="mb-1">${point.title_en} / ${point.title_ar}</h6>
-                            </div>
-                            <div class="d-flex align-items-center">
-                                <i class="fas fa-grip-vertical drag-handle text-muted me-2" title="Drag to reorder"></i>
-                                <button type="button" class="btn btn-sm btn-light-danger" onclick="KTProgramsUpdateDetails.removePathPoint(${point.id})" title="Remove">
-                                    <i class="fas fa-times"></i>
-                                </button>
-                            </div>
-                        </div>
-                        ${index < programPathData.length - 1 ? '<div class="path-connector"></div>' : ''}
-                    </div>
-                `;
+                    // Group points by order
+                    const groupedPoints = {};
+                    programPathData.forEach(point => {
+                        if (!groupedPoints[point.order]) {
+                            groupedPoints[point.order] = [];
+                        }
+                        groupedPoints[point.order].push(point);
                     });
-                    pathContainer.innerHTML = html;
+
+                    let pathHtml = '';
+                    Object.keys(groupedPoints).forEach(order => {
+                        const points = groupedPoints[order];
+
+                        points.forEach((point, index) => {
+                            pathHtml += `
+                <div class="path-point-item card mb-3 p-3" data-id="${point.id}">
+                    <div class="d-flex align-items-center">
+                        <div class="path-step-number">${order}</div>
+                        <div class="flex-grow-1">
+                            <h6 class="mb-1">${point.title_en} / ${point.title_ar}</h6>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-grip-vertical drag-handle text-muted me-2" title="Drag to reorder"></i>
+                            <button type="button" class="btn btn-sm btn-light-danger"
+                                    onclick="KTProgramsUpdateDetails.removePathPoint(${point.id})"
+                                    title="Remove">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    ${index < points.length - 1 ? '<div class="path-connector"></div>' : ''}
+                </div>
+                `;
+                        });
+
+                        // Add connector between different order groups
+                        if (order < Math.max(...Object.keys(groupedPoints).map(Number))) {
+                            pathHtml += '<div class="path-connector"></div>';
+                        }
+                    });
+
+                    pathContainer.innerHTML = pathHtml;
                 }
 
                 updateSummary();
             }
-
             // Update path data from DOM after reordering
             function updatePathDataFromDOM() {
                 const pathItems = document.querySelectorAll('.path-point-item');
-                const newOrder = [];
+                const newPathData = [];
+                let currentOrder = 1;
 
                 pathItems.forEach((item, index) => {
-                    const pointId = parseInt(item.dataset.id);
-                    const point = programPathData.find(p => p.id === pointId);
-                    if (point) {
-                        point.order = index + 1;
-                        newOrder.push(point);
+                    const pathPointId = parseInt(item.dataset.id);
+                    const pathPoint = programPathData.find(p => p.id === pathPointId);
+
+                    if (pathPoint) {
+                        // Check if this is a new order group
+                        if (index > 0 &&
+                            !item.previousElementSibling.classList.contains('path-point-item')) {
+                            currentOrder++;
+                        }
+
+                        newPathData.push({
+                            ...pathPoint,
+                            order: currentOrder
+                        });
                     }
                 });
 
-                programPathData = newOrder;
+                programPathData = newPathData;
                 updatePathData();
             }
 
@@ -1036,7 +1088,7 @@
             function updatePathData() {
                 const pathPointsInput = document.getElementById('pathPointsData');
                 if (pathPointsInput) {
-                    pathPointsInput.value = JSON.stringify(programPathData.map(p => p.id));
+                    pathPointsInput.value = programPathData.map(p => p.id);
                 }
             }
 
@@ -1151,11 +1203,10 @@
 
                                 // Add path points data
                                 if (programPathData.length > 0) {
+                                    console.log(programPathData);
                                     programPathData.forEach((point, index) => {
-                                        formData.append(`path_points[]`, point.id);
-                                    });
-                                } else {
-                                    formData.append('path_points[]', '');
+                                        formData.append(`path_points[${index}][id]`, point.id);
+                                        formData.append(`path_points[${index}][order]`, point.order);                                    });
                                 }
 
                                 // Send AJAX request
@@ -1277,38 +1328,14 @@
                 init: function () {
                     initUpdateDetails();
                 },
+                addPathPoint: function(pathPointId, sameOrder = false) {
+                    addPathPoint(pathPointId, sameOrder);
+                },
                 removePathPoint: function(pathPointId) {
-                    programPathData = programPathData.filter(p => p.id !== pathPointId);
-
-                    // Recalculate order
-                    programPathData.forEach((point, index) => {
-                        point.order = index + 1;
-                    });
-
-                    updatePathVisual();
-                    updatePathData();
+                    removePathPoint(pathPointId);
                 },
                 clearPath: function() {
-                    if (programPathData.length === 0) return;
-
-                    Swal.fire({
-                        text: "Are you sure you want to clear all path points?",
-                        icon: "warning",
-                        showCancelButton: true,
-                        buttonsStyling: false,
-                        confirmButtonText: "Yes, clear them!",
-                        cancelButtonText: "No, keep them",
-                        customClass: {
-                            confirmButton: "btn btn-primary",
-                            cancelButton: "btn btn-active-light"
-                        }
-                    }).then(function (result) {
-                        if (result.isConfirmed) {
-                            programPathData = [];
-                            updatePathVisual();
-                            updatePathData();
-                        }
-                    });
+                    clearPath();
                 }
             };
         }();
@@ -1318,604 +1345,4 @@
             KTProgramsUpdateDetails.init();
         });
     </script>
-
-{{--    @if(auth()->user()->hasPermissionTo(PermissionEnum::UPDATE_PROGRAMS->value))--}}
-{{--        <script>--}}
-{{--            "use strict";--}}
-
-{{--            // Class definition--}}
-{{--            var KTUsersUpdateDetails = function () {--}}
-{{--                // Shared variables--}}
-{{--                const element = document.getElementById('kt_modal_update_program');--}}
-{{--                const form = element.querySelector('#kt_modal_update_program_form');--}}
-{{--                const modal = new bootstrap.Modal(element);--}}
-
-{{--                // Function to populate the form with user data--}}
-{{--                var populateForm = (response) => {--}}
-{{--                    form.querySelector('[name="name"]').value = response.user.name || "";--}}
-{{--                    form.querySelector('[name="email"]').value = response.user.email || "";--}}
-{{--                    form.querySelector('[name="phone_number"]').value = response.user.phone_number || "";--}}
-{{--                    form.querySelector('[name="bio"]').value = response.bio || "";--}}
-{{--                    $("#kt_modal_update_program_form").attr("data-user-id", response.id);--}}
-{{--                };--}}
-
-{{--                // Fetch user data when modal is opened--}}
-{{--                element.addEventListener('show.bs.modal', function (event) {--}}
-{{--                    let button = event.relatedTarget;--}}
-{{--                    let userId = button.getAttribute('data-user-id');--}}
-
-{{--                    if (userId) {--}}
-{{--                        $.ajax({--}}
-{{--                            url: `/programs/${userId}/edit`,--}}
-{{--                            type: "GET",--}}
-{{--                            success: function (response) {--}}
-{{--                                populateForm(response);--}}
-{{--                            },--}}
-{{--                            error: function () {--}}
-{{--                                console.error("Error fetching program data");--}}
-{{--                            }--}}
-{{--                        });--}}
-{{--                    }--}}
-{{--                });--}}
-
-{{--                // Init update user modal--}}
-{{--                var initUpdateDetails = () => {--}}
-{{--                    // Init form validation--}}
-{{--                    var validator = FormValidation.formValidation(--}}
-{{--                        form,--}}
-{{--                        {--}}
-{{--                            fields: {--}}
-{{--                                'name': {--}}
-{{--                                    validators: {--}}
-{{--                                        notEmpty: {--}}
-{{--                                            message: 'Full name is required'--}}
-{{--                                        }--}}
-{{--                                    }--}}
-{{--                                },--}}
-{{--                                'email': {--}}
-{{--                                    validators: {--}}
-{{--                                        notEmpty: {--}}
-{{--                                            message: 'Valid email address is required'--}}
-{{--                                        }--}}
-{{--                                    }--}}
-{{--                                },--}}
-{{--                                'phone_number': {--}}
-{{--                                    validators: {--}}
-{{--                                        notEmpty: {--}}
-{{--                                            message: 'Valid phone number is required'--}}
-{{--                                        }--}}
-{{--                                    }--}}
-{{--                                },--}}
-{{--                                'bio': {--}}
-{{--                                    validators: {--}}
-{{--                                        notEmpty: {--}}
-{{--                                            message: 'bio field is required'--}}
-{{--                                        }--}}
-{{--                                    }--}}
-{{--                                }--}}
-{{--                            },--}}
-{{--                            plugins: {--}}
-{{--                                trigger: new FormValidation.plugins.Trigger(),--}}
-{{--                                bootstrap: new FormValidation.plugins.Bootstrap5({--}}
-{{--                                    rowSelector: '.fv-row',--}}
-{{--                                    eleInvalidClass: '',--}}
-{{--                                    eleValidClass: ''--}}
-{{--                                })--}}
-{{--                            }--}}
-{{--                        }--}}
-{{--                    );--}}
-
-{{--                    // Submit button handler--}}
-{{--                    const submitButton = element.querySelector('[data-kt-users-modal-action="submit"]');--}}
-{{--                    submitButton.addEventListener('click', e => {--}}
-{{--                        e.preventDefault();--}}
-
-{{--                        if (validator) {--}}
-{{--                            validator.validate().then(function (status) {--}}
-{{--                                if (status === 'Valid') {--}}
-{{--                                    submitButton.setAttribute('data-kt-indicator', 'on');--}}
-{{--                                    submitButton.disabled = true;--}}
-
-{{--                                    // Get form data and send AJAX request--}}
-{{--                                    let formData = new FormData(form);--}}
-{{--                                    let userId = $('#kt_modal_update_program_form').data('user-id');--}}
-{{--                                    let updateUrl = `/programs/${userId}`;--}}
-{{--                                    $.ajax({--}}
-{{--                                        url: updateUrl,--}}
-{{--                                        type: "POST",--}}
-{{--                                        data: formData,--}}
-{{--                                        processData: false,--}}
-{{--                                        contentType: false,--}}
-{{--                                        success: function (response) {--}}
-{{--                                            submitButton.removeAttribute('data-kt-indicator');--}}
-{{--                                            submitButton.disabled = false;--}}
-
-{{--                                            Swal.fire({--}}
-{{--                                                text: response.message,--}}
-{{--                                                icon: "success",--}}
-{{--                                                buttonsStyling: false,--}}
-{{--                                                confirmButtonText: "Ok, got it!",--}}
-{{--                                                customClass: {--}}
-{{--                                                    confirmButton: "btn btn-primary"--}}
-{{--                                                }--}}
-{{--                                            }).then(function (result) {--}}
-{{--                                                if (result.isConfirmed) {--}}
-{{--                                                    form.reset();--}}
-{{--                                                    modal.hide();--}}
-{{--                                                    location.reload();--}}
-{{--                                                }--}}
-{{--                                            });--}}
-{{--                                        },--}}
-{{--                                        error: function (xhr) {--}}
-{{--                                            submitButton.removeAttribute('data-kt-indicator');--}}
-{{--                                            submitButton.disabled = false;--}}
-
-{{--                                            let errorMessage = "Something went wrong! Please try again later.";--}}
-
-{{--                                            if (xhr.responseJSON && xhr.responseJSON.errors) {--}}
-{{--                                                errorMessage = Object.values(xhr.responseJSON.errors).join("\n");--}}
-{{--                                            }--}}
-
-{{--                                            Swal.fire({--}}
-{{--                                                text: errorMessage,--}}
-{{--                                                icon: "error",--}}
-{{--                                                buttonsStyling: false,--}}
-{{--                                                confirmButtonText: "Ok, got it!",--}}
-{{--                                                customClass: {--}}
-{{--                                                    confirmButton: "btn btn-primary"--}}
-{{--                                                }--}}
-{{--                                            });--}}
-{{--                                        }--}}
-{{--                                    });--}}
-{{--                                } else {--}}
-{{--                                    Swal.fire({--}}
-{{--                                        text: "Please fix the errors and try again.",--}}
-{{--                                        icon: "error",--}}
-{{--                                        buttonsStyling: false,--}}
-{{--                                        confirmButtonText: "Ok, got it!",--}}
-{{--                                        customClass: {--}}
-{{--                                            confirmButton: "btn btn-primary"--}}
-{{--                                        }--}}
-{{--                                    });--}}
-{{--                                }--}}
-{{--                            });--}}
-{{--                        }--}}
-{{--                    });--}}
-
-{{--                    // Cancel button handler (Shared logic with close button)--}}
-{{--                    const cancelButton = element.querySelector('[data-kt-users-modal-action="cancel"]');--}}
-{{--                    cancelButton.addEventListener('click', resetAndCloseModal);--}}
-
-{{--                    // Close button handler--}}
-{{--                    const closeButton = element.querySelector('[data-kt-users-modal-action="close"]');--}}
-{{--                    closeButton.addEventListener('click', resetAndCloseModal);--}}
-
-{{--                    function resetAndCloseModal(e) {--}}
-{{--                        e.preventDefault();--}}
-
-{{--                        Swal.fire({--}}
-{{--                            text: "Are you sure you would like to cancel?",--}}
-{{--                            icon: "warning",--}}
-{{--                            showCancelButton: true,--}}
-{{--                            buttonsStyling: false,--}}
-{{--                            confirmButtonText: "Yes, cancel it!",--}}
-{{--                            cancelButtonText: "No, return",--}}
-{{--                            customClass: {--}}
-{{--                                confirmButton: "btn btn-primary",--}}
-{{--                                cancelButton: "btn btn-active-light"--}}
-{{--                            }--}}
-{{--                        }).then(function (result) {--}}
-{{--                            if (result.value) {--}}
-{{--                                form.reset();--}}
-{{--                                modal.hide();--}}
-{{--                            } else if (result.dismiss === 'cancel') {--}}
-{{--                                Swal.fire({--}}
-{{--                                    text: "Your form has not been cancelled!.",--}}
-{{--                                    icon: "error",--}}
-{{--                                    buttonsStyling: false,--}}
-{{--                                    confirmButtonText: "Ok, got it!",--}}
-{{--                                    customClass: {--}}
-{{--                                        confirmButton: "btn btn-primary",--}}
-{{--                                    }--}}
-{{--                                });--}}
-{{--                            }--}}
-{{--                        });--}}
-{{--                    }--}}
-{{--                }--}}
-
-{{--                return {--}}
-{{--                    // Public functions--}}
-{{--                    init: function () {--}}
-{{--                        initUpdateDetails();--}}
-{{--                    }--}}
-{{--                };--}}
-{{--            }();--}}
-
-{{--            // On document ready--}}
-{{--            KTUtil.onDOMContentLoaded(function () {--}}
-{{--                KTUsersUpdateDetails.init();--}}
-{{--            });--}}
-
-{{--        </script>--}}
-{{--    @endif--}}
-
-{{--    <script>--}}
-{{--        let programPathData = [];--}}
-{{--        let sortable;--}}
-
-{{--        // Sample data - replace with actual data from your backend--}}
-{{--        const availablePathPoints = {--}}
-{{--            1: { id: 1, title_en: 'Introduction', title_ar: 'المقدمة', table_name: 'introductions' },--}}
-{{--            2: { id: 2, title_en: 'Basics', title_ar: 'الأساسيات', table_name: 'basics' },--}}
-{{--            3: { id: 3, title_en: 'Advanced', title_ar: 'المتقدم', table_name: 'advanced' },--}}
-{{--            4: { id: 4, title_en: 'Project', title_ar: 'المشروع', table_name: 'projects' },--}}
-{{--            5: { id: 5, title_en: 'Assessment', title_ar: 'التقييم', table_name: 'assessments' }--}}
-{{--        };--}}
-
-{{--        // Initialize sortable functionality--}}
-{{--        function initializeSortable() {--}}
-{{--            const pathContainer = document.getElementById('programPath');--}}
-
-{{--            sortable = new Sortable(pathContainer, {--}}
-{{--                animation: 150,--}}
-{{--                ghostClass: 'sortable-ghost',--}}
-{{--                onEnd: function(evt) {--}}
-{{--                    updatePathData();--}}
-{{--                    updatePathVisual();--}}
-{{--                }--}}
-{{--            });--}}
-{{--        }--}}
-
-{{--        // Add path point to program path--}}
-{{--        function addPathPoint(pathPointId) {--}}
-{{--            const pathPoint = availablePathPoints[pathPointId];--}}
-{{--            if (!pathPoint) return;--}}
-
-{{--            // Check if already added--}}
-{{--            if (programPathData.find(p => p.id === pathPointId)) {--}}
-{{--                alert('This path point is already added to the program');--}}
-{{--                return;--}}
-{{--            }--}}
-
-{{--            programPathData.push({--}}
-{{--                id: pathPointId,--}}
-{{--                ...pathPoint,--}}
-{{--                order: programPathData.length + 1--}}
-{{--            });--}}
-
-{{--            updatePathVisual();--}}
-{{--            updatePathData();--}}
-{{--        }--}}
-
-{{--        // Remove path point from program path--}}
-{{--        function removePathPoint(pathPointId) {--}}
-{{--            programPathData = programPathData.filter(p => p.id !== pathPointId);--}}
-
-{{--            // Update order numbers--}}
-{{--            programPathData.forEach((point, index) => {--}}
-{{--                point.order = index + 1;--}}
-{{--            });--}}
-
-{{--            updatePathVisual();--}}
-{{--            updatePathData();--}}
-{{--        }--}}
-
-{{--        // Clear all path points--}}
-{{--        function clearPath() {--}}
-{{--            if (programPathData.length > 0 && !confirm('Are you sure you want to clear all path points?')) {--}}
-{{--                return;--}}
-{{--            }--}}
-
-{{--            programPathData = [];--}}
-{{--            updatePathVisual();--}}
-{{--            updatePathData();--}}
-{{--        }--}}
-
-{{--        // Update path visual representation--}}
-{{--        function updatePathVisual() {--}}
-{{--            const pathContainer = document.getElementById('programPath');--}}
-
-{{--            if (programPathData.length === 0) {--}}
-{{--                pathContainer.innerHTML = `--}}
-{{--            <div class="empty-path">--}}
-{{--                <i class="fas fa-route fa-2x mb-3 text-muted"></i>--}}
-{{--                <p class="mb-0">Drag path points here to create learning path</p>--}}
-{{--                <small class="text-muted">You can reorder by dragging</small>--}}
-{{--            </div>--}}
-{{--        `;--}}
-{{--                updateSummary();--}}
-{{--                return;--}}
-{{--            }--}}
-
-{{--            let pathHtml = '';--}}
-{{--            programPathData.forEach((point, index) => {--}}
-{{--                pathHtml += `--}}
-{{--            <div class="path-point-item card mb-3 p-3" data-id="${point.id}">--}}
-{{--                <div class="d-flex align-items-center">--}}
-{{--                    <div class="path-step-number">${index + 1}</div>--}}
-{{--                    <div class="flex-grow-1">--}}
-{{--                        <h6 class="mb-1">${point.title_en} / ${point.title_ar}</h6>--}}
-{{--                        <small class="text-muted">Table: ${point.table_name}</small>--}}
-{{--                    </div>--}}
-{{--                    <div class="d-flex align-items-center">--}}
-{{--                        <i class="fas fa-grip-vertical text-muted me-2" title="Drag to reorder"></i>--}}
-{{--                        <button type="button" class="btn btn-sm btn-light-danger" onclick="removePathPoint(${point.id})" title="Remove">--}}
-{{--                            <i class="fas fa-times"></i>--}}
-{{--                        </button>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--                ${index < programPathData.length - 1 ? '<div class="path-connector"></div>' : ''}--}}
-{{--            </div>--}}
-{{--        `;--}}
-{{--            });--}}
-
-{{--            pathContainer.innerHTML = pathHtml;--}}
-{{--            updateSummary();--}}
-{{--        }--}}
-
-{{--        // Update path data in hidden input--}}
-{{--        function updatePathData() {--}}
-{{--            // Update order based on current position--}}
-{{--            const pathItems = document.querySelectorAll('.path-point-item');--}}
-{{--            pathItems.forEach((item, index) => {--}}
-{{--                const pathPointId = parseInt(item.dataset.id);--}}
-{{--                const pathPoint = programPathData.find(p => p.id === pathPointId);--}}
-{{--                if (pathPoint) {--}}
-{{--                    pathPoint.order = index + 1;--}}
-{{--                }--}}
-{{--            });--}}
-
-{{--            // Sort by order--}}
-{{--            programPathData.sort((a, b) => a.order - b.order);--}}
-
-{{--            // Update hidden input--}}
-{{--            document.getElementById('pathPointsData').value = JSON.stringify(programPathData);--}}
-{{--        }--}}
-
-{{--        // Update path summary--}}
-{{--        function updateSummary() {--}}
-{{--            document.getElementById('totalSteps').textContent = programPathData.length;--}}
-{{--            document.getElementById('estimatedDuration').textContent =--}}
-{{--                programPathData.length > 0 ? `${programPathData.length * 2} hours` : '-';--}}
-{{--        }--}}
-
-{{--        // Event listeners for available path points--}}
-{{--        document.addEventListener('DOMContentLoaded', function() {--}}
-{{--            // Initialize sortable--}}
-{{--            initializeSortable();--}}
-
-{{--            // Add click listeners to available path points--}}
-{{--            document.querySelectorAll('.available-point').forEach(point => {--}}
-{{--                point.addEventListener('click', function() {--}}
-{{--                    const pathPointId = parseInt(this.dataset.id);--}}
-{{--                    addPathPoint(pathPointId);--}}
-{{--                });--}}
-{{--            });--}}
-
-{{--            // Form submission--}}
-{{--            document.getElementById('kt_modal_update_program_form').addEventListener('submit', function(e) {--}}
-{{--                e.preventDefault();--}}
-
-{{--                // Show loading state--}}
-{{--                const submitBtn = this.querySelector('button[type="submit"]');--}}
-{{--                const indicator = submitBtn.querySelector('.indicator-label');--}}
-{{--                const progress = submitBtn.querySelector('.indicator-progress');--}}
-
-{{--                indicator.classList.add('d-none');--}}
-{{--                progress.classList.remove('d-none');--}}
-{{--                submitBtn.disabled = true;--}}
-
-{{--                // Prepare form data--}}
-{{--                const formData = new FormData(this);--}}
-
-{{--                // Add path points data--}}
-{{--                formData.set('path_points', JSON.stringify(programPathData));--}}
-
-{{--                // Here you would typically send the data to your backend--}}
-{{--                console.log('Form data:', Object.fromEntries(formData));--}}
-{{--                console.log('Path points:', programPathData);--}}
-
-{{--                // Simulate API call--}}
-{{--                setTimeout(() => {--}}
-{{--                    alert('Program updated successfully!');--}}
-
-{{--                    // Reset loading state--}}
-{{--                    indicator.classList.remove('d-none');--}}
-{{--                    progress.classList.add('d-none');--}}
-{{--                    submitBtn.disabled = false;--}}
-
-{{--                    // Close modal--}}
-{{--                    const modal = bootstrap.Modal.getInstance(document.getElementById('kt_modal_update_program'));--}}
-{{--                    modal.hide();--}}
-{{--                }, 2000);--}}
-{{--            });--}}
-{{--        });--}}
-
-{{--        // Function to load existing program data (call this when opening the modal)--}}
-{{--        function loadProgramData(programData) {--}}
-{{--            // Load basic program info--}}
-{{--            document.querySelector('input[name="title_ar"]').value = programData.title_ar || '';--}}
-{{--            document.querySelector('input[name="title_en"]').value = programData.title_en || '';--}}
-{{--            document.querySelector('textarea[name="description_ar"]').value = programData.description_ar || '';--}}
-{{--            document.querySelector('textarea[name="description_en"]').value = programData.description_en || '';--}}
-
-{{--            // Load path points--}}
-{{--            if (programData.path_points && programData.path_points.length > 0) {--}}
-{{--                programPathData = programData.path_points.map(point => ({--}}
-{{--                    id: point.id,--}}
-{{--                    title_en: point.title_en,--}}
-{{--                    title_ar: point.title_ar,--}}
-{{--                    table_name: point.table_name,--}}
-{{--                    order: point.pivot ? point.pivot.order : point.order--}}
-{{--                }));--}}
-
-{{--                // Sort by order--}}
-{{--                programPathData.sort((a, b) => a.order - b.order);--}}
-
-{{--                updatePathVisual();--}}
-{{--                updatePathData();--}}
-{{--            }--}}
-{{--        }--}}
-
-{{--        // Example usage - call this when opening the modal--}}
-{{--        // loadProgramData({--}}
-{{--        //     title_ar: 'البرنامج الأساسي',--}}
-{{--        //     title_en: 'Basic Program',--}}
-{{--        //     description_ar: 'وصف البرنامج',--}}
-{{--        //     description_en: 'Program description',--}}
-{{--        //     path_points: [--}}
-{{--        //         { id: 1, title_en: 'Introduction', title_ar: 'المقدمة', table_name: 'introductions', pivot: { order: 1 } },--}}
-{{--        //         { id: 2, title_en: 'Basics', title_ar: 'الأساسيات', table_name: 'basics', pivot: { order: 2 } }--}}
-{{--        //     ]--}}
-{{--        // });--}}
-
-{{--        // Add this to your existing JavaScript file or in a script tag--}}
-
-{{--        // Global variables for path management--}}
-{{--        let programPathData = [];--}}
-{{--        let availablePathPoints = {};--}}
-{{--        let sortable;--}}
-
-{{--        // Load available path points on page load--}}
-{{--        document.addEventListener('DOMContentLoaded', function() {--}}
-{{--            loadAvailablePathPoints();--}}
-{{--        });--}}
-
-{{--        // Load available path points from backend--}}
-{{--        async function loadAvailablePathPoints() {--}}
-{{--            try {--}}
-{{--                const response = await fetch('/api/path-points');--}}
-{{--                const data = await response.json();--}}
-
-{{--                if (data.success) {--}}
-{{--                    availablePathPoints = {};--}}
-{{--                    data.path_points.forEach(point => {--}}
-{{--                        availablePathPoints[point.id] = point;--}}
-{{--                    });--}}
-
-{{--                    renderAvailablePathPoints();--}}
-{{--                }--}}
-{{--            } catch (error) {--}}
-{{--                console.error('Error loading path points:', error);--}}
-{{--            }--}}
-{{--        }--}}
-
-{{--        // Render available path points in the modal--}}
-{{--        function renderAvailablePathPoints() {--}}
-{{--            const container = document.querySelector('.available-points');--}}
-{{--            if (!container) return;--}}
-
-{{--            let html = '';--}}
-{{--            Object.values(availablePathPoints).forEach(point => {--}}
-{{--                html += `--}}
-{{--            <div class="available-point border rounded p-2 mb-2" data-id="${point.id}">--}}
-{{--                <div class="d-flex align-items-center">--}}
-{{--                    <i class="fas fa-plus-circle text-success me-2"></i>--}}
-{{--                    <div>--}}
-{{--                        <strong>${point.title_en}</strong> / ${point.title_ar}--}}
-{{--                        <br><small class="text-muted">Table: ${point.table_name}</small>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--        `;--}}
-{{--            });--}}
-
-{{--            container.innerHTML = html;--}}
-
-{{--            // Add click listeners--}}
-{{--            container.querySelectorAll('.available-point').forEach(point => {--}}
-{{--                point.addEventListener('click', function() {--}}
-{{--                    const pathPointId = parseInt(this.dataset.id);--}}
-{{--                    addPathPoint(pathPointId);--}}
-{{--                });--}}
-{{--            });--}}
-{{--        }--}}
-
-{{--        // Function to open edit modal with program data--}}
-{{--        function openEditModal(programId) {--}}
-{{--            // Show modal--}}
-{{--            const modal = new bootstrap.Modal(document.getElementById('kt_modal_update_program'));--}}
-{{--            modal.show();--}}
-
-{{--            // Load program data--}}
-{{--            loadProgramForEdit(programId);--}}
-{{--        }--}}
-
-{{--        // Load program data for editing--}}
-{{--        async function loadProgramForEdit(programId) {--}}
-{{--            try {--}}
-{{--                const response = await fetch(`/api/programs/${programId}/with-path`);--}}
-{{--                const data = await response.json();--}}
-
-{{--                if (data.success) {--}}
-{{--                    loadProgramData(data.program);--}}
-{{--                }--}}
-{{--            } catch (error) {--}}
-{{--                console.error('Error loading program:', error);--}}
-{{--                alert('Error loading program data');--}}
-{{--            }--}}
-{{--        }--}}
-
-{{--        // Load program data into the form--}}
-{{--        function loadProgramData(programData) {--}}
-{{--            // Load basic program info--}}
-{{--            document.querySelector('input[name="title_ar"]').value = programData.title_ar || '';--}}
-{{--            document.querySelector('input[name="title_en"]').value = programData.title_en || '';--}}
-{{--            document.querySelector('textarea[name="description_ar"]').value = programData.description_ar || '';--}}
-{{--            document.querySelector('textarea[name="description_en"]').value = programData.description_en || '';--}}
-
-{{--            // Load path points--}}
-{{--            programPathData = [];--}}
-{{--            if (programData.path_points && programData.path_points.length > 0) {--}}
-{{--                programPathData = programData.path_points.map(point => ({--}}
-{{--                    id: point.id,--}}
-{{--                    title_en: point.title_en,--}}
-{{--                    title_ar: point.title_ar,--}}
-{{--                    table_name: point.table_name,--}}
-{{--                    order: point.order--}}
-{{--                }));--}}
-
-{{--                // Sort by order--}}
-{{--                programPathData.sort((a, b) => a.order - b.order);--}}
-{{--            }--}}
-
-{{--            updatePathVisual();--}}
-{{--            updatePathData();--}}
-{{--            initializeSortable();--}}
-{{--        }--}}
-
-{{--        // Initialize sortable functionality--}}
-{{--        function initializeSortable() {--}}
-{{--            const pathContainer = document.getElementById('programPath');--}}
-{{--            if (!pathContainer || sortable) return;--}}
-
-{{--            sortable = new Sortable(pathContainer, {--}}
-{{--                animation: 150,--}}
-{{--                ghostClass: 'sortable-ghost',--}}
-{{--                handle: '.fas.fa-grip-vertical',--}}
-{{--                onEnd: function(evt) {--}}
-{{--                    updatePathDataFromDOM();--}}
-{{--                    updatePathVisual();--}}
-{{--                }--}}
-{{--            });--}}
-{{--        }--}}
-
-{{--        // Update path data from DOM after drag and drop--}}
-{{--        function updatePathDataFromDOM() {--}}
-{{--            const pathItems = document.querySelectorAll('.path-point-item');--}}
-{{--            const newPathData = [];--}}
-
-{{--            pathItems.forEach((item, index) => {--}}
-{{--                const pathPointId = parseInt(item.dataset.id);--}}
-{{--                const pathPoint = programPathData.find(p => p.id === pathPointId);--}}
-{{--                if (pathPoint) {--}}
-{{--                    newPathData.push({--}}
-{{--                        ...pathPoint,--}}
-{{--                        order: index + 1--}}
-{{--                    });--}}
-{{--                }--}}
-{{--            });--}}
-{{--        }--}}
-{{--    </script>--}}
-
 @endsection

@@ -93,7 +93,8 @@ class ProgramsController extends Controller
             'description_ar' => 'required|string',
             'description_en' => 'required|string',
             'path_points' => 'nullable|array',
-            'path_points.*' => new ValidPathPoint,
+            'path_points.*.id' => 'required|integer|exists:path_points,id',
+            'path_points.*.order' => 'required|integer|min:1',
         ]);
 
         try {
@@ -109,14 +110,12 @@ class ProgramsController extends Controller
             ]);
 
             // Sync path points with order if they exist in request
-            if ($request->has('path_points')) {
+            if ($request->has('path_points') && !empty($request->path_points)) {
                 $pathPointsData = [];
 
                 // Prepare the pivot data with order
-                foreach ($request->path_points as $index => $pointId) {
-                    if (PathPoint::where('id', $pointId)->exists()) {
-                        $pathPointsData[$pointId] = ['order' => $index + 1];
-                    }
+                foreach ($request->path_points as $pathPoint) {
+                    $pathPointsData[$pathPoint['id']] = ['order' => $pathPoint['order']];
                 }
 
                 $program->pathPoints()->sync($pathPointsData);
