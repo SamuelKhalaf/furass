@@ -7,25 +7,37 @@
                 <form action="{{ route('admin.schools.store') }}" method="POST">
                     @csrf
                     <div class="mb-3">
-                        <input type="text" name="name" class="form-control" placeholder="Name" required>
+                        <input type="text" name="name" class="form-control" placeholder="Name" value="{{ old('name') }}" required>
+                        @error('name')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div class="mb-3">
-                        <input type="email" name="email" class="form-control" placeholder="E-mail" required>
+                        <input type="email" name="email" class="form-control" value="{{ old('name') }}" placeholder="E-mail" required>
+                        @error('email')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div class="mb-3">
-                        <input type="text" name="phone" class="form-control" placeholder="Phone">
+                        <input type="text" name="phone" value="{{ old('phone') }}" class="form-control" placeholder="Phone">
+                        @error('phone')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div class="mb-3">
-                        <textarea class="form-control" name="address" rows="3" placeholder="your address" required></textarea>
+                        <textarea class="form-control" name="address" rows="3"  placeholder="your address" required></textarea>
+                        @error('address')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div class="mb-3">
                         <input type="file" name="logo" class="form-control" placeholder="logo">
                     </div>
                     <div class="mb-3">
-                        <input type="text" name="password" class="form-control" placeholder="password">
+                        <input type="password" name="password" class="form-control" placeholder="password" required>
                     </div>
                     <div class="mb-3">
-                        <input type="text" class="form-control" placeholder="confirm password">
+                        <input type="password" class="form-control" placeholder="confirm password" required>
                     </div>
                     <div class="form-check mb-2">
                         <input class="form-check-input" type="checkbox" id="privacyCheck" required>
