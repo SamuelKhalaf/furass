@@ -4,7 +4,7 @@
         <div class=" d-flex align-items-center justify-content-center">
             <div class="contact-form-card w-100">
                 <div class="mb-4" style="font-size: 2rem; font-weight: 600;">Request a School Partnership</div>
-                <form action="{{ route('admin.schools.store') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('request-school.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
 
                     <div class="mb-3">

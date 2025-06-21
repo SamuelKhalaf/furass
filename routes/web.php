@@ -2,6 +2,7 @@
 
 use App\Enums\PermissionEnum;
 use App\Enums\RoleEnum;
+use App\Http\Controllers\Admin\SchoolController;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -25,17 +26,12 @@ Auth::routes(['register' => false,'verify' => false]);
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::get('/401', function () {
-    abort(401);
-});
-Route::get('/500', function () {
-    abort(500);
-});
-
 Route::get('/test', function () {
     $adminRole = Role::firstOrCreate(['name' => RoleEnum::ADMIN->value]);
     $adminRole->givePermissionTo(PermissionEnum::all());
 });
+
+Route::post('request-school', [SchoolController::class, 'store'])->name('request-school.store');
 
 Route::get('language/{locale}', [LanguageController::class, 'switchLang'])->name('language.switch');
 
