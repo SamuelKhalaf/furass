@@ -135,12 +135,18 @@ class SchoolController extends Controller
             }
             $school->save();
             DB::commit();
+            if ($request->ajax()) {
+                return response()->json(['message' => 'School created successfully']);
+            }
 
-            return response()->json(['message' => 'School created successfully']);
+            return redirect()->back()->with('success', 'School created successfully');
         } catch (\Exception $e) {
             DB::rollBack();
-            return response()->json(['message' => 'Error creating School'] , 500);
-        }
+            if ($request->ajax()) {
+                return response()->json(['message' => 'Error creating school'], 500);
+            }
+
+            return redirect()->back()->with('error', 'Something went wrong. Please try again.');        }
     }
 
     public function edit(string $id)
