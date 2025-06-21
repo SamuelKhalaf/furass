@@ -19,7 +19,7 @@
 <div class="iframe mt-5 mb-5">
     <div class="container" >
         <div class="element">
-            <iframe class="w-100 mb-5" height="500" src="https://www.youtube.com/embed/i0bbgA1bjnM?si=1wHtE2Un8oo38Tby" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            <iframe class="w-100 mb-5" height="500" src="https://www.youtube.com/{{--embed/--}}i0bbgA1bjnM?si=1wHtE2Un8oo38Tby" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
             <p class="text-left">Education leaders nationwide use Furass® to help students uncover their natural aptitudes and connect their learning to
                 future career and education goals.</p>
 
@@ -151,5 +151,35 @@
         </div>
     </div>
 </div>
+{{--
+<section class="why-furass-section py-5">
+    <div class="container">
+        <div class="text-center mb-4">
+            <h2 class="section-title">Why Schools Partner with Furass</h2>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <ul class="list-group list-group-flush fs-5">
+                    <li class="list-group-item d-flex align-items-start">
+                        <i class="bi bi-check-circle-fill text-success me-3 fs-4"></i>
+                        Helps schools meet accreditation standards
+                    </li>
+                    <li class="list-group-item d-flex align-items-start">
+                        <i class="bi bi-check-circle-fill text-success me-3 fs-4"></i>
+                        Adds measurable career guidance services
+                    </li>
+                    <li class="list-group-item d-flex align-items-start">
+                        <i class="bi bi-check-circle-fill text-success me-3 fs-4"></i>
+                        Enhances student satisfaction and parent confidence
+                    </li>
+                    <li class="list-group-item d-flex align-items-start">
+                        <i class="bi bi-check-circle-fill text-success me-3 fs-4"></i>
+                        Provides ready-made programs with no extra admin burden
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>--}}
 
 @endsection

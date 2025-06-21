@@ -92,9 +92,9 @@
             <div class="col-6 col-md-3 col-lg-2 d-flex flex-column justify-content-start">
                 <div class="footer-title">Programs</div>
                 <ul class="footer-programs">
-                    <li><a href="#">Program 1</a></li>
-                    <li><a href="#">Program 2</a></li>
-                    <li><a href="#">Program 3</a></li>
+                    <li><a href="{{ route('template.details-programs') }}#self-compass">Self Compass</a></li>
+                    <li><a href="{{ route('template.details-programs') }}#explore-career">Explore Career</a></li>
+                    <li><a href="{{ route('template.details-programs') }}#ready-future">Ready Future</a></li>
                 </ul>
             </div>
             <div class="col-12 col-md-12 col-lg-4 d-flex flex-column justify-content-start align-items-start">

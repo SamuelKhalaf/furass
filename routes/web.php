@@ -54,3 +54,11 @@ Route::get('our-programs', function (){
 Route::get('contact', function (){
     return view('template.contact');
 })->name('template.contact');
+
+Route::get('request-school', function (){
+    return view('template.request_school');
+})->name('template.school');
+
+Route::get('details-programs', function (){
+    return view('template.details-programs');
+})->name('template.details-programs');
