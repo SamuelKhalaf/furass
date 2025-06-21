@@ -99,8 +99,15 @@ class SchoolController extends Controller
             'password' => 'required|string|min:6|confirmed',
             'phone_number' => 'required|string|max:20|unique:users',
             'address' => 'required|string',
-            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'is_active' => 'nullable|boolean',
         ]);
+
+        if ($request->has('is_active')) {
+            $is_active = $request->is_active;
+        } else {
+            $is_active = false;
+        }
 
         try {
             DB::beginTransaction();
@@ -110,6 +117,7 @@ class SchoolController extends Controller
                 'phone_number'  => $request->phone_number,
                 'role'          => RoleEnum::SCHOOL->value,
                 'password'      => Hash::make($request->password),
+                'is_active'     => $is_active
             ]);
 
             $user->assignRole(RoleEnum::SCHOOL->value);
@@ -148,9 +156,15 @@ class SchoolController extends Controller
             'email' => 'required|string|email|max:255|unique:users,email,' . $school->user_id,
             'phone_number' => 'required|string|max:20|unique:users,phone_number,' . $school->user_id,
             'address' => 'required|string',
-            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'is_active' => 'nullable|boolean',
         ]);
 
+        if ($request->has('is_active')) {
+            $is_active = $request->is_active;
+        } else {
+            $is_active = false;
+        }
         try {
             DB::beginTransaction();
 
@@ -158,6 +172,7 @@ class SchoolController extends Controller
             $user->name = $request->name;
             $user->email = $request->email;
             $user->phone_number = $request->phone_number;
+            $user->is_active = $is_active;
             $user->save();
 
             $school->address = $request->address;

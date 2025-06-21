@@ -185,7 +185,6 @@
                                 data: 'name',
                                 name: 'name',
                                 orderable: false,
-                                searchable: false,
                                 className: 'text-center'
                             },
                             {
@@ -678,6 +677,17 @@
                     form.querySelector('[name="phone_number"]').value = response.user.phone_number || "";
                     form.querySelector('[name="address"]').value = response.address || "";
                     $("#kt_modal_update_school_form").attr("data-user-id", response.id);
+
+                    // check the user is active or not
+                    if (response.user.is_active && response.user.is_active === 1) {
+                        form.querySelector('[name="is_active"]').checked = true;
+                        form.querySelector('[name="is_active"]').value = 1;
+                        form.querySelector('.form-check-label').innerText = "Active";
+                    }else {
+                        form.querySelector('[name="is_active"]').checked = false;
+                        form.querySelector('[name="is_active"]').value = 0;
+                        form.querySelector('.form-check-label').innerText = "Inactive";
+                    }
                 };
 
                 // Fetch user data when modal is opened

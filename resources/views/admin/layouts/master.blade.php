@@ -109,6 +109,7 @@
 <!--end::Custom Javascript-->
 <!--end::Javascript-->
 @yield('scripts')
+@stack('scripts')
 </body>
 <!--end::Body-->
 </html>

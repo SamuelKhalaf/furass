@@ -3,10 +3,8 @@
 namespace App\Http\Requests\Admin;
 
 use App\Dto\CreateUserDto;
-use App\Enums\UserRole;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rules\Enum;
 
 /**
  * @property string name
@@ -37,6 +35,7 @@ class CreateUserRequest extends FormRequest
             'phone_number'  => ['required','string','max:20','min:11','unique:users,phone_number'],
             'password'      => ['required','string','min:6','confirmed'],
             'role'          => ['required', 'exists:roles,name'],
+            'is_active'     => ['nullable', 'boolean'],
         ];
     }
 
@@ -48,6 +47,7 @@ class CreateUserRequest extends FormRequest
             $this->input('phone_number'),
             $this->input('password'),
             $this->input('role'),
+            $this->input('is_active') ?? 0
         );
     }
 }

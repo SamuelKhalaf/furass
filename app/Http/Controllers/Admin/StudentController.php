@@ -109,8 +109,15 @@ class StudentController extends Controller
             'grade' => 'required|string|max:50',
             'birth_date' => 'required|date',
             'gender' => 'required|in:male,female',
-            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'is_active' => 'nullable|boolean',
         ]);
+
+        if ($request->has('is_active')) {
+            $is_active = $request->is_active;
+        } else {
+            $is_active = false;
+        }
 
         try {
             DB::beginTransaction();
@@ -121,6 +128,7 @@ class StudentController extends Controller
                 'phone_number' => $request->phone_number,
                 'password' => Hash::make($request->password),
                 'role' => RoleEnum::STUDENT->value,
+                'is_active' => $is_active
             ]);
             if ($user) {
                 $user->assignRole(RoleEnum::STUDENT);
@@ -175,9 +183,15 @@ class StudentController extends Controller
             'grade' => 'required|string|max:50',
             'birth_date' => 'required|date',
             'gender' => 'required|in:male,female',
-            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'is_active' => 'nullable|boolean',
         ]);
 
+        if ($request->has('is_active')) {
+            $is_active = $request->is_active;
+        } else {
+            $is_active = false;
+        }
         try {
             DB::beginTransaction();
 
@@ -185,7 +199,8 @@ class StudentController extends Controller
             $student->user->update([
                 'name' => $request->name,
                 'email' => $request->email,
-                'phone_number' => $request->phone_number
+                'phone_number' => $request->phone_number,
+                'is_active' => $is_active
             ]);
 
             // Handle avatar upload

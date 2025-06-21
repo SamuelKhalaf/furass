@@ -1,53 +1,52 @@
 @php use App\Enums\PermissionEnum; @endphp
-<div data-kt-menu-trigger="click"
-     class="menu-item menu-accordion {{setMenuOpenClass(['admin.dashboard'])}}">
-                    <span class="menu-link {{setActiveClass('admin.dashboard')}}" href="{{route('admin.dashboard')}}">
-                        <span class="menu-icon"><i class="bi bi-grid"></i></span>
-                        <span class="menu-title">{{ __('admin.dashboard.title') }}</span>
-                        <span class="menu-arrow"></span>
-                    </span>
-    <div class="menu-sub menu-sub-accordion">
-        <div class="menu-item">
-            <a class="menu-link" href="#">
-                            <span class="menu-bullet">
-                                <span class="bullet bullet-dot"></span>
-                            </span>
-                <span class="menu-title">{{ __('admin.dashboard.general_indicators') }}</span>
-            </a>
-        </div>
-        <div class="menu-item">
-            <a class="menu-link" href="#">
-                            <span class="menu-bullet">
-                                <span class="bullet bullet-dot"></span>
-                            </span>
-                <span class="menu-title">{{ __('admin.dashboard.detailed_analysis') }}</span>
-            </a>
-        </div>
-        <div class="menu-item">
-            <a class="menu-link" href="#">
-                                <span class="menu-bullet">
-                                    <span class="bullet bullet-dot"></span>
-                                </span>
-                <span class="menu-title">{{ __('admin.dashboard.consultants_reports') }}</span>
-            </a>
-        </div>
-        <div class="menu-item">
-            <a class="menu-link" href="#">
-                                <span class="menu-bullet">
-                                    <span class="bullet bullet-dot"></span>
-                                </span>
-                <span class="menu-title">{{ __('admin.dashboard.schools_reports') }}</span>
-            </a>
-        </div>
-        <div class="menu-item">
-            <a class="menu-link" href="#">
-                                <span class="menu-bullet">
-                                    <span class="bullet bullet-dot"></span>
-                                </span>
-                <span class="menu-title">{{ __('admin.dashboard.students_reports') }}</span>
-            </a>
-        </div>
-    </div>
+<div class="menu-item {{setMenuOpenClass(['admin.dashboard'])}}">
+        <a class="menu-link {{setActiveClass('admin.dashboard')}}"
+           href="{{route('admin.dashboard')}}">
+            <span class="menu-icon"><i class="fa-solid fa-gauge-high"></i></span>
+            <span class="menu-title">{{ __('admin.dashboard.title') }}</span>
+        </a>
+{{--    <div class="menu-sub menu-sub-accordion">--}}
+{{--        <div class="menu-item">--}}
+{{--            <a class="menu-link" href="#">--}}
+{{--                <span class="menu-bullet">--}}
+{{--                    <span class="bullet bullet-dot"></span>--}}
+{{--                </span>--}}
+{{--                <span class="menu-title">{{ __('admin.dashboard.general_indicators') }}</span>--}}
+{{--            </a>--}}
+{{--        </div>--}}
+{{--        <div class="menu-item">--}}
+{{--            <a class="menu-link" href="#">--}}
+{{--                <span class="menu-bullet">--}}
+{{--                    <span class="bullet bullet-dot"></span>--}}
+{{--                </span>--}}
+{{--                <span class="menu-title">{{ __('admin.dashboard.detailed_analysis') }}</span>--}}
+{{--            </a>--}}
+{{--        </div>--}}
+{{--        <div class="menu-item">--}}
+{{--            <a class="menu-link" href="#">--}}
+{{--                <span class="menu-bullet">--}}
+{{--                    <span class="bullet bullet-dot"></span>--}}
+{{--                </span>--}}
+{{--                <span class="menu-title">{{ __('admin.dashboard.consultants_reports') }}</span>--}}
+{{--            </a>--}}
+{{--        </div>--}}
+{{--        <div class="menu-item">--}}
+{{--            <a class="menu-link" href="#">--}}
+{{--                <span class="menu-bullet">--}}
+{{--                    <span class="bullet bullet-dot"></span>--}}
+{{--                </span>--}}
+{{--                <span class="menu-title">{{ __('admin.dashboard.schools_reports') }}</span>--}}
+{{--            </a>--}}
+{{--        </div>--}}
+{{--        <div class="menu-item">--}}
+{{--            <a class="menu-link" href="#">--}}
+{{--                <span class="menu-bullet">--}}
+{{--                    <span class="bullet bullet-dot"></span>--}}
+{{--                </span>--}}
+{{--                <span class="menu-title">{{ __('admin.dashboard.students_reports') }}</span>--}}
+{{--            </a>--}}
+{{--        </div>--}}
+{{--    </div>--}}
 </div>
 <!--begin:Menu item-->
 <div class="menu-item {{setMenuOpenClass(['admin.users.index'])}}">
@@ -131,31 +130,24 @@
     <!--end:Menu link-->
 </div>
 <!--end:Menu item-->
-<div data-kt-menu-trigger="click"
-     class="menu-item menu-accordion">
-                    <span class="menu-link">
-                        <span class="menu-icon"><i class="bi bi-grid"></i></span>
-                        <span class="menu-title">{{ __('admin.settings.title') }}</span>
-                        <span class="menu-arrow"></span>
-                    </span>
+@if(auth()->user()->hasAnyPermission(PermissionEnum::permissionPermissions()) || auth()->user()->hasAnyPermission(PermissionEnum::rolePermissions()))
+    <div data-kt-menu-trigger="click"
+     class="menu-item menu-accordion {{setMenuOpenClass(['admin.roles.index','admin.roles.show','admin.permissions.index'])}}">
+    <span class="menu-link">
+        <span class="menu-icon"><i class="fa-solid fa-screwdriver-wrench"></i></span>
+        <span class="menu-title">{{ __('admin.settings.title') }}</span>
+        <span class="menu-arrow"></span>
+    </span>
     <div class="menu-sub menu-sub-accordion">
-        <div class="menu-item">
-            <a class="menu-link" href="#">
-                                <span class="menu-bullet">
-                                    <span class="bullet bullet-dot"></span>
-                                </span>
-                <span class="menu-title">{{ __('admin.settings.general') }}</span>
-            </a>
-        </div>
         @if(auth()->user()->hasAnyPermission(PermissionEnum::rolePermissions()))
             <!--begin:Menu item-->
             <div class="menu-item">
                 <!--begin:Menu link-->
-                <a class="menu-link {{setActiveClass('admin.roles.index')}}"
+                <a class="menu-link {{setActiveClass(['admin.roles.index','admin.roles.show'])}}"
                    href="{{route('admin.roles.index')}}">
-                                <span class="menu-bullet">
-                                    <span class="bullet bullet-dot"></span>
-                                </span>
+                    <span class="menu-bullet">
+                        <span class="bullet bullet-dot"></span>
+                    </span>
                     <span class="menu-title">{{ __('admin.settings.roles') }}</span>
                 </a>
                 <!--end:Menu link-->
@@ -168,9 +160,9 @@
                 <!--begin:Menu link-->
                 <a class="menu-link {{setActiveClass('admin.permissions.index')}}"
                    href="{{route('admin.permissions.index')}}">
-                                        <span class="menu-bullet">
-                                            <span class="bullet bullet-dot"></span>
-                                        </span>
+                    <span class="menu-bullet">
+                        <span class="bullet bullet-dot"></span>
+                    </span>
                     <span class="menu-title">{{ __('admin.settings.permissions') }}</span>
                 </a>
                 <!--end:Menu link-->
@@ -179,20 +171,23 @@
         @endif
     </div>
 </div>
+@endif
 <!--end:Menu item-->
 <div data-kt-menu-trigger="click"
-     class="menu-item menu-accordion">
-                    <span class="menu-link">
-                        <span class="menu-icon"><i class="bi bi-grid"></i></span>
-                        <span class="menu-title">{{ __('admin.exams.title') }}</span>
-                        <span class="menu-arrow"></span>
-                    </span>
+     class="menu-item menu-accordion {{setMenuOpenClass(['admin.QuestionBank.index','admin.valueQuestion.index'])}}">
+    <span class="menu-link">
+        <span class="menu-icon"><i class="fa-solid fa-clipboard-list"></i></span>
+        <span class="menu-title">{{ __('admin.exams.title') }}</span>
+        <span class="menu-arrow"></span>
+    </span>
     <div class="menu-sub menu-sub-accordion">
         <div class="menu-item {{setMenuOpenClass(['admin.QuestionBank.index'])}}">
             <!--begin:Menu link-->
             <a class="menu-link {{setActiveClass('admin.QuestionBank.index')}}"
                href="{{route('admin.QuestionBank.index')}}">
-                <span class="menu-icon"><i class="fa-solid fa-clipboard-list"></i></span>
+                <span class="menu-bullet">
+                    <span class="bullet bullet-dot"></span>
+                </span>
                 <span class="menu-title">{{ __('admin.questionBank.title') }}</span>
             </a>
             <!--end:Menu link-->
@@ -202,7 +197,9 @@
             <!--begin:Menu link-->
             <a class="menu-link {{setActiveClass('admin.valueQuestion.index')}}"
                href="{{route('admin.valueQuestion.index')}}">
-                <span class="menu-icon">  <i class="fa-solid fa-layer-group me-2"></i></span>
+                <span class="menu-bullet">
+                    <span class="bullet bullet-dot"></span>
+                </span>
                 <span class="menu-title">{{ __('valueQuestion.title-sidebar') }}</span>
             </a>
             <!--end:Menu link-->

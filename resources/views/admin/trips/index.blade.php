@@ -274,7 +274,6 @@
                                 data: 'name',
                                 name: 'name',
                                 orderable: false,
-                                searchable: false,
                                 className: 'text-center'
                             },
                             {

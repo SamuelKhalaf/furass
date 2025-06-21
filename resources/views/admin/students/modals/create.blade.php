@@ -68,6 +68,29 @@
                         </div>
                         <!--end::Input group-->
                         <!--begin::Input group-->
+                        <div class="fv-row mb-7 fv-plugins-icon-container">
+                            <!--begin::Wrapper-->
+                            <div class="d-flex flex-stack">
+                                <!--begin::Label-->
+                                <div class="me-5">
+                                    <label class="fs-6 fw-semibold">{{ __('users.modal.is_active') }}</label>
+                                    <div class="fs-7 fw-semibold text-muted">{{ __('users.modal.is_active_help') }}</div>
+                                </div>
+                                <!--end::Label-->
+
+                                <!--begin::Switch-->
+                                <label class="form-check form-switch form-check-custom form-check-solid">
+                                    <input class="form-check-input" type="checkbox" value="0" name="is_active">
+                                    <span class="form-check-label fw-semibold text-muted">
+                                        {{ __('users.modal.inactive') }}
+                                    </span>
+                                </label>
+                                <!--end::Switch-->
+                            </div>
+                            <!--end::Wrapper-->
+                        </div>
+                        <!--end::Input group-->
+                        <!--begin::Input group-->
                         <div class="fv-row mb-7">
                             <!--begin::Label-->
                             <label class="required fw-semibold fs-6 mb-2">{{ __('students.modal.school') }}</label>
@@ -177,3 +200,19 @@
     </div>
     <!--end::Modal dialog-->
 </div>
+@push('scripts')
+    <script>
+        // this part for change the user active text muted word
+        $(document).ready(function () {
+            $('input[name="is_active"]').on('change', function () {
+                if ($(this).is(':checked')) {
+                    $(this).val(1);
+                    $(this).closest('.form-check').find('.form-check-label').text('{{ __('users.modal.active') }}');
+                } else {
+                    $(this).val(0);
+                    $(this).closest('.form-check').find('.form-check-label').text('{{ __('users.modal.inactive') }}');
+                }
+            });
+        });
+    </script>
+@endpush

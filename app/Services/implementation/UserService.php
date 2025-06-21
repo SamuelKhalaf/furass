@@ -104,6 +104,8 @@ class UserService implements IUserService
                 'email' => $dto->getEmail(),
                 'phone_number' => $dto->getPhoneNumber(),
                 'password' => $dto->getPassword(),
+                'is_active' => $dto->getIsActive(),
+                'role' => $dto->getRole(),
             ];
 
             $user = $this->userRepository->create($data);
@@ -111,7 +113,6 @@ class UserService implements IUserService
 
             return $user;
         } catch (\Exception $e) {
-
             return null;
         }
     }
@@ -128,6 +129,7 @@ class UserService implements IUserService
                 'name' => $dto->getName(),
                 'email' => $dto->getEmail(),
                 'phone_number' => $dto->getPhoneNumber(),
+                'is_active' => $dto->getIsActive(),
             ];
 
             $user = $this->userRepository->update($id, $data);

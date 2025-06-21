@@ -12,18 +12,22 @@ class UpdateUserDto
 
     private string $role;
 
+    private int $is_active;
+
     /**
      * @param string $name
      * @param string $email
      * @param string $phone_number
      * @param string $role
+     * @param integer $is_active
      */
-    public function __construct(string $name, string $email, string $phone_number, string $role)
+    public function __construct(string $name, string $email, string $phone_number, string $role , int $is_active)
     {
         $this->name = $name;
         $this->email = $email;
         $this->phone_number = $phone_number;
         $this->role = $role;
+        $this->is_active = $is_active;
     }
 
     public function getName(): string
@@ -46,6 +50,10 @@ class UpdateUserDto
         return $this->role;
     }
 
+    public function getIsActive(): int
+    {
+        return $this->is_active;
+    }
     /**
      * @return array
      */
@@ -56,6 +64,7 @@ class UpdateUserDto
             'email' => $this->email,
             'phone_number' => $this->phone_number,
             'role' => $this->role,
+            'is_active' => $this->is_active
         ];
     }
 
