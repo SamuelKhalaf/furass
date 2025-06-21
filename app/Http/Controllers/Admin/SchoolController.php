@@ -139,7 +139,7 @@ class SchoolController extends Controller
                 return response()->json(['message' => 'School created successfully']);
             }
 
-            return redirect()->back()->with('success', 'School created successfully');
+            return redirect()->back()->with('success', 'Your Partnership requested successfully');
         } catch (\Exception $e) {
             DB::rollBack();
             if ($request->ajax()) {
