@@ -330,28 +330,24 @@
                                 data: 'title_ar',
                                 name: 'title_ar',
                                 orderable: false,
-                                searchable: false,
                                 className: 'text-center'
                             },
                             {
                                 data: 'title_en',
                                 name: 'title_en',
                                 orderable: false,
-                                searchable: false,
                                 className: 'text-center'
                             },
                             {
                                 data: 'description_ar',
                                 name: 'description_ar',
                                 orderable: false,
-                                searchable: false,
                                 className: 'text-center'
                             },
                             {
                                 data: 'description_en',
                                 name: 'description_en',
                                 orderable: false,
-                                searchable: false,
                                 className: 'text-center'
                             },
                             {

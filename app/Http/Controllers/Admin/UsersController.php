@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\RoleEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\CreateUserRequest;
 use App\Http\Requests\Admin\UpdateUserRequest;
@@ -12,6 +13,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
+use Spatie\Permission\Models\Role;
 
 class UsersController extends Controller
 {
@@ -33,7 +35,8 @@ class UsersController extends Controller
      */
     public function index(): Factory|Application|View|\Illuminate\Contracts\Foundation\Application
     {
-        $roles = $this->roleService->getAllRoles();
+        $roles = [RoleEnum::ADMIN->value, RoleEnum::SUB_ADMIN->value];
+        $roles = Role::whereIN('name', $roles)->get();
         return view('admin.users.index' , compact('roles'));
     }
 
@@ -86,7 +89,8 @@ class UsersController extends Controller
             'name'          => $user->name,
             'email'         => $user->email,
             'phone_number'  => $user->phone_number,
-            'role'          => $user->roles->first()?->name
+            'role'          => $user->roles->first()?->name,
+            'is_active'     => $user->is_active
         ]);
     }
 

@@ -185,7 +185,6 @@
                                 data: 'name',
                                 name: 'name',
                                 orderable: false,
-                                searchable: false,
                                 className: 'text-center'
                             },
                             {
@@ -673,11 +672,28 @@
 
                 // Function to populate the form with user data
                 var populateForm = (response) => {
-                    form.querySelector('[name="name"]').value = response.user.name || "";
-                    form.querySelector('[name="email"]').value = response.user.email || "";
-                    form.querySelector('[name="phone_number"]').value = response.user.phone_number || "";
-                    form.querySelector('[name="bio"]').value = response.bio || "";
-                    $("#kt_modal_update_consultant_form").attr("data-user-id", response.id);
+                    form.querySelector('[name="name"]').value = response.consultant.user.name || "";
+                    form.querySelector('[name="email"]').value = response.consultant.user.email || "";
+                    form.querySelector('[name="phone_number"]').value = response.consultant.user.phone_number || "";
+                    form.querySelector('[name="bio"]').value = response.consultant.bio || "";
+                    $("#kt_modal_update_consultant_form").attr("data-user-id", response.consultant.id);
+
+                    populateSchoolSelect('#edit_school_ids', response.schools, response.assignedSchoolIds);
+
+                    // check the user is active or not
+                    if (response.consultant.user.is_active && response.consultant.user.is_active === 1) {
+                        form.querySelector('[name="is_active"]').checked = true;
+                        form.querySelector('[name="is_active"]').value = 1;
+                        form.querySelector('.form-check-label').innerText = "Active";
+                    }else {
+                        form.querySelector('[name="is_active"]').checked = false;
+                        form.querySelector('[name="is_active"]').value = 0;
+                        form.querySelector('.form-check-label').innerText = "Inactive";
+                    }
+                    // Re-initialize select2
+                    $('#edit_school_ids').select2({
+                        dropdownParent: $('#kt_modal_update_consultant')
+                    });
                 };
 
                 // Fetch user data when modal is opened
@@ -978,36 +994,6 @@
                 console.error('Error fetching schools');
             }
         });
-    });
-
-    // EDIT MODAL: Populate form and schools
-    $('#kt_modal_update_consultant').on('show.bs.modal', function (event) {
-        let button = event.relatedTarget;
-        let userId = button.getAttribute('data-user-id');
-        if (userId) {
-            $.ajax({
-                url: `/consultants/${userId}/edit`,
-                type: 'GET',
-                success: function (response) {
-                    // Populate form fields
-                    const form = $('#kt_modal_update_consultant_form');
-                    form.find('[name="name"]').val(response.consultant.user.name || "");
-                    form.find('[name="email"]').val(response.consultant.user.email || "");
-                    form.find('[name="phone_number"]').val(response.consultant.user.phone_number || "");
-                    form.find('[name="bio"]').val(response.consultant.bio || "");
-                    form.attr('data-user-id', response.consultant.id);
-                    // Populate schools
-                    populateSchoolSelect('#edit_school_ids', response.schools, response.assignedSchoolIds);
-                    // Re-initialize select2
-                    $('#edit_school_ids').select2({
-                        dropdownParent: $('#kt_modal_update_consultant')
-                    });
-                },
-                error: function () {
-                    console.error('Error fetching consultant data');
-                }
-            });
-        }
     });
 
     // Initialize select2 for both modals on page load

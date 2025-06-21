@@ -21,6 +21,16 @@ var KTUsersUpdateDetails = function () {
                 option.selected = option.value === userData.role;
             });
         }
+        // check the user is active or not
+        if (userData.is_active && userData.is_active === 1) {
+            form.querySelector('[name="is_active"]').checked = true;
+            form.querySelector('[name="is_active"]').value = 1;
+            form.querySelector('.form-check-label').innerText = "Active";
+        }else {
+            form.querySelector('[name="is_active"]').checked = false;
+            form.querySelector('[name="is_active"]').value = 0;
+            form.querySelector('.form-check-label').innerText = "Inactive";
+        }
     };
 
     // Fetch user data when modal is opened

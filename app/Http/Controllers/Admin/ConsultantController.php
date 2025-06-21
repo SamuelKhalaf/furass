@@ -100,8 +100,15 @@ class ConsultantController extends Controller
             'bio' => 'required|string',
             'school_ids' => 'array',
             'school_ids.*' => 'exists:schools,id',
+            'is_active' => 'nullable|boolean',
         ]);
 
+        if ($request->has('is_active')) {
+            $is_active = $request->is_active;
+        } else {
+            $is_active = false;
+        }
+        
         try {
             DB::beginTransaction();
             $user = User::create([
@@ -110,6 +117,7 @@ class ConsultantController extends Controller
                 'phone_number'  => $request->phone_number,
                 'role'          => RoleEnum::CONSULTANT->value,
                 'password'      => Hash::make($request->password),
+                'is_active'     => $is_active
             ]);
 
             $user->assignRole(RoleEnum::CONSULTANT->value);
@@ -170,7 +178,14 @@ class ConsultantController extends Controller
             'bio' => 'required|string',
             'school_ids' => 'array',
             'school_ids.*' => 'exists:schools,id',
+            'is_active' => 'nullable|boolean',
         ]);
+
+        if ($request->has('is_active')) {
+            $is_active = $request->is_active;
+        } else {
+            $is_active = false;
+        }
 
         try {
             DB::beginTransaction();
@@ -179,6 +194,7 @@ class ConsultantController extends Controller
             $user->name = $request->name;
             $user->email = $request->email;
             $user->phone_number = $request->phone_number;
+            $user->is_active = $is_active;
             $user->save();
 
             $consultant->bio = $request->bio;

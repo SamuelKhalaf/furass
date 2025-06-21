@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
 
 class LoginController extends Controller
 {
@@ -40,6 +43,35 @@ class LoginController extends Controller
         $this->middleware('auth')->only('logout');
     }
 
+    protected function attemptLogin(Request $request)
+    {
+        $user = User::where('email', $request->email)->first();
+
+        if ($user && !$user->is_active) {
+            return false;
+        }
+
+        return $this->guard()->attempt(
+            $this->credentials($request), $request->boolean('remember')
+        );
+    }
+
+    protected function sendFailedLoginResponse(Request $request)
+    {
+        $user = User::where('email', $request->email)->first();
+
+        if ($user && Hash::check($request->password, $user->password)) {
+            if (!$user->is_active) {
+                throw ValidationException::withMessages([
+                    $this->username() => ['Sorry, your account is not active. Please contact the administrator.'],
+                ]);
+            }
+        }
+
+        throw ValidationException::withMessages([
+            $this->username() => [trans('auth.failed')],
+        ]);
+    }
     protected function sendLoginResponse(Request $request)
     {
         $request->session()->regenerate();

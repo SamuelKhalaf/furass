@@ -37,6 +37,7 @@ class UpdateUserRequest extends FormRequest
             'email'         => ['required','email','unique:users,email,' . $this->route('user')],
             'phone_number'  => ['required','string','max:20','min:11','unique:users,phone_number,' . $this->route('user')],
             'role'          => ['required', 'exists:roles,name'],
+            'is_active'     => ['nullable', 'boolean'],
         ];
     }
 
@@ -46,7 +47,8 @@ class UpdateUserRequest extends FormRequest
             $this->input('name'),
             $this->input('email'),
             $this->input('phone_number'),
-            $this->input('role')
+            $this->input('role'),
+            $this->input('is_active') ?? 0
         );
     }
 }
