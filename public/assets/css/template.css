@@ -22,6 +22,28 @@ body{
 .nav-li a{
     font-weight: bold;
 }
+.request-demo-btn {
+    background: #543786;
+    color: #fff;
+    border-radius: 24px;
+    padding: 0.5rem 1rem;
+    display: inline-block;
+    text-decoration: none;
+    text-align: center;
+    width: 100%;
+    margin-top: 1rem;
+}
+
+
+/* Large screens (lg and up) */
+@media (min-width: 992px) {
+    .request-demo-btn {
+        width: 19%;
+        padding: 7px;
+        margin: 0;
+    }
+}
+
 .hero-section {
     /*background: linear-gradient(180deg,#8091d7 0%, #ececed 72%);*/
     /*background-image: ;*/

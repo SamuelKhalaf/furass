@@ -21,7 +21,7 @@
                 <div class="col-lg-6 mb-4 mb-lg-0 mt-5">
                     <h1 class="display-5 fw-bold mb-3" style="font-size: 43px; color: white">Bridge Education to Real-World Careers</h1>
                     <p class="lead-section mb-3" style="font-size: 150% ; color: white">Furass connects students with industries and universities through immersive experiences, helping them discover their passions and plan for the future with confidence.</p>
-                    <div class="abilities">
+             {{--       <div class="abilities">
                         <div class="element m-4">
                             <p class="pt-3" style="font-size: 18px ; color: black">Want to discover your abilities?</p>
                             <div class="program d-flex gap-5 position-relative pb-2 pt-0">
@@ -32,7 +32,7 @@
                                 <button class="position-absolute">Next</button>
                             </div>
                         </div>
-                    </div>
+                    </div>--}}
                     <div class="position-relative z-2">
                         <div class="d-flex flex-column flex-sm-row gap-3">
                             <a href="{{ route('template.details-programs') }}" class="btn fw-bold px-4 py-2"
@@ -54,7 +54,7 @@
 
     </div>
     <!-- program Section -->
-    <div class="disc-program">
+   {{-- <div class="disc-program">
         <div class="container-fluid main-container">
             <div class="row justify-content-center">
                 <div class="col-12 col-lg-10">
@@ -73,7 +73,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>--}}
 {{--    <div class="container mb-5 mt-2 program" >
         <h1 class="h-section mb-5 mt-5 text-center">Choose Your Program</h1>
         <div class="row">
