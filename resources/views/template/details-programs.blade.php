@@ -4,7 +4,7 @@
 
 
     <!-- Self Compass Program -->
-<section class="program-section" id="self-compass">
+<section class="program-section" id="self-compass" style="padding-top: 80px;">
         <div class="program-content">
             <h2 class="program-title">Self Compass Program</h2>
             <p class="program-description">

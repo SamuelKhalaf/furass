@@ -58,3 +58,7 @@ Route::get('request-school', function (){
 Route::get('details-programs', function (){
     return view('template.details-programs');
 })->name('template.details-programs');
+
+Route::get('template-questions', function (){
+    return view('template.questions');
+})->name('template.questions');

@@ -226,6 +226,88 @@ body{
 }
 /*end abilities*/
 
+/*start program home*/
+.disc-program .main-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.disc-program .content-wrapper {
+    text-align: center;
+    max-width: 800px;
+}
+
+.disc-program .main-title {
+    font-size: 3rem;
+    color: var(--text-dark);
+    font-weight: 700;
+    margin-bottom: 2rem;
+}
+
+.disc-program .description {
+    font-size: 1.3rem;
+    color: var(--text-light);
+    line-height: 1.8;
+    margin-bottom: 3rem;
+    text-align: justify;
+}
+
+.disc-program .programs-button {
+    background:var(--primary-purple) ;
+    color: white;
+    padding: 18px 40px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: 600;
+    box-shadow: 0 8px 25px rgba(0, 123, 255, 0.3);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    border: none;
+    display: inline-block;
+}
+
+.disc-program .programs-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s;
+}
+
+.disc-program .programs-button:hover::before {
+    left: 100%;
+}
+
+.disc-program .programs-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(0, 123, 255, 0.4);
+    color: white;
+    text-decoration: none;
+}
+
+@media (max-width: 768px) {
+    .disc-program .main-title {
+        font-size: 2.2rem;
+    }
+
+    .disc-program .description {
+        font-size: 1.1rem;
+    }
+
+    .disc-program .programs-button {
+        padding: 15px 30px;
+        font-size: 1.1rem;
+    }
+}
+/*end program*/
+
 /*start about page*/
 .section-img {
     position: relative;
@@ -794,7 +876,33 @@ body{
     max-width: 800px;
     margin: 0 auto 3rem;
 }
+/*.navbar {*/
 
+/*    transition: background-color 0.4s ease, box-shadow 0.4s ease;*/
+/*    background-color: white; !* Start transparent *!*/
+/*}*/
+
+.navbar {
+    transition: top 0.5s ease-in-out, background-color 0.4s;
+    background-color: white;
+}
+
+.navbar.hide-navbar {
+    top: -100px; /* hide above the screen */
+}
+
+.navbar.show-navbar {
+    top: 0;
+}
+
+
+.navbar.scrolled {
+    background-color: rgba(84, 55, 134, 0.3); /* Light background on scroll */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+.navbar.scrolled li a{
+    color: white !important;
+}
 .navigation-dots {
     position: fixed;
     right: 30px;
@@ -882,3 +990,189 @@ body{
     }
 }
 /*end details programs*/
+
+/*start question*/
+
+.main-container {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    animation: fadeInUp 0.8s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.header {
+    background: linear-gradient(135deg, var(--text-dark) 0%, var(--primary-purple) 100%);
+    color: white;
+    padding: 40px 0;
+    text-align: center;
+}
+
+.header h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.header p {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    margin-bottom: 0;
+}
+
+.faq-section {
+    margin-bottom: 30px;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.faq-section:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.section-header {
+    background: linear-gradient(135deg, var(--primary-purple), #5dade2);
+    color: white;
+    padding: 20px 25px;
+    cursor: pointer;
+    border: none;
+    width: 100%;
+    text-align: left;
+    font-size: 1.3rem;
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.section-header:hover {
+    background: linear-gradient(135deg, #3498db, #2980b9);
+}
+
+.section-header i {
+    font-size: 1.5rem;
+    margin-right: 15px;
+}
+
+.section-header .toggle-icon {
+    transition: transform 0.3s ease;
+}
+.rotate {
+    transform: rotate(180deg);
+}
+.section-header[aria-expanded="true"] .toggle-icon {
+    transform: rotate(180deg);
+}
+
+.section-content {
+    background: white;
+    padding: 0;
+}
+
+.question-item {
+    padding: 20px 25px;
+    border-bottom: 1px solid #e9ecef;
+    transition: background-color 0.3s ease;
+}
+
+.question-item:hover {
+    background-color: #f8f9fa;
+}
+
+.question-item:last-child {
+    border-bottom: none;
+}
+
+.question {
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+}
+
+.answer {
+    color: var(--text-light);
+    line-height: 1.6;
+    margin-bottom: 0;
+}
+
+.divider {
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary-purple), var(--primary-blue));
+    margin: 30px 0;
+    border-radius: 2px;
+}
+
+.contact-section {
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    padding: 40px;
+    text-align: center;
+    margin-top: 40px;
+    border-radius: 15px;
+}
+
+.contact-section h3 {
+    color: var(--text-dark);
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.contact-section p {
+    color: var(--text-light);
+    font-size: 1.1rem;
+}
+
+.btn-contact {
+    background: linear-gradient(135deg, var(--primary-purple), var(--primary-blue));
+    border: none;
+    color: white;
+    padding: 12px 30px;
+    border-radius: 25px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 15px;
+}
+
+.btn-contact:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    color: white;
+}
+
+@media (max-width: 768px) {
+    .header h1 {
+        font-size: 2rem;
+    }
+
+    .section-header {
+        font-size: 1.1rem;
+        padding: 15px 20px;
+    }
+
+    .question-item {
+        padding: 15px 20px;
+    }
+
+    .contact-section {
+        padding: 30px 20px;
+    }
+}
+/*end question*/

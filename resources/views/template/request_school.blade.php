@@ -1,6 +1,6 @@
 @extends('template/layout/master')
 @section('body')
-    <div class="container contact-container">
+    <div class="container contact-container" style="padding-top: 80px;">
         <div class=" d-flex align-items-center justify-content-center">
             <div class="contact-form-card w-100">
                 <div class="mb-4" style="font-size: 2rem; font-weight: 600;">Request a School Partnership</div>

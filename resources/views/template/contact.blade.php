@@ -1,6 +1,6 @@
 @extends('template/layout/master')
 @section('body')
-    <div class="container contact-container">
+    <div class="container contact-container" style="padding-top: 80px;">
         <div class="row w-100">
             <div class="col-lg-7 contact-left d-flex flex-column justify-content-center">
                 <div class="contact-title">Contact us</div>

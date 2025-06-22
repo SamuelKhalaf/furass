@@ -6,7 +6,8 @@
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
-        height: 100vh;">
+        height: 100vh;
+        padding-top: 80px;">
 
         <!-- Overlay -->
         <div class="overlay position-absolute top-0 start-0 w-100 h-100" style="
@@ -53,7 +54,27 @@
 
     </div>
     <!-- program Section -->
-    <div class="container mb-5 mt-2 program" >
+    <div class="disc-program">
+        <div class="container-fluid main-container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-lg-10">
+                    <div class="content-wrapper px-3">
+                        <h1 class="main-title">Welcome to Our Career Development Hub</h1>
+
+                        <p class="description">
+                            We offer comprehensive career development programs designed to help you discover your potential,
+                            explore different career paths, and develop the skills needed for future success. Our programs
+                            provide personalized guidance, hands-on experiences, and practical tools to support your
+                            professional journey.
+                        </p>
+
+                        <a href="{{route('template.programs')}}" class="programs-button" onclick="goToPrograms()">View Our Programs</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{{--    <div class="container mb-5 mt-2 program" >
         <h1 class="h-section mb-5 mt-5 text-center">Choose Your Program</h1>
         <div class="row">
             <div class="col-lg-4  col-sm-1">
@@ -82,5 +103,5 @@
             </div>
 
         </div>
-    </div>
+    </div>--}}
 @endsection
