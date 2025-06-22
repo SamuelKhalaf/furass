@@ -19,30 +19,36 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse w-100 " id="navbarSupportedContent">
-            <ul class="navbar-nav m-auto mb-2 mb-lg-0 w-100 d-flex gap-5 gap-md-5 text-center">
-                <li class="nav-item nav-button">
+            <ul class="navbar-nav m-auto mb-2 mb-lg-0 w-100 d-flex justify-content-evenly text-center">
+
+            <li class="nav-item nav-button">
                     <a class="nav-link {{ Request::routeIs('template.home') ? 'active' : '' }}"  href="{{route('template.home')}}">Home</a>
                 </li>
                 <li class="nav-item nav-button">
                     <a class="nav-link {{ Request::routeIs('template.programs') ? 'active' : '' }}"  href="{{route('template.programs')}}">Programs</a>
                 </li>
-                <li class="nav-item nav-button">
-                    <a class="nav-link "  aria-current="page" href="#">Resources</a>
-                </li>
+
                 <li class="nav-item nav-button">
                     <a class="nav-link {{ Request::routeIs('template.about') ? 'active' : '' }}" aria-current="page" href="{{route('template.about')}}">About us</a>
                 </li>
                 <li class="nav-item nav-button">
                     <a class="nav-link {{ Request::routeIs('template.contact') ? 'active' : '' }}" aria-current="page" href="{{route('template.contact')}}">Contact us</a>
                 </li>
-                <li class="nav-item d-flex">
+                <li class="nav-item">
                     <a href="#" class="nav-link fw-semibold text-dark">
                         <i class="fas fa-arrow-right-to-bracket" style="font-size: 20px;"></i>
                         Login</a>
                 </li>
             </ul>
-            <a href="#" class="btn  fw-bold"
+         {{--   <a href="#" class="btn  fw-bold"
                style="background:#543786; color:#fff; border-radius:24px;margin: 0 ; padding: 7px ; width: 19%" >
+                Request a demo
+            </a>
+            <a href="#" class="btn fw-bold w-100 w-lg-auto text-center px-4 py-2 mt-3 mt-lg-0"
+               style="background:#543786; color:#fff; border-radius:24px;">
+                Request a demo
+            </a>--}}
+            <a href="#" class="fw-bold request-demo-btn" style="">
                 Request a demo
             </a>
         </div>
