@@ -11,6 +11,11 @@ return [
         'students_reports' => 'تقارير الطلاب',
     ],
 
+    // Calendar
+    'calendar' => [
+        'title' => 'التقويم',
+    ],
+
     // Users
     'users' => [
         'title' => 'المستخدمون',

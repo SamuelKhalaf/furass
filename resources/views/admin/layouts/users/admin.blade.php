@@ -130,6 +130,16 @@
     <!--end:Menu link-->
 </div>
 <!--end:Menu item-->
+<div class="menu-item {{setMenuOpenClass(['admin.calendar.index'])}}">
+    <!--begin:Menu link-->
+    <a class="menu-link {{setActiveClass('admin.calendar.index')}}"
+       href="{{route('admin.calendar.index')}}">
+        <span class="menu-icon"><i class="fa-solid fa-calendar-days"></i></span>
+        <span class="menu-title">{{ __('admin.calendar.title') }}</span>
+    </a>
+    <!--end:Menu link-->
+</div>
+<!--end:Menu item-->
 @if(auth()->user()->hasAnyPermission(PermissionEnum::permissionPermissions()) || auth()->user()->hasAnyPermission(PermissionEnum::rolePermissions()))
     <div data-kt-menu-trigger="click"
      class="menu-item menu-accordion {{setMenuOpenClass(['admin.roles.index','admin.roles.show','admin.permissions.index'])}}">

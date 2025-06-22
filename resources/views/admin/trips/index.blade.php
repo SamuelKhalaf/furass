@@ -154,7 +154,8 @@
                                 <th class="min-w-125px">{{ __('trips.name') }}</th>
                                 <th class="min-w-125px">{{ __('trips.company_name') }}</th>
                                 <th class="min-w-100px">{{ __('trips.location') }}</th>
-                                <th class="min-w-150px">{{ __('trips.date') }}</th>
+                                <th class="min-w-150px">{{ __('trips.start_date') }}</th>
+                                <th class="min-w-150px">{{ __('trips.end_date') }}</th>
                                 <th class="min-w-50px">{{ __('trips.media') }}</th>
                                 <th class="min-w-50px">{{ __('trips.documents') }}</th>
                                 <th class="min-w-100px">{{ __('trips.actions') }}</th>
@@ -291,8 +292,15 @@
                                 className: 'text-center'
                             },
                             {
-                                data: 'date',
-                                name: 'date',
+                                data: 'start_date',
+                                name: 'start_date',
+                                orderable: false,
+                                searchable: false,
+                                className: 'text-center'
+                            },
+                            {
+                                data: 'end_date',
+                                name: 'end_date',
                                 orderable: false,
                                 searchable: false,
                                 className: 'text-center'
@@ -567,10 +575,17 @@
                                         }
                                     }
                                 },
-                                'event_time': {
+                                'start_date': {
                                     validators: {
                                         notEmpty: {
-                                            message: 'Event date and time is required'
+                                            message: 'Event start date is required'
+                                        }
+                                    }
+                                },
+                                'end_date': {
+                                    validators: {
+                                        notEmpty: {
+                                            message: 'Event end date is required'
                                         }
                                     }
                                 }
@@ -765,7 +780,8 @@
                     form.querySelector('[name="event_name"]').value = response.trip.event_name || "";
                     form.querySelector('[name="company_name"]').value = response.trip.company_name || "";
                     form.querySelector('[name="location"]').value = response.trip.location || "";
-                    form.querySelector('[name="event_time"]').value = response.trip.event_time || "";
+                    form.querySelector('[name="start_date"]').value = response.trip.start_date || "";
+                    form.querySelector('[name="end_date"]').value = response.trip.end_date || "";
                     form.querySelector('[name="description"]').value = response.trip.description || "";
 
                     // Handle media file
@@ -875,10 +891,17 @@
                                         }
                                     }
                                 },
-                                'event_time': {
+                                'start_date': {
                                     validators: {
                                         notEmpty: {
-                                            message: 'Event date and time is required'
+                                            message: 'Event start date is required'
+                                        }
+                                    }
+                                },
+                                'end_date': {
+                                    validators: {
+                                        notEmpty: {
+                                            message: 'Event end date is required'
                                         }
                                     }
                                 },

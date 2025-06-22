@@ -46,17 +46,19 @@
                             </div>
                         </div>
 
+                        <div class="fv-row mb-7">
+                            <label class="required fw-semibold fs-6 mb-2">{{ __('workshops.modal.location') }}</label>
+                            <input type="text" name="location" class="form-control form-control-solid" placeholder="{{ __('workshops.modal.enter_location') }}" required/>
+                        </div>
+
                         <div class="row g-5 mb-7">
-                            <div class="col-md-6 fv-row">
-                                <label class="required fw-semibold fs-6 mb-2">{{ __('workshops.modal.location') }}</label>
-                                <input type="text" name="location" class="form-control form-control-solid" placeholder="{{ __('workshops.modal.enter_location') }}" required/>
+                            <div class="col-md-6 fv-row mb-7">
+                                <label class="required fw-semibold fs-6 mb-2">{{__('workshops.modal.event_start_date')}}</label>
+                                <input type="text" name="start_date" placeholder="{{__('workshops.modal.select_start_date')}}" class="form-control form-control-solid flatpickr-input" required/>
                             </div>
                             <div class="col-md-6 fv-row mb-7">
-                                <!--begin::Label-->
-                                <label class="required fw-semibold fs-6 mb-2">{{__('workshops.modal.event_date_time')}}</label>
-                                <!--end::Label-->
-                                <!--begin::Input-->
-                                <input type="text" name="event_time" placeholder="{{__('workshops.modal.select_date_time')}}" class="form-control form-control-solid flatpickr-input" required/>
+                                <label class="required fw-semibold fs-6 mb-2">{{__('workshops.modal.event_end_date')}}</label>
+                                <input type="text" name="end_date" placeholder="{{__('workshops.modal.select_end_date')}}" class="form-control form-control-solid flatpickr-input" required/>
                             </div>
                         </div>
 
