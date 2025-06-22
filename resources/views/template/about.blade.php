@@ -1,6 +1,7 @@
 @extends('template/layout/master')
 @section('body')
-<div class="section-img">
+    <div style="padding-top: 65px;">
+<div class="section-img" >
     <img src="{{ asset('assets/imgs/template/about.jpg') }}" alt="About Image">
     <div class="container">
         <div class="overlay-text text-white">
@@ -15,8 +16,8 @@
         </div>
     </div>
 </div>
-
-<div class="iframe mt-5 mb-5">
+    </div>
+<div class="iframe mt-5 mb-5" >
     <div class="container" >
         <div class="element">
             <iframe class="w-100 mb-5" height="500" src="https://www.youtube.com/{{--embed/--}}i0bbgA1bjnM?si=1wHtE2Un8oo38Tby" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>

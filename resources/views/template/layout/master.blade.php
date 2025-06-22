@@ -10,16 +10,10 @@
 </head>
 <body class="d-flex flex-column min-vh-100">
 <!-- nav bar -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light fixed-top">
     <div class="container">
         <a class="navbar-brand" href="{{route('template.home')}}">
-            <div class="d-flex" style="margin-right: 60px">
-                <div class="d-flex flex-column lh-1">
-                    <span class="fw-bold" style="font-size:1.3rem; color:#4B3FA7; letter-spacing:1px;">فرص</span>
-                    <span class="fw-bold" style="font-size:1.1rem; color:#4B3FA7; letter-spacing:1px;">Furass</span>
-                </div>
-                <img src="{{asset('assets/imgs/favicon.png')}}" alt="Furass Logo" style="height:38px; margin-right:12px;">
-            </div>
+            <img src="{{asset('assets/imgs/template/furass-logo.png')}}" alt="Furass Logo" style="height:38px; margin-right:12px;">
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -44,8 +38,7 @@
                 <li class="nav-item d-flex">
                     <a href="#" class="nav-link fw-semibold text-dark">
                         <i class="fas fa-arrow-right-to-bracket" style="font-size: 20px;"></i>
-                        Login</a></li>
-                <li class="nav-item">
+                        Login</a>
                 </li>
             </ul>
             <a href="#" class="btn  fw-bold"
@@ -64,13 +57,7 @@
         <div class="row gy-4 align-items-start justify-content-between">
             <div class="col-12 col-md-6 col-lg-4 d-flex flex-column justify-content-start">
                 <a class="navbar-brand mb-3" href="{{route('template.home')}}">
-                    <div class="d-flex" style="margin-right: 60px">
-                        <div class="d-flex flex-column lh-1">
-                            <span class="fw-bold" style="font-size:1.3rem; color:#4B3FA7; letter-spacing:1px;">فرص</span>
-                            <span class="fw-bold" style="font-size:1.1rem; color:#4B3FA7; letter-spacing:1px;">Furass</span>
-                        </div>
-                        <img src="{{asset('assets/imgs/favicon.png')}}" alt="Furass Logo" style="height:38px; margin-right:12px;">
-                    </div>
+                    <img src="{{asset('assets/imgs/template/furass-logo.png')}}" alt="Furass Logo" style="height:38px; margin-right:12px;">
                 </a>
                 <div class="footer-desc">We connect education and careers to help students succeed in school and life.</div>
                 <div class="footer-social mb-2">
@@ -87,6 +74,7 @@
                     <li><a href="#">Resources</a></li>
                     <li><a href="{{route('template.about')}}">About us</a></li>
                     <li><a href="{{route('template.contact')}}">Contact us</a></li>
+                    <li><a href="{{route('template.questions')}}">Frequently Asked Questions</a></li>
                 </ul>
             </div>
             <div class="col-6 col-md-3 col-lg-2 d-flex flex-column justify-content-start">
@@ -117,5 +105,41 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    let scrollTimer = null;
+    const navbar = document.querySelector('.navbar');
+
+    // Initial state: show navbar
+    navbar.classList.add('show-navbar');
+
+    window.addEventListener('scroll', () => {
+        // Always show navbar on scroll
+        navbar.classList.add('show-navbar');
+        navbar.classList.remove('hide-navbar');
+
+        // Handle background color change
+        if (window.scrollY > 50) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+
+        // Clear previous timer
+        if (scrollTimer !== null) {
+            clearTimeout(scrollTimer);
+        }
+
+        // Only start hide timer if not at the top
+        if (window.scrollY > 0) {
+            scrollTimer = setTimeout(() => {
+                navbar.classList.remove('show-navbar');
+                navbar.classList.add('hide-navbar');
+            }, 2500);
+        }
+    });
+
+</script>
+
+@yield('script')
 </body>
 </html>
