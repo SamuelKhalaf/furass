@@ -51,23 +51,21 @@
                         </div>
                         <!--end::Input group-->
 
-                        <!--begin::Input group-->
-                        <div class="row g-9 mb-7">
-                            <!--begin::Col-->
-                            <div class="col-md-6 fv-row">
-                                <label class="required fs-6 fw-semibold mb-2">{{ __('trips.modal.location') }}</label>
-                                <input type="text" class="form-control form-control-lg form-control-solid" name="location" placeholder="{{ __('trips.modal.enter_location') }}" required />
-                                <div class="fv-plugins-message-container invalid-feedback"></div>
-                            </div>
-                            <!--end::Col-->
+                        <div class="fv-row mb-7">
+                            <label class="required fw-semibold fs-6 mb-2">{{ __('trips.modal.location') }}</label>
+                            <input type="text" name="location" class="form-control form-control-solid" placeholder="{{ __('trips.modal.enter_location') }}" required/>
+                        </div>
 
-                            <!--begin::Col-->
-                            <div class="col-md-6 fv-row">
-                                <label class="required fs-6 fw-semibold mb-2">{{ __('trips.modal.event_date_time') }}</label>
-                                <input type="text" placeholder="{{__('trips.modal.select_date_time')}}" class="form-control form-control-lg form-control-solid flatpickr-input" name="event_time" required />
-                                <div class="fv-plugins-message-container invalid-feedback"></div>
+                        <!--begin::Input group-->
+                        <div class="row g-5 mb-7">
+                            <div class="col-md-6 fv-row mb-7">
+                                <label class="required fw-semibold fs-6 mb-2">{{__('trips.modal.event_start_date')}}</label>
+                                <input type="text" name="start_date" placeholder="{{__('trips.modal.select_start_date')}}" class="form-control form-control-solid flatpickr-input" required/>
                             </div>
-                            <!--end::Col-->
+                            <div class="col-md-6 fv-row mb-7">
+                                <label class="required fw-semibold fs-6 mb-2">{{__('trips.modal.event_end_date')}}</label>
+                                <input type="text" name="end_date" placeholder="{{__('trips.modal.select_end_date')}}" class="form-control form-control-solid flatpickr-input" required/>
+                            </div>
                         </div>
                         <!--end::Input group-->
 

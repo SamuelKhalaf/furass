@@ -51,23 +51,21 @@
                         </div>
                         <!--end::Input group-->
 
+                        <div class="fv-row mb-7">
+                            <label class="required fw-semibold fs-6 mb-2">{{ __('workshops.modal.location') }}</label>
+                            <input type="text" name="location" class="form-control form-control-solid" placeholder="{{ __('workshops.modal.enter_location') }}" required/>
+                        </div>
+
                         <!--begin::Input group-->
                         <div class="row g-9 mb-7">
-                            <!--begin::Col-->
-                            <div class="col-md-6 fv-row">
-                                <label class="required fs-6 fw-semibold mb-2">{{ __('workshops.modal.location') }}</label>
-                                <input type="text" class="form-control form-control-lg form-control-solid" name="location" placeholder="{{ __('workshops.modal.enter_location') }}" required />
-                                <div class="fv-plugins-message-container invalid-feedback"></div>
+                            <div class="col-md-6 fv-row mb-7">
+                                <label class="required fw-semibold fs-6 mb-2">{{__('workshops.modal.event_start_date')}}</label>
+                                <input type="text" name="start_date" placeholder="{{__('workshops.modal.select_start_date')}}" class="form-control form-control-solid flatpickr-input" required/>
                             </div>
-                            <!--end::Col-->
-
-                            <!--begin::Col-->
-                            <div class="col-md-6 fv-row">
-                                <label class="required fs-6 fw-semibold mb-2">{{ __('workshops.modal.event_date_time') }}</label>
-                                <input type="text" placeholder="{{__('workshops.modal.select_date_time')}}" class="form-control form-control-lg form-control-solid flatpickr-input" name="event_time" required />
-                                <div class="fv-plugins-message-container invalid-feedback"></div>
+                            <div class="col-md-6 fv-row mb-7">
+                                <label class="required fw-semibold fs-6 mb-2">{{__('workshops.modal.event_end_date')}}</label>
+                                <input type="text" name="end_date" placeholder="{{__('workshops.modal.select_end_date')}}" class="form-control form-control-solid flatpickr-input" required/>
                             </div>
-                            <!--end::Col-->
                         </div>
                         <!--end::Input group-->
 

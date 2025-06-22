@@ -65,6 +65,12 @@ enum PermissionEnum : string
     case LIST_PROGRAMS = 'List Programs';
     case CREATE_PROGRAMS = 'Create Programs';
     case UPDATE_PROGRAMS = 'Update Programs';
+
+    // Event Permissions
+    case LIST_EVENTS = 'List Events';
+    case CREATE_EVENTS = 'Create Events';
+    case UPDATE_EVENTS = 'Update Events';
+    case DELETE_EVENTS = 'Delete Events';
     /**
      * @return array
      */

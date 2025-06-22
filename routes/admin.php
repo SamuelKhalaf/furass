@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\PermissionEnum;
+use App\Http\Controllers\Admin\CalendarController;
 use App\Http\Controllers\Admin\CategoryOfExamController;
 use App\Http\Controllers\Admin\ConsultantController;
 use App\Http\Controllers\Admin\ConsultationController;
@@ -207,6 +208,26 @@ Route::middleware(['auth'])->name('admin.')->group(function () {
         Route::put('programs/{program}', [ProgramsController::class, 'update'])->name('programs.update');
     });
     ###############################  End:Programs Routes  #####################################
+
+    ############################### Start:Calendar Routes #####################################
+    Route::middleware('permission:'. PermissionEnum::LIST_EVENTS->value)->group(function () {
+        Route::get('calendar', [CalendarController::class, 'index'])->name('calendar.index');
+        Route::get('calendar/all', [CalendarController::class, 'getCalendarData'])->name('calendar.datatable');
+    });
+
+    Route::middleware('permission:'. PermissionEnum::CREATE_EVENTS->value)->group(function () {
+        Route::post('calendar', [CalendarController::class, 'store'])->name('calendar.store');
+    });
+
+    Route::middleware('permission:'. PermissionEnum::UPDATE_EVENTS->value)->group(function () {
+        Route::get('calendar/{calendar}/edit', [CalendarController::class, 'edit'])->name('calendar.edit');
+        Route::put('calendar/{calendar}', [CalendarController::class, 'update'])->name('calendar.update');
+    });
+
+    Route::delete('calendar/{calendar}', [CalendarController::class, 'destroy'])
+        ->middleware('permission:'. PermissionEnum::DELETE_EVENTS->value)
+        ->name('calendar.destroy');
+    ###############################  End:Calendar Routes  #####################################
 
     ############################### Start:Consultations Routes #####################################
 //    Route::middleware('permission:'. PermissionEnum::LIST_CONSULTANTS->value)->group(function () {

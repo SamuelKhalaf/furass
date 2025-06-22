@@ -36,8 +36,11 @@ class WorkshopsController extends Controller
             ->addColumn('location', function ($workshop) {
                 return $workshop->location;
             })
-            ->addColumn('date', function ($workshop) {
-                return Carbon::parse($workshop->event_time)->format('d-m-Y h:i A');
+            ->addColumn('start_date', function ($workshop) {
+                return Carbon::parse($workshop->start_date)->format('d M Y h:i A');
+            })
+            ->addColumn('end_date', function ($workshop) {
+                return Carbon::parse($workshop->end_date)->format('d M Y h:i A');
             })
             ->addColumn('media', function ($workshop) {
                 return '<a href="#" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1 preview-trigger" data-content="' . e($workshop->media_path) . '">
@@ -105,7 +108,8 @@ class WorkshopsController extends Controller
             'event_name' => 'required|string|max:255',
             'company_name' => 'required|string|max:255',
             'location' => 'required|string|max:255',
-            'event_time' => 'required|date',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after:start_date',
             'media' => 'nullable|file|mimes:jpeg,png,jpg,mp4|max:10240', // 10MB max
             'document' => 'nullable|file|mimes:pdf,doc,docx,txt|max:10240', // 10MB max
             'description' => 'nullable|string',
@@ -133,7 +137,8 @@ class WorkshopsController extends Controller
                 'event_name' => $validated['event_name'],
                 'company_name' => $validated['company_name'],
                 'location' => $validated['location'],
-                'event_time' => $validated['event_time'],
+                'start_date' => $validated['start_date'],
+                'end_date' => $validated['end_date'],
                 'media_path' => $mediaPath,
                 'document_path' => $documentPath,
                 'description' => $validated['description'],
@@ -191,7 +196,8 @@ class WorkshopsController extends Controller
             'event_name' => 'required|string|max:255',
             'company_name' => 'required|string|max:255',
             'location' => 'required|string|max:255',
-            'event_time' => 'required|date',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after:start_date',
             'media' => 'nullable|file|mimes:jpeg,png,jpg,mp4', // 10MB max
             'document' => 'nullable|file|mimes:pdf,doc,docx,txt|max:10240', // 10MB max
             'description' => 'nullable|string',
@@ -241,7 +247,8 @@ class WorkshopsController extends Controller
                 'event_name' => $validated['event_name'],
                 'company_name' => $validated['company_name'],
                 'location' => $validated['location'],
-                'event_time' => $validated['event_time'],
+                'start_date' => $validated['start_date'],
+                'end_date' => $validated['end_date'],
                 'description' => $validated['description'],
                 'media_path' => $mediaPath,
                 'document_path' => $documentPath,

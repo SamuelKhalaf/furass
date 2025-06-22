@@ -11,6 +11,11 @@ return [
         'students_reports' => 'Students Reports',
     ],
 
+    // Calendar
+    'calendar' => [
+        'title' => 'Calendar',
+    ],
+
     // Users
     'users' => [
         'title' => 'Users',
