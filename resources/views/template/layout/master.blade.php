@@ -40,14 +40,6 @@
                         Login</a>
                 </li>
             </ul>
-         {{--   <a href="#" class="btn  fw-bold"
-               style="background:#543786; color:#fff; border-radius:24px;margin: 0 ; padding: 7px ; width: 19%" >
-                Request a demo
-            </a>
-            <a href="#" class="btn fw-bold w-100 w-lg-auto text-center px-4 py-2 mt-3 mt-lg-0"
-               style="background:#543786; color:#fff; border-radius:24px;">
-                Request a demo
-            </a>--}}
             <a href="#" class="fw-bold request-demo-btn" style="">
                 Request a demo
             </a>
@@ -77,7 +69,6 @@
                 <ul class="footer-links">
                     <li><a href="{{route('template.home')}}">Home</a></li>
                     <li><a href="{{route('template.programs')}}">Programs</a></li>
-                    <li><a href="#">Resources</a></li>
                     <li><a href="{{route('template.about')}}">About us</a></li>
                     <li><a href="{{route('template.contact')}}">Contact us</a></li>
                     <li><a href="{{route('template.questions')}}">Frequently Asked Questions</a></li>

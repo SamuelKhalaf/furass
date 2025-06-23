@@ -15,6 +15,49 @@ body{
     color: white !important;
 }
 
+   .navbar {
+       transition: top 0.5s ease-in-out, background-color 0.4s;
+       background-color: white;
+   }
+
+.navbar.hide-navbar {
+    top: -100px;
+}
+
+.navbar.show-navbar {
+    top: 0;
+}
+
+
+.navbar.scrolled {
+    background-color: rgba(84, 55, 134, 0.3);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+.navbar.scrolled li a{
+    color: white !important;
+}
+.navigation-dots {
+    position: fixed;
+    right: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1000;
+}
+
+.nav-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    margin: 10px 0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.nav-dot.active {
+    background: white;
+    transform: scale(1.2);
+}
 .nav-li{
     margin-left: 21px;
     margin-right: 21px;
@@ -146,8 +189,8 @@ body{
     font-weight: 500;
     /*width: inherit;*/
 }
-
 /*start box*/
+/*
 .program .row {
     display: flex;
     flex-wrap: wrap;
@@ -163,7 +206,7 @@ body{
 .card {
     display: flex;
     flex-direction: column;
-    justify-content: flex-start; /* start from top */
+    justify-content: flex-start; !* start from top *!
     border: none !important;
     text-align: center;
     padding: 20px;
@@ -177,12 +220,12 @@ body{
 }
 
 .card h4 {
-    min-height: 50px; /* make space for tall headers */
+    min-height: 50px; !* make space for tall headers *!
     margin-bottom: 10px;
 }
 
 .card p {
-    min-height: 60px; /* adjust depending on length */
+    min-height: 60px; !* adjust depending on length *!
     margin-bottom: 20px;
 }
 
@@ -209,11 +252,87 @@ body{
         min-height: auto;
     }
 }
+*/
 
 /*end box*/
 
+
+/*start program*/
+.img-section .title::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: -20px; /* space below text */
+    width: 60px;    /* line length */
+    height: 2px;
+    background-color: white;
+}
+.program .box{
+    z-index: 3;
+    /*top: -100px;*/
+    left: 0;
+    right: 0;
+    bottom: -188px;
+}
+@media (max-width: 767px) {
+    .program-space{
+        height: 1000px !important;
+    }
+    .program .box{
+        z-index: 3;
+        left: 0;
+        right: 0;
+        bottom: -900px;
+    }
+}
+@media (min-width: 768px) {
+    .prog-home .f-p{
+        margin-bottom: -25px
+    }
+    .prog-home .button{
+        margin-top: -50px
+    }
+}
+
+.program .box .element{
+    background-color: white;
+    border-radius: 50px;
+    padding: 30px 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    height: 100%;
+}
+
+.program .box .element h4 {
+    min-height: 60px; /* ensures all titles are same height */
+    margin-bottom: 15px;
+}
+
+.program .box .element p {
+    min-height: 50px; /* ensures all descriptions are same height */
+}
+
+.program .box .element a {
+    align-self: center;
+}
+
+.feature::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    /*transform: translateX(-50%);*/
+    bottom: -10px; /* space below text */
+    width: 100px; /* line length */
+    height: 3px;
+    background-color: var(--primary-purple);
+}
+
+
+/*end program*/
+
+
 /*start abilities*/
-.abilities{
+/*.abilities{
     width: 80%;
     background-color: #ececed;
     border-radius: 15px;
@@ -245,11 +364,11 @@ body{
     .abilities {
         width: 100% !important;
     }
-}
+}*/
 /*end abilities*/
 
 /*start program home*/
-.disc-program .main-container {
+/*.disc-program .main-container {
     min-height: 100vh;
     display: flex;
     align-items: center;
@@ -327,7 +446,7 @@ body{
         padding: 15px 30px;
         font-size: 1.1rem;
     }
-}
+}*/
 /*end program*/
 
 /*start about page*/
@@ -743,7 +862,7 @@ body{
 /* end footer*/
 
 /*start details programs*/
-
+/*
 .program-section {
     min-height: 100vh;
     display: flex;
@@ -898,55 +1017,7 @@ body{
     max-width: 800px;
     margin: 0 auto 3rem;
 }
-/*.navbar {*/
 
-/*    transition: background-color 0.4s ease, box-shadow 0.4s ease;*/
-/*    background-color: white; !* Start transparent *!*/
-/*}*/
-
-.navbar {
-    transition: top 0.5s ease-in-out, background-color 0.4s;
-    background-color: white;
-}
-
-.navbar.hide-navbar {
-    top: -100px; /* hide above the screen */
-}
-
-.navbar.show-navbar {
-    top: 0;
-}
-
-
-.navbar.scrolled {
-    background-color: rgba(84, 55, 134, 0.3); /* Light background on scroll */
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-}
-.navbar.scrolled li a{
-    color: white !important;
-}
-.navigation-dots {
-    position: fixed;
-    right: 30px;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 1000;
-}
-
-.nav-dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.5);
-    margin: 10px 0;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.nav-dot.active {
-    background: white;
-    transform: scale(1.2);
-}
 
 @media (max-width: 768px) {
     .program-title {
@@ -1010,7 +1081,7 @@ body{
     .program-section {
         padding: 40px 0;
     }
-}
+}*/
 /*end details programs*/
 
 /*start question*/
