@@ -818,7 +818,7 @@
                     }
 
                     // Set the trip ID for the form
-                    $("#kt_modal_update_trip_form").attr("data-user-id", response.trip.id);
+                    $("#kt_modal_update_trip_form").data("user-id", response.trip.id);
                 };
 
                 // Reset form function
@@ -964,12 +964,6 @@
                                                     modal.hide();
                                                     location.reload();
 
-                                                    // // Reload the DataTable
-                                                    // if (typeof $('#kt_table_users').DataTable === 'function') {
-                                                    //     $('#kt_table_users').DataTable().ajax.reload();
-                                                    // } else {
-                                                    //     location.reload();
-                                                    // }
                                                 }
                                             });
                                         },

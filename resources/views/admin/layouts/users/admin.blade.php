@@ -140,6 +140,16 @@
     <!--end:Menu link-->
 </div>
 <!--end:Menu item-->
+<div class="menu-item {{setMenuOpenClass(['admin.news.index'])}}">
+    <!--begin:Menu link-->
+    <a class="menu-link {{setActiveClass('admin.news.index')}}"
+       href="{{route('admin.news.index')}}">
+        <span class="menu-icon"><i class="fa-regular fa-newspaper"></i></span>
+        <span class="menu-title">{{ __('admin.news.title') }}</span>
+    </a>
+    <!--end:Menu link-->
+</div>
+<!--end:Menu item-->
 @if(auth()->user()->hasAnyPermission(PermissionEnum::permissionPermissions()) || auth()->user()->hasAnyPermission(PermissionEnum::rolePermissions()))
     <div data-kt-menu-trigger="click"
      class="menu-item menu-accordion {{setMenuOpenClass(['admin.roles.index','admin.roles.show','admin.permissions.index'])}}">
