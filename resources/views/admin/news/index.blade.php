@@ -1,72 +1,12 @@
 @php use App\Enums\PermissionEnum; @endphp
 @extends('admin.layouts.master')
-@section('title', __('workshops.title'))
+@section('title', __('news.title'))
 @push('styles')
     <style>
-        /* Calendar container styling */
-        .flatpickr-calendar {
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Align inner content (calendar + time) */
-        .flatpickr-innerContainer {
-            display: flex;
-            /*align-items: stretch;*/
-        }
-
-        /* Calendar days container */
-        .flatpickr-days {
-            padding: 10px;
-        }
-
-        /* Styling for selected day */
-        .flatpickr-day.selected {
-            background-color: #10b981;
-            color: white;
-            font-weight: bold;
-        }
-
-        /* Styling for today */
-        .flatpickr-day.today {
-            background-color: #3b82f6;
-            color: white;
-        }
-
-         Time container
-        .flatpickr-time {
-            /*width: 100px;*/
-            background: #fafafa;
-            padding: 16px 12px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            border-left: 1px solid #ddd;
-            box-sizing: border-box;
-        }
-
-        /* Time input styling */
-        .flatpickr-time input {
-            width: 45px;
-            font-size: 16px;
-            padding: 4px 6px;
-            text-align: center;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            background: #fff;
-            margin: 2px 0;
-        }
-
-        /* Separator styling */
-        .flatpickr-time-separator {
-            font-size: 18px;
-            margin: 0 4px;
-        }
-        .flatpickr-time .numInputWrapper
-        {
-            height: 35px;
+        [disabled] {
+            opacity: 0.7;
+            cursor: not-allowed;
+            background-color: #f8f9fa;
         }
     </style>
 @endpush
@@ -79,7 +19,7 @@
                 <!--begin::Page title-->
                 <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
                     <!--begin::Title-->
-                    <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">{{ __('workshops.list') }}</h1>
+                    <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">{{ __('news.list') }}</h1>
                     <!--end::Title-->
                     <!--begin::Breadcrumb-->
                     <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
@@ -95,7 +35,7 @@
                         </li>
                         <!--end::Item-->
                         <!--begin::Item-->
-                        <li class="breadcrumb-item text-muted">{{ __('workshops.title') }}</li>
+                        <li class="breadcrumb-item text-muted">{{ __('news.title') }}</li>
                         <!--end::Item-->
                     </ul>
                     <!--end::Breadcrumb-->
@@ -121,7 +61,7 @@
                                         class="fa-solid fa-magnifying-glass"></i></span>
                                 <input type="text" data-kt-user-table-filter="search"
                                        class="form-control form-control-solid w-250px ps-14"
-                                       placeholder="{{ __('workshops.search') }}"/>
+                                       placeholder="{{ __('news.search') }}"/>
                             </div>
                             <!--end::Search-->
                         </div>
@@ -130,11 +70,11 @@
                         <div class="card-toolbar">
                             <!--begin::Toolbar-->
                             <div class="d-flex justify-content-end" data-kt-user-table-toolbar="base">
-                                @if(auth()->user()->hasPermissionTo(PermissionEnum::CREATE_WORKSHOPS->value))
+                                @if(auth()->user()->hasPermissionTo(PermissionEnum::CREATE_NEWS->value))
                                     <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                            data-bs-target="#kt_modal_add_workshop">
+                                            data-bs-target="#kt_modal_add_news">
                                         <span class="svg-icon svg-icon-2"><i class="fa-solid fa-plus"></i></span>
-                                        {{ __('workshops.create') }}
+                                        {{ __('news.create') }}
                                     </button>
                                 @endif
                             </div>
@@ -151,14 +91,12 @@
                             <thead>
                             <!--begin::Table row-->
                             <tr class="text-gray-400 fw-bold fs-7 text-uppercase gs-0 text-center">
-                                <th class="min-w-125px">{{ __('workshops.name') }}</th>
-                                <th class="min-w-125px">{{ __('workshops.company_name') }}</th>
-                                <th class="min-w-100px">{{ __('workshops.location') }}</th>
-                                <th class="min-w-150px">{{ __('workshops.start_date') }}</th>
-                                <th class="min-w-150px">{{ __('workshops.end_date') }}</th>
-                                <th class="min-w-50px">{{ __('workshops.media') }}</th>
-                                <th class="min-w-50px">{{ __('workshops.documents') }}</th>
-                                <th class="min-w-100px">{{ __('workshops.actions') }}</th>
+                                <th class="min-w-125px">{{ __('news.title') }}</th>
+                                <th class="min-w-125px">{{ __('news.author') }}</th>
+                                <th class="min-w-125px">{{ __('news.status') }}</th>
+                                <th class="min-w-125px">{{ __('news.published_at') }}</th>
+                                <th class="min-w-100px">{{ __('news.media') }}</th>
+                                <th class="min-w-100px">{{ __('news.actions') }}</th>
                             </tr>
                             <!--end::Table row-->
                             </thead>
@@ -180,33 +118,33 @@
         </div>
         <!--end::Content-->
     </div>
-    @if(auth()->user()->hasPermissionTo(PermissionEnum::CREATE_WORKSHOPS->value))
+    @if(auth()->user()->hasPermissionTo(PermissionEnum::CREATE_NEWS->value))
         <!--begin::Modal - Add Users-->
-        @include('admin.workshops.modals.create')
+        @include('admin.news.modals.create')
         <!--end::Modal - Add Users-->
     @endif
-    @if(auth()->user()->hasPermissionTo(PermissionEnum::UPDATE_WORKSHOPS->value))
+    @if(auth()->user()->hasPermissionTo(PermissionEnum::UPDATE_NEWS->value))
         <!--begin::Modal - Update user-->
-        @include('admin.workshops.modals.edit')
+        @include('admin.news.modals.edit')
         <!--end::Modal - Update user-->
     @endif
-    @include('admin.workshops.modals.preview')
+    @include('admin.news.modals.preview')
 @endsection
 @section('scripts')
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            flatpickr(".flatpickr-input", {
-                enableTime: true,
-                dateFormat: "Y-m-d H:i",
-                onClose: function(selectedDates, dateStr, instance) {
-                    if (!dateStr) {
-                        instance.input.placeholder = "Select date & time";
-                    }
-                }
-            });
-        });
+        // document.addEventListener('DOMContentLoaded', function() {
+        //     flatpickr(".flatpickr-input", {
+        //         enableTime: true,
+        //         dateFormat: "Y-m-d H:i",
+        //         onClose: function(selectedDates, dateStr, instance) {
+        //             if (!dateStr) {
+        //                 instance.input.placeholder = "Select date & time";
+        //             }
+        //         }
+        //     });
+        // });
     </script>
-    @if(auth()->user()->hasPermissionTo(PermissionEnum::LIST_WORKSHOPS->value))
+    @if(auth()->user()->hasPermissionTo(PermissionEnum::LIST_NEWS->value))
         <script>
             $('#kt_table_users').on('draw.dt', function () {
                 KTMenu.createInstances();
@@ -269,38 +207,48 @@
                     datatable = $(table).DataTable({
                         processing: true,
                         serverSide: true,
-                        ajax: "/workshops/all",
+                        ajax: "/news/all",
                         columns: [
                             {
-                                data: 'name',
-                                name: 'name',
+                                data: 'title',
+                                name: 'title',
                                 orderable: false,
                                 className: 'text-center'
                             },
                             {
-                                data: 'company_name',
-                                name: 'company_name',
-                                orderable: false,
-                                searchable: false,
-                                className: 'text-center'
-                            },
-                            {
-                                data: 'location',
-                                name: 'location',
+                                data: 'author',
+                                name: 'author',
                                 orderable: false,
                                 searchable: false,
                                 className: 'text-center'
                             },
                             {
-                                data: 'start_date',
-                                name: 'start_date',
+                                data: 'status',
+                                name: 'status',
                                 orderable: false,
                                 searchable: false,
-                                className: 'text-center'
+                                className: 'text-center',
+                                render: function(data, type, row) {
+                                    if (type === 'display') {
+                                        const status = row.status;
+                                        const icons = {
+                                            0: '<i class="fas fa-pencil-alt text-warning dark:text-dark-warning me-2"></i> Draft',
+                                            1: '<i class="fas fa-check-circle text-success dark:text-dark-success me-2"></i> Published'
+                                        };
+
+                                        const colors = {
+                                            0: 'bg-light-warning text-warning',
+                                            1: 'bg-light-success text-success'
+                                        };
+
+                                        return `<span class="badge ${colors[status]} fs-7 fw-bold py-2 px-3">${icons[status]}</span>`;
+                                    }
+                                    return data;
+                                }
                             },
                             {
-                                data: 'end_date',
-                                name: 'end_date',
+                                data: 'published_at',
+                                name: 'published_at',
                                 orderable: false,
                                 searchable: false,
                                 className: 'text-center'
@@ -308,13 +256,6 @@
                             {
                                 data: 'media',
                                 name: 'media',
-                                orderable: false,
-                                searchable: false,
-                                className: 'text-center'
-                            },
-                            {
-                                data: 'documents',
-                                name: 'documents',
                                 orderable: false,
                                 searchable: false,
                                 className: 'text-center'
@@ -428,7 +369,7 @@
                     deleteSelected.addEventListener('click', function () {
                         // SweetAlert2 pop up --- official docs reference: https://sweetalert2.github.io/
                         Swal.fire({
-                            text: "Are you sure you want to delete selected customers?",
+                            text: "Are you sure you want to delete selected news?",
                             icon: "warning",
                             showCancelButton: true,
                             buttonsStyling: false,
@@ -441,7 +382,7 @@
                         }).then(function (result) {
                             if (result.value) {
                                 Swal.fire({
-                                    text: "You have deleted all selected customers!.",
+                                    text: "You have deleted all selected news!.",
                                     icon: "success",
                                     buttonsStyling: false,
                                     confirmButtonText: "Ok, got it!",
@@ -449,7 +390,7 @@
                                         confirmButton: "btn fw-bold btn-primary",
                                     }
                                 }).then(function () {
-                                    // Remove all selected customers
+                                    // Remove all selected news
                                     checkboxes.forEach(c => {
                                         if (c.checked) {
                                             datatable.row($(c.closest('tbody tr'))).remove().draw();
@@ -465,7 +406,7 @@
                                 });
                             } else if (result.dismiss === 'cancel') {
                                 Swal.fire({
-                                    text: "Selected customers was not deleted.",
+                                    text: "Selected news was not deleted.",
                                     icon: "error",
                                     buttonsStyling: false,
                                     confirmButtonText: "Ok, got it!",
@@ -535,62 +476,160 @@
         </script>
     @endif
 
-    @if(auth()->user()->hasPermissionTo(PermissionEnum::CREATE_WORKSHOPS->value))
+    @if(auth()->user()->hasPermissionTo(PermissionEnum::CREATE_NEWS->value))
         <script>
             "use strict";
 
             // Class definition
             var KTUsersAddUser = function () {
                 // Shared variables
-                const element = document.getElementById('kt_modal_add_workshop');
-                const form = element.querySelector('#kt_modal_add_workshop_form');
+                const element = document.getElementById('kt_modal_add_news');
+                const form = element.querySelector('#kt_modal_add_news_form');
                 const modal = new bootstrap.Modal(element);
+                const statusSelect = form.querySelector('#add_status');
+                const publishedAtInput = form.querySelector('#add_published_at');
+
+                // Format date for flatpickr
+                const formatDateForFlatpickr = (dateString) => {
+                    if (!dateString) return '';
+                    const date = new Date(dateString);
+                    const pad = num => num.toString().padStart(2, '0');
+                    return `${date.getFullYear()}-${pad(date.getMonth()+1)}-${pad(date.getDate())} ${pad(date.getHours())}:${pad(date.getMinutes())}`;
+                };
+
+                // Handle status change function
+                const handleStatusChange = (statusValue) => {
+
+                    if (!publishedAtInput) return; // Exit if element doesn't exist
+
+                    if (statusValue === "1") { // Published
+                        publishedAtInput.disabled = false;
+                        publishedAtInput.style.opacity = "1";
+                        publishedAtInput.style.cursor = "text";
+                        publishedAtInput.style.backgroundColor = "";
+                        publishedAtInput.removeAttribute('title');
+
+                        // If empty and status is published, set to current datetime
+                        if (!publishedAtInput.value) {
+                            publishedAtInput.value = formatDateForFlatpickr(new Date());
+                        }
+                    } else { // Draft
+                        publishedAtInput.disabled = true;
+                        publishedAtInput.style.opacity = "0.7";
+                        publishedAtInput.style.cursor = "not-allowed";
+                        publishedAtInput.style.backgroundColor = "#f8f9fa";
+                        publishedAtInput.title = "Disabled for drafts";
+                        publishedAtInput.value = "";
+                    }
+                };
+
+                // Initialize status and published_at interaction
+                const initStatusInteraction = () => {
+
+                    if (!statusSelect || !publishedAtInput) return; // Exit if elements don't exist
+
+                    // Initialize flatpickr on published_at input
+                    flatpickr(publishedAtInput, {
+                        enableTime: true,
+                        dateFormat: "Y-m-d H:i",
+                        onClose: function(selectedDates, dateStr, instance) {
+                            if (!dateStr) {
+                                instance.input.placeholder = "Select date & time";
+                            }
+                        }
+                    });
+
+                    // Set initial state based on default status value
+                    handleStatusChange(statusSelect.value || "0");
+
+                    $(statusSelect).on('change', function() {
+                        handleStatusChange(this.value);
+                    });
+                };
+
+                // Reset form function
+                const resetForm = () => {
+                    form.reset();
+
+                    // Reset Select2 elements if they exist
+                    // const statusSelect = form.querySelector('#add_status');
+                    if (statusSelect && $(statusSelect).hasClass('select2-hidden-accessible')) {
+                        $(statusSelect).val('').trigger('change');
+                    }
+
+                    // Reset published_at input state
+                    // const publishedAtInput = form.querySelector('#add_published_at');
+                    if (publishedAtInput) {
+                        publishedAtInput.disabled = false;
+                        publishedAtInput.style.opacity = "1";
+                        publishedAtInput.style.cursor = "text";
+                        publishedAtInput.style.backgroundColor = "";
+                        publishedAtInput.removeAttribute('title');
+
+                        // Clear flatpickr
+                        if (publishedAtInput._flatpickr) {
+                            publishedAtInput._flatpickr.clear();
+                        }
+                    }
+
+                    // Reset to initial state (draft)
+                    handleStatusChange("0");
+                };
 
                 // Init add schedule modal
                 var initAddUser = () => {
+
+                    // Initialize status interaction
+                    initStatusInteraction();
 
                     // Init form validation rules. For more info check the FormValidation plugin's official documentation:https://formvalidation.io/
                     var validator = FormValidation.formValidation(
                         form,
                         {
                             fields: {
-                                'event_name': {
+                                'title': {
                                     validators: {
                                         notEmpty: {
-                                            message: 'Workshop name is required'
+                                            message: 'News title is required'
+                                        },
+                                        stringLength: {
+                                            min: 3,
+                                            max: 100,
+                                            message: 'Title must be between 3 and 100 characters'
                                         }
                                     }
                                 },
-                                'company_name': {
+                                'slug': {
                                     validators: {
                                         notEmpty: {
-                                            message: 'Company name is required'
+                                            message: 'News slug is required'
+                                        },
+                                        stringLength: {
+                                            min: 3,
+                                            max: 255,
+                                            message: 'Slug must be between 3 and 255 characters'
                                         }
                                     }
                                 },
-                                'location': {
+                                'content': {
                                     validators: {
                                         notEmpty: {
-                                            message: 'Location is required'
+                                            message: 'News content is required'
+                                        },
+                                        stringLength: {
+                                            min: 10,
+                                            message: 'Content must be at least 10 characters long'
                                         }
                                     }
                                 },
-                                'start_date': {
+                                'status': {
                                     validators: {
                                         notEmpty: {
-                                            message: 'Event start date is required'
+                                            message: 'Status is required'
                                         }
                                     }
                                 },
-                                'end_date': {
-                                    validators: {
-                                        notEmpty: {
-                                            message: 'Event end date is required'
-                                        }
-                                    }
-                                }
                             },
-
                             plugins: {
                                 trigger: new FormValidation.plugins.Trigger(),
                                 bootstrap: new FormValidation.plugins.Bootstrap5({
@@ -638,7 +677,7 @@
                                             }).then(function (result) {
                                                 if (result.isConfirmed) {
                                                     modal.hide();
-                                                    form.reset();
+                                                    resetForm();
                                                     location.reload();
                                                 }
                                             });
@@ -679,6 +718,7 @@
                             });
                         }
                     });
+
                     // Cancel button handler
                     const cancelButton = element.querySelector('[data-kt-users-modal-action="cancel"]');
                     cancelButton.addEventListener('click', e => {
@@ -698,7 +738,7 @@
                         }).then(function (result) {
                             if (result.value) {
                                 modal.hide();
-                                form.reset();
+                                resetForm();
                             } else if (result.dismiss === 'cancel') {
                                 Swal.fire({
                                     text: "Your form has not been cancelled!.",
@@ -732,7 +772,7 @@
                         }).then(function (result) {
                             if (result.value) {
                                 modal.hide();
-                                form.reset();
+                                resetForm();
                             } else if (result.dismiss === 'cancel') {
                                 Swal.fire({
                                     text: "Your form has not been cancelled!.",
@@ -745,6 +785,20 @@
                                 });
                             }
                         });
+                    });
+
+                    // Reset form when modal is hidden
+                    element.addEventListener('hidden.bs.modal', function () {
+                        resetForm();
+                    });
+
+                    // Reset form when modal is shown (to ensure clean state)
+                    element.addEventListener('show.bs.modal', function () {
+                        // Small delay to ensure DOM is ready
+                        setTimeout(() => {
+                            resetForm();
+                            initStatusInteraction(); // Re-initialize in case of any issues
+                        }, 100);
                     });
                 }
 
@@ -763,32 +817,101 @@
         </script>
     @endif
 
-    @if(auth()->user()->hasPermissionTo(PermissionEnum::UPDATE_WORKSHOPS->value))
+    @if(auth()->user()->hasPermissionTo(PermissionEnum::UPDATE_NEWS->value))
         <script>
             "use strict";
 
             // Class definition
             var KTUsersUpdateDetails = function () {
                 // Shared variables
-                const element = document.getElementById('kt_modal_update_workshop');
-                const form = element.querySelector('#kt_modal_update_workshop_form');
+                const element = document.getElementById('kt_modal_update_news');
+                const form = element.querySelector('#kt_modal_update_news_form');
                 const modal = new bootstrap.Modal(element);
 
-                // Function to populate the form with workshop data
+                // Function to populate the form with news data
                 var populateForm = (response) => {
                     // Populate basic fields
-                    form.querySelector('[name="event_name"]').value = response.workshop.event_name || "";
-                    form.querySelector('[name="company_name"]').value = response.workshop.company_name || "";
-                    form.querySelector('[name="location"]').value = response.workshop.location || "";
-                    form.querySelector('[name="start_date"]').value = response.workshop.start_date || "";
-                    form.querySelector('[name="end_date"]').value = response.workshop.end_date || "";
-                    form.querySelector('[name="description"]').value = response.workshop.description || "";
+                    form.querySelector('[name="title"]').value = response.title || "";
+                    form.querySelector('[name="slug"]').value = response.slug || "";
+                    form.querySelector('[name="content"]').value = response.content || "";
+
+                    // Get DOM elements
+                    const statusSelect = form.querySelector('#edit_status');
+                    const publishedAtInput = form.querySelector('#edit_published_at');
+
+                    // Format date for flatpickr
+                    const formatDateForFlatpickr = (dateString) => {
+                        if (!dateString) return '';
+                        const date = new Date(dateString);
+                        const pad = num => num.toString().padStart(2, '0');
+                        return `${date.getFullYear()}-${pad(date.getMonth()+1)}-${pad(date.getDate())} ${pad(date.getHours())}:${pad(date.getMinutes())}`;
+                    };
+
+                    // Handle status change function
+                    const handleStatusChange = (statusValue) => {
+                        if (statusValue === "1") { // Published
+                            publishedAtInput.disabled = false;
+                            publishedAtInput.style.opacity = "1";
+                            publishedAtInput.style.cursor = "text";
+                            publishedAtInput.style.backgroundColor = "";
+
+                            // If empty and status is published, set to current datetime
+                            if (!publishedAtInput.value && response.published_at) {
+                                publishedAtInput.value = formatDateForFlatpickr(response.published_at);
+                            } else if (!publishedAtInput.value) {
+                                // Set to current time if no published date exists
+                                publishedAtInput.value = formatDateForFlatpickr(new Date());
+                            }
+                        } else { // Draft
+                            publishedAtInput.disabled = true;
+                            publishedAtInput.style.opacity = "0.7";
+                            publishedAtInput.style.cursor = "not-allowed";
+                            publishedAtInput.style.backgroundColor = "#f8f9fa";
+                            publishedAtInput.title = "Disabled for drafts";
+                            // Don't clear the value for draft, just disable it
+                        }
+                    };
+
+                    // Handle status select - DON'T clone, just update value and add event listener
+                    if (statusSelect) {
+                        // Remove existing event listeners by replacing with clean version
+                        const newStatusSelect = statusSelect.cloneNode(true);
+                        statusSelect.parentNode.replaceChild(newStatusSelect, statusSelect);
+
+                        // Re-initialize Select2 on the new element
+                        $(newStatusSelect).select2({
+                            dropdownParent: $('#kt_modal_update_news'),
+                            minimumResultsForSearch: -1
+                        });
+
+                        // Set the value first
+                        $(newStatusSelect).val(response.status.toString()).trigger('change');
+
+                        // Set published_at value if it exists
+                        if (response.published_at) {
+                            publishedAtInput.value = formatDateForFlatpickr(response.published_at);
+                        }
+
+                        // Initialize the status-dependent behavior
+                        handleStatusChange(response.status.toString());
+
+                        // Add event listener for future changes
+                        $(newStatusSelect).on('change', function() {
+                            handleStatusChange(this.value);
+                        });
+                    }
+
+                    // Handle author/user select input
+                    // const authorSelect = form.querySelector('#edit_author_id');
+                    // if (authorSelect && response.user) {
+                    //     $(authorSelect).val(response.user.id.toString()).trigger('change');
+                    // }
 
                     // Handle media file
-                    if (response.workshop.media_path) {
-                        $('#current_media_path').val(response.workshop.media_path);
-                        $('#current_media_name').text(response.workshop.media_name || 'Current Media File');
-                        $('#edit_media_preview_btn').removeClass('d-none').attr('data-content', response.workshop.media_path);
+                    if (response.media) {
+                        $('#current_media_path').val(response.media);
+                        $('#current_media_name').text(response.media.split('/').pop() || 'Current Media File');
+                        $('#edit_media_preview_btn').removeClass('d-none').attr('data-content', response.media);
                         $('#remove_media_btn').removeClass('d-none');
                     } else {
                         $('#current_media_path').val('');
@@ -797,60 +920,51 @@
                         $('#remove_media_btn').addClass('d-none');
                     }
 
-                    // Handle document file
-                    if (response.workshop.document_path) {
-                        $('#current_document_path').val(response.workshop.document_path);
-                        $('#current_document_name').text(response.workshop.document_name || 'Current Document File');
-                        $('#edit_document_preview_btn').removeClass('d-none').attr('data-content', response.workshop.document_path);
-                        $('#remove_document_btn').removeClass('d-none');
-                    } else {
-                        $('#current_document_path').val('');
-                        $('#current_document_name').text('');
-                        $('#edit_document_preview_btn').addClass('d-none');
-                        $('#remove_document_btn').addClass('d-none');
-                    }
-
-                    // Handle programs selection (assuming response has program_ids array)
-                    if (response.program_ids && response.program_ids.length > 0) {
-                        $('#edit_program_ids').val(response.program_ids).trigger('change');
-                    } else {
-                        $('#edit_program_ids').val([]).trigger('change');
-                    }
-
-                    // Set the workshop ID for the form
-                    $("#kt_modal_update_workshop_form").data("user-id", response.workshop.id);
+                    // Set the news ID for the form
+                    $("#kt_modal_update_news_form").data("user-id", response.id);
                 };
-
                 // Reset form function
                 var resetForm = () => {
                     form.reset();
-                    $('#edit_program_ids').val([]).trigger('change');
+                    // Reset Select2 elements
+                    $('#edit_status').val('').trigger('change');
+                    $('#edit_author_id').val('').trigger('change');
+
+                    // Reset published_at input state
+                    const publishedAtInput = form.querySelector('#edit_published_at');
+                    publishedAtInput.disabled = false;
+                    publishedAtInput.style.opacity = "1";
+                    publishedAtInput.style.cursor = "text";
+                    publishedAtInput.style.backgroundColor = "";
+
+                    // Reset media elements
                     $('#current_media_path').val('');
                     $('#current_media_name').text('');
                     $('#edit_media_preview_btn').addClass('d-none');
                     $('#remove_media_btn').addClass('d-none');
-                    $('#current_document_path').val('');
-                    $('#current_document_name').text('');
-                    $('#edit_document_preview_btn').addClass('d-none');
-                    $('#remove_document_btn').addClass('d-none');
+
+                    // Clear flatpickr
+                    if (publishedAtInput._flatpickr) {
+                        publishedAtInput._flatpickr.clear();
+                    }
                 };
 
-                // Fetch workshop data when modal is opened
+                // Fetch news data when modal is opened
                 element.addEventListener('show.bs.modal', function (event) {
                     let button = event.relatedTarget;
-                    let workshopId = button.getAttribute('data-user-id');
+                    let newsId = button.getAttribute('data-user-id');
 
-                    if (workshopId) {
+                    if (newsId) {
                         $.ajax({
-                            url: `/workshops/${workshopId}/edit`,
+                            url: `/news/${newsId}/edit`,
                             type: "GET",
                             success: function (response) {
                                 populateForm(response);
                             },
                             error: function (xhr) {
-                                console.error("Error fetching workshop data", xhr);
+                                console.error("Error fetching news data", xhr);
                                 Swal.fire({
-                                    text: "Error loading workshop data. Please try again.",
+                                    text: "Error loading news data. Please try again.",
                                     icon: "error",
                                     buttonsStyling: false,
                                     confirmButtonText: "Ok, got it!",
@@ -863,55 +977,55 @@
                     }
                 });
 
-                // Init update workshop modal
+                // Init update news modal
                 var initUpdateDetails = () => {
                     // Init form validation
                     var validator = FormValidation.formValidation(
                         form,
                         {
                             fields: {
-                                'event_name': {
+                                'title': {
                                     validators: {
                                         notEmpty: {
-                                            message: 'Workshop name is required'
+                                            message: 'News title is required'
+                                        },
+                                        stringLength: {
+                                            min: 3,
+                                            max: 100,
+                                            message: 'Title must be between 3 and 100 characters'
                                         }
                                     }
                                 },
-                                'company_name': {
+                                'slug': {
                                     validators: {
                                         notEmpty: {
-                                            message: 'Company name is required'
+                                            message: 'News slug is required'
+                                        },
+                                        stringLength: {
+                                            min: 3,
+                                            max: 255,
+                                            message: 'Slug must be between 3 and 255 characters'
                                         }
                                     }
                                 },
-                                'location': {
+                                'content': {
                                     validators: {
                                         notEmpty: {
-                                            message: 'Location is required'
+                                            message: 'News content is required'
+                                        },
+                                        stringLength: {
+                                            min: 10,
+                                            message: 'Content must be at least 10 characters long'
                                         }
                                     }
                                 },
-                                'start_date': {
+                                'status': {
                                     validators: {
                                         notEmpty: {
-                                            message: 'Event start date is required'
+                                            message: 'Status is required'
                                         }
                                     }
                                 },
-                                'end_date': {
-                                    validators: {
-                                        notEmpty: {
-                                            message: 'Event end date is required'
-                                        }
-                                    }
-                                },
-                                // 'program_ids[]': {
-                                //     validators: {
-                                //         notEmpty: {
-                                //             message: 'At least one program must be selected'
-                                //         }
-                                //     }
-                                // }
                             },
                             plugins: {
                                 trigger: new FormValidation.plugins.Trigger(),
@@ -937,8 +1051,8 @@
 
                                     // Get form data and send AJAX request
                                     let formData = new FormData(form);
-                                    let workshopId = $('#kt_modal_update_workshop_form').data('user-id');
-                                    let updateUrl = `/workshops/${workshopId}`;
+                                    let newsId = $('#kt_modal_update_news_form').data('user-id');
+                                    let updateUrl = `/news/${newsId}`;
 
                                     $.ajax({
                                         url: updateUrl,
@@ -951,7 +1065,7 @@
                                             submitButton.disabled = false;
 
                                             Swal.fire({
-                                                text: response.message || "Workshop updated successfully!",
+                                                text: response.message || "News updated successfully!",
                                                 icon: "success",
                                                 buttonsStyling: false,
                                                 confirmButtonText: "Ok, got it!",
@@ -964,12 +1078,6 @@
                                                     modal.hide();
                                                     location.reload();
 
-                                                    // // Reload the DataTable
-                                                    // if (typeof $('#kt_table_users').DataTable === 'function') {
-                                                    //     $('#kt_table_users').DataTable().ajax.reload();
-                                                    // } else {
-                                                    //     location.reload();
-                                                    // }
                                                 }
                                             });
                                         },
@@ -1073,7 +1181,7 @@
             KTUtil.onDOMContentLoaded(function () {
                 KTUsersUpdateDetails.init();
                 $('#edit_program_ids').select2({
-                    dropdownParent: $('#kt_modal_update_workshop')
+                    dropdownParent: $('#kt_modal_update_news')
                 });
             });
 
@@ -1102,7 +1210,7 @@
         </script>
     @endif
 
-    @if(auth()->user()->hasPermissionTo(PermissionEnum::DELETE_WORKSHOPS->value))
+    @if(auth()->user()->hasPermissionTo(PermissionEnum::DELETE_NEWS->value))
         <script>
             // handle delete user
             $(document).on("click", '[data-kt-users-table-filter="delete_row"]', function (e) {
@@ -1111,7 +1219,7 @@
                 var userId = $(this).data("user-id");
 
                 Swal.fire({
-                    text: "Are you sure you want to delete this Workshop?",
+                    text: "Are you sure you want to delete this News?",
                     icon: "warning",
                     showCancelButton: true,
                     buttonsStyling: false,
@@ -1124,7 +1232,7 @@
                 }).then(function (result) {
                     if (result.isConfirmed) {
                         $.ajax({
-                            url: "{{ route('admin.workshops.destroy', ':id') }}".replace(':id', userId),
+                            url: "{{ route('admin.news.destroy', ':id') }}".replace(':id', userId),
                             type: 'DELETE',
                             data: {_token: '{{ csrf_token() }}'},
                             success: function (response) {
@@ -1154,7 +1262,7 @@
                             },
                             error: function () {
                                 Swal.fire({
-                                    text: "Failed to delete the Workshop. Try again Later!",
+                                    text: "Failed to delete the News. Try again Later!",
                                     icon: "error",
                                     buttonsStyling: false,
                                     confirmButtonText: "Ok",

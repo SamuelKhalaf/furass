@@ -16,6 +16,10 @@ return [
         'title' => 'Calendar',
     ],
 
+    'news' => [
+        'title' => 'News',
+    ],
+
     // Users
     'users' => [
         'title' => 'Users',

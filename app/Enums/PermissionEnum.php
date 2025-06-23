@@ -71,6 +71,12 @@ enum PermissionEnum : string
     case CREATE_EVENTS = 'Create Events';
     case UPDATE_EVENTS = 'Update Events';
     case DELETE_EVENTS = 'Delete Events';
+
+    // News Permissions
+    case LIST_NEWS = 'List News';
+    case CREATE_NEWS = 'Create News';
+    case UPDATE_NEWS = 'Update News';
+    case DELETE_NEWS = 'Delete News';
     /**
      * @return array
      */

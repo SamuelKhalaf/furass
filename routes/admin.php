@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\ConsultantController;
 use App\Http\Controllers\Admin\ConsultationController;
 use App\Http\Controllers\Admin\ConsultationNotesController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\PermissionsController;
 use App\Http\Controllers\Admin\ProgramsController;
 use App\Http\Controllers\Admin\QuestionBankTypeController;
@@ -228,6 +229,26 @@ Route::middleware(['auth'])->name('admin.')->group(function () {
         ->middleware('permission:'. PermissionEnum::DELETE_EVENTS->value)
         ->name('calendar.destroy');
     ###############################  End:Calendar Routes  #####################################
+
+    ############################### Start:News Routes #####################################
+    Route::middleware('permission:'. PermissionEnum::LIST_NEWS->value)->group(function () {
+        Route::get('news', [NewsController::class, 'index'])->name('news.index');
+        Route::get('news/all', [NewsController::class, 'getNewsData'])->name('news.datatable');
+    });
+
+    Route::middleware('permission:'. PermissionEnum::CREATE_NEWS->value)->group(function () {
+        Route::post('news', [NewsController::class, 'store'])->name('news.store');
+    });
+
+    Route::middleware('permission:'. PermissionEnum::UPDATE_NEWS->value)->group(function () {
+        Route::get('news/{news}/edit', [NewsController::class, 'edit'])->name('news.edit');
+        Route::put('news/{news}', [NewsController::class, 'update'])->name('news.update');
+    });
+
+    Route::delete('news/{news}', [NewsController::class, 'destroy'])
+        ->middleware('permission:'. PermissionEnum::DELETE_NEWS->value)
+        ->name('news.destroy');
+    ###############################  End:News Routes  #####################################
 
     ############################### Start:Consultations Routes #####################################
 //    Route::middleware('permission:'. PermissionEnum::LIST_CONSULTANTS->value)->group(function () {
