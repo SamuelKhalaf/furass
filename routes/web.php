@@ -62,3 +62,5 @@ Route::get('details-programs', function (){
 Route::get('template-questions', function (){
     return view('template.questions');
 })->name('template.questions');
+
+Route::get('template-news/{idNews?}', [\App\Http\Controllers\Admin\NewsController::class, 'displayNewsPage'])->name('template.news');

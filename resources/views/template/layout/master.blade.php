@@ -29,6 +29,10 @@
                 </li>
 
                 <li class="nav-item nav-button">
+                    <a class="nav-link {{ Request::routeIs('template.news') ? 'active' : '' }}"  href="{{route('template.news')}}">News</a>
+                </li>
+
+                <li class="nav-item nav-button">
                     <a class="nav-link {{ Request::routeIs('template.about') ? 'active' : '' }}" aria-current="page" href="{{route('template.about')}}">About us</a>
                 </li>
                 <li class="nav-item nav-button">
@@ -69,6 +73,7 @@
                 <ul class="footer-links">
                     <li><a href="{{route('template.home')}}">Home</a></li>
                     <li><a href="{{route('template.programs')}}">Programs</a></li>
+                    <li><a href="{{route('template.news')}}">News</a></li>
                     <li><a href="{{route('template.about')}}">About us</a></li>
                     <li><a href="{{route('template.contact')}}">Contact us</a></li>
                     <li><a href="{{route('template.questions')}}">Frequently Asked Questions</a></li>
