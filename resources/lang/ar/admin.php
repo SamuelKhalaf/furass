@@ -20,6 +20,10 @@ return [
         'title' => 'الاخبار',
     ],
 
+    'notifications' => [
+        'title' => ' الاشعارات',
+    ],
+
     // Users
     'users' => [
         'title' => 'المستخدمون',

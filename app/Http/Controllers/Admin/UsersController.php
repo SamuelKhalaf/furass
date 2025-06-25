@@ -6,12 +6,14 @@ use App\Enums\RoleEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\CreateUserRequest;
 use App\Http\Requests\Admin\UpdateUserRequest;
+use App\Models\User;
 use App\Services\IRoleService;
 use App\Services\IUserService;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Spatie\Permission\Models\Role;
 
@@ -35,8 +37,8 @@ class UsersController extends Controller
      */
     public function index(): Factory|Application|View|\Illuminate\Contracts\Foundation\Application
     {
-        $roles = [RoleEnum::ADMIN->value, RoleEnum::SUB_ADMIN->value];
-        $roles = Role::whereIN('name', $roles)->get();
+        $roles = [RoleEnum::CONSULTANT->value, RoleEnum::SCHOOL->value, RoleEnum::STUDENT->value];
+        $roles = Role::whereNotIN('name', $roles)->get();
         return view('admin.users.index' , compact('roles'));
     }
 
@@ -127,5 +129,25 @@ class UsersController extends Controller
         return response()->json(['success' => true, 'message' => 'User deleted successfully!']);
     }
 
+    public function searchUsers(Request $request)
+    {
+        $users = User::where('name', 'LIKE', "%{$request->q}%")
+            ->orWhere('email', 'LIKE', "%{$request->q}%")
+            ->select('id', 'name', 'email')
+            ->limit(30)
+            ->get();
+
+        return response()->json([
+            'items' => $users->map(function($user) {
+                return [
+                    'id' => $user->id,
+                    'text' => $user->name,
+                    'name' => $user->name,
+                    'email' => $user->email
+                ];
+            }),
+            'total_count' => $users->count()
+        ]);
+    }
 
 }
