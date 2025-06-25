@@ -225,4 +225,25 @@ class NewsController extends Controller
             ], 500);
         }
     }
+
+    public function displayNewsPage($idNews = null)
+    {
+        $data = [];
+
+        if ($idNews) {
+            $latestNews = News::with('user')->find($idNews);
+        } else {
+            $latestNews = News::with('user')->latest()->first();
+        }
+
+        $data['latestNews'] = $latestNews;
+        $data['news'] = News::with('user')
+            ->where('id', '!=', optional($latestNews)->id)
+            ->orderBy('published_at', 'desc')
+            ->get();
+
+        return view('template.news', $data);
+    }
+
+
 }
