@@ -20,6 +20,10 @@ return [
         'title' => 'News',
     ],
 
+    'notifications' => [
+        'title' => 'Notifications',
+    ],
+
     // Users
     'users' => [
         'title' => 'Users',

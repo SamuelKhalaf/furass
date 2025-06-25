@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\ConsultationController;
 use App\Http\Controllers\Admin\ConsultationNotesController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\NewsController;
+use App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\Admin\PermissionsController;
 use App\Http\Controllers\Admin\ProgramsController;
 use App\Http\Controllers\Admin\QuestionBankTypeController;
@@ -249,6 +250,17 @@ Route::middleware(['auth'])->name('admin.')->group(function () {
         ->middleware('permission:'. PermissionEnum::DELETE_NEWS->value)
         ->name('news.destroy');
     ###############################  End:News Routes  #####################################
+
+    ##############################  Start:Notifications Routes  ####################################
+    Route::middleware('auth')->group(function() {
+        Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+        Route::get('/users/search', [NotificationController::class, 'searchUsers'])->name('users.search');
+        Route::post('/notifications/store', [NotificationController::class, 'store'])->name('notifications.store');
+        Route::get('/notifications/get', [NotificationController::class, 'getSomeNotifications']);
+        Route::post('/notifications/{id}/read', [NotificationController::class, 'markAsRead']);
+        Route::post('/notifications/read-all', [NotificationController::class, 'markAllAsRead']);
+    });
+    ###############################  End:Notifications Routes  #####################################
 
     ############################### Start:Consultations Routes #####################################
 //    Route::middleware('permission:'. PermissionEnum::LIST_CONSULTANTS->value)->group(function () {
