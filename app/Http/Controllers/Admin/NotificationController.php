@@ -287,9 +287,22 @@ class NotificationController extends Controller
         ->limit(5)
         ->get();
 
+        $unreadCount = DB::table('notifications')
+            ->join('notification_targets', function ($join) use ($user) {
+                $join->on('notifications.id', '=', 'notification_targets.notification_id')
+                    ->where('notification_targets.target_type', get_class($user))
+                    ->where('notification_targets.target_id', $user->id);
+            })
+            ->join('notification_statuses', function ($join) use ($user) {
+                $join->on('notifications.id', '=', 'notification_statuses.notification_id')
+                    ->where('notification_statuses.user_id', $user->id)
+                    ->where('notification_statuses.is_read', false);
+            })
+            ->count();
+
         return response()->json([
             'notifications' => $notifications,
-            'unread_count' => $notifications->where('is_read', false)->count()
+            'unread_count' => $unreadCount,
         ]);
     }
 
