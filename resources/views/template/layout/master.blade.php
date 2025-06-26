@@ -27,7 +27,7 @@
         <div class="collapse navbar-collapse w-100 " id="navbarSupportedContent">
             <ul class="navbar-nav m-auto mb-2 mb-lg-0 w-100 d-flex justify-content-evenly text-center">
 
-            <li class="nav-item nav-button">
+                 <li class="nav-item nav-button">
                     <a class="nav-link {{ Request::routeIs('template.home') ? 'active' : '' }}"  href="{{route('template.home')}}">
                         {{ __('template.master.nav.home') }}
                     </a>
@@ -59,9 +59,23 @@
                         <i class="fas fa-arrow-right-to-bracket" style="font-size: 20px;"></i>
                         {{ __('template.master.nav.login') }}</a>
                 </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle fw-semibold text-dark" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-globe" style="font-size: 18px;"></i>
+                        {{ app()->getLocale() == 'ar' ? 'العربية' : 'EN' }}
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li>
+                            <a class="dropdown-item" href="{{ route('language.switch', 'en') }}">English</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="{{ route('language.switch', 'ar') }}">العربية</a>
+                        </li>
+                    </ul>
+                </li>
             </ul>
 
-            <a href="#" class="fw-bold request-demo-btn" style="">
+            <a href="#" class="fw-bold request-demo-btn" >
                 {{ __('template.master.nav.request') }}
             </a>
         </div>
@@ -99,9 +113,9 @@
             <div class="col-6 col-md-3 col-lg-2 d-flex flex-column justify-content-start">
                 <div class="footer-title">{{ __('template.master.footer.programs') }}</div>
                 <ul class="footer-programs">
-                    <li><a href="{{ route('template.details-programs') }}#self-compass">{{ __('template.master.footer.self_compass') }}</a></li>
-                    <li><a href="{{ route('template.details-programs') }}#explore-career">{{ __('template.master.footer.explore_career') }}</a></li>
-                    <li><a href="{{ route('template.details-programs') }}#ready-future">{{ __('template.master.footer.ready_future') }}</a></li>
+                    <li><a href="{{ route('template.programs') }}#self-compass">{{ __('template.master.footer.self_compass') }}</a></li>
+                    <li><a href="{{ route('template.programs') }}#explore-career">{{ __('template.master.footer.explore_career') }}</a></li>
+                    <li><a href="{{ route('template.programs') }}#ready-future">{{ __('template.master.footer.ready_future') }}</a></li>
                 </ul>
             </div>
             <div class="col-12 col-md-12 col-lg-4 d-flex flex-column justify-content-start align-items-start">
