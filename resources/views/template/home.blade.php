@@ -64,7 +64,7 @@
                          style="max-width: 100%; height: auto; max-height: 400px; object-fit: contain;">
                 </div>
 
-                <div class="d-flex flex-column flex-sm-row gap-3 button mt-4">
+                <div class="d-flex flex-column flex-sm-row gap-3 button">
                     <a href="{{ route('template.programs') }}" class="btn fw-bold px-4 py-2"
                        style="background:#543786; color:#fff; border-radius:24px; border: none;">
                         {{ __('template.home.prog_section.explore_btn') }}

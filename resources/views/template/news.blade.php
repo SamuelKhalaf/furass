@@ -9,7 +9,12 @@
 
                      @if($latestNews)
                          <div class="main-element">
-                             <img src="{{ asset($latestNews->media) }}" alt="Furass news" class="img-fluid mb-3 w-100">
+
+                             <img src="{{ asset($latestNews->media ?? 'assets/imgs/template/news2.webp') }}"
+                                  alt="Furass news"
+                                  class="img-fluid mb-3 w-100"
+                                  onerror="this.onerror=null;this.src='{{ asset('assets/imgs/template/news2.webp') }}';">
+
                              <h3 class="fw-bold">{{$latestNews->title ?? ""}}</h3>
                              <div class="byline">
                                  By <strong>{{$latestNews->user->name ?? ""}}</strong>
@@ -28,7 +33,10 @@
                     @isset($news)
                         @foreach($news as $iem)
                          <div class="all-element d-flex flex-column flex-sm-row mb-3 gap-3 align-items-start">
-                             <img src="{{ asset($iem->media) }}" alt="Furass news" class="img-fluid" style="width: 120px; height: auto;">
+                             <img
+                                 src="{{ asset($iem->media ?? 'assets/imgs/template/news2.webp') }}"
+                                 alt="Furass news" class="img-fluid" style="width: 120px; height: auto;"
+                                 onerror="this.onerror=null;this.src='{{ asset('assets/imgs/template/news2.webp') }}';">
                              <div class="details">
                                  <a href="{{route('template.news', $iem->id )}}" style="color: inherit; text-decoration: none;">
                                      <h5 class="fw-semibold">{{$iem->title ?? ""}}</h5>

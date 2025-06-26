@@ -119,5 +119,137 @@ return [
         ],
     ],
 
+    'about' => [
+        'title' => "We bridge <br> education and <br> careers to guide <br> students toward <br> success in both <br> school and life",
+        'description' => '
+            <p class="text-left">
+                Education leaders nationwide use Furass® to help students uncover their natural aptitudes and connect their learning to
+                future career and education goals.
+            </p>
+            <p class="text-left">
+                Our award-winning solutions are trusted by over 7,000 schools across all KSA. We\'ve empowered millions of students to
+                discover clear, purpose-driven pathways—and we\'re committed to ensuring every student has access to these
+                transformative tools.
+            </p>',
+    ],
+    'services' => [
+        'title' => 'We specialize in :',
+
+        'aptitude' => [
+            'title' => 'Furass Aptitude and Career Discovery',
+            'desc' => 'Enables students to uncover their natural aptitudes and align them with highly personalized, meaningful career and education pathways.',
+        ],
+        'certification' => [
+            'title' => 'Furass Industry Certifications',
+            'desc' => 'Verifies the effectiveness of Career and Technical Education (CTE) programs with industry-recognized certifications that validate student outcomes.',
+        ],
+        'analytics' => [
+            'title' => 'Furass Insights and Analytics',
+            'desc' => 'Leverages real-time data and analytics to track student success, providing actionable insights for classroom, school, and district-level reporting to support data-driven decisions.',
+        ],
+        'plan' => [
+            'title' => 'Furass Education and Career Plan',
+            'desc' => 'Empowers high school counselors and students to collaboratively choose the right courses for graduation and career growth through a comprehensive, end-to-end planning platform.',
+        ],
+        'experience' => [
+            'title' => 'Furass Work-Based Experiences',
+            'desc' => 'Bridges real-world employers and education to create impactful experiences that give students direct exposure to the workplace.',
+        ],
+        'employers' => [
+            'title' => 'Furass Education and Career Plan',
+            'desc' => 'Provides students with opportunities to engage with local or regional employers aligned with their unique talents and skills.',
+        ],
+        'connections' => [
+            'title' => 'Furass Education Connections',
+            'desc' => 'Matches students with educational institutions that closely align with their individual aptitudes and interests.',
+        ],
+        'development' => [
+            'title' => 'Furass Professional Development',
+            'desc' => 'Offers professional development and consulting services to assess, design, and implement career-connected learning and CTE programs effectively.',
+        ],
+    ],
+    'contact' => [
+        'title' => 'Contact us',
+        'office_title' => 'Head Office',
+        'office_address' => '638 star Aveno , Jeddah',
+        'telephone' => 'Telephone',
+        'support_title' => 'Support',
+        'support_hours' => 'support hours: Sat -Thu 9:00 am to 5:00 pm',
+        'slogan' => 'We connect education and careers to help students succeed in school and life.',
+        'form_title' => 'Send Us a message',
+        'name' => 'Name',
+        'email' => 'E-mail',
+        'phone' => 'Phone',
+        'message' => 'Type your Message here',
+        'privacy' => "By submitting this form, I agree to WiziQ's <a href=\"#\" class=\"privacy-link\">Privacy Policy</a> and <a href=\"#\" class=\"privacy-link\">User Agreement</a>.",
+        'send' => 'Send message',
+    ],
+    'school_request' => [
+        'title' => 'Request a School Partnership',
+        'name' => 'Name',
+        'email' => 'E-mail',
+        'phone' => 'Phone',
+        'address' => 'Your address',
+        'logo' => 'Logo',
+        'password' => 'Password',
+        'password_confirmation' => 'Confirm Password',
+        'agreement' => 'By submitting this form, I agree to WiziQ\'s <a href="#" class="privacy-link">Privacy Policy</a> and <a href="#" class="privacy-link">User Agreement</a>.',
+        'send' => 'Send Request',
+    ],
+    'faq' => [
+        'title' => 'Frequently Asked Questions',
+        'subtitle' => 'Find answers to common questions about Furass programs',
+        'students' => [
+            'title' => 'For Students',
+            'questions' => [
+                ['q' => 'Can I register individually?', 'a' => 'Currently, registration is only available through schools via official partnerships...'],
+                ['q' => 'Will I receive a certificate?', 'a' => 'Yes, students receive a certificate for each completed program...'],
+                ['q' => 'Do I visit only one field of study?', 'a' => 'No, you will have the opportunity to explore multiple career fields...'],
+            ],
+        ],
+        'parents' => [
+            'title' => 'For Parents',
+            'questions' => [
+                ['q' => 'How do you ensure student safety during trips?', 'a' => 'Each trip is supervised by a Furass advisor...'],
+                ['q' => 'What are the benefits of these programs for my child?', 'a' => 'Furass programs are carefully designed by experts...'],
+                ['q' => 'Can we track our child\'s progress?', 'a' => 'Yes, professional reports are issued after each stage...'],
+            ],
+        ],
+        'schools' => [
+            'title' => 'For School Leaders and Coordinators',
+            'questions' => [
+                ['q' => 'How can our school join?', 'a' => 'You can contact us via our website...'],
+                ['q' => 'Can the program schedule be customized?', 'a' => 'Yes, we fully coordinate with your school...'],
+                ['q' => 'Will the school receive regular reports?', 'a' => 'Absolutely. We provide both individual and group reports...'],
+            ],
+        ],
+        'partners' => [
+            'title' => 'For Partner Companies and Institutions',
+            'questions' => [
+                ['q' => 'What is the benefit of hosting Furass students?', 'a' => 'It\'s a meaningful contribution...'],
+                ['q' => 'Can the visit be customized?', 'a' => 'Yes, we collaborate with you...'],
+                ['q' => 'Does the partnership include media exposure?', 'a' => 'Yes, we highlight our partners...'],
+            ],
+        ],
+        'consultants' => [
+            'title' => 'For Career Consultants',
+            'questions' => [
+                ['q' => 'Can I work as a consultant within Furass programs?', 'a' => 'We welcome qualified career consultants...'],
+                ['q' => 'Will I receive ready-made assessment tools?', 'a' => 'Yes, we provide validated assessment tools...'],
+                ['q' => 'What types of sessions are offered?', 'a' => 'Sessions include individual consultations...'],
+            ],
+        ],
+        'general' => [
+            'title' => 'General Questions',
+            'questions' => [
+                ['q' => 'Are the programs accredited?', 'a' => 'Our programs are developed by experts...'],
+                ['q' => 'Is student data protected?', 'a' => 'Yes, all student data is stored securely...'],
+            ],
+        ],
+        'contact_title' => 'Still Have Questions?',
+        'contact_desc' => 'Can\'t find the answer you\'re looking for? Feel free to reach out to our team.',
+        'contact_btn' => 'Contact Us',
+    ]
+
 
 ];
