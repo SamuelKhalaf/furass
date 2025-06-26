@@ -65,7 +65,7 @@ class NotificationController extends Controller
             if ($request->hasFile('attachments')) {
                 foreach ($request->file('attachments') as $file) {
                     $originalName = $file->getClientOriginalName();
-                    $filename =  uniqid() . '_' . $originalName;
+                    $filename =  uniqid();
                     $path = $file->storeAs('notifications/attachments', $filename, 'public');
 
                     $attachmentPaths[] = [
@@ -321,5 +321,55 @@ class NotificationController extends Controller
             ->update(['is_read' => true]);
 
         return response()->json(['success' => true]);
+    }
+
+    /**
+     * Display all notifications for the authenticated user (paginated)
+     */
+    public function allNotifications(Request $request)
+    {
+        $user = Auth::user();
+        $perPage = 4;
+        $notifications = \App\Models\Notification::whereHas('targets', function($query) use ($user) {
+                $query->where('target_type', get_class($user))
+                    ->where('target_id', $user->id);
+            })
+            ->select('notifications.*')
+            ->selectSub(function ($query) use ($user) {
+                $query->from('notification_statuses')
+                    ->select('is_read')
+                    ->whereColumn('notification_statuses.notification_id', 'notifications.id')
+                    ->where('user_id', $user->id)
+                    ->limit(1);
+            }, 'is_read')
+            ->orderBy('created_at', 'desc')
+            ->paginate($perPage);
+
+        return view('admin.notifications.all', compact('notifications'));
+    }
+
+    /**
+     * Show a single notification details for the authenticated user
+     */
+    public function show($id)
+    {
+        $user = Auth::user();
+        $notification = Notification::where('id', $id)
+            ->whereHas('targets', function($query) use ($user) {
+                $query->where('target_type', get_class($user))
+                    ->where('target_id', $user->id);
+            })
+            ->firstOrFail();
+
+        // Mark as read if not already
+        $status = NotificationStatus::firstOrCreate([
+            'notification_id' => $notification->id,
+            'user_id' => $user->id,
+        ]);
+        if (!$status->is_read) {
+            $status->update(['is_read' => true]);
+        }
+
+        return view('admin.notifications.show', compact('notification'));
     }
 }

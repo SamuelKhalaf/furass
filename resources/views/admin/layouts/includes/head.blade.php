@@ -37,11 +37,11 @@
             transition: all 0.3s ease;
             border-radius: 0.65rem;
             position: relative;
-            background-color: #fff;
+            /*background-color: #fff;*/
         }
 
         .notification-item:hover {
-            background-color: #f8f9fc;
+            /*background-color: #f8f9fc;*/
             box-shadow: 0 8px 24px rgba(80, 112, 243, 0.15); /* smooth shadow */
             transform: scale(1.02);
             border-left: 4px solid #3e97ff;
@@ -53,22 +53,22 @@
         }
 
         .notification-container::-webkit-scrollbar-track {
-            background: #f1f1f1;
+            /*background: #f1f1f1;*/
             border-radius: 10px;
         }
 
         .notification-container::-webkit-scrollbar-thumb {
-            background: #ccc;
+            /*background: #ccc;*/
             border-radius: 10px;
         }
 
         .notification-container::-webkit-scrollbar-thumb:hover {
-            background: #aaa;
+            /*background: #aaa;*/
         }
 
         /* Unread notification highlight */
         .notification-unread {
-            background-color: rgba(70, 128, 254, 0.06);
+            /*background-color: rgba(70, 128, 254, 0.06);*/
             border-left: 3px solid #4680fe;
         }
     </style>

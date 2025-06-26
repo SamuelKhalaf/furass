@@ -21,8 +21,8 @@
         <div class="d-flex flex-column bgi-no-repeat rounded-top" style="background: linear-gradient(135deg, #6B73FF 0%, #000DFF 100%);">
             <!--begin::Title-->
             <h3 class="text-white fw-semibold px-9 mt-10 mb-6">
-                Notifications
-                <span class="fs-8 opacity-75 ps-3 notification-count">0 unread</span>
+                {{ __('notifications.notifications') }}
+                <span class="fs-8 opacity-75 ps-3 notification-count">0 {{ __('notifications.unread') }}</span>
             </h3>
             <!--end::Title-->
 
@@ -32,14 +32,14 @@
                     <a class="nav-link text-white opacity-75 opacity-state-100 pb-4 active"
                        data-bs-toggle="tab"
                        href="#kt_notifications_all">
-                        All
+                        {{ __('notifications.all_notifications') }}
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link text-white opacity-75 opacity-state-100 pb-4"
                        data-bs-toggle="tab"
                        href="#kt_notifications_unread">
-                        Unread
+                        {{ __('notifications.unread') }}
                     </a>
                 </li>
             </ul>
@@ -58,15 +58,15 @@
                         <div class="spinner-border text-primary" role="status">
                             <span class="visually-hidden">Loading...</span>
                         </div>
-                        <div class="mt-2">Loading notifications...</div>
+                        <div class="mt-2">{{ __('notifications.loading_notifications') }}</div>
                     </div>
                 </div>
                 <!--end::Items-->
 
                 <!--begin::View more-->
                 <div class="py-3 text-center border-top">
-                    <a href="/notifications" class="btn btn-color-gray-600 btn-active-color-primary">
-                        View All Notifications
+                    <a href="{{ route('admin.notifications.all') }}" class="btn btn-color-gray-600 btn-active-color-primary">
+                        {{ __('notifications.view_all') }}
                         <i class="fas fa-chevron-right ms-1"></i>
                     </a>
                 </div>
@@ -79,8 +79,8 @@
                 <!-- Content will be loaded dynamically -->
                 <div class="d-flex flex-column px-9">
                     <div class="pt-10 pb-0">
-                        <h3 class="text-dark text-center fw-bold">Loading...</h3>
-                        <div class="text-center text-gray-600 fw-semibold pt-1">Checking for new notifications</div>
+                        <h3 class="text-dark text-center fw-bold">{{ __('notifications.loading') }}</h3>
+                        <div class="text-center text-gray-600 fw-semibold pt-1">{{ __('notifications.loading_notifications') }}</div>
                     </div>
                     <div class="text-center px-4">
                         <div class="spinner-border text-primary mb-5 mt-5" role="status">
@@ -143,7 +143,7 @@
                                 <div class="spinner-border text-primary" role="status">
                                     <span class="visually-hidden">Loading...</span>
                                 </div>
-                                <div class="mt-2">Loading notifications...</div>
+                                <div class="mt-2">{{ __('notifications.loading_notifications') }}</div>
                             </div>
                         `);
                         },
@@ -157,7 +157,7 @@
                             this.notificationContainer.html(`
                             <div class="text-center py-10">
                                 <i class="fas fa-exclamation-triangle text-danger fs-2x mb-3"></i>
-                                <div class="text-danger">Failed to load notifications</div>
+                                <div class="text-danger">{{ __('notifications.failed_to_load') }}</div>
                             </div>
                         `);
                         }
@@ -165,7 +165,7 @@
                 }
 
                 updateNotificationBadge(count) {
-                    this.notificationCount.text(count + ' unread');
+                    this.notificationCount.text(count + ' {{ __('notifications.unread') }}');
 
                     if (count > 0) {
                         this.notificationBadge.text(count).removeClass('d-none');
@@ -185,7 +185,7 @@
                         this.notificationContainer.html(`
                             <div class="text-center py-10">
                                 <i class="fas fa-info-circle text-muted fs-2x mb-3"></i>
-                                <div class="text-gray-600">You have no notifications yet.</div>
+                                <div class="text-gray-600">{{ __('notifications.no_notifications') }}</div>
                             </div>
                         `);
                     }else {
@@ -204,7 +204,7 @@
                         </div>
                         <div class="py-3 text-center border-top">
                             <button class="btn btn-color-gray-600 btn-active-color-primary mark-all-read">
-                                Mark All as Read
+                                {{ __('notifications.mark_all_read') }}
                                 <i class="fas fa-check ms-1"></i>
                             </button>
                         </div>
@@ -213,8 +213,8 @@
                         this.unreadTab.html(`
                         <div class="d-flex flex-column px-9">
                             <div class="pt-10 pb-0">
-                                <h3 class="text-dark text-center fw-bold">No New Notifications</h3>
-                                <div class="text-center text-gray-600 fw-semibold pt-1">You're all caught up! Check back later for updates</div>
+                                <h3 class="text-dark text-center fw-bold">{{ __('notifications.no_new_notifications') }}</h3>
+                                <div class="text-center text-gray-600 fw-semibold pt-1">{{ __('notifications.all_caught_up') }}</div>
                             </div>
                             <div class="text-center px-4">
                                 <i class="fas fa-bell-slash fa-4x text-gray-400 mb-5 mt-5"></i>
@@ -224,7 +224,7 @@
                     }
                 }
 
-                createNotificationElement(notification) {
+                createNotificationElementssssss(notification) {
                     const element = $(`
                     <div class="d-flex flex-stack p-4 mb-5 notification-item ${!notification.is_read ? 'notification-unread bg-light-primary bg-opacity-10 rounded-3 px-4' : ''}">
                         <div class="d-flex align-items-center">
@@ -252,16 +252,42 @@
                 `);
                     return element;
                 }
+                createNotificationElement(notification) {
+                    const notificationUrl = `{{ route('admin.notifications.show', ':id') }}`.replace(':id', notification.id);
 
+                    const element = $(`
+                            <a href="${notificationUrl}" class="d-flex flex-stack p-4 mb-5 notification-item ${!notification.is_read ? 'notification-unread bordder-primary px-4' : ''} text-decoration-none">
+                                <div class="d-flex align-items-center w-100">
+                                    <div class="me-4">
+                                        <i class="fas ${this.getNotificationIcon(notification)} fa-2x ${this.getNotificationIconColor(notification)}"></i>
+                                    </div>
+                                    <div class="mb-0 me-2 w-100">
+                                        <div class="fs-6 ${notification.is_read ? 'text-gray-600' : 'text-gray-800'} fw-bold">${notification.title}</div>
+                                        <div class="${notification.is_read ? 'text-gray-500' : 'text-gray-600'} fs-7">${notification.body}</div>
+                                        ${this.getNotificationMeta(notification)}
+                                        <div class="${notification.is_read ? 'text-gray-500' : 'text-gray-600'} fs-8 mt-1">${notification.created_at_human}</div>
+                                    </div>
+                                </div>
+                            </a>
+                            `);
+
+                    // Add hover effect
+                    element.hover(
+                        function() { $(this).addClass('bg-light'); },
+                        function() { $(this).removeClass('bg-light'); }
+                    );
+
+                    return element;
+                }
                 getNotificationIcon(notification) {
-                    if (notification.meta?.type === 'warning') return 'fa-exclamation-triangle';
+                    if (notification.meta?.type === 'warning') return 'fa-bell';
                     if (notification.meta?.type === 'success') return 'fa-check-circle';
                     if (notification.meta?.type === 'info') return 'fa-info-circle';
                     return 'fa-bell';
                 }
 
                 getNotificationIconColor(notification) {
-                    if (notification.meta?.type === 'warning') return 'text-warning';
+                    if (notification.meta?.type === 'warning') return 'text-primary';
                     if (notification.meta?.type === 'success') return 'text-success';
                     if (notification.meta?.type === 'info') return 'text-info';
                     return 'text-primary';

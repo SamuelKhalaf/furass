@@ -257,8 +257,10 @@ Route::middleware(['auth'])->name('admin.')->group(function () {
         Route::get('/users/search', [NotificationController::class, 'searchUsers'])->name('users.search');
         Route::post('/notifications/store', [NotificationController::class, 'store'])->name('notifications.store');
         Route::get('/notifications/get', [NotificationController::class, 'getSomeNotifications']);
-        Route::post('/notifications/{id}/read', [NotificationController::class, 'markAsRead']);
+        Route::post('/notifications/{id}/read', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
         Route::post('/notifications/read-all', [NotificationController::class, 'markAllAsRead']);
+        Route::get('/notifications/all', [NotificationController::class, 'allNotifications'])->name('notifications.all');
+        Route::get('/notifications/{id}', [NotificationController::class, 'show'])->name('notifications.show');
     });
     ###############################  End:Notifications Routes  #####################################
 

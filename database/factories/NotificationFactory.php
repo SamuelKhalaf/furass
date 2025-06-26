@@ -8,6 +8,8 @@ use App\Models\NotificationStatus;
 use App\Models\NotificationTarget;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class NotificationFactory extends Factory
 {
@@ -20,7 +22,15 @@ class NotificationFactory extends Factory
             'body' => $this->faker->sentence(6),
             'meta' => [
                 'type' => $this->faker->randomElement(['warning', 'success', 'info']),
-                'attachment' => $this->faker->imageUrl(),
+                'attachments' => collect(range(1, rand(1, 5)))->map(function () {
+                    $filename = Str::random(10) . '.jpg';
+                    $path = 'uploads/fake/' . $filename;
+
+                    return [
+                        'path' => $path,
+                        'url' => Storage::url($path),
+                    ];
+                })->toArray(),
                 'link' => $this->faker->url,
             ],
         ];
