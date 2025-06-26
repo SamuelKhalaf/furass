@@ -249,13 +249,22 @@ body{
 .feature::after {
     content: '';
     position: absolute;
-    left: 0;
-    /*transform: translateX(-50%);*/
-    bottom: -10px; /* space below text */
-    width: 100px; /* line length */
+    bottom: -10px;
+    width: 100px;
     height: 3px;
     background-color: var(--primary-purple);
 }
+
+/* LTR (English) */
+:dir(ltr) .feature::after {
+    left: 0;
+}
+
+/* RTL (Arabic) */
+:dir(rtl) .feature::after {
+    right: 0;
+}
+
 /*end program*/
 
 /*start about page*/
