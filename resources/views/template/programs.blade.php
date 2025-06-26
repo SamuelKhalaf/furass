@@ -47,9 +47,6 @@
 
     <div class="prog-details mb-5">
         <div class="container">
-            <h1 class="text-center mb-5" style="color: #6f42c1">
-                {{ __('template.programs_section.title') }}
-            </h1>
 
             @php
                 $programs = ['self_compass', 'explore_career', 'ready_future'];

@@ -81,14 +81,32 @@ body{
 /* Large screens (lg and up) */
 @media (min-width: 992px) {
     .request-demo-btn {
-        width: 19%;
+        width: 20%;
         padding: 7px;
         margin: 0;
     }
 }
 
 .hero-section {
+    overflow: hidden;
     padding: 0 0 40px 0;
+}
+.hero-bg-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('../imgs/template/home.jpeg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: -1;
+}
+
+/* Only in Arabic, flip the image */
+html[lang="ar"] .hero-bg-image {
+    transform: scaleX(-1);
 }
 .hero-img-container {
     position: relative;
@@ -285,23 +303,22 @@ body{
     position: absolute;
 }
 
-.overlay-text {
+html[lang="ar"] .section-img img {
+    transform: scaleX(-1);
+}
+
+.overlay-wrapper {
     position: absolute;
-    top: 0;
+    top: 50%;
+    left: 0;
+    width: 100%;
     transform: translateY(-50%);
-    max-width: 400px;
     z-index: 2;
 }
 .overlay-text h1{
     font-size: 3.3rem;
 }
 @media (min-width: 770px) {
-    .overlay-text {
-        transform: none;
-        margin: 1rem auto;
-        max-width: 100%;
-    }
-
     .section-img {
         text-align: center;
     }
@@ -311,7 +328,7 @@ body{
 }
 
 @media (max-width: 768px) {
-    .overlay-text{
+    .overlay-wrapper{
         top: 25%;
     }
     .overlay-text h1{

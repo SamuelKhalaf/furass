@@ -1,13 +1,8 @@
 @extends('template/layout/master')
 @section('body')
     <!-- Hero Section -->
-    <div class="hero-section position-relative" style="
-        background-image: url('{{ asset('assets/imgs/template/home.jpeg') }}');
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        height: 100vh;
-        padding-top: 80px;">
+    <div class="hero-section position-relative" style="height: 100vh; padding-top: 80px;">
+        <div class="hero-bg-image"></div>
         <!-- Overlay -->
         <div class="overlay position-absolute top-0 start-0 w-100 h-100" style="
             background: linear-gradient(180deg, rgba(111, 66, 193, 0.5) 0%, rgba(111, 66, 193, 0) 100%);
@@ -25,7 +20,7 @@
                     </p>
                     <div class="position-relative z-2">
                         <div class="d-flex flex-column flex-sm-row gap-3">
-                            <a href="{{ route('template.details-programs') }}" class="btn fw-bold px-4 py-2"
+                            <a href="{{ route('template.programs') }}" class="btn fw-bold px-4 py-2"
                                style="background:#543786; color:#fff; border-radius:24px; border: none;">
                                 {{ __('template.home.img_sec.explore_programs') }}
                             </a>
