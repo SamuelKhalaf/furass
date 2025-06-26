@@ -3,31 +3,25 @@
     <div class="container contact-container" style="padding-top: 80px;">
         <div class="row w-100">
             <div class="col-lg-7 contact-left d-flex flex-column justify-content-center">
-                <div class="contact-title">Contact us</div>
+                <div class="contact-title">{{ __('template.contact.title') }}</div>
                 <div class="row">
                     <div class="col-md-6 contact-info">
-                        <div class="contact-section-title">Head Office</div>
-                        <div><strong>638 star Aveno , Jeddah</strong></div>
-                        <div>Telephone : 00000000</div>
+                        <div class="contact-section-title">{{ __('template.contact.office_title') }}</div>
+                        <div><strong>{{ __('template.contact.office_address') }}</strong></div>
+                        <div>{{ __('template.contact.telephone') }} : 00000000</div>
                         <div><a href="mailto:furasshead@furass.com">furasshead@furass.com</a></div>
                     </div>
                     <div class="col-md-6 contact-info">
-                        <div class="contact-section-title">Support</div>
-                        <div><strong>support hours: Sat -Thu 9:00 am to 5:00 pm</strong></div>
-                        <div>Telephone : 00000000</div>
+                        <div class="contact-section-title">{{ __('template.contact.support_title') }}</div>
+                        <div><strong>{{ __('template.contact.support_hours') }}</strong></div>
+                        <div>{{ __('template.contact.telephone') }} : 00000000</div>
                         <div><a href="mailto:support@furass.com">support@furass.com</a></div>
                     </div>
                 </div>
                 <div class="furass-logo">
-                    <div class="d-flex" style="margin-right: 60px">
-                        <div class="d-flex flex-column lh-1">
-                            <span class="fw-bold" style="font-size:1.3rem; color:#4B3FA7; letter-spacing:1px;">فرص</span>
-                            <span class="fw-bold" style="font-size:1.1rem; color:#4B3FA7; letter-spacing:1px;">Furass</span>
-                        </div>
-                        <img src="{{asset('assets/imgs/favicon.png')}}" alt="Furass Logo" style="height:38px; margin-right:12px;">
-                    </div>
+                    <img src="{{asset('assets/imgs/template/furass-logo.png')}}" alt="Furass Logo" style="height:38px; margin-right:12px;">
                     <div>
-                        <div class="furass-desc">We connect education and careers to help students succeed in school and life.</div>
+                        <div class="furass-desc">{{ __('template.contact.slogan') }}</div>
                     </div>
                 </div>
                 <div class="social-icons">
@@ -38,31 +32,32 @@
             </div>
             <div class="col-lg-5 d-flex align-items-center justify-content-center">
                 <div class="contact-form-card w-100">
-                    <div class="mb-4" style="font-size: 2rem; font-weight: 600;">Send Us a message</div>
+                    <div class="mb-4" style="font-size: 2rem; font-weight: 600;">{{ __('template.contact.form_title') }}</div>
                     <form>
                         <div class="mb-3">
-                            <input type="text" class="form-control" placeholder="Name" required>
+                            <input type="text" class="form-control" placeholder="{{ __('template.contact.name') }}" required>
                         </div>
                         <div class="mb-3">
-                            <input type="email" class="form-control" placeholder="E-mail" required>
+                            <input type="email" class="form-control" placeholder="{{ __('template.contact.email') }}" required>
                         </div>
                         <div class="mb-3">
-                            <input type="tel" class="form-control" placeholder="Phone">
+                            <input type="tel" class="form-control" placeholder="{{ __('template.contact.phone') }}">
                         </div>
                         <div class="mb-3">
-                            <textarea class="form-control" rows="3" placeholder="Type your Message here" required></textarea>
+                            <textarea class="form-control" rows="3" placeholder="{{ __('template.contact.message') }}" required></textarea>
                         </div>
                         <div class="form-check mb-2">
                             <input class="form-check-input" type="checkbox" id="privacyCheck" required>
                             <label class="form-check-label" for="privacyCheck">
-                                By submitting this form, I agree to WiziQ's <a href="#" class="privacy-link">Privacy Policy</a> and <a href="#" class="privacy-link">User Agreement</a>.
+                                {!! __('template.contact.privacy') !!}
                             </label>
                         </div>
-                        <button type="submit" class="btn">Send message</button>
+                        <button type="submit" class="btn">{{ __('template.contact.send') }}</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
+
 
 @endsection
