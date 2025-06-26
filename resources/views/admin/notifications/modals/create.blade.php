@@ -9,7 +9,7 @@
                 <!--begin::Modal header-->
                 <div class="modal-header" id="kt_modal_add_notification_header">
                     <!--begin::Modal title-->
-                    <h2 class="fw-bold">Send New Notification</h2>
+                    <h2 class="fw-bold">{{ __('notifications.send_new_notification') }}</h2>
                     <!--end::Modal title-->
                     <!--begin::Close-->
                     <div id="kt_modal_add_notification_close" class="btn btn-icon btn-sm btn-active-icon-primary">
@@ -32,27 +32,27 @@
                         <!--begin::Input group-->
                         <div class="fv-row mb-7">
                             <!--begin::Label-->
-                            <label class="required fs-6 fw-semibold mb-2">Title</label>
+                            <label class="required fs-6 fw-semibold mb-2">{{ __('notifications.title') }}</label>
                             <!--end::Label-->
                             <!--begin::Input-->
-                            <input type="text" class="form-control form-control-solid" placeholder="Enter notification title" name="title" maxlength="255" />
+                            <input type="text" class="form-control form-control-solid" placeholder="{{ __('notifications.enter_title') }}" name="title" maxlength="255" />
                             <!--end::Input-->
                         </div>
                         <!--end::Input group-->
                         <!--begin::Input group-->
                         <div class="fv-row mb-7">
                             <!--begin::Label-->
-                            <label class="required fs-6 fw-semibold mb-2">Message Body</label>
+                            <label class="required fs-6 fw-semibold mb-2">{{ __('notifications.message_body') }}</label>
                             <!--end::Label-->
                             <!--begin::Input-->
-                            <textarea class="form-control form-control-solid" rows="4" placeholder="Enter your notification message..." name="body"></textarea>
+                            <textarea class="form-control form-control-solid" rows="4" placeholder="{{ __('notifications.enter_message') }}" name="body"></textarea>
                             <!--end::Input-->
                         </div>
                         <!--end::Input group-->
                         <!--begin::Input group-->
                         <div class="fv-row mb-7">
                             <!--begin::Label-->
-                            <label class="fs-6 fw-semibold mb-2">Link (Optional)</label>
+                            <label class="fs-6 fw-semibold mb-2">{{ __('notifications.link_optional') }}</label>
                             <!--end::Label-->
                             <!--begin::Input-->
                             <input type="url" class="form-control form-control-solid" placeholder="https://example.com" name="link" />
@@ -62,16 +62,16 @@
                         <!--begin::Input group-->
                         <div class="fv-row mb-7">
                             <!--begin::Label-->
-                            <label class="fs-6 fw-semibold mb-2">File Attachments (PDF/DOCX only)</label>
+                            <label class="fs-6 fw-semibold mb-2">{{ __('notifications.file_attachments') }}</label>
                             <!--end::Label-->
                             <!--begin::Input-->
                             <input type="file" class="form-control form-control-solid" name="attachments[]" multiple accept=".pdf,.docx" />
                             <!--end::Input-->
-                            <div class="text-muted fs-7 mt-2">You can select multiple PDF or DOCX files</div>
+                            <div class="text-muted fs-7 mt-2">{{ __('notifications.select_files') }}</div>
                         </div>
                         <!--end::Input group-->
                         <!--begin::Recipients toggle-->
-                        <div class="fw-bold fs-3 rotate collapsible mb-7" data-bs-toggle="collapse" href="#kt_modal_add_notification_recipients" role="button" aria-expanded="true" aria-controls="kt_modal_add_notification_recipients">Recipients Information
+                        <div class="fw-bold fs-3 rotate collapsible mb-7" data-bs-toggle="collapse" href="#kt_modal_add_notification_recipients" role="button" aria-expanded="true" aria-controls="kt_modal_add_notification_recipients">{{ __('notifications.recipients_info') }}
                             <span class="ms-2 rotate-180">
                                 <!--begin::Svg Icon | path: icons/duotune/arrows/arr072.svg-->
                                 <span class="svg-icon svg-icon-3">
@@ -88,38 +88,38 @@
                             <!--begin::Input group-->
                             <div class="fv-row mb-7">
                                 <!--begin::Label-->
-                                <label class="fs-6 fw-semibold mb-2">Recipient Groups</label>
+                                <label class="fs-6 fw-semibold mb-2">{{ __('notifications.recipient_groups') }}</label>
                                 <!--end::Label-->
                                 <!--begin::Checkboxes-->
                                 <div class="d-flex flex-wrap">
                                     <div class="form-check form-check-custom form-check-solid me-5 mb-3">
                                         <input class="form-check-input" type="checkbox" value="admins" name="recipient_groups[]" id="group_admins">
                                         <label class="form-check-label" for="group_admins">
-                                            Admins
+                                            {{ __('notifications.admins') }}
                                         </label>
                                     </div>
                                     <div class="form-check form-check-custom form-check-solid me-5 mb-3">
                                         <input class="form-check-input" type="checkbox" value="sub_admins" name="recipient_groups[]" id="group_sub_admins">
                                         <label class="form-check-label" for="group_sub_admins">
-                                            Sub Admins
+                                            {{ __('notifications.sub_admins') }}
                                         </label>
                                     </div>
                                     <div class="form-check form-check-custom form-check-solid me-5 mb-3">
                                         <input class="form-check-input" type="checkbox" value="students" name="recipient_groups[]" id="group_students">
                                         <label class="form-check-label" for="group_students">
-                                            Students
+                                            {{ __('notifications.students') }}
                                         </label>
                                     </div>
                                     <div class="form-check form-check-custom form-check-solid me-5 mb-3">
                                         <input class="form-check-input" type="checkbox" value="consultants" name="recipient_groups[]" id="group_consultants">
                                         <label class="form-check-label" for="group_consultants">
-                                            Consultants
+                                            {{ __('notifications.consultants') }}
                                         </label>
                                     </div>
                                     <div class="form-check form-check-custom form-check-solid me-5 mb-3">
                                         <input class="form-check-input" type="checkbox" value="schools" name="recipient_groups[]" id="group_schools">
                                         <label class="form-check-label" for="group_schools">
-                                            Schools
+                                            {{ __('notifications.schools') }}
                                         </label>
                                     </div>
                                 </div>
@@ -129,14 +129,14 @@
                             <!--begin::Input group-->
                             <div class="fv-row mb-7">
                                 <!--begin::Label-->
-                                <label class="fs-6 fw-semibold mb-2">Specific Users</label>
+                                <label class="fs-6 fw-semibold mb-2">{{ __('notifications.specific_users') }}</label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
-                                <select name="specific_users[]" multiple aria-label="Select Users" data-control="select2" data-placeholder="Search and select specific users..." data-dropdown-parent="#kt_modal_add_notification" class="form-select form-select-solid fw-bold" id="users_select">
+                                <select name="specific_users[]" multiple aria-label="Select Users" data-control="select2" data-placeholder="{{ __('notifications.search_select_users') }}" data-dropdown-parent="#kt_modal_add_notification" class="form-select form-select-solid fw-bold" id="users_select">
                                     <!-- Users will be loaded via AJAX -->
                                 </select>
                                 <!--end::Input-->
-                                <div class="text-muted fs-7 mt-2">Search and select specific users to notify</div>
+                                <div class="text-muted fs-7 mt-2">{{ __('notifications.search_select_users') }}</div>
                             </div>
                             <!--end::Input group-->
                         </div>
@@ -149,14 +149,14 @@
                 <div class="modal-footer flex-center">
                     <!--begin::Button-->
                     <button type="reset" id="kt_modal_add_notification_cancel" class="btn btn-light me-3">
-                        Cancel
+                        {{ __('notifications.cancel') }}
                     </button>
                     <!--end::Button-->
                     <!--begin::Button-->
                     <button type="submit" id="kt_modal_add_notification_submit" class="btn btn-primary">
-                        <span class="indicator-label">Send Notification</span>
+                        <span class="indicator-label">{{ __('notifications.send_notification') }}</span>
                         <span class="indicator-progress">
-                            Please wait...
+                            {{ __('notifications.please_wait') }}
                             <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
                         </span>
                     </button>

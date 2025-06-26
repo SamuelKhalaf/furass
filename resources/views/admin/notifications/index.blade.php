@@ -1,6 +1,6 @@
 @php use App\Enums\PermissionEnum; @endphp
 @extends('admin.layouts.master')
-@section('title', __('Notifications'))
+@section('title', __('notifications.notifications'))
 @push('styles')
 @endpush
 @section('content')
@@ -13,7 +13,7 @@
                 <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
                     <!--begin::Title-->
                     <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
-                        Notifications</h1>
+                        {{ __('notifications.notifications') }}</h1>
                     <!--end::Title-->
                     <!--begin::Breadcrumb-->
                     <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
@@ -28,12 +28,24 @@
                         </li>
                         <!--end::Item-->
                         <!--begin::Item-->
-                        <li class="breadcrumb-item text-muted">Notifications</li>
+                        <li class="breadcrumb-item text-muted">{{ __('notifications.notifications') }}</li>
                         <!--end::Item-->
                     </ul>
                     <!--end::Breadcrumb-->
                 </div>
                 <!--end::Page title-->
+                <!--begin::Card toolbar-->
+                <div class="card-toolbar">
+                    <!--begin::Toolbar-->
+                    <div class="d-flex justify-content-end" data-kt-notification-table-toolbar="base">
+                        <a href="{{ route('admin.notifications.all') }}" class="btn btn-primary">
+                            {{ __('notifications.all_notifications') }}
+                            <i class="fas fa-chevron-right ms-1"></i>
+                        </a>
+                    </div>
+                    <!--end::Toolbar-->
+                </div>
+                <!--end::Card toolbar-->
             </div>
             <!--end::Toolbar container-->
         </div>
@@ -49,15 +61,14 @@
                         <!--begin::Wrapper-->
                         <div class="card-px text-center py-20 my-10">
                             <!--begin::Title-->
-                            <h2 class="fs-2x fw-bold mb-10">Welcome to Notifications Center</h2>
+                            <h2 class="fs-2x fw-bold mb-10">{{ __('notifications.welcome_center') }}</h2>
                             <!--end::Title-->
                             <!--begin::Description-->
-                            <p class="text-gray-400 fs-4 fw-semibold mb-10">You can use this tool to send notifications to users.
-                                <br/>Start communicating with users by creating your first notification</p>
+                            <p class="text-gray-400 fs-4 fw-semibold mb-10">{{ __('notifications.center_description') }}</p>
                             <!--end::Description-->
                             <!--begin::Action-->
                             <a href="#" class="btn btn-primary" data-bs-toggle="modal"
-                               data-bs-target="#kt_modal_add_notification">Send Notification</a>
+                               data-bs-target="#kt_modal_add_notification">{{ __('notifications.send_notification_action') }}</a>
                             <!--end::Action-->
                         </div>
                         <!--end::Wrapper-->
