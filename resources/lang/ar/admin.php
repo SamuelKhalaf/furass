@@ -3,12 +3,7 @@
 return [
     // Dashboard
     'dashboard' => [
-        'title' => 'لوحة تحكم المدير',
-        'general_indicators' => 'المؤشرات العامة',
-        'detailed_analysis' => 'تحليل مفصل',
-        'consultants_reports' => 'تقارير المستشارين',
-        'schools_reports' => 'تقارير المدارس',
-        'students_reports' => 'تقارير الطلاب',
+        'title' => 'لوحة التحكم',
     ],
 
     // Calendar

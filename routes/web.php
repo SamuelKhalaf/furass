@@ -24,7 +24,7 @@ use App\Http\Controllers\LanguageController;
 
 Auth::routes(['register' => false,'verify' => false]);
 
-Route::get('/', [HomeController::class, 'index'])->name('home');
+//Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/test', function () {
     $adminRole = Role::firstOrCreate(['name' => RoleEnum::ADMIN->value]);
@@ -35,7 +35,7 @@ Route::post('request-school', [SchoolController::class, 'store'])->name('request
 
 Route::get('language/{locale}', [LanguageController::class, 'switchLang'])->name('language.switch');
 
-Route::get('home', function (){
+Route::get('/', function (){
     return view('template.home');
 })->name('template.home');
 

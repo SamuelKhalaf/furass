@@ -5,19 +5,16 @@ namespace App\Enums;
 enum PermissionEnum : string
 {
     // Dashboard
-    case VIEW_DASHBOARD = 'View Dashboard';
+    case VIEW_ADMIN_DASHBOARD = 'View_Admin Dashboard';
+    case VIEW_CONSULTANT_DASHBOARD = 'View_Consultant Dashboard';
+    case VIEW_STUDENT_DASHBOARD = 'View_Student Dashboard';
+    case VIEW_SCHOOL_DASHBOARD = 'View_School Dashboard';
 
     // Users
     case LIST_USERS = 'List Users';
     case CREATE_USERS = 'Create Users';
     case UPDATE_USERS = 'Update Users';
     case DELETE_USERS = 'Delete Users';
-
-    // Students
-    case LIST_STUDENTS  = 'List Students';
-    case CREATE_STUDENTS = 'Create Students';
-    case UPDATE_STUDENTS = 'Update Students';
-    case DELETE_STUDENTS = 'Delete Students';
 
     // Roles
     case LIST_ROLES = 'List Roles';
@@ -36,6 +33,13 @@ enum PermissionEnum : string
     case CREATE_SCHOOLS = 'Create Schools';
     case UPDATE_SCHOOLS = 'Update Schools';
     case DELETE_SCHOOLS = 'Delete Schools';
+
+    // Students
+    case LIST_STUDENTS  = 'List Students';
+    case CREATE_STUDENTS = 'Create Students';
+    case UPDATE_STUDENTS = 'Update Students';
+    case DELETE_STUDENTS = 'Delete Students';
+
 
     // Consultant Permissions
     case LIST_CONSULTANTS = 'List Consultants';
@@ -89,6 +93,15 @@ enum PermissionEnum : string
         return array_column(PermissionEnum::cases(), 'value');
     }
 
+    public static function dashboardPermissions(): array
+    {
+        return [
+            self::VIEW_ADMIN_DASHBOARD->value,
+            self::VIEW_CONSULTANT_DASHBOARD->value,
+            self::VIEW_STUDENT_DASHBOARD->value,
+            self::VIEW_SCHOOL_DASHBOARD->value,
+        ];
+    }
     /**
      * Get all permissions related to users.
      */
@@ -129,5 +142,94 @@ enum PermissionEnum : string
             self::DELETE_PERMISSIONS->value,
         ];
     }
+
+    public static function schoolPermissions(): array
+    {
+        return [
+            self::LIST_SCHOOLS->value,
+            self::CREATE_SCHOOLS->value,
+            self::UPDATE_SCHOOLS->value,
+            self::DELETE_SCHOOLS->value,
+        ];
+    }
+
+    public static function studentPermissions(): array
+    {
+        return [
+            self::LIST_STUDENTS->value,
+            self::CREATE_STUDENTS->value,
+            self::UPDATE_STUDENTS->value,
+            self::DELETE_STUDENTS->value,
+        ];
+    }
+    public static function consultantPermissions(): array
+    {
+        return [
+            self::LIST_CONSULTANTS->value,
+            self::CREATE_CONSULTANTS->value,
+            self::UPDATE_CONSULTANTS->value,
+            self::DELETE_CONSULTANTS->value,
+        ];
+    }
+
+    public static function consultationPermissions(): array
+    {
+        return [
+            self::LIST_CONSULTATIONS->value,
+            self::CREATE_CONSULTATIONS->value,
+            self::UPDATE_CONSULTATIONS->value,
+            self::DELETE_CONSULTATIONS->value,
+        ];
+    }
+
+    public static function tripPermissions(): array
+    {
+        return [
+            self::LIST_TRIPS->value,
+            self::CREATE_TRIPS->value,
+            self::UPDATE_TRIPS->value,
+            self::DELETE_TRIPS->value,
+        ];
+    }
+
+    public static function workshopPermissions(): array
+    {
+        return [
+            self::LIST_WORKSHOPS->value,
+            self::CREATE_WORKSHOPS->value,
+            self::UPDATE_WORKSHOPS->value,
+            self::DELETE_WORKSHOPS->value,
+        ];
+    }
+
+    public static function programPermissions(): array
+    {
+        return [
+            self::LIST_PROGRAMS->value,
+            self::CREATE_PROGRAMS->value,
+            self::UPDATE_PROGRAMS->value,
+        ];
+    }
+
+    public static function eventPermissions(): array
+    {
+        return [
+            self::LIST_EVENTS->value,
+            self::CREATE_EVENTS->value,
+            self::UPDATE_EVENTS->value,
+            self::DELETE_EVENTS->value,
+        ];
+    }
+
+    public static function newsPermissions(): array
+    {
+        return [
+            self::LIST_NEWS->value,
+            self::CREATE_NEWS->value,
+            self::UPDATE_NEWS->value,
+            self::DELETE_NEWS->value,
+        ];
+    }
+
 
 }

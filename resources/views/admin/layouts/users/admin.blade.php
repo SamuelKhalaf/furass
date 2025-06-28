@@ -1,165 +1,143 @@
 @php use App\Enums\PermissionEnum; @endphp
+<!--begin:Menu item-->
 <div class="menu-item {{setMenuOpenClass(['admin.dashboard'])}}">
-        <a class="menu-link {{setActiveClass('admin.dashboard')}}"
-           href="{{route('admin.dashboard')}}">
-            <span class="menu-icon"><i class="fa-solid fa-gauge-high"></i></span>
-            <span class="menu-title">{{ __('admin.dashboard.title') }}</span>
-        </a>
-{{--    <div class="menu-sub menu-sub-accordion">--}}
-{{--        <div class="menu-item">--}}
-{{--            <a class="menu-link" href="#">--}}
-{{--                <span class="menu-bullet">--}}
-{{--                    <span class="bullet bullet-dot"></span>--}}
-{{--                </span>--}}
-{{--                <span class="menu-title">{{ __('admin.dashboard.general_indicators') }}</span>--}}
-{{--            </a>--}}
-{{--        </div>--}}
-{{--        <div class="menu-item">--}}
-{{--            <a class="menu-link" href="#">--}}
-{{--                <span class="menu-bullet">--}}
-{{--                    <span class="bullet bullet-dot"></span>--}}
-{{--                </span>--}}
-{{--                <span class="menu-title">{{ __('admin.dashboard.detailed_analysis') }}</span>--}}
-{{--            </a>--}}
-{{--        </div>--}}
-{{--        <div class="menu-item">--}}
-{{--            <a class="menu-link" href="#">--}}
-{{--                <span class="menu-bullet">--}}
-{{--                    <span class="bullet bullet-dot"></span>--}}
-{{--                </span>--}}
-{{--                <span class="menu-title">{{ __('admin.dashboard.consultants_reports') }}</span>--}}
-{{--            </a>--}}
-{{--        </div>--}}
-{{--        <div class="menu-item">--}}
-{{--            <a class="menu-link" href="#">--}}
-{{--                <span class="menu-bullet">--}}
-{{--                    <span class="bullet bullet-dot"></span>--}}
-{{--                </span>--}}
-{{--                <span class="menu-title">{{ __('admin.dashboard.schools_reports') }}</span>--}}
-{{--            </a>--}}
-{{--        </div>--}}
-{{--        <div class="menu-item">--}}
-{{--            <a class="menu-link" href="#">--}}
-{{--                <span class="menu-bullet">--}}
-{{--                    <span class="bullet bullet-dot"></span>--}}
-{{--                </span>--}}
-{{--                <span class="menu-title">{{ __('admin.dashboard.students_reports') }}</span>--}}
-{{--            </a>--}}
-{{--        </div>--}}
-{{--    </div>--}}
+    <a class="menu-link {{setActiveClass('admin.dashboard')}}"
+       href="{{route('admin.dashboard')}}">
+        <span class="menu-icon"><i class="fa-solid fa-gauge-high"></i></span>
+        <span class="menu-title">{{ __('admin.dashboard.title') }}</span>
+    </a>
 </div>
 <!--begin:Menu item-->
-<div class="menu-item {{setMenuOpenClass(['admin.users.index'])}}">
-    <!--begin:Menu link-->
-    <a class="menu-link {{setActiveClass('admin.users.index')}}"
-       href="{{route('admin.users.index')}}">
-        <span class="menu-icon"><i class="fa-solid fa-user"></i></span>
-        <span class="menu-title">{{ __('admin.users.title') }}</span>
-    </a>
-    <!--end:Menu link-->
-</div>
-<!--end:Menu item-->
-<div class="menu-item {{setMenuOpenClass(['admin.schools.index'])}}">
-    <!--begin:Menu link-->
-    <a class="menu-link {{setActiveClass('admin.schools.index')}}"
-       href="{{route('admin.schools.index')}}">
-        <span class="menu-icon"><i class="fa-solid fa-school"></i></span>
-        <span class="menu-title">{{ __('admin.schools.title') }}</span>
-    </a>
-    <!--end:Menu link-->
-</div>
-<!--end:Menu item-->
-<div class="menu-item {{setMenuOpenClass(['admin.consultants.index'])}}">
-    <!--begin:Menu link-->
-    <a class="menu-link {{setActiveClass('admin.consultants.index')}}"
-       href="{{route('admin.consultants.index')}}">
-        <span class="menu-icon"><i class="fa-solid fa-headset"></i></span>
-        <span class="menu-title">{{ __('admin.consultants.title') }}</span>
-    </a>
-    <!--end:Menu link-->
-</div>
-<!--end:Menu item-->
-<!--end:Menu item-->
-{{--<div class="menu-item {{setMenuOpenClass(['admin.consultations.index'])}}">--}}
-{{--    <!--begin:Menu link-->--}}
-{{--    <a class="menu-link {{setActiveClass('admin.consultations.index')}}"--}}
-{{--       href="{{route('admin.consultations.index')}}">--}}
-{{--        <span class="menu-icon"><i class="fa-solid fa-headset"></i></span>--}}
-{{--        <span class="menu-title">{{ __('admin.consultations.title') }}</span>--}}
-{{--    </a>--}}
-{{--    <!--end:Menu link-->--}}
-{{--</div>--}}
-<!--end:Menu item-->
-<div class="menu-item {{setMenuOpenClass(['admin.students.index'])}}">
-    <!--begin:Menu link-->
-    <a class="menu-link {{setActiveClass('admin.students.index')}}"
-       href="{{route('admin.students.index')}}">
-        <span class="menu-icon"><i class="fa-solid fa-users"></i></span>
-        <span class="menu-title">{{ __('admin.students.title') }}</span>
-    </a>
-    <!--end:Menu link-->
-</div>
-<!--end:Menu item-->
-<div class="menu-item {{setMenuOpenClass(['admin.programs.index'])}}">
-    <!--begin:Menu link-->
-    <a class="menu-link {{setActiveClass('admin.programs.index')}}"
-       href="{{route('admin.programs.index')}}">
-        <span class="menu-icon"><i class="fa-solid fa-route"></i></span>
-        <span class="menu-title">{{ __('admin.programs.title') }}</span>
-    </a>
-    <!--end:Menu link-->
-</div>
-<!--end:Menu item-->
-<div class="menu-item {{setMenuOpenClass(['admin.trips.index'])}}">
-    <!--begin:Menu link-->
-    <a class="menu-link {{setActiveClass('admin.trips.index')}}"
-       href="{{route('admin.trips.index')}}">
-        <span class="menu-icon"><i class="fa-solid fa-map-location-dot"></i></span>
-        <span class="menu-title">{{ __('admin.trips.title') }}</span>
-    </a>
-    <!--end:Menu link-->
-</div>
-<!--end:Menu item-->
-<div class="menu-item {{setMenuOpenClass(['admin.workshops.index'])}}">
-    <!--begin:Menu link-->
-    <a class="menu-link {{setActiveClass('admin.workshops.index')}}"
-       href="{{route('admin.workshops.index')}}">
-        <span class="menu-icon"><i class="fa-solid fa-house-flag"></i></span>
-        <span class="menu-title">{{ __('admin.workshops.title') }}</span>
-    </a>
-    <!--end:Menu link-->
-</div>
-<!--end:Menu item-->
-<div class="menu-item {{setMenuOpenClass(['admin.calendar.index'])}}">
-    <!--begin:Menu link-->
-    <a class="menu-link {{setActiveClass('admin.calendar.index')}}"
-       href="{{route('admin.calendar.index')}}">
-        <span class="menu-icon"><i class="fa-solid fa-calendar-days"></i></span>
-        <span class="menu-title">{{ __('admin.calendar.title') }}</span>
-    </a>
-    <!--end:Menu link-->
-</div>
-<!--end:Menu item-->
-<div class="menu-item {{setMenuOpenClass(['admin.news.index'])}}">
-    <!--begin:Menu link-->
-    <a class="menu-link {{setActiveClass('admin.news.index')}}"
-       href="{{route('admin.news.index')}}">
-        <span class="menu-icon"><i class="fa-regular fa-newspaper"></i></span>
-        <span class="menu-title">{{ __('admin.news.title') }}</span>
-    </a>
-    <!--end:Menu link-->
-</div>
-<!--end:Menu item-->
-<div class="menu-item {{setMenuOpenClass(['admin.notifications.index'])}}">
-    <!--begin:Menu link-->
-    <a class="menu-link {{setActiveClass('admin.notifications.index')}}"
-       href="{{route('admin.notifications.index')}}">
-        <span class="menu-icon"><i class="fa-regular fa-bell"></i></span>
-        <span class="menu-title">{{ __('admin.notifications.title') }}</span>
-    </a>
-    <!--end:Menu link-->
-</div>
-<!--end:Menu item-->
+@if(auth()->user()->hasAnyPermission(PermissionEnum::userPermissions()))
+    <!--begin:Menu item-->
+    <div class="menu-item {{setMenuOpenClass(['admin.users.index'])}}">
+        <!--begin:Menu link-->
+        <a class="menu-link {{setActiveClass('admin.users.index')}}"
+           href="{{route('admin.users.index')}}">
+            <span class="menu-icon"><i class="fa-solid fa-user"></i></span>
+            <span class="menu-title">{{ __('admin.users.title') }}</span>
+        </a>
+        <!--end:Menu link-->
+    </div>
+    <!--end:Menu item-->
+@endif
+@if(auth()->user()->hasAnyPermission(PermissionEnum::schoolPermissions()))
+    <!--begin:Menu item-->
+    <div class="menu-item {{setMenuOpenClass(['admin.schools.index'])}}">
+        <!--begin:Menu link-->
+        <a class="menu-link {{setActiveClass('admin.schools.index')}}"
+           href="{{route('admin.schools.index')}}">
+            <span class="menu-icon"><i class="fa-solid fa-school"></i></span>
+            <span class="menu-title">{{ __('admin.schools.title') }}</span>
+        </a>
+        <!--end:Menu link-->
+    </div>
+    <!--end:Menu item-->
+@endif
+@if(auth()->user()->hasAnyPermission(PermissionEnum::consultantPermissions()))
+    <!--begin:Menu item-->
+    <div class="menu-item {{setMenuOpenClass(['admin.consultants.index'])}}">
+        <!--begin:Menu link-->
+        <a class="menu-link {{setActiveClass('admin.consultants.index')}}"
+           href="{{route('admin.consultants.index')}}">
+            <span class="menu-icon"><i class="fa-solid fa-headset"></i></span>
+            <span class="menu-title">{{ __('admin.consultants.title') }}</span>
+        </a>
+        <!--end:Menu link-->
+    </div>
+    <!--end:Menu item-->
+@endif
+@if(auth()->user()->hasAnyPermission(PermissionEnum::studentPermissions()))
+    <!--begin:Menu item-->
+    <div class="menu-item {{setMenuOpenClass(['admin.students.index'])}}">
+        <!--begin:Menu link-->
+        <a class="menu-link {{setActiveClass('admin.students.index')}}"
+           href="{{route('admin.students.index')}}">
+            <span class="menu-icon"><i class="fa-solid fa-users"></i></span>
+            <span class="menu-title">{{ __('admin.students.title') }}</span>
+        </a>
+        <!--end:Menu link-->
+    </div>
+    <!--end:Menu item-->
+@endif
+@if(auth()->user()->hasAnyPermission(PermissionEnum::programPermissions()))
+    <!--begin:Menu item-->
+    <div class="menu-item {{setMenuOpenClass(['admin.programs.index'])}}">
+        <!--begin:Menu link-->
+        <a class="menu-link {{setActiveClass('admin.programs.index')}}"
+           href="{{route('admin.programs.index')}}">
+            <span class="menu-icon"><i class="fa-solid fa-route"></i></span>
+            <span class="menu-title">{{ __('admin.programs.title') }}</span>
+        </a>
+        <!--end:Menu link-->
+    </div>
+    <!--end:Menu item-->
+@endif
+@if(auth()->user()->hasAnyPermission(PermissionEnum::tripPermissions()))
+    <!--begin:Menu item-->
+    <div class="menu-item {{setMenuOpenClass(['admin.trips.index'])}}">
+        <!--begin:Menu link-->
+        <a class="menu-link {{setActiveClass('admin.trips.index')}}"
+           href="{{route('admin.trips.index')}}">
+            <span class="menu-icon"><i class="fa-solid fa-map-location-dot"></i></span>
+            <span class="menu-title">{{ __('admin.trips.title') }}</span>
+        </a>
+        <!--end:Menu link-->
+    </div>
+    <!--end:Menu item-->
+@endif
+@if(auth()->user()->hasAnyPermission(PermissionEnum::workshopPermissions()))
+    <!--begin:Menu item-->
+    <div class="menu-item {{setMenuOpenClass(['admin.workshops.index'])}}">
+        <!--begin:Menu link-->
+        <a class="menu-link {{setActiveClass('admin.workshops.index')}}"
+           href="{{route('admin.workshops.index')}}">
+            <span class="menu-icon"><i class="fa-solid fa-house-flag"></i></span>
+            <span class="menu-title">{{ __('admin.workshops.title') }}</span>
+        </a>
+        <!--end:Menu link-->
+    </div>
+    <!--end:Menu item-->
+@endif
+@if(auth()->user()->hasAnyPermission(PermissionEnum::eventPermissions()))
+    <!--begin:Menu item-->
+    <div class="menu-item {{setMenuOpenClass(['admin.calendar.index'])}}">
+        <!--begin:Menu link-->
+        <a class="menu-link {{setActiveClass('admin.calendar.index')}}"
+           href="{{route('admin.calendar.index')}}">
+            <span class="menu-icon"><i class="fa-solid fa-calendar-days"></i></span>
+            <span class="menu-title">{{ __('admin.calendar.title') }}</span>
+        </a>
+        <!--end:Menu link-->
+    </div>
+    <!--end:Menu item-->
+@endif
+@if(auth()->user()->hasAnyPermission(PermissionEnum::newsPermissions()))
+    <!--begin:Menu item-->
+    <div class="menu-item {{setMenuOpenClass(['admin.news.index'])}}">
+        <!--begin:Menu link-->
+        <a class="menu-link {{setActiveClass('admin.news.index')}}"
+           href="{{route('admin.news.index')}}">
+            <span class="menu-icon"><i class="fa-regular fa-newspaper"></i></span>
+            <span class="menu-title">{{ __('admin.news.title') }}</span>
+        </a>
+        <!--end:Menu link-->
+    </div>
+    <!--end:Menu item-->
+@endif
+@if(auth()->user()->hasPermissionTo(PermissionEnum::SEND_NOTIFICATIONS))
+    <!--begin:Menu item-->
+    <div class="menu-item {{setMenuOpenClass(['admin.notifications.index'])}}">
+        <!--begin:Menu link-->
+        <a class="menu-link {{setActiveClass('admin.notifications.index')}}"
+           href="{{route('admin.notifications.index')}}">
+            <span class="menu-icon"><i class="fa-regular fa-bell"></i></span>
+            <span class="menu-title">{{ __('admin.notifications.title') }}</span>
+        </a>
+        <!--end:Menu link-->
+    </div>
+    <!--end:Menu item-->
+@endif
 @if(auth()->user()->hasAnyPermission(PermissionEnum::permissionPermissions()) || auth()->user()->hasAnyPermission(PermissionEnum::rolePermissions()))
     <div data-kt-menu-trigger="click"
      class="menu-item menu-accordion {{setMenuOpenClass(['admin.roles.index','admin.roles.show','admin.permissions.index'])}}">

@@ -3,10 +3,9 @@
      data-kt-drawer-activate="{default: true, lg: false}" data-kt-drawer-overlay="true" data-kt-drawer-width="225px"
      data-kt-drawer-direction="start" data-kt-drawer-toggle="#kt_app_sidebar_mobile_toggle">
     <!--begin::Logo-->
-    <div class="app-sidebar-logo pe-6" id="kt_app_sidebar_logo"
-         style="background-color: #f1f1f1; border-bottom: 1px solid #393945">
+    <div class="app-sidebar-logo pe-6" id="kt_app_sidebar_logo" style=" border-bottom: 1px solid #393945">
         <!--begin::Logo image-->
-        <a href="">
+        <a href="#">
             <img alt="Logo" src="{{asset('assets/media/logos/furass.png')}}"
                  class="app-sidebar-logo-default" style="width: 230px; height: 150px;"/>
             <img alt="Logo" src="{{asset('assets/media/logos/furass.png')}}"
