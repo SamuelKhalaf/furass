@@ -3,12 +3,7 @@
 return [
     // Dashboard
     'dashboard' => [
-        'title' => 'Admin Dashboard',
-        'general_indicators' => 'General indicators',
-        'detailed_analysis' => 'Detailed analysis',
-        'consultants_reports' => 'Consultants Reports',
-        'schools_reports' => 'Schools Reports',
-        'students_reports' => 'Students Reports',
+        'title' => 'Dashboard',
     ],
 
     // Calendar

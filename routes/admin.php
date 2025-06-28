@@ -34,9 +34,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['auth'])->name('admin.')->group(function () {
 
     // View Dashboard
-    Route::get('/dashboard', [DashboardController::class, 'index'])
-        ->middleware('permission:'. PermissionEnum::VIEW_DASHBOARD->value)
-        ->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     ############################### Start:Users Routes #####################################
     Route::middleware('permission:'. PermissionEnum::LIST_USERS->value)->group(function () {
         Route::get('users', [UsersController::class, 'index'])->name('users.index');
@@ -56,25 +54,6 @@ Route::middleware(['auth'])->name('admin.')->group(function () {
         ->middleware('permission:'. PermissionEnum::DELETE_USERS->value)
         ->name('users.destroy');
     ###############################  End:Users Routes  #####################################
-    ##############################  Start:Students Routes  ####################################
-    Route::middleware('permission:'. PermissionEnum::LIST_STUDENTS->value)->group(function () {
-        Route::get('students', [StudentController::class, 'index'])->name('students.index');
-        Route::get('/students/all', [StudentController::class, 'getStudentsData'])->name('students.datatable');
-    });
-
-    Route::post('students', [StudentController::class, 'store'])
-        ->middleware('permission:'. PermissionEnum::CREATE_STUDENTS->value)
-        ->name('students.store');
-
-    Route::middleware('permission:'. PermissionEnum::UPDATE_STUDENTS->value)->group(function () {
-        Route::get('students/{student}/edit', [StudentController::class, 'edit'])->name('students.edit');
-        Route::put('students/{student}', [StudentController::class, 'update'])->name('students.update');
-    });
-
-    Route::delete('students/{student}', [StudentController::class, 'destroy'])
-        ->middleware('permission:'. PermissionEnum::DELETE_STUDENTS->value)
-        ->name('students.destroy');
-    ###############################  End:Students Routes  #####################################
 
     ############################### Start:Roles Routes #####################################
     Route::get('/roles', [RolesController::class, 'index'])
@@ -135,6 +114,26 @@ Route::middleware(['auth'])->name('admin.')->group(function () {
         ->middleware('permission:'. PermissionEnum::DELETE_SCHOOLS->value)
         ->name('schools.destroy');
     ###############################  End:Schools Routes  #####################################
+
+    ##############################  Start:Students Routes  ####################################
+    Route::middleware('permission:'. PermissionEnum::LIST_STUDENTS->value)->group(function () {
+        Route::get('students', [StudentController::class, 'index'])->name('students.index');
+        Route::get('/students/all', [StudentController::class, 'getStudentsData'])->name('students.datatable');
+    });
+
+    Route::post('students', [StudentController::class, 'store'])
+        ->middleware('permission:'. PermissionEnum::CREATE_STUDENTS->value)
+        ->name('students.store');
+
+    Route::middleware('permission:'. PermissionEnum::UPDATE_STUDENTS->value)->group(function () {
+        Route::get('students/{student}/edit', [StudentController::class, 'edit'])->name('students.edit');
+        Route::put('students/{student}', [StudentController::class, 'update'])->name('students.update');
+    });
+
+    Route::delete('students/{student}', [StudentController::class, 'destroy'])
+        ->middleware('permission:'. PermissionEnum::DELETE_STUDENTS->value)
+        ->name('students.destroy');
+    ###############################  End:Students Routes  #####################################
 
     ############################### Start:Consultants Routes #####################################
     Route::middleware('permission:'. PermissionEnum::LIST_CONSULTANTS->value)->group(function () {

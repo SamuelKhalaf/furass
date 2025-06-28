@@ -94,4 +94,17 @@ class LoginController extends Controller
             ? new JsonResponse([], 204)
             : redirect()->intended($this->redirectPath());
     }
+
+    protected function loggedOut(Request $request)
+    {
+        if ($request->ajax()) {
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Logout successful!',
+                'redirect_url' => route('admin.login')
+            ], 200);
+        }
+
+        return redirect('/')->with('status', 'You have been logged out.');
+    }
 }
