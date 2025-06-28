@@ -36,12 +36,14 @@
         </div>
     </div>
     <!-- program Section -->
+
     <div class="prog-home mt-5 mb-5">
         <div class="container">
             <h1 class="text-center mb-4" style="color: #6f42c1">
                 {{ __('template.home.prog_section.title') }}
             </h1>
-            <p class="fw-bold f-p">
+
+            <p class="fw-bold f-p text-center text-md-start">
                 {{ __('template.home.prog_section.desc') }}
             </p>
 
@@ -56,18 +58,20 @@
 
                 <div class="col-12 col-lg-6 text-center mt-4 mt-lg-0">
                     <img src="{{ asset('assets/imgs/template/home-program.png') }}" alt="Furass Logo"
-                         style="max-width: 100%; height: auto; max-height: 400px; object-fit: contain;">
+                         class="img-fluid" style="max-height: 400px; object-fit: contain;">
                 </div>
 
-                <div class="d-flex flex-column flex-sm-row gap-3 button">
-                    <a href="{{ route('template.programs') }}" class="btn fw-bold px-4 py-2"
-                       style="background:#543786; color:#fff; border-radius:24px; border: none;">
-                        {{ __('template.home.prog_section.explore_btn') }}
-                    </a>
-                    <a href="{{ route('template.about') }}" class="btn fw-bold px-4 py-2"
-                       style="background:#543786; color:#fff; border-radius:24px; border: none;">
-                        {{ __('template.home.prog_section.about_btn') }}
-                    </a>
+                <div class="col-12 mt-4">
+                    <div class="d-flex flex-column flex-sm-row justify-content-center justify-content-lg-start gap-3 button">
+                        <a href="{{ route('template.programs') }}" class="btn fw-bold px-4 py-2"
+                           style="background:#543786; color:#fff; border-radius:24px; border: none;">
+                            {{ __('template.home.prog_section.explore_btn') }}
+                        </a>
+                        <a href="{{ route('template.about') }}" class="btn fw-bold px-4 py-2"
+                           style="background:#543786; color:#fff; border-radius:24px; border: none;">
+                            {{ __('template.home.prog_section.about_btn') }}
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
