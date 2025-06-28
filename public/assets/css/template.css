@@ -231,10 +231,18 @@ html[lang="ar"] .hero-bg-image {
         z-index: 3;
         left: 0;
         right: 0;
-        bottom: -900px;
+        bottom: -1000px ;
     }
 }
-@media (min-width: 768px) {
+@media (min-width: 767px) and (max-width: 990px) {
+    .program-space{
+        height: 700px !important;
+    }
+    .program .box{
+        bottom: -650px ;
+    }
+}
+@media (min-width: 945px) {
     .prog-home .f-p{
         margin-bottom: -25px
     }
@@ -327,7 +335,7 @@ html[lang="ar"] .section-img img {
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
     .overlay-wrapper{
         top: 25%;
     }
@@ -339,6 +347,18 @@ html[lang="ar"] .section-img img {
     }
     .iframe .element{
         width: 100% !important;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 990px) {
+    .overlay-wrapper{
+        top: 30%;
+    }
+    .overlay-text h1{
+        font-size: 2.3rem;
+    }
+    .iframe{
+        margin-top: -455px !important;
     }
 }
 
