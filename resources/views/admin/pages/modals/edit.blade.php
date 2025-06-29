@@ -38,71 +38,39 @@
                                 <label class="required fw-semibold fs-6 mb-2">{{ __('schools.modal.school_name') }}</label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
-                                <input type="text" name="name" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="{{ __('schools.modal.enter_school_name') }}" required />
+                                <input type="text" name="title_en" class="form-control form-control-solid mb-3 mb-lg-0"
+                                       placeholder="{{ __('pages.modal.enter_page_title_en') }}" required/>
                                 <!--end::Input-->
                             </div>
                             <!--end::Input group-->
                             <!--begin::Input group-->
                             <div class="fv-row mb-7">
                                 <!--begin::Label-->
-                                <label class="required fw-semibold fs-6 mb-2">{{ __('schools.modal.email') }}</label>
+                                <label class="required fw-semibold fs-6 mb-2">{{ __('schools.modal.school_name') }}</label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
-                                <input type="email" name="email" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="{{ __('schools.modal.enter_email') }}" required />
+                                <input type="text" name="title_ar" class="form-control form-control-solid mb-3 mb-lg-0"
+                                       placeholder="{{ __('pages.modal.enter_page_title_en') }}" required/>
                                 <!--end::Input-->
                             </div>
                             <!--end::Input group-->
                             <!--begin::Input group-->
                             <div class="fv-row mb-7">
                                 <!--begin::Label-->
-                                <label class="required fw-semibold fs-6 mb-2">{{ __('schools.modal.phone_number') }}</label>
+                                <label class="required fw-semibold fs-6 mb-2">{{ __('pages.modal.content_ar') }}</label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
-                                <input type="text" name="phone_number" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="{{ __('schools.modal.enter_phone') }}" required />
-                                <!--end::Input-->
-                            </div>
-                            <!--end::Input group-->
-                            <!--begin::Input group-->
-                            <div class="fv-row mb-7 fv-plugins-icon-container">
-                                <!--begin::Wrapper-->
-                                <div class="d-flex flex-stack">
-                                    <!--begin::Label-->
-                                    <div class="me-5">
-                                        <label class="fs-6 fw-semibold">{{ __('users.modal.is_active') }}</label>
-                                        <div class="fs-7 fw-semibold text-muted">{{ __('users.modal.is_active_help') }}</div>
-                                    </div>
-                                    <!--end::Label-->
-
-                                    <!--begin::Switch-->
-                                    <label class="form-check form-switch form-check-custom form-check-solid">
-                                        <input class="form-check-input" type="checkbox" value="0" name="is_active">
-                                        <span class="form-check-label fw-semibold text-muted">
-                                        {{ __('users.modal.inactive') }}
-                                    </span>
-                                    </label>
-                                    <!--end::Switch-->
-                                </div>
-                                <!--end::Wrapper-->
-                            </div>
-                            <!--end::Input group-->
-                            <!--begin::Input group-->
-                            <div class="fv-row mb-7">
-                                <!--begin::Label-->
-                                <label class="required fw-semibold fs-6 mb-2">{{ __('schools.modal.address') }}</label>
-                                <!--end::Label-->
-                                <!--begin::Input-->
-                                <textarea name="address" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="{{ __('schools.modal.enter_address') }}" required></textarea>
+                                <textarea name="content_ar" id="update_editor_ar"  style="direction: rtl !important;" {{--dir="rtl"--}}  class="form-control"></textarea>
                                 <!--end::Input-->
                             </div>
                             <!--end::Input group-->
                             <!--begin::Input group-->
                             <div class="fv-row mb-7">
                                 <!--begin::Label-->
-                                <label class="fw-semibold fs-6 mb-2">{{ __('schools.modal.logo') }}</label>
+                                <label class="required fw-semibold fs-6 mb-2">{{ __('pages.modal.content_en') }}</label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
-                                <input type="file" name="logo" class="form-control form-control-solid mb-3 mb-lg-0"
-                                       accept="image/*"/>
+                                <textarea name="content_en" id="update_editor_en"  class="form-control"></textarea>
                                 <!--end::Input-->
                             </div>
                             <!--end::Input group-->
@@ -140,17 +108,45 @@
 </div>
 @push('scripts')
     <script>
-        // this part for change the user active text muted word
-        $(document).ready(function () {
-            $('input[name="is_active"]').on('change', function () {
-                if ($(this).is(':checked')) {
-                    $(this).val(1);
-                    $(this).closest('.form-check').find('.form-check-label').text('{{ __('users.modal.active') }}');
-                } else {
-                    $(this).val(0);
-                    $(this).closest('.form-check').find('.form-check-label').text('{{ __('users.modal.inactive') }}');
+        // Initialize CK Editor for both Arabic and English content fields
+        let update_editorAr, update_editorEn;
+
+        ClassicEditor
+            .create(document.querySelector('#update_editor_ar'), {
+                language: {
+                    ui: 'ar',
+                    content: 'ar'
                 }
+            })
+            .then(editor => {
+                update_editorAr = editor;
+                console.log('Arabic CK Editor initialized');
+                // Simulate label behavior if textarea had a label
+                if (editor.sourceElement.labels.length > 0) {
+                    editor.sourceElement.labels[0].addEventListener('click', e => editor.editing.view.focus());
+                }
+
+                // Force RTL direction if not applied automatically
+                editor.editing.view.change(writer => {
+                    writer.setAttribute('dir', 'rtl', editor.editing.view.document.getRoot());
+                });
+            })
+            .catch(error => {
+                console.error('Error initializing Arabic CK Editor:', error);
             });
-        });
+
+        ClassicEditor
+            .create(document.querySelector('#update_editor_en'), {})
+            .then(editor => {
+                update_editorEn = editor;
+                console.log('English CK Editor initialized');
+                // Simulate label behavior if textarea had a label
+                if (editor.sourceElement.labels.length > 0) {
+                    editor.sourceElement.labels[0].addEventListener('click', e => editor.editing.view.focus());
+                }
+            })
+            .catch(error => {
+                console.error('Error initializing English CK Editor:', error);
+            });
     </script>
 @endpush

@@ -10,7 +10,8 @@ return [
             'about' => 'About us',
             'contact' => 'Contact us',
             'login' => 'Login',
-            'request'=>'Request a Demo'
+            'request'=>'Request a Demo',
+            'pages' =>'pages',
         ],
         'footer'=>[
             'desc'=> 'We connect education and careers to help students succeed in school and life.',

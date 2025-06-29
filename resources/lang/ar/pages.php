@@ -36,8 +36,10 @@ return [
     'modal' => [
         'add_page' => 'إضافة صفحه',
         'update_page' => 'تحديث بيانات الصفحه',
-        'page_name' => 'الاسم',
+        'page_name' => 'العنوان',
         'enter_page_name' => ' ادخل اسم الصفحه',
+        'content_en'=>'  المحتوي بالانجليزيه',
+        'content_ar'=>'  المحتوي بالعربي',
         'discard' => 'إلغاء',
         'submit' => 'حفظ',
         'please_wait' => 'يرجى الانتظار...',

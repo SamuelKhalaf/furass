@@ -359,12 +359,12 @@ Route::middleware(['auth'])->name('admin.')->group(function () {
         ->name('page.store');
 
     Route::middleware('permission:'. PermissionEnum::UPDATE_PAGES->value)->group(function () {
-        Route::get('value-question/{value}/edit', [ValuesQuestionsController::class, 'edit'])->name('questionValue.edit');
-        Route::put('value-question/{value}', [ValuesQuestionsController::class, 'update'])->name('questionValue.update');
+        Route::get('page/{value}/edit', [PagesController::class, 'edit'])->name('pages.edit');
+        Route::put('page/{value}', [PagesController::class, 'update'])->name('pages.update');
     });
 
-    Route::delete('value-question/{value}', [ValuesQuestionsController::class, 'destroy'])
+    Route::delete('page/{value}', [PagesController::class, 'destroy'])
         ->middleware('permission:'. PermissionEnum::DELETE_PAGES->value)
-        ->name('questionValue.destroy');
+        ->name('page.destroy');
     ###############################  End:pages question Routes  #####################################
 });

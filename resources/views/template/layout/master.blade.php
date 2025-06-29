@@ -16,10 +16,17 @@
 </head>
 <body class="d-flex flex-column min-vh-100">
 <!-- nav bar -->
+
 <nav class="navbar navbar-expand-lg navbar-light fixed-top">
     <div class="container">
         <a class="navbar-brand" href="{{route('template.home')}}">
-            <img src="{{asset('assets/imgs/template/furass-logo.png')}}" alt="Furass Logo" style="height:38px; margin-right:12px;">
+            <img
+                id="navbar-logo"
+                src="{{ asset('assets/imgs/template/furass-logo.png') }}"
+                data-default="{{ asset('assets/imgs/template/furass-logo.png') }}"
+                data-scrolled="{{ asset('assets/imgs/template/furass-logo-dark.png') }}"
+                alt="Furass Logo"
+                style="height:38px; margin-right:12px; border-radius: 10px">
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -28,27 +35,46 @@
             <ul class="navbar-nav m-auto mb-2 mb-lg-0 w-100 d-flex justify-content-evenly text-center">
 
                  <li class="nav-item nav-button">
-                    <a class="nav-link {{ Request::routeIs('template.home') ? 'active' : '' }}"  href="{{route('template.home')}}">
+                    <a class="nav-link text-dark {{ Request::routeIs('template.home') ? 'active' : '' }}"  href="{{route('template.home')}}">
                         {{ __('template.master.nav.home') }}
                     </a>
                 </li>
                 <li class="nav-item nav-button">
-                    <a class="nav-link {{ Request::routeIs('template.programs') ? 'active' : '' }}"  href="{{route('template.programs')}}">
+                    <a class="nav-link text-dark {{ Request::routeIs('template.programs') ? 'active' : '' }}"  href="{{route('template.programs')}}">
                         {{ __('template.master.nav.programs') }}
                     </a>
                 </li>
 
                 <li class="nav-item nav-button">
-                    <a class="nav-link {{ Request::routeIs('template.news') ? 'active' : '' }}"  href="{{route('template.news')}}">
+                    <a class="nav-link text-dark {{ Request::routeIs('template.news') ? 'active' : '' }}"  href="{{route('template.news')}}">
                         {{ __('template.master.nav.news') }}
                     </a>
                 </li>
 
                 <li class="nav-item nav-button">
-                    <a class="nav-link {{ Request::routeIs('template.about') ? 'active' : '' }}" aria-current="page" href="{{route('template.about')}}">
+                    <a class="nav-link text-dark {{ Request::routeIs('template.about') ? 'active' : '' }}" aria-current="page" href="{{route('template.about')}}">
                         {{ __('template.master.nav.about') }}
                     </a>
                 </li>
+                @php
+                    $pages = \App\Models\Page::all();
+                @endphp
+                @if($pages->isNotEmpty())
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-dark" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            {{ __('template.master.nav.pages') }}
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            @foreach($pages as $page)
+                                <li>
+                                    <a class="dropdown-item" style="color: black !important;" href="{{ route('template.pages',$page->id) }}">{{app()->getLocale() == 'ar' ? $page->title_ar : $page->title_en}}</a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </li>
+
+                @endif
                 <li class="nav-item nav-button">
                     <a class="nav-link {{ Request::routeIs('template.contact') ? 'active' : '' }}" aria-current="page" href="{{route('template.contact')}}">
                         {{ __('template.master.nav.contact') }}
@@ -66,10 +92,10 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li>
-                            <a class="dropdown-item" href="{{ route('language.switch', 'en') }}">English</a>
+                            <a class="dropdown-item" style="color: black !important;" href="{{ route('language.switch', 'en') }}">English</a>
                         </li>
                         <li>
-                            <a class="dropdown-item" href="{{ route('language.switch', 'ar') }}">العربية</a>
+                            <a class="dropdown-item" style="color: black !important;" href="{{ route('language.switch', 'ar') }}">العربية</a>
                         </li>
                     </ul>
                 </li>
@@ -166,8 +192,9 @@
 <script>
     let scrollTimer = null;
     const navbar = document.querySelector('.navbar');
+    const logo = document.getElementById('navbar-logo');
 
-    // Initial state: show navbar
+    // Initial state
     navbar.classList.add('show-navbar');
 
     window.addEventListener('scroll', () => {
@@ -175,19 +202,23 @@
         navbar.classList.add('show-navbar');
         navbar.classList.remove('hide-navbar');
 
-        // Handle background color change
         if (window.scrollY > 50) {
             navbar.classList.add('scrolled');
+
+            // Change logo to scrolled version
+            logo.src = logo.getAttribute('data-scrolled');
         } else {
             navbar.classList.remove('scrolled');
+
+            // Revert logo to original
+            logo.src = logo.getAttribute('data-default');
         }
 
-        // Clear previous timer
+        // Clear and restart the hide timer
         if (scrollTimer !== null) {
             clearTimeout(scrollTimer);
         }
 
-        // Only start hide timer if not at the top
         if (window.scrollY > 0) {
             scrollTimer = setTimeout(() => {
                 navbar.classList.remove('show-navbar');
@@ -195,8 +226,8 @@
             }, 2500);
         }
     });
-
 </script>
+
 
 @yield('script')
 </body>

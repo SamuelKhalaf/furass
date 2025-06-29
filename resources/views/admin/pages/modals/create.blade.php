@@ -60,10 +60,10 @@
                         <!--begin::Input group-->
                         <div class="fv-row mb-7">
                             <!--begin::Label-->
-                            <label class="required fw-semibold fs-6 mb-2">{{ __('pages.modal.page_title_ar') }}</label>
+                            <label class="required fw-semibold fs-6 mb-2">{{ __('pages.modal.content_ar') }}</label>
                             <!--end::Label-->
                             <!--begin::Input-->
-                            <textarea name="content_en" id="editor_en" class="form-control"></textarea>
+                            <textarea name="content_ar" id="editor_ar" {{--dir="rtl"--}} style="direction: rtl !important;" class="form-control"></textarea>
                             <!--end::Input-->
                         </div>
                         <!--end::Input group-->
@@ -71,10 +71,10 @@
                         <!--begin::Input group-->
                         <div class="fv-row mb-7">
                             <!--begin::Label-->
-                            <label class="required fw-semibold fs-6 mb-2">{{ __('pages.modal.page_title_ar') }}</label>
+                            <label class="required fw-semibold fs-6 mb-2">{{ __('pages.modal.content_en') }}</label>
                             <!--end::Label-->
                             <!--begin::Input-->
-                            <textarea name="content_ar" id="editor_ar" class="form-control" dir="rtl">{{ old('content_ar') }}</textarea>
+                            <textarea name="content_en" id="editor_en"  class="form-control"></textarea>
                             <!--end::Input-->
                         </div>
                         <!--end::Input group-->

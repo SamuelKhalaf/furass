@@ -40,6 +40,8 @@ return [
         'page_title_ar' => 'Title Ar',
         'enter_page_title_en' => 'Enter Page title en',
         'enter_page_title_ar' => 'Enter Page title ar',
+        'content_en'=>'content En',
+        'content_ar'=>'content Ar',
         'discard' => 'Discard',
         'submit' => 'Submit',
         'please_wait' => 'Please wait...',

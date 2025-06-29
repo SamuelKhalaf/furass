@@ -46,7 +46,7 @@ class PagesController extends Controller
                     if (auth()->user()->hasPermissionTo(PermissionEnum::UPDATE_PAGES->value)) {
                         $actions .= '<div class="menu-item px-3">
                             <a href="#" class="menu-link px-3" data-user-id="' . $pages->id . '" data-bs-toggle="modal" data-bs-target="#kt_modal_update_school">
-                                '.__("valueQuestion.edit").'
+                                '.__("pages.edit").'
                             </a>
                         </div>';
                     }
@@ -54,7 +54,7 @@ class PagesController extends Controller
                     if (auth()->user()->hasPermissionTo(PermissionEnum::DELETE_PAGES->value)) {
                         $actions .= '<div class="menu-item px-3">
                             <a href="#" class="menu-link px-3" data-kt-users-table-filter="delete_row"
-                               data-user-id="' . $pages->id . '">'.__("valueQuestion.delete").'</a>
+                               data-user-id="' . $pages->id . '">'.__("pages.delete").'</a>
                         </div>';
                     }
 
@@ -68,14 +68,12 @@ class PagesController extends Controller
 
     public function store(Request $request)
     {
-        dd($request);
-//        $request->validate([
-//            'name_ar' => 'required|string|max:255',
-//            'name_en' => 'required|string|max:255',
-//            'question_bank_type_id' => 'required|integer',
-//            'parent_id' => 'nullable',
-//        ]);
-//        $parentId = $request->filled('parent_id') ? $request->parent_id : 0;
+        $request->validate([
+            'title_en' => 'required|string',
+            'title_ar' => 'required|string',
+            'content_en' => 'required|string',
+            'content_ar' => 'required|string',
+        ]);
 
         try {
             DB::beginTransaction();
@@ -97,43 +95,34 @@ class PagesController extends Controller
 
     public function edit(string $id)
     {
-        $questionBankType = QuestionBankType::all();
-        $parentValues = ValuesQuestions::where('parent_id' , 0)->get();
-        $valuesQuestions = ValuesQuestions::get_relation_data($id);
-        return response()->json([
-            'valuesQuestions'=>$valuesQuestions,
-            'questionBankType'=>$questionBankType,
-            'parentValues'=>$parentValues,
-        ]);
+        $page = Page::findOrFail($id);
+        return response()->json($page);
     }
 
     public function update(Request $request, $value)
     {
         $request->validate([
-            'name_ar' => 'required|string|max:255',
-            'name_en' => 'required|string|max:255',
-            'question_bank_type_id' => 'required|integer',
-            'parent_id' => 'nullable',
+            'title_en' => 'required|string',
+            'title_ar' => 'required|string',
+            'content_en' => 'required|string',
+            'content_ar' => 'required|string',
         ]);
-        $parentId = $request->filled('parent_id') ? $request->parent_id : 0;
 
         try {
             DB::beginTransaction();
-            ValuesQuestions::where('id' ,$value)->update([
-                'name'          => [
-                    'ar'=>$request->name_ar,
-                    'en'=>$request->name_en,
-                ],
-                'parent_id' => $parentId,
-                'question_bank_type_id'=>$request->question_bank_type_id
+            Page::where('id' ,$value)->update([
+                'title_en' => $request->title_en,
+                'title_ar' => $request->title_ar,
+                'content_ar' => $request->content_ar,
+                'content_en'=>$request->content_en
             ]);
 
             DB::commit();
 
-            return response()->json(['data'=> $value,'message' => 'School updated successfully']);
+            return response()->json(['data'=> $request->content_en,'message' => 'School updated successfully']);
         } catch (\Exception $e) {
             DB::rollBack();
-            return response()->json(['message' => 'Error updating School'] , 500);
+            return response()->json(['data'=> $request,'message' => 'Error updating School'] , 500);
         }
 
     }
@@ -144,17 +133,20 @@ class PagesController extends Controller
         try {
             DB::beginTransaction();
 
-            $valueQuestion = ValuesQuestions::findOrFail($value);
+            $page = Page::findOrFail($value);
 
-            if ($valueQuestion->parent_id == 0) {
-                return response()->json(['success' => false, 'message' => 'Error deleting School.'] , 500);
-            }
-            $valueQuestion->delete();
+            $page->delete();
             DB::commit();
             return response()->json(['success' => true, 'message' => 'Value Question deleted successfully.']);
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json(['success' => false, 'message' => 'Error deleting School.'] , 500);
         }
+    }
+
+    public function displayPagesInTemplate($id)
+    {
+        $page = Page::findOrFail($id);
+        return view('template.pages' , compact('page'));
     }
 }

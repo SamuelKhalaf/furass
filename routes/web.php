@@ -64,3 +64,4 @@ Route::get('template-questions', function (){
 })->name('template.questions');
 
 Route::get('template-news/{idNews?}', [\App\Http\Controllers\Admin\NewsController::class, 'displayNewsPage'])->name('template.news');
+Route::get('template-page/{id}', [\App\Http\Controllers\Admin\PagesController::class, 'displayPagesInTemplate'])->name('template.pages');

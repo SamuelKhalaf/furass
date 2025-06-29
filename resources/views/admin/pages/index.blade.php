@@ -423,6 +423,16 @@
                 // Init add schedule modal
                 var initAddUser = () => {
 
+                    // Function to reset CK Editor content
+                    const resetCKEditor = () => {
+                        if (editorAr) {
+                            editorAr.setData('');
+                        }
+                        if (editorEn) {
+                            editorEn.setData('');
+                        }
+                    };
+
                     // Init form validation rules. For more info check the FormValidation plugin's official documentation:https://formvalidation.io/
                     var validator = FormValidation.formValidation(
                         form,
@@ -475,14 +485,44 @@
                     submitButton.addEventListener('click', e => {
                         e.preventDefault();
 
+                        // Update textarea values with CKEditor data before validation
+                        if (editorEn) {
+                            document.querySelector('#editor_en').value = editorEn.getData();
+                        }
+                        if (editorAr) {
+                            document.querySelector('#editor_ar').value = editorAr.getData();
+                        }
+
                         if (validator) {
                             validator.validate().then(function (status) {
-                                if (status === 'Valid') {
+                                // Additional validation for CK Editor content
+                                let isValid = status === 'Valid';
+                                let validationErrors = [];
+
+                                // Check CK Editor content
+                                if (editorEn && !editorEn.getData().trim()) {
+                                    isValid = false;
+                                    validationErrors.push('English content is required');
+                                }
+                                if (editorAr && !editorAr.getData().trim()) {
+                                    isValid = false;
+                                    validationErrors.push('Arabic content is required');
+                                }
+
+                                if (isValid) {
                                     submitButton.setAttribute('data-kt-indicator', 'on');
                                     submitButton.disabled = true;
 
                                     // Get form data
                                     let formData = new FormData(form);
+
+                                    // Update form data with CK Editor content
+                                    if (editorAr) {
+                                        formData.set('content_ar', editorAr.getData());
+                                    }
+                                    if (editorEn) {
+                                        formData.set('content_en', editorEn.getData());
+                                    }
 
                                     // Send AJAX request
                                     $.ajax({
@@ -507,11 +547,13 @@
                                                 if (result.isConfirmed) {
                                                     modal.hide();
                                                     form.reset();
+                                                    resetCKEditor();
                                                     location.reload();
                                                 }
                                             });
                                         },
                                         error: function (xhr) {
+                                            console.log(xhr)
                                             submitButton.removeAttribute("data-kt-indicator");
                                             submitButton.disabled = false;
 
@@ -535,7 +577,7 @@
 
                                 } else {
                                     Swal.fire({
-                                        text: "Please fix the errors and try again.",
+                                        text: validationErrors.length > 0 ? validationErrors.join('\n') : "Please fix the errors and try again.",
                                         icon: "error",
                                         buttonsStyling: false,
                                         confirmButtonText: "Ok, got it!",
@@ -567,6 +609,7 @@
                             if (result.value) {
                                 modal.hide();
                                 form.reset();
+                                resetCKEditor();
                             } else if (result.dismiss === 'cancel') {
                                 Swal.fire({
                                     text: "Your form has not been cancelled!.",
@@ -601,6 +644,7 @@
                             if (result.value) {
                                 modal.hide();
                                 form.reset();
+                                resetCKEditor();
                             } else if (result.dismiss === 'cancel') {
                                 Swal.fire({
                                     text: "Your form has not been cancelled!.",
@@ -631,7 +675,7 @@
         </script>
     @endif
 
-    @if(auth()->user()->hasPermissionTo(\App\Enums\PermissionEnum::UPDATE_SCHOOLS->value))
+    @if(auth()->user()->hasPermissionTo(\App\Enums\PermissionEnum::UPDATE_PAGES->value))
         <script>
             "use strict";
 
@@ -644,21 +688,28 @@
 
                 // Function to populate the form with user data
                 var populateForm = (response) => {
-                    form.querySelector('[name="name"]').value = response.user.name || "";
-                    form.querySelector('[name="email"]').value = response.user.email || "";
-                    form.querySelector('[name="phone_number"]').value = response.user.phone_number || "";
-                    form.querySelector('[name="address"]').value = response.address || "";
+                    form.querySelector('[name="title_en"]').value = response.title_en || "";
+                    form.querySelector('[name="title_ar"]').value = response.title_ar || "";
+                    form.querySelector('[name="content_ar"]').value = response.content_ar || "";
+                    form.querySelector('[name="content_en"]').value = response.content_en || "";
                     $("#kt_modal_update_school_form").attr("data-user-id", response.id);
 
-                    // check the user is active or not
-                    if (response.user.is_active && response.user.is_active === 1) {
-                        form.querySelector('[name="is_active"]').checked = true;
-                        form.querySelector('[name="is_active"]').value = 1;
-                        form.querySelector('.form-check-label').innerText = "Active";
-                    }else {
-                        form.querySelector('[name="is_active"]').checked = false;
-                        form.querySelector('[name="is_active"]').value = 0;
-                        form.querySelector('.form-check-label').innerText = "Inactive";
+                    // Set CKEditor content after data loads
+                    if (update_editorEn) {
+                        update_editorEn.setData(response.content_en || "");
+                    }
+                    if (update_editorAr) {
+                        update_editorAr.setData(response.content_ar || "");
+                    }
+                };
+
+                // Function to reset CK Editor content
+                const resetCKEditor = () => {
+                    if (update_editorAr) {
+                        update_editorAr.setData('');
+                    }
+                    if (update_editorEn) {
+                        update_editorEn.setData('');
                     }
                 };
 
@@ -669,7 +720,7 @@
 
                     if (userId) {
                         $.ajax({
-                            url: `/schools/${userId}/edit`,
+                            url: `/page/${userId}/edit`,
                             type: "GET",
                             success: function (response) {
                                 populateForm(response);
@@ -688,34 +739,34 @@
                         form,
                         {
                             fields: {
-                                'name': {
+                                'title_en': {
                                     validators: {
                                         notEmpty: {
-                                            message: 'Full name is required'
+                                            message: 'English title is required'
                                         }
                                     }
                                 },
-                                'email': {
+                                'title_ar': {
                                     validators: {
                                         notEmpty: {
-                                            message: 'Valid email address is required'
+                                            message: 'Arabic title is required'
                                         }
                                     }
                                 },
-                                'phone_number': {
+                                'content_en': {
                                     validators: {
                                         notEmpty: {
-                                            message: 'Valid phone number is required'
+                                            message: 'English content is required'
                                         }
                                     }
                                 },
-                                'role': {
+                                'content_ar': {
                                     validators: {
                                         notEmpty: {
-                                            message: 'role field is required'
+                                            message: 'Arabic content is required'
                                         }
                                     }
-                                }
+                                },
                             },
                             plugins: {
                                 trigger: new FormValidation.plugins.Trigger(),
@@ -733,16 +784,24 @@
                     submitButton.addEventListener('click', e => {
                         e.preventDefault();
 
+                        // Update textarea values from CKEditor
+                        if (update_editorEn) {
+                            document.querySelector('#update_editor_en').value = update_editorEn.getData();
+                        }
+                        if (update_editorAr) {
+                            document.querySelector('#update_editor_ar').value = update_editorAr.getData();
+                        }
+
                         if (validator) {
                             validator.validate().then(function (status) {
                                 if (status === 'Valid') {
                                     submitButton.setAttribute('data-kt-indicator', 'on');
                                     submitButton.disabled = true;
 
-                                    // Get form data and send AJAX request
                                     let formData = new FormData(form);
                                     let userId = $('#kt_modal_update_school_form').data('user-id');
-                                    let updateUrl = `/schools/${userId}`;
+                                    let updateUrl = `/page/${userId}`;
+
                                     $.ajax({
                                         url: updateUrl,
                                         type: "POST",
@@ -764,6 +823,7 @@
                                             }).then(function (result) {
                                                 if (result.isConfirmed) {
                                                     form.reset();
+                                                    resetCKEditor();
                                                     modal.hide();
                                                     location.reload();
                                                 }
@@ -805,11 +865,10 @@
                         }
                     });
 
-                    // Cancel button handler (Shared logic with close button)
+                    // Cancel button handler (Shared with close)
                     const cancelButton = element.querySelector('[data-kt-users-modal-action="cancel"]');
                     cancelButton.addEventListener('click', resetAndCloseModal);
 
-                    // Close button handler
                     const closeButton = element.querySelector('[data-kt-users-modal-action="close"]');
                     closeButton.addEventListener('click', resetAndCloseModal);
 
@@ -830,10 +889,11 @@
                         }).then(function (result) {
                             if (result.value) {
                                 form.reset();
+                                resetCKEditor();
                                 modal.hide();
                             } else if (result.dismiss === 'cancel') {
                                 Swal.fire({
-                                    text: "Your form has not been cancelled!.",
+                                    text: "Your form has not been cancelled.",
                                     icon: "error",
                                     buttonsStyling: false,
                                     confirmButtonText: "Ok, got it!",
@@ -847,20 +907,18 @@
                 }
 
                 return {
-                    // Public functions
                     init: function () {
                         initUpdateDetails();
                     }
                 };
             }();
 
-            // On document ready
             KTUtil.onDOMContentLoaded(function () {
                 KTUsersUpdateDetails.init();
             });
-
         </script>
     @endif
+
 
     @if(auth()->user()->hasPermissionTo(\App\Enums\PermissionEnum::DELETE_SCHOOLS->value))
         <script>
@@ -884,7 +942,7 @@
                 }).then(function (result) {
                     if (result.isConfirmed) {
                         $.ajax({
-                            url: "{{ route('admin.schools.destroy', ':id') }}".replace(':id', userId),
+                            url: "{{ route('admin.page.destroy', ':id') }}".replace(':id', userId),
                             type: 'DELETE',
                             data: {_token: '{{ csrf_token() }}'},
                             success: function (response) {
@@ -931,19 +989,45 @@
     @endif
 
     <script>
+        // Initialize CK Editor for both Arabic and English content fields
+        let editorAr, editorEn;
+
         ClassicEditor
-            .create(document.querySelector('#editor_ar'), {})
+            .create(document.querySelector('#editor_ar'), {
+                language: {
+                    ui: 'ar',
+                    content: 'ar'
+                }
+            })
             .then(editor => {
-                console.log('rrrrrrrrr');
+                editorAr = editor;
+                console.log('Arabic CK Editor initialized');
                 // Simulate label behavior if textarea had a label
                 if (editor.sourceElement.labels.length > 0) {
                     editor.sourceElement.labels[0].addEventListener('click', e => editor.editing.view.focus());
                 }
-                console.log('ooooooooo');
+
+                // Force RTL direction if not applied automatically
+                editor.editing.view.change(writer => {
+                    writer.setAttribute('dir', 'rtl', editor.editing.view.document.getRoot());
+                });
             })
             .catch(error => {
-                console.log('sssssss');
-                console.error(error);
+                console.error('Error initializing Arabic CK Editor:', error);
+            });
+
+        ClassicEditor
+            .create(document.querySelector('#editor_en'), {})
+            .then(editor => {
+                editorEn = editor;
+                console.log('English CK Editor initialized');
+                // Simulate label behavior if textarea had a label
+                if (editor.sourceElement.labels.length > 0) {
+                    editor.sourceElement.labels[0].addEventListener('click', e => editor.editing.view.focus());
+                }
+            })
+            .catch(error => {
+                console.error('Error initializing English CK Editor:', error);
             });
     </script>
 @endsection
