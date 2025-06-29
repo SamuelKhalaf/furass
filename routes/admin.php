@@ -358,6 +358,9 @@ Route::middleware(['auth'])->name('admin.')->group(function () {
         ->middleware('permission:'. PermissionEnum::CREATE_PAGES->value)
         ->name('page.store');
 
+    Route::post('/ckeditor/upload', [PagesController::class, 'uploadImage'])->name('ckeditor.upload');
+
+
     Route::middleware('permission:'. PermissionEnum::UPDATE_PAGES->value)->group(function () {
         Route::get('page/{value}/edit', [PagesController::class, 'edit'])->name('pages.edit');
         Route::put('page/{value}', [PagesController::class, 'update'])->name('pages.update');
