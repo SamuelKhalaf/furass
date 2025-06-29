@@ -55,7 +55,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link fw-semibold text-dark">
+                    <a href="{{route('login')}}" class="nav-link fw-semibold text-dark">
                         <i class="fas fa-arrow-right-to-bracket" style="font-size: 20px;"></i>
                         {{ __('template.master.nav.login') }}</a>
                 </li>
