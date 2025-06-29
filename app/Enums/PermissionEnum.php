@@ -78,6 +78,12 @@ enum PermissionEnum : string
     case UPDATE_NEWS = 'Update News';
     case DELETE_NEWS = 'Delete News';
 
+    // News Permissions
+    case LIST_PAGES = 'List Pages';
+    case CREATE_PAGES = 'Create Pages';
+    case UPDATE_PAGES = 'Update Pages';
+    case DELETE_PAGES = 'Delete Pages';
+
     // Notification Permissions
 
     case SEND_NOTIFICATIONS = 'Send Notifications';

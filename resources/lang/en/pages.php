@@ -1,0 +1,47 @@
+<?php
+
+return [
+    'title' => 'Pages',
+    'list' => 'Pages List',
+    'create' => 'Create Page',
+    'edit' => 'Edit ',
+    'delete' => 'Delete ',
+    'title_en' => 'title_en',
+    'title_ar' => 'title_ar',
+    'website' => 'Website',
+    'principal' => 'Principal',
+    'students_count' => 'Students Count',
+    'consultants_count' => 'Consultants Count',
+    'status' => 'Status',
+    'created_at' => 'Created At',
+    'updated_at' => 'Updated At',
+    'actions' => 'Actions',
+    'search' => 'Search Pages',
+    'no_pages' => 'No Pages found',
+    'confirm_delete' => 'Are you sure you want to delete this page?',
+    'success' => [
+        'created' => 'page created successfully',
+        'updated' => 'page updated successfully',
+        'deleted' => 'page deleted successfully',
+    ],
+    'error' => [
+        'not_found' => 'page not found',
+        'delete_failed' => 'Failed to page school',
+    ],
+    'status_options' => [
+        'active' => 'Active',
+        'inactive' => 'Inactive',
+        'pending' => 'Pending',
+    ],
+    'modal' => [
+        'add_page' => 'Add Page',
+        'update_page' => 'Update Page Details',
+        'page_title_en' => 'Title En',
+        'page_title_ar' => 'Title Ar',
+        'enter_page_title_en' => 'Enter Page title en',
+        'enter_page_title_ar' => 'Enter Page title ar',
+        'discard' => 'Discard',
+        'submit' => 'Submit',
+        'please_wait' => 'Please wait...',
+    ],
+];
