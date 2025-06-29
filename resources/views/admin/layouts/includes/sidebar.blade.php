@@ -240,39 +240,42 @@
                     </div>
                 @endif
                 <!--end:Menu item-->
-                <div data-kt-menu-trigger="click"
-                     class="menu-item menu-accordion {{setMenuOpenClass(['admin.QuestionBank.index','admin.valueQuestion.index'])}}">
-                    <span class="menu-link">
-                        <span class="menu-icon"><i class="fa-solid fa-clipboard-list"></i></span>
-                        <span class="menu-title">{{ __('admin.exams.title') }}</span>
-                        <span class="menu-arrow"></span>
-                    </span>
-                    <div class="menu-sub menu-sub-accordion">
-                        <div class="menu-item {{setMenuOpenClass(['admin.QuestionBank.index'])}}">
-                            <!--begin:Menu link-->
-                            <a class="menu-link {{setActiveClass('admin.QuestionBank.index')}}"
-                               href="{{route('admin.QuestionBank.index')}}">
-                                <span class="menu-bullet">
-                                    <span class="bullet bullet-dot"></span>
-                                </span>
-                                <span class="menu-title">{{ __('admin.questionBank.title') }}</span>
-                            </a>
-                            <!--end:Menu link-->
-                        </div>
+                @if(auth()->user()->hasAnyPermission(PermissionEnum::MANAGE_EXAMS))
+                    <!--begin:Menu item-->
+                    <div data-kt-menu-trigger="click"
+                         class="menu-item menu-accordion {{setMenuOpenClass(['admin.QuestionBank.index','admin.valueQuestion.index'])}}">
+                        <span class="menu-link">
+                            <span class="menu-icon"><i class="fa-solid fa-clipboard-list"></i></span>
+                            <span class="menu-title">{{ __('admin.exams.title') }}</span>
+                            <span class="menu-arrow"></span>
+                        </span>
+                        <div class="menu-sub menu-sub-accordion">
+                            <div class="menu-item {{setMenuOpenClass(['admin.QuestionBank.index'])}}">
+                                <!--begin:Menu link-->
+                                <a class="menu-link {{setActiveClass('admin.QuestionBank.index')}}"
+                                   href="{{route('admin.QuestionBank.index')}}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title">{{ __('admin.questionBank.title') }}</span>
+                                </a>
+                                <!--end:Menu link-->
+                            </div>
 
-                        <div class="menu-item {{setMenuOpenClass(['admin.valueQuestion.index'])}}">
-                            <!--begin:Menu link-->
-                            <a class="menu-link {{setActiveClass('admin.valueQuestion.index')}}"
-                               href="{{route('admin.valueQuestion.index')}}">
-                                <span class="menu-bullet">
-                                    <span class="bullet bullet-dot"></span>
-                                </span>
-                                <span class="menu-title">{{ __('valueQuestion.title-sidebar') }}</span>
-                            </a>
-                            <!--end:Menu link-->
+                            <div class="menu-item {{setMenuOpenClass(['admin.valueQuestion.index'])}}">
+                                <!--begin:Menu link-->
+                                <a class="menu-link {{setActiveClass('admin.valueQuestion.index')}}"
+                                   href="{{route('admin.valueQuestion.index')}}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title">{{ __('valueQuestion.title-sidebar') }}</span>
+                                </a>
+                                <!--end:Menu link-->
+                            </div>
                         </div>
                     </div>
-                </div>
+                @endif
             </div>
         </div>
     </div>

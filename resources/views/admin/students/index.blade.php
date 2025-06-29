@@ -57,7 +57,7 @@
                         <div class="card-toolbar">
                             <!--begin::Toolbar-->
                             <div class="d-flex justify-content-end" data-kt-user-table-toolbar="base">
-                                @if(auth()->user()->hasPermissionTo(\App\Enums\PermissionEnum::CREATE_USERS->value))
+                                @if(auth()->user()->hasPermissionTo(\App\Enums\PermissionEnum::CREATE_STUDENTS->value))
                                     <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                                             data-bs-target="#kt_modal_add_user">
                                         <span class="svg-icon svg-icon-2"><i class="fa-solid fa-plus"></i></span>
@@ -432,7 +432,7 @@
         </script>
     @endif
 
-    @if(auth()->user()->hasPermissionTo(\App\Enums\PermissionEnum::CREATE_USERS->value))
+    @if(auth()->user()->hasPermissionTo(\App\Enums\PermissionEnum::CREATE_STUDENTS->value))
         <script>
             "use strict";
 
@@ -694,7 +694,7 @@
         </script>
     @endif
 
-    @if(auth()->user()->hasPermissionTo(\App\Enums\PermissionEnum::UPDATE_USERS->value))
+    @if(auth()->user()->hasPermissionTo(\App\Enums\PermissionEnum::UPDATE_STUDENTS->value))
         <script>
             "use strict";
 
@@ -939,7 +939,7 @@
         </script>
     @endif
 
-    @if(auth()->user()->hasPermissionTo(\App\Enums\PermissionEnum::DELETE_USERS->value))
+    @if(auth()->user()->hasPermissionTo(\App\Enums\PermissionEnum::DELETE_STUDENTS->value))
         <script>
             // handle delete user
             $(document).on("click", '[data-kt-users-table-filter="delete_row"]', function (e) {
