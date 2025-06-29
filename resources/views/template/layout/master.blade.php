@@ -76,7 +76,7 @@
 
                 @endif
                 <li class="nav-item nav-button">
-                    <a class="nav-link {{ Request::routeIs('template.contact') ? 'active' : '' }}" aria-current="page" href="{{route('template.contact')}}">
+                    <a class="nav-link text-dark {{ Request::routeIs('template.contact') ? 'active' : '' }}" aria-current="page" href="{{route('template.contact')}}">
                         {{ __('template.master.nav.contact') }}
                     </a>
                 </li>
