@@ -130,6 +130,7 @@ return [
         'permissions' => ' Permissions',
         'profile' => 'Profile Settings',
         'security' => 'Security Settings',
+        'pages' => 'Manage Pages',
     ],
 
     // Exams

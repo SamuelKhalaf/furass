@@ -23,6 +23,8 @@
         <link href="{{ asset('assets/css/style.bundle.css') }}" rel="stylesheet" type="text/css"/>
     @endif
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.14.0/Sortable.min.js"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
+
     @stack('styles')
     {{-- notification styles--}}
     <style>
@@ -70,6 +72,9 @@
         .notification-unread {
             /*background-color: rgba(70, 128, 254, 0.06);*/
             border-left: 3px solid #4680fe;
+        }
+        .ck-editor__editable_inline {
+            min-height: 300px;
         }
     </style>
 </head>

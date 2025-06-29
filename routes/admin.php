@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\ConsultationNotesController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\NotificationController;
+use App\Http\Controllers\Admin\PagesController;
 use App\Http\Controllers\Admin\PermissionsController;
 use App\Http\Controllers\Admin\ProgramsController;
 use App\Http\Controllers\Admin\QuestionBankTypeController;
@@ -346,4 +347,24 @@ Route::middleware(['auth'])->name('admin.')->group(function () {
         ->middleware('permission:'. PermissionEnum::DELETE_SCHOOLS->value)
         ->name('questionValue.destroy');
     ###############################  End:value question Routes  #####################################
+
+    ###############################  start:pages Routes  #####################################
+    Route::middleware('permission:'. PermissionEnum::LIST_PAGES->value)->group(function () {
+        Route::get('pages', [PagesController::class, 'index'])->name('pages.index');
+        Route::get('pages/all', [PagesController::class, 'getPagesData'])->name('pages.datatable');
+    });
+
+    Route::post('page-store', [PagesController::class, 'store'])
+        ->middleware('permission:'. PermissionEnum::CREATE_PAGES->value)
+        ->name('page.store');
+
+    Route::middleware('permission:'. PermissionEnum::UPDATE_PAGES->value)->group(function () {
+        Route::get('page/{value}/edit', [PagesController::class, 'edit'])->name('pages.edit');
+        Route::put('page/{value}', [PagesController::class, 'update'])->name('pages.update');
+    });
+
+    Route::delete('page/{value}', [PagesController::class, 'destroy'])
+        ->middleware('permission:'. PermissionEnum::DELETE_PAGES->value)
+        ->name('page.destroy');
+    ###############################  End:pages question Routes  #####################################
 });

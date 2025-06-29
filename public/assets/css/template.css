@@ -920,3 +920,10 @@ html[lang="ar"] .section-img img {
     color: #999;
 }
 /*end news page*/
+
+/*start ck-editor*/
+.ck-editor__editable_inline {
+    min-height: 300px;
+}
+
+/*end ckeditor*/
