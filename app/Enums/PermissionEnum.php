@@ -4,6 +4,7 @@ namespace App\Enums;
 
 enum PermissionEnum : string
 {
+    case MANAGE_EXAMS = 'Manage Exams';
     // Dashboard
     case VIEW_ADMIN_DASHBOARD = 'View_Admin Dashboard';
     case VIEW_CONSULTANT_DASHBOARD = 'View_Consultant Dashboard';

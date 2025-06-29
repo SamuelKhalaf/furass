@@ -21,14 +21,27 @@ class StudentController extends Controller
      */
     public function index()
     {
-        $schools = School::all();
+        $user = auth()->user();
+        if ($user->hasRole(RoleEnum::ADMIN->value)) {
+            $schools = School::all();
+        } elseif ($user->hasRole(RoleEnum::SCHOOL->value)) {
+            $schools = School::where('user_id', $user->id)->get();
+        }
         return view('admin.students.index', compact('schools'));
     }
 
     public function getStudentsData()
     {
-        // get students order by id desc
-        $students = Student::with(['user','school'])->get();
+        if(auth()->user()->hasRole(RoleEnum::ADMIN->value)) {
+            $students = Student::with(['user','school'])->get();
+        } elseif(auth()->user()->hasRole(RoleEnum::SCHOOL->value)) {
+            $school = School::where('user_id', auth()->user()->id)->first();
+            $students = Student::with(['user','school'])
+                ->where('school_id', $school->id)
+                ->get();
+        } else {
+            return response()->json(['success' => false , 'message' => 'You do not have permission to view this page']);
+        }
 
         return DataTables::of($students)
             ->addColumn('avatar_name', function ($student) {

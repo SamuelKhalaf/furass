@@ -66,7 +66,7 @@
         <!--end::Content-->
     </div>
 
-    @if(auth()->user()->hasAnyPermission([PermissionEnum::CREATE_CONSULTANTS->value,PermissionEnum::UPDATE_CONSULTANTS->value]))
+    @if(auth()->user()->hasAnyPermission([PermissionEnum::CREATE_EVENTS->value,PermissionEnum::UPDATE_EVENTS->value]))
         <!--begin::Modal - Update Calendar-->
         @include('admin.calendar.modals.form')
         <!--end::Modal - Update Calendar-->
@@ -648,22 +648,25 @@
                 // Public Functions
                 init: function () {
                     // Define variables
-                    const element = document.getElementById('kt_modal_add_event');
-                    form = element.querySelector('#kt_modal_add_event_form');
-                    eventName = form.querySelector('[name="calendar_event_name"]');
-                    eventDescription = form.querySelector('[name="calendar_event_description"]');
-                    eventLocation = form.querySelector('[name="calendar_event_location"]');
-                    companyName = form.querySelector('[name="calendar_company_name"]');
-                    eventType = form.querySelector('[name="calendar_event_type"]');
-                    startDatepicker = form.querySelector('#kt_calendar_datepicker_start_date');
-                    endDatepicker = form.querySelector('#kt_calendar_datepicker_end_date');
-                    addButton = document.querySelector('[data-kt-calendar="add"]');
-                    submitButton = form.querySelector('#kt_modal_add_event_submit');
-                    cancelButton = form.querySelector('#kt_modal_add_event_cancel');
-                    closeButton = element.querySelector('#kt_modal_add_event_close');
-                    modalTitle = form.querySelector('[data-kt-calendar="title"]');
-                    modal = new bootstrap.Modal(element);
+                    @if(auth()->user()->hasAnyPermission([PermissionEnum::UPDATE_EVENTS->value,PermissionEnum::CREATE_EVENTS->value]))
+                        const element = document.getElementById('kt_modal_add_event');
+                        form = element.querySelector('#kt_modal_add_event_form');
+                        eventName = form.querySelector('[name="calendar_event_name"]');
+                        eventDescription = form.querySelector('[name="calendar_event_description"]');
+                        eventLocation = form.querySelector('[name="calendar_event_location"]');
+                        companyName = form.querySelector('[name="calendar_company_name"]');
+                        eventType = form.querySelector('[name="calendar_event_type"]');
+                        startDatepicker = form.querySelector('#kt_calendar_datepicker_start_date');
+                        endDatepicker = form.querySelector('#kt_calendar_datepicker_end_date');
+                        addButton = document.querySelector('[data-kt-calendar="add"]');
+                        submitButton = form.querySelector('#kt_modal_add_event_submit');
+                        cancelButton = form.querySelector('#kt_modal_add_event_cancel');
+                        closeButton = element.querySelector('#kt_modal_add_event_close');
+                        modalTitle = form.querySelector('[data-kt-calendar="title"]');
+                        modal = new bootstrap.Modal(element);
 
+                        submitButton.addEventListener('click', handleFormSubmit);
+                    @endif
                     // View event modal
                     const viewElement = document.getElementById('kt_modal_view_event');
                     viewModal = new bootstrap.Modal(viewElement);
@@ -677,7 +680,6 @@
                     viewEditButton = viewElement.querySelector('#kt_modal_view_event_edit');
                     viewDeleteButton = viewElement.querySelector('#kt_modal_view_event_delete');
 
-                    submitButton.addEventListener('click', handleFormSubmit);
 
                     initCalendarApp();
                     initValidator();

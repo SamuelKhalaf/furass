@@ -37,7 +37,7 @@ class UserService implements IUserService
 
         return DataTables::of($users)
             ->addColumn('role', function ($user) {
-                return $user->role;
+                return $user->roles->first()?->name;
             })
             ->addColumn('actions', function ($user) {
                 $actions = '';
