@@ -186,4 +186,13 @@ return [
         'add' => 'Add Question Bank Type',
 
     ],
+
+    'cke_pages' => [
+        'create' => 'Create Page',
+        'about' => 'about us'
+    ],
+
+    'setting' => [
+        'name' => 'social and emails',
+    ],
 ];

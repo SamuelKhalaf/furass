@@ -1,13 +1,33 @@
 @extends('template/layout/master')
 @section('body')
+
+    @php
+    $page = \App\Models\Ckeditor::where('page' , 'about')->first();
+    @endphp
     <div style="padding-top: 65px;">
-        <div class="section-img" >
-            <img src="{{ asset('assets/imgs/template/test.jpg') }}"  alt="About Image">
+        <div class="section-img">
+            @php
+                $img = '';
+                if (app()->getLocale() == 'ar'){
+                    $img = $page->variables_ar['section1_img'];
+                }else{
+                    $img = $page->variables_en['section1_img'];
+                }
+            @endphp
+            {!! $img !!}
             <div class="overlay-wrapper">
                 <div class="container">
                     <div class="overlay-text text-white">
                         <h1 class="h3 fw-bold " style="text-align: justify">
-                            {!! __('template.about.title') !!}
+                            @php
+                            $title = '';
+                            if (app()->getLocale() == 'ar'){
+                                $title = $page->variables_ar['section1_title'];
+                            }else{
+                                $title = $page->variables_en['section1_title'];
+                            }
+                            @endphp
+                            {!! $title !!}
                         </h1>
                     </div>
                 </div>

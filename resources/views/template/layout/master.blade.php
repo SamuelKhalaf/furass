@@ -110,6 +110,9 @@
 </nav>
 @yield('body')
 
+@php
+$setting =new \App\Models\Setting;
+@endphp
 {{--foorer--}}
 <footer class="footer-main">
     <div class="container">
@@ -120,9 +123,9 @@
                 </a>
                 <div class="footer-desc">{{ __('template.master.footer.desc') }}</div>
                 <div class="footer-social mb-2">
-                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="{{$setting->where('key' ,'facebook')->first()->value ?? '#'}}" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="{{$setting->where('key' ,'linkedin')->first()->value ?? '#'}}" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="{{$setting->where('key' ,'instagram')->first()->value ?? '#'}}" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
                 </div>
             </div>
             <div class="col-6 col-md-3 col-lg-2 d-flex flex-column justify-content-start">
@@ -148,11 +151,11 @@
                 <div class="footer-title">{{ __('template.master.footer.contacts') }}</div>
                 <div class="footer-contact mb-1">
                     {{ __('template.master.footer.tel') }}:
-                    <a href="tel:+123456789"><strong>+0123456789</strong></a>
+                    <a href="tel:+123456789"><strong>+{{$setting->where('key' ,'telephone')->first()->value ?? '#'}}</strong></a>
                 </div>
                 <div class="footer-contact mb-3">
                     {{ __('template.master.footer.email') }}:
-                    <a href="mailto:example@gmail.com"><strong>example@gmail.com</strong></a>
+                    <a href="{{$setting->where('key' ,'email')->first()->value ?? '#'}}"><strong>{{$setting->where('key' ,'email')->first()->value ?? '#'}}</strong></a>
                 </div>
             </div>
 
