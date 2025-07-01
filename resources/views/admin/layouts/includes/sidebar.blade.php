@@ -1,4 +1,4 @@
-@use(App\Enums\PermissionEnum)
+@use(App\Enums\PermissionEnum;use App\Enums\RoleEnum)
 <div id="kt_app_sidebar" class="app-sidebar flex-column" data-kt-drawer="true" data-kt-drawer-name="app-sidebar"
      data-kt-drawer-activate="{default: true, lg: false}" data-kt-drawer-overlay="true" data-kt-drawer-width="225px"
      data-kt-drawer-direction="start" data-kt-drawer-toggle="#kt_app_sidebar_mobile_toggle">
@@ -44,7 +44,7 @@
             <!--begin::Menu-->
             <div class="menu menu-column menu-rounded menu-sub-indention px-3" id="#kt_app_sidebar_menu"
                  data-kt-menu="true" data-kt-menu-expand="false">
-                    <!--begin:Menu item-->
+                <!--begin:Menu item-->
                 <div class="menu-item {{setMenuOpenClass(['admin.dashboard'])}}">
                     <a class="menu-link {{setActiveClass('admin.dashboard')}}"
                        href="{{route('admin.dashboard')}}">
@@ -105,19 +105,50 @@
                     </div>
                     <!--end:Menu item-->
                 @endif
-                @if(auth()->user()->hasAnyPermission(PermissionEnum::programPermissions()))
+                @if(auth()->user()->hasAnyPermission(PermissionEnum::programPermissions()) || auth()->user()->hasRole(RoleEnum::SCHOOL->value))
                     <!--begin:Menu item-->
-                    <div class="menu-item {{setMenuOpenClass(['admin.programs.index'])}}">
-                        <!--begin:Menu link-->
-                        <a class="menu-link {{setActiveClass('admin.programs.index')}}"
-                           href="{{route('admin.programs.index')}}">
+                    <div data-kt-menu-trigger="click"
+                         class="menu-item menu-accordion {{setMenuOpenClass(['admin.programs.index','admin.programs.enroll'])}}">
+                        <span class="menu-link">
                             <span class="menu-icon"><i class="fa-solid fa-route"></i></span>
                             <span class="menu-title">{{ __('admin.programs.title') }}</span>
-                        </a>
-                        <!--end:Menu link-->
+                            <span class="menu-arrow"></span>
+                        </span>
+                        <div class="menu-sub menu-sub-accordion">
+                            @if(auth()->user()->hasAnyPermission(PermissionEnum::programPermissions()))
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link-->
+                                    <a class="menu-link {{setActiveClass('admin.programs.index')}}"
+                                       href="{{route('admin.programs.index')}}">
+                                        <span class="menu-bullet">
+                                            <span class="bullet bullet-dot"></span>
+                                        </span>
+                                        <span class="menu-title">{{ __('admin.programs.show') }}</span>
+                                    </a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                            @endif
+                            @if(auth()->user()->hasRole(RoleEnum::SCHOOL->value))
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link-->
+                                    <a class="menu-link {{setActiveClass('admin.programs.enroll')}}"
+                                       href="{{route('admin.programs.enroll')}}">
+                                        <span class="menu-bullet">
+                                            <span class="bullet bullet-dot"></span>
+                                        </span>
+                                        <span class="menu-title">{{ __('admin.programs.enroll') }}</span>
+                                    </a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                            @endif
+                        </div>
                     </div>
-                    <!--end:Menu item-->
                 @endif
+
                 @if(auth()->user()->hasAnyPermission(PermissionEnum::tripPermissions()))
                     <!--begin:Menu item-->
                     <div class="menu-item {{setMenuOpenClass(['admin.trips.index'])}}">
@@ -302,21 +333,21 @@
                                 </div>
                                 <!--end:Menu item-->
                             @endif
-                                @if(auth()->user()->hasAnyPermission(PermissionEnum::permissionPermissions()))
-                                    <!--begin:Menu item-->
-                                    <div class="menu-item">
-                                        <!--begin:Menu link-->
-                                        <a class="menu-link {{setActiveClass('admin.setting.index')}}"
-                                           href="{{route('admin.setting.index')}}">
-                                        <span class="menu-bullet">
-                                            <span class="bullet bullet-dot"></span>
-                                        </span>
-                                            <span class="menu-title">{{ __('admin.setting.name') }}</span>
-                                        </a>
-                                        <!--end:Menu link-->
-                                    </div>
-                                    <!--end:Menu item-->
-                                @endif
+                            @if(auth()->user()->hasAnyPermission(PermissionEnum::permissionPermissions()))
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link-->
+                                    <a class="menu-link {{setActiveClass('admin.setting.index')}}"
+                                       href="{{route('admin.setting.index')}}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                        <span class="menu-title">{{ __('admin.setting.name') }}</span>
+                                    </a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                            @endif
                         </div>
                     </div>
                 @endif

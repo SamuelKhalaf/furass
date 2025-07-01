@@ -28,4 +28,8 @@ class Student extends Model
         return $this->belongsTo(School::class);
     }
 
+    public function enrollments()
+    {
+        return $this->hasMany(Enrollment::class);
+    }
 }

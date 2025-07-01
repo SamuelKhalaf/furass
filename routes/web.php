@@ -3,11 +3,8 @@
 use App\Enums\PermissionEnum;
 use App\Enums\RoleEnum;
 use App\Http\Controllers\Admin\SchoolController;
-use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
-use Illuminate\Support\Facades\URL;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\LanguageController;
 
