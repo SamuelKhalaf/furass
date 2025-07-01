@@ -5,11 +5,6 @@ namespace App\Enums;
 enum PermissionEnum : string
 {
     case MANAGE_EXAMS = 'Manage Exams';
-    // Dashboard
-    case VIEW_ADMIN_DASHBOARD = 'View_Admin Dashboard';
-    case VIEW_CONSULTANT_DASHBOARD = 'View_Consultant Dashboard';
-    case VIEW_STUDENT_DASHBOARD = 'View_Student Dashboard';
-    case VIEW_SCHOOL_DASHBOARD = 'View_School Dashboard';
 
     // Users
     case LIST_USERS = 'List Users';
@@ -83,7 +78,7 @@ enum PermissionEnum : string
     case UPDATE_NEWS = 'Update News';
     case DELETE_NEWS = 'Delete News';
 
-    // News Permissions
+    // Pages Permissions
     case LIST_PAGES = 'List Pages';
     case CREATE_PAGES = 'Create Pages';
     case UPDATE_PAGES = 'Update Pages';
@@ -100,15 +95,6 @@ enum PermissionEnum : string
         return array_column(PermissionEnum::cases(), 'value');
     }
 
-    public static function dashboardPermissions(): array
-    {
-        return [
-            self::VIEW_ADMIN_DASHBOARD->value,
-            self::VIEW_CONSULTANT_DASHBOARD->value,
-            self::VIEW_STUDENT_DASHBOARD->value,
-            self::VIEW_SCHOOL_DASHBOARD->value,
-        ];
-    }
     /**
      * Get all permissions related to users.
      */
