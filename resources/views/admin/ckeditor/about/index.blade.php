@@ -1,5 +1,5 @@
 @extends('admin.layouts.master')
-@section('title', __('pages.title'))
+@section('title', __('about.title'))
 @section('content')
     <div class="d-flex flex-column flex-column-fluid">
         <!--begin::Toolbar-->
@@ -9,7 +9,7 @@
                 <!--begin::Page title-->
                 <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
                     <!--begin::Title-->
-                    <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">{{ __('pages.list') }}</h1>
+                    <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">{{ __('about.list') }}</h1>
                     <!--end::Title-->
                     <!--begin::Breadcrumb-->
                     <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
@@ -24,7 +24,7 @@
                         </li>
                         <!--end::Item-->
                         <!--begin::Item-->
-                        <li class="breadcrumb-item text-muted">{{ __('pages.title') }}</li>
+                        <li class="breadcrumb-item text-muted">{{ __('about.title') }}</li>
                         <!--end::Item-->
                     </ul>
                     <!--end::Breadcrumb-->
@@ -52,22 +52,6 @@
                             </div>
                             <!--end::Search-->
                         </div>
-                        <!--begin::Card title-->
-                        <!--begin::Card toolbar-->
-                        <div class="card-toolbar">
-                            <!--begin::Toolbar-->
-                            <div class="d-flex justify-content-end" data-kt-user-table-toolbar="base">
-                                @if(auth()->user()->hasPermissionTo(\App\Enums\PermissionEnum::CREATE_PAGES->value))
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                            data-bs-target="#kt_modal_add_school">
-                                        <span class="svg-icon svg-icon-2"><i class="fa-solid fa-plus"></i></span>
-                                        {{ __('pages.create') }}
-                                    </button>
-                                @endif
-                            </div>
-                            <!--end::Toolbar-->
-                        </div>
-                        <!--end::Card toolbar-->
                     </div>
                     <!--end::Card header-->
                     <!--begin::Card body-->
@@ -78,8 +62,7 @@
                             <thead>
                             <!--begin::Table row-->
                             <tr class="text-gray-400 fw-bold fs-7 text-uppercase gs-0 text-center">
-                                <th class="min-w-200px">{{ __('pages.title_en') }}</th>
-                                <th class="min-w-125px">{{ __('pages.title_ar') }}</th>
+                                <th class="min-w-200px">{{ __('about.title_en') }}</th>
                                 <th class="min-w-100px">{{ __('pages.actions') }}</th>
                             </tr>
                             <!--end::Table row-->
@@ -109,7 +92,7 @@
     @endif
     @if(auth()->user()->hasPermissionTo(\App\Enums\PermissionEnum::UPDATE_PAGES->value))
         <!--begin::Modal - Update user-->
-        @include('admin.pages.modals.edit')
+        @include('admin.ckeditor.about.edit')
         <!--end::Modal - Update user-->
     @endif
 @endsection
@@ -177,18 +160,11 @@
                     datatable = $(table).DataTable({
                         processing: true,
                         serverSide: true,
-                        ajax: "/pages/all",
+                        ajax: "/cke-about/all",
                         columns: [
                             {
-                                data: 'title_en',
-                                name: 'title_en',
-                                orderable: false,
-                                searchable: false,
-                                className: 'text-center'
-                            },
-                            {
-                                data: 'title_ar',
-                                name: 'title_ar',
+                                data: 'key',
+                                name: 'key',
                                 orderable: false,
                                 searchable: false,
                                 className: 'text-center'
@@ -688,18 +664,12 @@
 
                 // Function to populate the form with user data
                 var populateForm = (response) => {
-                    form.querySelector('[name="title_en"]').value = response.title_en || "";
-                    form.querySelector('[name="title_ar"]').value = response.title_ar || "";
-                    form.querySelector('[name="content_ar"]').value = response.content_ar || "";
-                    form.querySelector('[name="content_en"]').value = response.content_en || "";
-                    $("#kt_modal_update_school_form").attr("data-user-id", response.id);
-
-                    // Set CKEditor content after data loads
+                    $("#kt_modal_update_school_form").attr("data-user-id", response.key);
                     if (update_editorEn) {
-                        update_editorEn.setData(response.content_en || "");
+                        update_editorEn.setData(response.variables_en || "");
                     }
                     if (update_editorAr) {
-                        update_editorAr.setData(response.content_ar || "");
+                        update_editorAr.setData(response.variables_ar || "");
                     }
                 };
 
@@ -720,9 +690,10 @@
 
                     if (userId) {
                         $.ajax({
-                            url: `/page/${userId}/edit`,
+                            url: `/cke-about/${userId}/edit`,
                             type: "GET",
                             success: function (response) {
+                                console.log(update_editorEn)
                                 populateForm(response);
                             },
                             error: function () {
@@ -739,20 +710,6 @@
                         form,
                         {
                             fields: {
-                                'title_en': {
-                                    validators: {
-                                        notEmpty: {
-                                            message: 'English title is required'
-                                        }
-                                    }
-                                },
-                                'title_ar': {
-                                    validators: {
-                                        notEmpty: {
-                                            message: 'Arabic title is required'
-                                        }
-                                    }
-                                },
                                 'content_en': {
                                     validators: {
                                         notEmpty: {
@@ -800,7 +757,7 @@
 
                                     let formData = new FormData(form);
                                     let userId = $('#kt_modal_update_school_form').data('user-id');
-                                    let updateUrl = `/page/${userId}`;
+                                    let updateUrl = `/cke-about/${userId}`;
 
                                     $.ajax({
                                         url: updateUrl,

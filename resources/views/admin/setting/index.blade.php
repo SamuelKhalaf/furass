@@ -1,5 +1,5 @@
 @extends('admin.layouts.master')
-@section('title', __('pages.title'))
+@section('title', __('setting.title'))
 @section('content')
     <div class="d-flex flex-column flex-column-fluid">
         <!--begin::Toolbar-->
@@ -9,7 +9,7 @@
                 <!--begin::Page title-->
                 <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
                     <!--begin::Title-->
-                    <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">{{ __('pages.list') }}</h1>
+                    <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">{{ __('setting.list') }}</h1>
                     <!--end::Title-->
                     <!--begin::Breadcrumb-->
                     <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
@@ -24,7 +24,7 @@
                         </li>
                         <!--end::Item-->
                         <!--begin::Item-->
-                        <li class="breadcrumb-item text-muted">{{ __('pages.title') }}</li>
+                        <li class="breadcrumb-item text-muted">{{ __('setting.title') }}</li>
                         <!--end::Item-->
                     </ul>
                     <!--end::Breadcrumb-->
@@ -48,25 +48,12 @@
                             <div class="d-flex align-items-center position-relative my-1">
                                 <span class="svg-icon svg-icon-1 position-absolute ms-6"><i class="fa-solid fa-magnifying-glass"></i></span>
                                 <input type="text" data-kt-user-table-filter="search"
-                                       class="form-control form-control-solid w-250px ps-14" placeholder="{{ __('pages.search') }}"/>
+                                       class="form-control form-control-solid w-250px ps-14" placeholder="{{ __('setting.search') }}"/>
                             </div>
                             <!--end::Search-->
                         </div>
                         <!--begin::Card title-->
-                        <!--begin::Card toolbar-->
-                        <div class="card-toolbar">
-                            <!--begin::Toolbar-->
-                            <div class="d-flex justify-content-end" data-kt-user-table-toolbar="base">
-                                @if(auth()->user()->hasPermissionTo(\App\Enums\PermissionEnum::CREATE_PAGES->value))
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                            data-bs-target="#kt_modal_add_school">
-                                        <span class="svg-icon svg-icon-2"><i class="fa-solid fa-plus"></i></span>
-                                        {{ __('pages.create') }}
-                                    </button>
-                                @endif
-                            </div>
-                            <!--end::Toolbar-->
-                        </div>
+
                         <!--end::Card toolbar-->
                     </div>
                     <!--end::Card header-->
@@ -78,9 +65,9 @@
                             <thead>
                             <!--begin::Table row-->
                             <tr class="text-gray-400 fw-bold fs-7 text-uppercase gs-0 text-center">
-                                <th class="min-w-200px">{{ __('pages.title_en') }}</th>
-                                <th class="min-w-125px">{{ __('pages.title_ar') }}</th>
-                                <th class="min-w-100px">{{ __('pages.actions') }}</th>
+                                <th class="min-w-200px">{{ __('setting.name') }}</th>
+                                <th class="min-w-125px">{{ __('setting.value') }}</th>
+                                <th class="min-w-100px">{{ __('setting.actions') }}</th>
                             </tr>
                             <!--end::Table row-->
                             </thead>
@@ -102,19 +89,14 @@
         </div>
         <!--end::Content-->
     </div>
-    @if(auth()->user()->hasPermissionTo(\App\Enums\PermissionEnum::CREATE_PAGES->value))
-        <!--begin::Modal - Add Users-->
-        @include('admin.pages.modals.create')
-        <!--end::Modal - Add Users-->
-    @endif
-    @if(auth()->user()->hasPermissionTo(\App\Enums\PermissionEnum::UPDATE_PAGES->value))
+    @if(auth()->user()->hasPermissionTo(\App\Enums\PermissionEnum::UPDATE_SCHOOLS->value))
         <!--begin::Modal - Update user-->
-        @include('admin.pages.modals.edit')
+        @include('admin.setting.modals.edit')
         <!--end::Modal - Update user-->
     @endif
 @endsection
 @section('scripts')
-    @if(auth()->user()->hasPermissionTo(\App\Enums\PermissionEnum::LIST_PAGES->value))
+    @if(auth()->user()->hasPermissionTo(\App\Enums\PermissionEnum::LIST_SCHOOLS->value))
         <script>
             $('#kt_table_users').on('draw.dt', function () {
                 KTMenu.createInstances();
@@ -177,18 +159,17 @@
                     datatable = $(table).DataTable({
                         processing: true,
                         serverSide: true,
-                        ajax: "/pages/all",
+                        ajax: "/setting/all",
                         columns: [
                             {
-                                data: 'title_en',
-                                name: 'title_en',
+                                data: 'name',
+                                name: 'name',
                                 orderable: false,
-                                searchable: false,
                                 className: 'text-center'
                             },
                             {
-                                data: 'title_ar',
-                                name: 'title_ar',
+                                data: 'value',
+                                name: 'value',
                                 orderable: false,
                                 searchable: false,
                                 className: 'text-center'
@@ -409,271 +390,6 @@
         </script>
     @endif
 
-    @if(auth()->user()->hasPermissionTo(\App\Enums\PermissionEnum::CREATE_PAGES->value))
-        <script>
-            "use strict";
-
-            // Class definition
-            var KTUsersAddUser = function () {
-                // Shared variables
-                const element = document.getElementById('kt_modal_add_school');
-                const form = element.querySelector('#kt_modal_add_school_form');
-                const modal = new bootstrap.Modal(element);
-
-                // Init add schedule modal
-                var initAddUser = () => {
-
-                    // Function to reset CK Editor content
-                    const resetCKEditor = () => {
-                        if (editorAr) {
-                            editorAr.setData('');
-                        }
-                        if (editorEn) {
-                            editorEn.setData('');
-                        }
-                    };
-
-                    // Init form validation rules. For more info check the FormValidation plugin's official documentation:https://formvalidation.io/
-                    var validator = FormValidation.formValidation(
-                        form,
-                        {
-                            fields: {
-                                'title_en': {
-                                    validators: {
-                                        notEmpty: {
-                                            message: 'School name is required'
-                                        }
-                                    }
-                                },
-                                'title_ar': {
-                                    validators: {
-                                        notEmpty: {
-                                            message: 'Valid email address is required'
-                                        }
-                                    }
-                                },
-                                'content_en': {
-                                    validators: {
-                                        notEmpty: {
-                                            message: 'Valid content en number is required'
-                                        }
-                                    }
-                                },
-                                'content_ar': {
-                                    validators: {
-                                        notEmpty: {
-                                            message: 'Valid content ar number is required'
-                                        }
-                                    }
-                                },
-
-                            },
-
-                            plugins: {
-                                trigger: new FormValidation.plugins.Trigger(),
-                                bootstrap: new FormValidation.plugins.Bootstrap5({
-                                    rowSelector: '.fv-row',
-                                    eleInvalidClass: '',
-                                    eleValidClass: ''
-                                })
-                            }
-                        }
-                    );
-
-                    // Submit button handler
-                    const submitButton = element.querySelector('[data-kt-users-modal-action="submit"]');
-                    submitButton.addEventListener('click', e => {
-                        e.preventDefault();
-
-                        // Update textarea values with CKEditor data before validation
-                        if (editorEn) {
-                            document.querySelector('#editor_en').value = editorEn.getData();
-                        }
-                        if (editorAr) {
-                            document.querySelector('#editor_ar').value = editorAr.getData();
-                        }
-
-                        if (validator) {
-                            validator.validate().then(function (status) {
-                                // Additional validation for CK Editor content
-                                let isValid = status === 'Valid';
-                                let validationErrors = [];
-
-                                // Check CK Editor content
-                                if (editorEn && !editorEn.getData().trim()) {
-                                    isValid = false;
-                                    validationErrors.push('English content is required');
-                                }
-                                if (editorAr && !editorAr.getData().trim()) {
-                                    isValid = false;
-                                    validationErrors.push('Arabic content is required');
-                                }
-
-                                if (isValid) {
-                                    submitButton.setAttribute('data-kt-indicator', 'on');
-                                    submitButton.disabled = true;
-
-                                    // Get form data
-                                    let formData = new FormData(form);
-
-                                    // Update form data with CK Editor content
-                                    if (editorAr) {
-                                        formData.set('content_ar', editorAr.getData());
-                                    }
-                                    if (editorEn) {
-                                        formData.set('content_en', editorEn.getData());
-                                    }
-
-                                    // Send AJAX request
-                                    $.ajax({
-                                        url: form.getAttribute('action'),
-                                        type: "POST",
-                                        data: formData,
-                                        processData: false,
-                                        contentType: false,
-                                        success: function (response) {
-                                            submitButton.removeAttribute("data-kt-indicator");
-                                            submitButton.disabled = false;
-
-                                            Swal.fire({
-                                                text: response.message,
-                                                icon: "success",
-                                                buttonsStyling: false,
-                                                confirmButtonText: "Ok, got it!",
-                                                customClass: {
-                                                    confirmButton: "btn btn-primary"
-                                                }
-                                            }).then(function (result) {
-                                                if (result.isConfirmed) {
-                                                    modal.hide();
-                                                    form.reset();
-                                                    resetCKEditor();
-                                                    location.reload();
-                                                }
-                                            });
-                                        },
-                                        error: function (xhr) {
-                                            console.log(xhr)
-                                            submitButton.removeAttribute("data-kt-indicator");
-                                            submitButton.disabled = false;
-
-                                            let errorMessage = "Something went wrong! Please try again later.";
-
-                                            if (xhr.responseJSON && xhr.responseJSON.errors) {
-                                                errorMessage = Object.values(xhr.responseJSON.errors).join("\n");
-                                            }
-
-                                            Swal.fire({
-                                                text: errorMessage,
-                                                icon: "error",
-                                                buttonsStyling: false,
-                                                confirmButtonText: "Ok, got it!",
-                                                customClass: {
-                                                    confirmButton: "btn btn-primary"
-                                                }
-                                            });
-                                        }
-                                    });
-
-                                } else {
-                                    Swal.fire({
-                                        text: validationErrors.length > 0 ? validationErrors.join('\n') : "Please fix the errors and try again.",
-                                        icon: "error",
-                                        buttonsStyling: false,
-                                        confirmButtonText: "Ok, got it!",
-                                        customClass: {
-                                            confirmButton: "btn btn-primary"
-                                        }
-                                    });
-                                }
-                            });
-                        }
-                    });
-                    // Cancel button handler
-                    const cancelButton = element.querySelector('[data-kt-users-modal-action="cancel"]');
-                    cancelButton.addEventListener('click', e => {
-                        e.preventDefault();
-
-                        Swal.fire({
-                            text: "Are you sure you would like to cancel?",
-                            icon: "warning",
-                            showCancelButton: true,
-                            buttonsStyling: false,
-                            confirmButtonText: "Yes, cancel it!",
-                            cancelButtonText: "No, return",
-                            customClass: {
-                                confirmButton: "btn btn-primary",
-                                cancelButton: "btn btn-active-light"
-                            }
-                        }).then(function (result) {
-                            if (result.value) {
-                                modal.hide();
-                                form.reset();
-                                resetCKEditor();
-                            } else if (result.dismiss === 'cancel') {
-                                Swal.fire({
-                                    text: "Your form has not been cancelled!.",
-                                    icon: "error",
-                                    buttonsStyling: false,
-                                    confirmButtonText: "Ok, got it!",
-                                    customClass: {
-                                        confirmButton: "btn btn-primary",
-                                    }
-                                });
-                            }
-                        });
-                    });
-
-                    // Close button handler
-                    const closeButton = element.querySelector('[data-kt-users-modal-action="close"]');
-                    closeButton.addEventListener('click', e => {
-                        e.preventDefault();
-
-                        Swal.fire({
-                            text: "Are you sure you would like to cancel?",
-                            icon: "warning",
-                            showCancelButton: true,
-                            buttonsStyling: false,
-                            confirmButtonText: "Yes, cancel it!",
-                            cancelButtonText: "No, return",
-                            customClass: {
-                                confirmButton: "btn btn-primary",
-                                cancelButton: "btn btn-active-light"
-                            }
-                        }).then(function (result) {
-                            if (result.value) {
-                                modal.hide();
-                                form.reset();
-                                resetCKEditor();
-                            } else if (result.dismiss === 'cancel') {
-                                Swal.fire({
-                                    text: "Your form has not been cancelled!.",
-                                    icon: "error",
-                                    buttonsStyling: false,
-                                    confirmButtonText: "Ok, got it!",
-                                    customClass: {
-                                        confirmButton: "btn btn-primary",
-                                    }
-                                });
-                            }
-                        });
-                    });
-                }
-
-                return {
-                    // Public functions
-                    init: function () {
-                        initAddUser();
-                    }
-                };
-            }();
-
-            // On document ready
-            KTUtil.onDOMContentLoaded(function () {
-                KTUsersAddUser.init();
-            });
-        </script>
-    @endif
 
     @if(auth()->user()->hasPermissionTo(\App\Enums\PermissionEnum::UPDATE_PAGES->value))
         <script>
@@ -688,29 +404,8 @@
 
                 // Function to populate the form with user data
                 var populateForm = (response) => {
-                    form.querySelector('[name="title_en"]').value = response.title_en || "";
-                    form.querySelector('[name="title_ar"]').value = response.title_ar || "";
-                    form.querySelector('[name="content_ar"]').value = response.content_ar || "";
-                    form.querySelector('[name="content_en"]').value = response.content_en || "";
+                    form.querySelector('[name="value"]').value = response.value || "";
                     $("#kt_modal_update_school_form").attr("data-user-id", response.id);
-
-                    // Set CKEditor content after data loads
-                    if (update_editorEn) {
-                        update_editorEn.setData(response.content_en || "");
-                    }
-                    if (update_editorAr) {
-                        update_editorAr.setData(response.content_ar || "");
-                    }
-                };
-
-                // Function to reset CK Editor content
-                const resetCKEditor = () => {
-                    if (update_editorAr) {
-                        update_editorAr.setData('');
-                    }
-                    if (update_editorEn) {
-                        update_editorEn.setData('');
-                    }
                 };
 
                 // Fetch user data when modal is opened
@@ -720,7 +415,7 @@
 
                     if (userId) {
                         $.ajax({
-                            url: `/page/${userId}/edit`,
+                            url: `/setting/${userId}/edit`,
                             type: "GET",
                             success: function (response) {
                                 populateForm(response);
@@ -739,34 +434,14 @@
                         form,
                         {
                             fields: {
-                                'title_en': {
+                                'value': {
                                     validators: {
                                         notEmpty: {
-                                            message: 'English title is required'
+                                            message: 'value is required'
                                         }
                                     }
                                 },
-                                'title_ar': {
-                                    validators: {
-                                        notEmpty: {
-                                            message: 'Arabic title is required'
-                                        }
-                                    }
-                                },
-                                'content_en': {
-                                    validators: {
-                                        notEmpty: {
-                                            message: 'English content is required'
-                                        }
-                                    }
-                                },
-                                'content_ar': {
-                                    validators: {
-                                        notEmpty: {
-                                            message: 'Arabic content is required'
-                                        }
-                                    }
-                                },
+
                             },
                             plugins: {
                                 trigger: new FormValidation.plugins.Trigger(),
@@ -784,24 +459,16 @@
                     submitButton.addEventListener('click', e => {
                         e.preventDefault();
 
-                        // Update textarea values from CKEditor
-                        if (update_editorEn) {
-                            document.querySelector('#update_editor_en').value = update_editorEn.getData();
-                        }
-                        if (update_editorAr) {
-                            document.querySelector('#update_editor_ar').value = update_editorAr.getData();
-                        }
-
                         if (validator) {
                             validator.validate().then(function (status) {
                                 if (status === 'Valid') {
                                     submitButton.setAttribute('data-kt-indicator', 'on');
                                     submitButton.disabled = true;
 
+                                    // Get form data and send AJAX request
                                     let formData = new FormData(form);
                                     let userId = $('#kt_modal_update_school_form').data('user-id');
-                                    let updateUrl = `/page/${userId}`;
-
+                                    let updateUrl = `/setting/${userId}`;
                                     $.ajax({
                                         url: updateUrl,
                                         type: "POST",
@@ -823,7 +490,6 @@
                                             }).then(function (result) {
                                                 if (result.isConfirmed) {
                                                     form.reset();
-                                                    resetCKEditor();
                                                     modal.hide();
                                                     location.reload();
                                                 }
@@ -865,10 +531,11 @@
                         }
                     });
 
-                    // Cancel button handler (Shared with close)
+                    // Cancel button handler (Shared logic with close button)
                     const cancelButton = element.querySelector('[data-kt-users-modal-action="cancel"]');
                     cancelButton.addEventListener('click', resetAndCloseModal);
 
+                    // Close button handler
                     const closeButton = element.querySelector('[data-kt-users-modal-action="close"]');
                     closeButton.addEventListener('click', resetAndCloseModal);
 
@@ -889,11 +556,10 @@
                         }).then(function (result) {
                             if (result.value) {
                                 form.reset();
-                                resetCKEditor();
                                 modal.hide();
                             } else if (result.dismiss === 'cancel') {
                                 Swal.fire({
-                                    text: "Your form has not been cancelled.",
+                                    text: "Your form has not been cancelled!.",
                                     icon: "error",
                                     buttonsStyling: false,
                                     confirmButtonText: "Ok, got it!",
@@ -907,18 +573,20 @@
                 }
 
                 return {
+                    // Public functions
                     init: function () {
                         initUpdateDetails();
                     }
                 };
             }();
 
+            // On document ready
             KTUtil.onDOMContentLoaded(function () {
                 KTUsersUpdateDetails.init();
             });
+
         </script>
     @endif
-
 
     @if(auth()->user()->hasPermissionTo(\App\Enums\PermissionEnum::DELETE_SCHOOLS->value))
         <script>
@@ -942,7 +610,7 @@
                 }).then(function (result) {
                     if (result.isConfirmed) {
                         $.ajax({
-                            url: "{{ route('admin.page.destroy', ':id') }}".replace(':id', userId),
+                            url: "{{ route('admin.schools.destroy', ':id') }}".replace(':id', userId),
                             type: 'DELETE',
                             data: {_token: '{{ csrf_token() }}'},
                             success: function (response) {
@@ -987,193 +655,4 @@
             });
         </script>
     @endif
-
-    <script>
-        // Initialize CK Editor for both Arabic and English content fields
-        let editorAr, editorEn;
-
-        class MyUploadAdapter {
-            constructor(loader) {
-                this.loader = loader;
-            }
-
-            // Starts the upload process.
-            upload() {
-                return this.loader.file
-                    .then(file => new Promise((resolve, reject) => {
-                        this._initRequest();
-                        this._initListeners(resolve, reject, file);
-                        this._sendRequest(file);
-                    }));
-            }
-
-            // Aborts the upload process.
-            abort() {
-                if (this.xhr) {
-                    this.xhr.abort();
-                }
-            }
-
-            // Initializes the XMLHttpRequest object using the URL passed to the constructor.
-            _initRequest() {
-                const xhr = this.xhr = new XMLHttpRequest();
-
-                xhr.open('POST', '{{ route('admin.ckeditor.upload') }}', true);
-                xhr.setRequestHeader('x-csrf-token', '{{ csrf_token() }}');
-                xhr.responseType = 'json';
-            }
-
-            // Initializes XMLHttpRequest listeners.
-            _initListeners(resolve, reject, file) {
-                const xhr = this.xhr;
-                const loader = this.loader;
-                const genericErrorText = `Couldn't upload file: ${file.name}.`;
-
-                xhr.addEventListener('error', () => reject(genericErrorText));
-                xhr.addEventListener('abort', () => reject());
-                xhr.addEventListener('load', () => {
-                    const response = xhr.response;
-
-                    if (!response || response.error) {
-                        return reject(response && response.error ? response.error.message : genericErrorText);
-                    }
-
-                    resolve({
-                        default: response.url
-                    });
-                });
-
-                if (xhr.upload) {
-                    xhr.upload.addEventListener('progress', evt => {
-                        if (evt.lengthComputable) {
-                            loader.uploadTotal = evt.total;
-                            loader.uploaded = evt.loaded;
-                        }
-                    });
-                }
-            }
-
-            _sendRequest(file) {
-                // Prepare the form data.
-                const data = new FormData();
-                data.append('upload', file);
-                this.xhr.send(data);
-            }
-        }
-
-        function SimpleUploadAdapterPlugin(editor) {
-            editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
-                // Configure the URL to the upload script in your back-end here!
-                return new MyUploadAdapter(loader);
-            };
-        }
-
-        ClassicEditor
-            .create(document.querySelector('#editor_ar'), {
-                language: {
-                    ui: 'ar',
-                    content: 'ar'
-                },
-                extraPlugins: [SimpleUploadAdapterPlugin],
-                toolbar: {
-                    items: [
-                        'heading', '|',
-                        'bold', 'italic', 'link', '|',
-                        'imageUpload', 'imageStyle:full', 'imageStyle:side', 'imageResize', '|',
-                        'undo', 'redo'
-                    ]
-                },
-                image: {
-                    resizeUnit: '%',
-                    toolbar: [
-                        'imageStyle:full',
-                        'imageStyle:side',
-                        'imageTextAlternative',
-                        'imageResize'
-                    ],
-                    resizeOptions: [
-                        {
-                            name: 'resizeImage:original',
-                            label: 'Original',
-                            value: null
-                        },
-                        {
-                            name: 'resizeImage:75',
-                            label: '75%',
-                            value: '75'
-                        },
-                        {
-                            name: 'resizeImage:75',
-                            label: '75%',
-                            value: '75'
-                        }
-                    ]
-                }
-            })
-            .then(editor => {
-                editorAr = editor;
-                console.log('Arabic CK Editor initialized');
-                // Simulate label behavior if textarea had a label
-                if (editor.sourceElement.labels.length > 0) {
-                    editor.sourceElement.labels[0].addEventListener('click', e => editor.editing.view.focus());
-                }
-
-                // Force RTL direction if not applied automatically
-                editor.editing.view.change(writer => {
-                    writer.setAttribute('dir', 'rtl', editor.editing.view.document.getRoot());
-                });
-            })
-            .catch(error => {
-                console.error('Error initializing Arabic CK Editor:', error);
-            });
-        ClassicEditor
-            .create(document.querySelector('#editor_en'), {
-                extraPlugins: [SimpleUploadAdapterPlugin],
-                toolbar: {
-                    items: [
-                        'heading', '|',
-                        'bold', 'italic', 'link', '|',
-                        'imageUpload', 'imageStyle:full', 'imageStyle:side', 'imageResize', '|',
-                        'undo', 'redo'
-                    ]
-                },
-                image: {
-                    resizeUnit: '%',
-                    toolbar: [
-                        'imageStyle:full',
-                        'imageStyle:side',
-                        'imageTextAlternative',
-                        'imageResize'
-                    ],
-                    resizeOptions: [
-                        {
-                            name: 'resizeImage:original',
-                            label: 'Original',
-                            value: null
-                        },
-                        {
-                            name: 'resizeImage:75',
-                            label: '75%',
-                            value: '75'
-                        },
-                        {
-                            name: 'resizeImage:75',
-                            label: '75%',
-                            value: '75'
-                        }
-                    ]
-                }
-            })
-            .then(editor => {
-                editorEn = editor;
-                console.log('English CK Editor initialized');
-                // Simulate label behavior if textarea had a label
-                if (editor.sourceElement.labels.length > 0) {
-                    editor.sourceElement.labels[0].addEventListener('click', e => editor.editing.view.focus());
-                }
-            })
-            .catch(error => {
-                console.error('Error initializing English CK Editor:', error);
-            });
-    </script>
 @endsection

@@ -214,6 +214,86 @@
                     </div>
                     <!--end:Menu item-->
                 @endif
+                <!--end:Menu item-->
+                @if(auth()->user()->hasAnyPermission(PermissionEnum::MANAGE_EXAMS))
+                    <!--begin:Menu item-->
+                    <div data-kt-menu-trigger="click"
+                         class="menu-item menu-accordion {{setMenuOpenClass(['admin.QuestionBank.index','admin.valueQuestion.index'])}}">
+                        <span class="menu-link">
+                            <span class="menu-icon"><i class="fa-solid fa-clipboard-list"></i></span>
+                            <span class="menu-title">{{ __('admin.exams.title') }}</span>
+                            <span class="menu-arrow"></span>
+                        </span>
+                        <div class="menu-sub menu-sub-accordion">
+                            <div class="menu-item {{setMenuOpenClass(['admin.QuestionBank.index'])}}">
+                                <!--begin:Menu link-->
+                                <a class="menu-link {{setActiveClass('admin.QuestionBank.index')}}"
+                                   href="{{route('admin.QuestionBank.index')}}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title">{{ __('admin.questionBank.title') }}</span>
+                                </a>
+                                <!--end:Menu link-->
+                            </div>
+
+                            <div class="menu-item {{setMenuOpenClass(['admin.valueQuestion.index'])}}">
+                                <!--begin:Menu link-->
+                                <a class="menu-link {{setActiveClass('admin.valueQuestion.index')}}"
+                                   href="{{route('admin.valueQuestion.index')}}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title">{{ __('valueQuestion.title-sidebar') }}</span>
+                                </a>
+                                <!--end:Menu link-->
+                            </div>
+                        </div>
+                    </div>
+                @endif
+
+                @if(auth()->user()->hasAnyPermission(PermissionEnum::LIST_PAGES))
+                    <div data-kt-menu-trigger="click"
+                         class="menu-item menu-accordion {{setMenuOpenClass(['admin.roles.index','admin.roles.show','admin.permissions.index'])}}">
+                        <span class="menu-link">
+                            <span class="menu-icon"><i class="fa-solid fa-screwdriver-wrench"></i></span>
+                            <span class="menu-title">{{ __('admin.settings.pages') }}</span>
+                            <span class="menu-arrow"></span>
+                        </span>
+                        <div class="menu-sub menu-sub-accordion">
+                            @if(auth()->user()->hasAnyPermission(PermissionEnum::permissionPermissions()))
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link-->
+                                    <a class="menu-link {{setActiveClass('admin.cke_pages.create')}}"
+                                       href="{{route('admin.pages.index')}}">
+                                        <span class="menu-bullet">
+                                            <span class="bullet bullet-dot"></span>
+                                        </span>
+                                        <span class="menu-title">{{ __('admin.cke_pages.create') }}</span>
+                                    </a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link-->
+                                    <a class="menu-link {{setActiveClass('admin.cke-about.index')}}"
+                                       href="{{route('admin.cke.about.index')}}">
+                                        <span class="menu-bullet">
+                                            <span class="bullet bullet-dot"></span>
+                                        </span>
+                                        <span class="menu-title">{{ __('admin.cke_pages.about') }}</span>
+                                    </a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                            @endif
+                        </div>
+                    </div>
+                @endif
+
                 @if(auth()->user()->hasAnyPermission(PermissionEnum::permissionPermissions()) || auth()->user()->hasAnyPermission(PermissionEnum::rolePermissions()))
                     <div data-kt-menu-trigger="click"
                          class="menu-item menu-accordion {{setMenuOpenClass(['admin.roles.index','admin.roles.show','admin.permissions.index'])}}">
@@ -252,58 +332,22 @@
                                     <!--end:Menu link-->
                                 </div>
                                 <!--end:Menu item-->
-
+                            @endif
+                            @if(auth()->user()->hasAnyPermission(PermissionEnum::permissionPermissions()))
                                 <!--begin:Menu item-->
                                 <div class="menu-item">
                                     <!--begin:Menu link-->
-                                    <a class="menu-link {{setActiveClass('admin.permissions.index')}}"
-                                       href="{{route('admin.pages.index')}}">
-                                        <span class="menu-bullet">
-                                            <span class="bullet bullet-dot"></span>
-                                        </span>
-                                        <span class="menu-title">{{ __('admin.settings.pages') }}</span>
+                                    <a class="menu-link {{setActiveClass('admin.setting.index')}}"
+                                       href="{{route('admin.setting.index')}}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                        <span class="menu-title">{{ __('admin.setting.name') }}</span>
                                     </a>
                                     <!--end:Menu link-->
                                 </div>
                                 <!--end:Menu item-->
                             @endif
-                        </div>
-                    </div>
-                @endif
-                <!--end:Menu item-->
-                @if(auth()->user()->hasAnyPermission(PermissionEnum::MANAGE_EXAMS))
-                    <!--begin:Menu item-->
-                    <div data-kt-menu-trigger="click"
-                         class="menu-item menu-accordion {{setMenuOpenClass(['admin.QuestionBank.index','admin.valueQuestion.index'])}}">
-                        <span class="menu-link">
-                            <span class="menu-icon"><i class="fa-solid fa-clipboard-list"></i></span>
-                            <span class="menu-title">{{ __('admin.exams.title') }}</span>
-                            <span class="menu-arrow"></span>
-                        </span>
-                        <div class="menu-sub menu-sub-accordion">
-                            <div class="menu-item {{setMenuOpenClass(['admin.QuestionBank.index'])}}">
-                                <!--begin:Menu link-->
-                                <a class="menu-link {{setActiveClass('admin.QuestionBank.index')}}"
-                                   href="{{route('admin.QuestionBank.index')}}">
-                                    <span class="menu-bullet">
-                                        <span class="bullet bullet-dot"></span>
-                                    </span>
-                                    <span class="menu-title">{{ __('admin.questionBank.title') }}</span>
-                                </a>
-                                <!--end:Menu link-->
-                            </div>
-
-                            <div class="menu-item {{setMenuOpenClass(['admin.valueQuestion.index'])}}">
-                                <!--begin:Menu link-->
-                                <a class="menu-link {{setActiveClass('admin.valueQuestion.index')}}"
-                                   href="{{route('admin.valueQuestion.index')}}">
-                                    <span class="menu-bullet">
-                                        <span class="bullet bullet-dot"></span>
-                                    </span>
-                                    <span class="menu-title">{{ __('valueQuestion.title-sidebar') }}</span>
-                                </a>
-                                <!--end:Menu link-->
-                            </div>
                         </div>
                     </div>
                 @endif

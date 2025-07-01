@@ -10,7 +10,7 @@
                 <!--begin::Modal header-->
                 <div class="modal-header" id="kt_modal_update_school_header">
                     <!--begin::Modal title-->
-                    <h2 class="fw-bold">{{ __('schools.modal.update_school') }}</h2>
+                    <h2 class="fw-bold">{{ __('about.modal.update_page') }}</h2>
                     <!--end::Modal title-->
 
                     <!--begin::Close-->
@@ -35,32 +35,10 @@
                             <!--begin::Input group-->
                             <div class="fv-row mb-7">
                                 <!--begin::Label-->
-                                <label class="required fw-semibold fs-6 mb-2">{{ __('schools.modal.school_name') }}</label>
-                                <!--end::Label-->
-                                <!--begin::Input-->
-                                <input type="text" name="title_en" class="form-control form-control-solid mb-3 mb-lg-0"
-                                       placeholder="{{ __('pages.modal.enter_page_title_en') }}" required/>
-                                <!--end::Input-->
-                            </div>
-                            <!--end::Input group-->
-                            <!--begin::Input group-->
-                            <div class="fv-row mb-7">
-                                <!--begin::Label-->
-                                <label class="required fw-semibold fs-6 mb-2">{{ __('schools.modal.school_name') }}</label>
-                                <!--end::Label-->
-                                <!--begin::Input-->
-                                <input type="text" name="title_ar" class="form-control form-control-solid mb-3 mb-lg-0"
-                                       placeholder="{{ __('pages.modal.enter_page_title_en') }}" required/>
-                                <!--end::Input-->
-                            </div>
-                            <!--end::Input group-->
-                            <!--begin::Input group-->
-                            <div class="fv-row mb-7">
-                                <!--begin::Label-->
                                 <label class="required fw-semibold fs-6 mb-2">{{ __('pages.modal.content_ar') }}</label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
-                                <textarea name="content_ar" id="update_editor_ar"  style="direction: rtl !important;" {{--dir="rtl"--}}  class="form-control"></textarea>
+                                <textarea name="content_ar" id="update_editor_ar"  class="form-control"></textarea>
                                 <!--end::Input-->
                             </div>
                             <!--end::Input group-->

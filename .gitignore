@@ -3,6 +3,7 @@
 /public/build
 /public/hot
 /public/storage
+/public/uploads/ckeditor
 /storage/*.key
 /vendor
 .env

@@ -3,6 +3,7 @@
 use App\Enums\PermissionEnum;
 use App\Http\Controllers\Admin\CalendarController;
 use App\Http\Controllers\Admin\CategoryOfExamController;
+use App\Http\Controllers\Admin\CkeditorController;
 use App\Http\Controllers\Admin\ConsultantController;
 use App\Http\Controllers\Admin\ConsultationController;
 use App\Http\Controllers\Admin\ConsultationNotesController;
@@ -15,6 +16,7 @@ use App\Http\Controllers\Admin\ProgramsController;
 use App\Http\Controllers\Admin\QuestionBankTypeController;
 use App\Http\Controllers\Admin\RolesController;
 use App\Http\Controllers\Admin\SchoolController;
+use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\TripsController;
 use App\Http\Controllers\Admin\UsersController;
@@ -366,6 +368,9 @@ Route::middleware(['auth'])->name('admin.')->group(function () {
         ->middleware('permission:'. PermissionEnum::CREATE_PAGES->value)
         ->name('page.store');
 
+    Route::post('/ckeditor/upload', [PagesController::class, 'uploadImage'])->name('ckeditor.upload');
+
+
     Route::middleware('permission:'. PermissionEnum::UPDATE_PAGES->value)->group(function () {
         Route::get('page/{value}/edit', [PagesController::class, 'edit'])->name('pages.edit');
         Route::put('page/{value}', [PagesController::class, 'update'])->name('pages.update');
@@ -374,5 +379,31 @@ Route::middleware(['auth'])->name('admin.')->group(function () {
     Route::delete('page/{value}', [PagesController::class, 'destroy'])
         ->middleware('permission:'. PermissionEnum::DELETE_PAGES->value)
         ->name('page.destroy');
-    ###############################  End:pages question Routes  #####################################
+    ###############################  End:pages  Routes  #####################################
+
+    ###############################  start:ckeditor Routes  #####################################
+    Route::middleware('permission:'. PermissionEnum::LIST_PAGES->value)->group(function () {
+        Route::get('cke-about', [CkeditorController::class, 'indexAbout'])->name('cke.about.index');
+        Route::get('cke-about/all', [CkeditorController::class, 'getAboutData'])->name('cke.about.datatable');
+    });
+
+    Route::middleware('permission:'. PermissionEnum::UPDATE_PAGES->value)->group(function () {
+        Route::get('cke-about/{value}/edit', [CkeditorController::class, 'edit'])->name('cke-about.edit');
+        Route::put('cke-about/{value}', [CkeditorController::class, 'update'])->name('cke-about.update');
+    });
+
+    ###############################  End:ckeditor Routes  #####################################
+
+    ###############################  start:setting Routes  #####################################
+    Route::middleware('permission:'. PermissionEnum::LIST_PAGES->value)->group(function () {
+        Route::get('setting', [SettingController::class, 'index'])->name('setting.index');
+        Route::get('setting/all', [SettingController::class, 'getSettingData'])->name('setting.datatable');
+    });
+
+    Route::middleware('permission:'. PermissionEnum::UPDATE_PAGES->value)->group(function () {
+        Route::get('setting/{value}/edit', [SettingController::class, 'edit'])->name('cke-about.edit');
+        Route::put('setting/{value}', [SettingController::class, 'update'])->name('cke-about.update');
+    });
+
+    ###############################  End:setting Routes  #####################################
 });

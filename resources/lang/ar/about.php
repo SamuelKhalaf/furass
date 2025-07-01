@@ -1,0 +1,47 @@
+<?php
+
+return [
+    'title' => 'معلومات عنا',
+    'list' => 'معلومات عنا',
+    'create' => 'إنشاء صفحه',
+    'edit' => 'تعديل ',
+    'delete' => 'حذف ',
+    'title_en' => 'القسم',
+    'title_ar' => 'الصفحه بالعربيه',
+    'website' => 'الموقع الإلكتروني',
+    'principal' => 'المدير',
+    'students_count' => 'عدد الطلاب',
+    'consultants_count' => 'عدد المستشارين',
+    'status' => 'الحالة',
+    'created_at' => 'تاريخ الإنشاء',
+    'updated_at' => 'تاريخ التحديث',
+    'actions' => 'الإجراءات',
+    'no_schools' => 'لا توجد صفحات',
+    'search' => 'بحث في الصفحات',
+    'confirm_delete' => 'هل أنت متأكد من حذف هذه الصفحه؟',
+    'success' => [
+        'created' => 'تم إنشاء الصفحه بنجاح',
+        'updated' => 'تم تحديث الصفحه بنجاح',
+        'deleted' => 'تم حذف الصفحه بنجاح',
+    ],
+    'error' => [
+        'not_found' => 'الصفحه غير موجودة',
+        'delete_failed' => 'فشل في حذف الصفحه',
+    ],
+    'status_options' => [
+        'active' => 'نشط',
+        'inactive' => 'غير نشط',
+        'pending' => 'قيد الانتظار',
+    ],
+    'modal' => [
+        'add_page' => 'إضافة صفحه',
+        'update_page' => 'تحديث بيانات الصفحه',
+        'page_name' => 'العنوان',
+        'enter_page_name' => ' ادخل اسم الصفحه',
+        'content_en'=>'  المحتوي بالانجليزيه',
+        'content_ar'=>'  المحتوي بالعربي',
+        'discard' => 'إلغاء',
+        'submit' => 'حفظ',
+        'please_wait' => 'يرجى الانتظار...',
+    ],
+];
