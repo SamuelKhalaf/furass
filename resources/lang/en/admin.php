@@ -115,11 +115,8 @@ return [
     // Programs
     'programs' => [
         'title' => ' Programs',
-        'list' => 'Programs List',
-        'create' => 'Create Program',
-        'edit' => 'Edit Program',
-        'delete' => 'Delete Program',
-        'details' => 'Program Details',
+        'show' => 'Programs List',
+        'enroll' => 'Assign Programs to Students',
     ],
 
     // Settings
