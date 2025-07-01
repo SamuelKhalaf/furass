@@ -337,7 +337,7 @@ html[lang="ar"] .section-img img {
 
 @media (max-width: 767px) {
     .overlay-wrapper{
-        top: 25%;
+        top: 20%;
     }
     .overlay-text h1{
         font-size: 1.3rem;

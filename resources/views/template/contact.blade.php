@@ -1,5 +1,10 @@
 @extends('template/layout/master')
 @section('body')
+
+
+    @php
+        $setting =new \App\Models\Setting;
+    @endphp
     <div class="container contact-container" style="padding-top: 80px;">
         <div class="row w-100">
             <div class="col-lg-7 contact-left d-flex flex-column justify-content-center">
@@ -7,15 +12,15 @@
                 <div class="row">
                     <div class="col-md-6 contact-info">
                         <div class="contact-section-title">{{ __('template.contact.office_title') }}</div>
-                        <div><strong>{{ __('template.contact.office_address') }}</strong></div>
-                        <div>{{ __('template.contact.telephone') }} : 00000000</div>
-                        <div><a href="mailto:furasshead@furass.com">furasshead@furass.com</a></div>
+                        <div><strong>{{$setting->where('key' ,'head_office')->first()->value ?? '#'}}</strong></div>
+                        <div>{{ __('template.contact.telephone') }} : {{$setting->where('key' ,'telephone')->first()->value ?? '#'}}</div>
+                        <div><a href="{{$setting->where('key' ,'email')->first()->value ?? '#'}}">{{$setting->where('key' ,'email')->first()->value ?? '#'}}</a></div>
                     </div>
                     <div class="col-md-6 contact-info">
                         <div class="contact-section-title">{{ __('template.contact.support_title') }}</div>
-                        <div><strong>{{ __('template.contact.support_hours') }}</strong></div>
-                        <div>{{ __('template.contact.telephone') }} : 00000000</div>
-                        <div><a href="mailto:support@furass.com">support@furass.com</a></div>
+                        <div><strong>{{$setting->where('key' ,'support')->first()->value ?? '#'}}</strong></div>
+                        <div>{{ __('template.contact.telephone') }} : {{$setting->where('key' ,'telephone')->first()->value ?? '#'}}</div>
+                        <div><a href="{{$setting->where('key' ,'email')->first()->value ?? '#'}}">{{$setting->where('key' ,'email')->first()->value ?? '#'}}</a></div>
                     </div>
                 </div>
                 <div class="furass-logo">
@@ -25,9 +30,9 @@
                     </div>
                 </div>
                 <div class="social-icons">
-                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="{{$setting->where('key' ,'facebook')->first()->value ?? '#'}}" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="{{$setting->where('key' ,'linkedin')->first()->value ?? '#'}}" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="{{$setting->where('key' ,'instagram')->first()->value ?? '#'}}" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
                 </div>
             </div>
             <div class="col-lg-5 d-flex align-items-center justify-content-center">
