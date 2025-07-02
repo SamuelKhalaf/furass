@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\PagesController;
 use App\Http\Controllers\Admin\PermissionsController;
 use App\Http\Controllers\Admin\ProgramsController;
 use App\Http\Controllers\Admin\QuestionBankTypeController;
+use App\Http\Controllers\Admin\QuestionController;
 use App\Http\Controllers\Admin\RolesController;
 use App\Http\Controllers\Admin\SchoolController;
 use App\Http\Controllers\Admin\SettingController;
@@ -398,4 +399,25 @@ Route::middleware(['auth'])->name('admin.')->group(function () {
     });
 
     ###############################  End:setting Routes  #####################################
+
+    ############################### Start:Questions Routes #####################################
+    Route::middleware('permission:'. PermissionEnum::LIST_EXAMS->value)->group(function () {
+        Route::get('question', [QuestionController::class, 'index'])->name('question.index');
+        Route::get('question/all', [QuestionController::class, 'getQuestionsData'])->name('schools.datatable');
+    });
+
+    Route::post('schools', [SchoolController::class, 'store'])
+        ->middleware('permission:'. PermissionEnum::CREATE_EXAMS->value)
+        ->name('schools.store');
+
+    Route::middleware('permission:'. PermissionEnum::UPDATE_EXAMS->value)->group(function () {
+        Route::get('schools/{school}/edit', [SchoolController::class, 'edit'])->name('schools.edit');
+        Route::put('schools/{school}', [SchoolController::class, 'update'])->name('schools.update');
+    });
+
+    Route::delete('schools/{school}', [SchoolController::class, 'destroy'])
+        ->middleware('permission:'. PermissionEnum::DELETE_EXAMS->value)
+        ->name('schools.destroy');
+    ###############################  End:Questions Routes  #####################################
+
 });
