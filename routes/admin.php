@@ -411,21 +411,25 @@ Route::middleware(['auth'])->name('admin.')->group(function () {
     ############################### Start:Questions Routes #####################################
     Route::middleware('permission:'. PermissionEnum::LIST_EXAMS->value)->group(function () {
         Route::get('question', [QuestionController::class, 'index'])->name('question.index');
-        Route::get('question/all', [QuestionController::class, 'getQuestionsData'])->name('schools.datatable');
+        Route::get('question/all', [QuestionController::class, 'getQuestionsData'])->name('question.datatable');
     });
 
-    Route::post('schools', [SchoolController::class, 'store'])
+    Route::middleware('permission:'. PermissionEnum::CREATE_EXAMS->value)->group(function () {
+        Route::get('get-banks-values', [QuestionController::class, 'getDataOfBankValue'])->name('question.get.data');
+    });
+
+    Route::post('question-store', [QuestionController::class, 'store'])
         ->middleware('permission:'. PermissionEnum::CREATE_EXAMS->value)
-        ->name('schools.store');
+        ->name('question.store');
 
     Route::middleware('permission:'. PermissionEnum::UPDATE_EXAMS->value)->group(function () {
-        Route::get('schools/{school}/edit', [SchoolController::class, 'edit'])->name('schools.edit');
-        Route::put('schools/{school}', [SchoolController::class, 'update'])->name('schools.update');
+        Route::get('question/{question}/edit', [QuestionController::class, 'edit'])->name('question.edit');
+        Route::put('question/{question}', [QuestionController::class, 'update'])->name('question.update');
     });
 
-    Route::delete('schools/{school}', [SchoolController::class, 'destroy'])
+    Route::delete('question/{question}', [QuestionController::class, 'destroy'])
         ->middleware('permission:'. PermissionEnum::DELETE_EXAMS->value)
-        ->name('schools.destroy');
+        ->name('question.destroy');
     ###############################  End:Questions Routes  #####################################
 
 });

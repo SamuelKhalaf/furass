@@ -1,5 +1,5 @@
 @extends('admin.layouts.master')
-@section('title', __('schools.title'))
+@section('title', __('questions.title'))
 @section('content')
     <div class="d-flex flex-column flex-column-fluid">
         <!--begin::Toolbar-->
@@ -9,7 +9,7 @@
                 <!--begin::Page title-->
                 <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
                     <!--begin::Title-->
-                    <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">{{ __('schools.list') }}</h1>
+                    <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">{{ __('questions.list') }}</h1>
                     <!--end::Title-->
                     <!--begin::Breadcrumb-->
                     <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
@@ -24,7 +24,7 @@
                         </li>
                         <!--end::Item-->
                         <!--begin::Item-->
-                        <li class="breadcrumb-item text-muted">{{ __('schools.title') }}</li>
+                        <li class="breadcrumb-item text-muted">{{ __('questions.title') }}</li>
                         <!--end::Item-->
                     </ul>
                     <!--end::Breadcrumb-->
@@ -48,7 +48,7 @@
                             <div class="d-flex align-items-center position-relative my-1">
                                 <span class="svg-icon svg-icon-1 position-absolute ms-6"><i class="fa-solid fa-magnifying-glass"></i></span>
                                 <input type="text" data-kt-user-table-filter="search"
-                                       class="form-control form-control-solid w-250px ps-14" placeholder="{{ __('schools.search') }}"/>
+                                       class="form-control form-control-solid w-250px ps-14" placeholder="{{ __('questions.search') }}"/>
                             </div>
                             <!--end::Search-->
                         </div>
@@ -61,7 +61,7 @@
                                     <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                                             data-bs-target="#kt_modal_add_school" id="add_question">
                                         <span class="svg-icon svg-icon-2"><i class="fa-solid fa-plus"></i></span>
-                                        {{ __('schools.create') }}
+                                        {{ __('questions.create') }}
                                     </button>
                                 @endif
                             </div>
@@ -78,10 +78,10 @@
                             <thead>
                             <!--begin::Table row-->
                             <tr class="text-gray-400 fw-bold fs-7 text-uppercase gs-0 text-center">
-                                <th class="min-w-200px">{{ __('schools.name') }}</th>
-                                <th class="min-w-125px">{{ __('schools.address') }}</th>
-                                <th class="min-w-125px">{{ __('schools.email') }}</th>
-                                <th class="min-w-100px">{{ __('schools.actions') }}</th>
+                                <th class="min-w-200px">{{ __('questions.text') }}</th>
+                                <th class="min-w-125px">{{ __('questions.question_value') }}</th>
+                                <th class="min-w-125px">{{ __('questions.question_bank') }}</th>
+                                <th class="min-w-100px">{{ __('questions.actions') }}</th>
                             </tr>
                             <!--end::Table row-->
                             </thead>
@@ -426,15 +426,41 @@
                 const element = document.getElementById('kt_modal_add_school');
                 const form = element.querySelector('#kt_modal_add_school_form');
                 const modal = new bootstrap.Modal(element);
-
+                const currentLocale = "{{ app()->getLocale() }}";
 
                 const populateListBank = (response) =>{
                     const selectBank = document.getElementById('list_bank');
+                    const dataBank = response.data.banks;
+                    dataBank.forEach(item =>{
+                        const option = document.createElement('option');
+                        option.value = item.id;
+                        option.textContent = item.name[currentLocale];
+                        selectBank.appendChild(option);
+                    })
+                }
+
+                const populateListValue = (response) =>{
+                    const selectValues = document.getElementById('list_value');
+                    const dataValues = response.data.values;
+                    dataValues.forEach(item =>{
+                        const option = document.createElement('option');
+                        option.value = item.id;
+                        option.textContent = item.name[currentLocale];
+                        selectValues.appendChild(option);
+                    })
                 }
 
                 document.getElementById('add_question').addEventListener('click', function () {
                         $.ajax({
-                            url:'',
+                            url:'get-banks-values',
+                            type:'GET',
+                            success:function (response) {
+                                populateListBank(response)
+                                populateListValue(response)
+                            },
+                            error:function (){
+                                console.error('error fetching question bank data')
+                            }
                         })
                 });
 
@@ -446,45 +472,31 @@
                         form,
                         {
                             fields: {
-                                'name': {
+                                'text_en': {
                                     validators: {
                                         notEmpty: {
-                                            message: 'School name is required'
+                                            message: 'Text English is required'
                                         }
                                     }
                                 },
-                                'email': {
+                                'text_ar': {
                                     validators: {
                                         notEmpty: {
-                                            message: 'Valid email address is required'
+                                            message: 'Text Arabic is required'
                                         }
                                     }
                                 },
-                                'phone_number': {
+                                'bank_id': {
                                     validators: {
                                         notEmpty: {
-                                            message: 'Valid phone number is required'
+                                            message: 'Bank Question is required'
                                         }
                                     }
                                 },
-                                'address': {
+                                'value_id': {
                                     validators: {
                                         notEmpty: {
-                                            message: 'Address field is required'
-                                        }
-                                    }
-                                },
-                                'password': {
-                                    validators: {
-                                        notEmpty: {
-                                            message: 'Password field is required'
-                                        }
-                                    }
-                                },
-                                'password_confirmation': {
-                                    validators: {
-                                        notEmpty: {
-                                            message: 'Confirm password field is required'
+                                            message: 'Value Question is required'
                                         }
                                     }
                                 },
@@ -672,25 +684,38 @@
                 const element = document.getElementById('kt_modal_update_school');
                 const form = element.querySelector('#kt_modal_update_school_form');
                 const modal = new bootstrap.Modal(element);
-
+                const currentLocale = "{{ app()->getLocale() }}";
                 // Function to populate the form with user data
                 var populateForm = (response) => {
-                    form.querySelector('[name="name"]').value = response.user.name || "";
-                    form.querySelector('[name="email"]').value = response.user.email || "";
-                    form.querySelector('[name="phone_number"]').value = response.user.phone_number || "";
-                    form.querySelector('[name="address"]').value = response.address || "";
-                    $("#kt_modal_update_school_form").attr("data-user-id", response.id);
+                    form.querySelector('[name="text_en"]').value = response.question.text['en'] || "";
+                    form.querySelector('[name="text_ar"]').value = response.question.text['ar'] || "";
+                    $("#kt_modal_update_school_form").attr("data-user-id", response.question.id);
 
-                    // check the user is active or not
-                    if (response.user.is_active && response.user.is_active === 1) {
-                        form.querySelector('[name="is_active"]').checked = true;
-                        form.querySelector('[name="is_active"]').value = 1;
-                        form.querySelector('.form-check-label').innerText = "Active";
-                    }else {
-                        form.querySelector('[name="is_active"]').checked = false;
-                        form.querySelector('[name="is_active"]').value = 0;
-                        form.querySelector('.form-check-label').innerText = "Inactive";
-                    }
+                    const select_values_update = document.getElementById('list_value_update');
+                    const values = response.values;
+
+                    values.forEach(function (value) {
+                        const option = document.createElement('option');
+                        option.value = value.id;
+                        option.textContent = value.name[currentLocale];
+                        if (value.id === response.question.value_id) {
+                            option.selected = true;
+                        }
+                        select_values_update.appendChild(option);
+                    });
+
+                    const select_banks_update = document.getElementById('list_bank_update');
+                    const banks = response.banks;
+
+                    banks.forEach(function (bank) {
+                        const option = document.createElement('option');
+                        option.value = bank.id;
+                        option.textContent = bank.name[currentLocale];
+                        if (bank.id === response.question.bank_id) {
+                            option.selected = true;
+                        }
+                        select_banks_update.appendChild(option);
+                    });
                 };
 
                 // Fetch user data when modal is opened
@@ -700,13 +725,13 @@
 
                     if (userId) {
                         $.ajax({
-                            url: `/schools/${userId}/edit`,
+                            url: `/question/${userId}/edit`,
                             type: "GET",
                             success: function (response) {
                                 populateForm(response);
                             },
                             error: function () {
-                                console.error("Error fetching school data");
+                                console.error("Error fetching question data");
                             }
                         });
                     }
@@ -719,34 +744,34 @@
                         form,
                         {
                             fields: {
-                                'name': {
+                                'text_en': {
                                     validators: {
                                         notEmpty: {
-                                            message: 'Full name is required'
+                                            message: 'Text English is required'
                                         }
                                     }
                                 },
-                                'email': {
+                                'text_ar': {
                                     validators: {
                                         notEmpty: {
-                                            message: 'Valid email address is required'
+                                            message: 'Text Arabic is required'
                                         }
                                     }
                                 },
-                                'phone_number': {
+                                'bank_id': {
                                     validators: {
                                         notEmpty: {
-                                            message: 'Valid phone number is required'
+                                            message: 'Bank Question is required'
                                         }
                                     }
                                 },
-                                'role': {
+                                'value_id': {
                                     validators: {
                                         notEmpty: {
-                                            message: 'role field is required'
+                                            message: 'Value Question is required'
                                         }
                                     }
-                                }
+                                },
                             },
                             plugins: {
                                 trigger: new FormValidation.plugins.Trigger(),
@@ -773,7 +798,7 @@
                                     // Get form data and send AJAX request
                                     let formData = new FormData(form);
                                     let userId = $('#kt_modal_update_school_form').data('user-id');
-                                    let updateUrl = `/schools/${userId}`;
+                                    let updateUrl = `/question/${userId}`;
                                     $.ajax({
                                         url: updateUrl,
                                         type: "POST",
@@ -893,7 +918,7 @@
         </script>
     @endif
 
-    @if(auth()->user()->hasPermissionTo(\App\Enums\PermissionEnum::DELETE_SCHOOLS->value))
+    @if(auth()->user()->hasPermissionTo(\App\Enums\PermissionEnum::DELETE_EXAMS->value))
         <script>
             // handle delete user
             $(document).on("click", '[data-kt-users-table-filter="delete_row"]', function (e) {
@@ -915,10 +940,11 @@
                 }).then(function (result) {
                     if (result.isConfirmed) {
                         $.ajax({
-                            url: "{{ route('admin.schools.destroy', ':id') }}".replace(':id', userId),
+                            url: "{{ route('admin.question.destroy', ':id') }}".replace(':id', userId),
                             type: 'DELETE',
                             data: {_token: '{{ csrf_token() }}'},
                             success: function (response) {
+                                console.log(response)
                                 if (response.success) {
                                     Swal.fire({
                                         text: response.message,

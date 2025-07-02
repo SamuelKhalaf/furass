@@ -230,5 +230,16 @@ enum PermissionEnum : string
         ];
     }
 
+    public static function ExamsPermissions(): array
+    {
+        return [
+            self::LIST_EXAMS->value,
+            self::CREATE_EXAMS->value,
+            self::UPDATE_EXAMS->value,
+            self::DELETE_EXAMS->value,
+        ];
+    }
+
+
 
 }

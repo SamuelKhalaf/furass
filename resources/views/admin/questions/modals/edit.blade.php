@@ -10,7 +10,7 @@
                 <!--begin::Modal header-->
                 <div class="modal-header" id="kt_modal_update_school_header">
                     <!--begin::Modal title-->
-                    <h2 class="fw-bold">{{ __('schools.modal.update_school') }}</h2>
+                    <h2 class="fw-bold">{{ __('questions.modal.update_question') }}</h2>
                     <!--end::Modal title-->
 
                     <!--begin::Close-->
@@ -32,80 +32,55 @@
                     <div class="d-flex flex-column scroll-y me-n7 pe-7" id="kt_modal_update_school_scroll" data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto" data-kt-scroll-dependencies="#kt_modal_update_school_header" data-kt-scroll-wrappers="#kt_modal_update_school_scroll" data-kt-scroll-offset="300px">
                         <!--begin::School form-->
                         <div id="kt_modal_update_school_school_info" class="collapse show">
-                            <!--begin::Input group-->
-                            <div class="fv-row mb-7">
-                                <!--begin::Label-->
-                                <label class="required fw-semibold fs-6 mb-2">{{ __('schools.modal.school_name') }}</label>
-                                <!--end::Label-->
-                                <!--begin::Input-->
-                                <input type="text" name="name" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="{{ __('schools.modal.enter_school_name') }}" required />
-                                <!--end::Input-->
-                            </div>
-                            <!--end::Input group-->
-                            <!--begin::Input group-->
-                            <div class="fv-row mb-7">
-                                <!--begin::Label-->
-                                <label class="required fw-semibold fs-6 mb-2">{{ __('schools.modal.email') }}</label>
-                                <!--end::Label-->
-                                <!--begin::Input-->
-                                <input type="email" name="email" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="{{ __('schools.modal.enter_email') }}" required />
-                                <!--end::Input-->
-                            </div>
-                            <!--end::Input group-->
-                            <!--begin::Input group-->
-                            <div class="fv-row mb-7">
-                                <!--begin::Label-->
-                                <label class="required fw-semibold fs-6 mb-2">{{ __('schools.modal.phone_number') }}</label>
-                                <!--end::Label-->
-                                <!--begin::Input-->
-                                <input type="text" name="phone_number" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="{{ __('schools.modal.enter_phone') }}" required />
-                                <!--end::Input-->
-                            </div>
-                            <!--end::Input group-->
-                            <!--begin::Input group-->
-                            <div class="fv-row mb-7 fv-plugins-icon-container">
-                                <!--begin::Wrapper-->
-                                <div class="d-flex flex-stack">
-                                    <!--begin::Label-->
-                                    <div class="me-5">
-                                        <label class="fs-6 fw-semibold">{{ __('users.modal.is_active') }}</label>
-                                        <div class="fs-7 fw-semibold text-muted">{{ __('users.modal.is_active_help') }}</div>
-                                    </div>
-                                    <!--end::Label-->
 
-                                    <!--begin::Switch-->
-                                    <label class="form-check form-switch form-check-custom form-check-solid">
-                                        <input class="form-check-input" type="checkbox" value="0" name="is_active">
-                                        <span class="form-check-label fw-semibold text-muted">
-                                        {{ __('users.modal.inactive') }}
-                                    </span>
-                                    </label>
-                                    <!--end::Switch-->
-                                </div>
-                                <!--end::Wrapper-->
-                            </div>
-                            <!--end::Input group-->
                             <!--begin::Input group-->
                             <div class="fv-row mb-7">
                                 <!--begin::Label-->
-                                <label class="required fw-semibold fs-6 mb-2">{{ __('schools.modal.address') }}</label>
+                                <label class="required fw-semibold fs-6 mb-2">{{ __('questions.modal.question_bank') }}</label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
-                                <textarea name="address" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="{{ __('schools.modal.enter_address') }}" required></textarea>
+                                <select name="bank_id" class="form-select form-control-solid" id="list_bank_update">
+                                    <option value="">{{ __('questions.modal.enter_question_bank') }}</option>
+                                </select>
                                 <!--end::Input-->
                             </div>
-                            <!--end::Input group-->
+
                             <!--begin::Input group-->
                             <div class="fv-row mb-7">
                                 <!--begin::Label-->
-                                <label class="fw-semibold fs-6 mb-2">{{ __('schools.modal.logo') }}</label>
+                                <label class="required fw-semibold fs-6 mb-2">{{ __('questions.modal.question_value') }}</label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
-                                <input type="file" name="logo" class="form-control form-control-solid mb-3 mb-lg-0"
-                                       accept="image/*"/>
+                                <select name="value_id" class="form-select form-control-solid" id="list_value_update">
+                                    <option value="">{{ __('questions.modal.enter_question_value') }}</option>
+                                </select>
+                                <!--end::Input-->
+                            </div>
+
+                            <!--begin::Input group-->
+                            <div class="fv-row mb-7">
+                                <!--begin::Label-->
+                                <label class="required fw-semibold fs-6 mb-2">{{ __('questions.modal.question_text_en') }}</label>
+                                <!--end::Label-->
+                                <!--begin::Input-->
+                                <input type="text" name="text_en" class="form-control form-control-solid mb-3 mb-lg-0"
+                                       placeholder="{{ __('questions.modal.enter_question_text') }}" required/>
                                 <!--end::Input-->
                             </div>
                             <!--end::Input group-->
+
+                            <!--begin::Input group-->
+                            <div class="fv-row mb-7">
+                                <!--begin::Label-->
+                                <label class="required fw-semibold fs-6 mb-2">{{ __('questions.modal.question_text_ar') }}</label>
+                                <!--end::Label-->
+                                <!--begin::Input-->
+                                <input type="text" name="text_ar" class="form-control form-control-solid mb-3 mb-lg-0"
+                                       placeholder="{{ __('questions.modal.enter_question_text') }}" required/>
+                                <!--end::Input-->
+                            </div>
+                            <!--end::Input group-->
+
                         </div>
                         <!--end::School form-->
                     </div>

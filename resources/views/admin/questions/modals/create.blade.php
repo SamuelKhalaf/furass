@@ -6,7 +6,7 @@
             <!--begin::Modal header-->
             <div class="modal-header" id="kt_modal_add_school_header">
                 <!--begin::Modal title-->
-                <h2 class="fw-bold">{{ __('schools.modal.add_school') }}</h2>
+                <h2 class="fw-bold">{{ __('questions.modal.add_question') }}</h2>
                 <!--end::Modal title-->
                 <!--begin::Close-->
                 <div class="btn btn-icon btn-sm btn-active-icon-primary" data-kt-users-modal-action="close">
@@ -27,7 +27,7 @@
             <!--begin::Modal body-->
             <div class="modal-body scroll-y mx-5 mx-xl-15 my-7">
                 <!--begin::Form-->
-                <form id="kt_modal_add_school_form" class="form" action="{{ route('admin.schools.store') }}" method="POST" enctype="multipart/form-data">
+                <form id="kt_modal_add_school_form" class="form" action="{{ route('admin.question.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <!--begin::Scroll-->
                     <div class="d-flex flex-column scroll-y me-n7 pe-7" id="kt_modal_add_school_scroll"
@@ -39,14 +39,11 @@
                         <!--begin::Input group-->
                         <div class="fv-row mb-7">
                             <!--begin::Label-->
-                            <label class="required fw-semibold fs-6 mb-2">{{ __('schools.modal.school_name') }}</label>
+                            <label class="required fw-semibold fs-6 mb-2">{{ __('questions.modal.question_bank') }}</label>
                             <!--end::Label-->
                             <!--begin::Input-->
-                            <select name="school_id" class="form-select form-control-solid" id="list_bank">
-                                <option value="">{{ __('students.modal.select_school') }}</option>
-                                @foreach($schools as $school)
-                                    <option value="{{ $school->id }}">{{ $school->user->name }}</option>
-                                @endforeach
+                            <select name="bank_id" class="form-select form-control-solid" id="list_bank">
+                                <option value="">{{ __('questions.modal.enter_question_bank') }}</option>
                             </select>
                             <!--end::Input-->
                         </div>
@@ -56,15 +53,12 @@
                         <!--begin::Input group-->
                         <div class="fv-row mb-7">
                             <!--begin::Label-->
-                            <label class="required fw-semibold fs-6 mb-2">{{ __('schools.modal.school_name') }}</label>
+                            <label class="required fw-semibold fs-6 mb-2">{{ __('questions.modal.question_value') }}</label>
                             <!--end::Label-->
                             <!--begin::Input-->
-{{--                            <select name="school_id" class="form-select form-control-solid">--}}
-{{--                                <option value="">{{ __('students.modal.select_school') }}</option>--}}
-{{--                                @foreach($schools as $school)--}}
-{{--                                    <option value="{{ $school->id }}">{{ $school->user->name }}</option>--}}
-{{--                                @endforeach--}}
-{{--                            </select>--}}
+                            <select name="value_id" class="form-select form-control-solid" id="list_value">
+                                <option value="">{{ __('questions.modal.enter_question_value') }}</option>
+                            </select>
                             <!--end::Input-->
                         </div>
 
@@ -72,11 +66,11 @@
                         <!--begin::Input group-->
                         <div class="fv-row mb-7">
                             <!--begin::Label-->
-                            <label class="required fw-semibold fs-6 mb-2">{{ __('schools.modal.school_name') }}</label>
+                            <label class="required fw-semibold fs-6 mb-2">{{ __('questions.modal.question_text_en') }}</label>
                             <!--end::Label-->
                             <!--begin::Input-->
-                            <input type="text" name="name" class="form-control form-control-solid mb-3 mb-lg-0"
-                                   placeholder="{{ __('schools.modal.enter_school_name') }}" required/>
+                            <input type="text" name="text_en" class="form-control form-control-solid mb-3 mb-lg-0"
+                                   placeholder="{{ __('questions.modal.enter_question_text') }}" required/>
                             <!--end::Input-->
                         </div>
                         <!--end::Input group-->
@@ -85,11 +79,11 @@
                         <!--begin::Input group-->
                         <div class="fv-row mb-7">
                             <!--begin::Label-->
-                            <label class="required fw-semibold fs-6 mb-2">{{ __('schools.modal.school_name') }}</label>
+                            <label class="required fw-semibold fs-6 mb-2">{{ __('questions.modal.question_text_ar') }}</label>
                             <!--end::Label-->
                             <!--begin::Input-->
-                            <input type="text" name="name" class="form-control form-control-solid mb-3 mb-lg-0"
-                                   placeholder="{{ __('schools.modal.enter_school_name') }}" required/>
+                            <input type="text" name="text_ar" class="form-control form-control-solid mb-3 mb-lg-0"
+                                   placeholder="{{ __('questions.modal.enter_question_text') }}" required/>
                             <!--end::Input-->
                         </div>
                         <!--end::Input group-->

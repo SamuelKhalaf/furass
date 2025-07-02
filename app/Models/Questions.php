@@ -20,6 +20,6 @@ class Questions extends Model
         return DB::table('questions')
             ->join('question_bank_types' , 'questions.bank_id' , '=' ,'question_bank_types.id')
             ->join('values_questions' , 'questions.value_id', '=' ,'values_questions.id')
-            ->get(['questions' , 'questions.text' , 'question_bank_types.name as bank' , 'values_questions.name as value']);
+            ->get(['questions.id' , 'questions.text' , 'question_bank_types.name as bank' , 'values_questions.name as value']);
     }
 }

@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Admin;
 use App\Enums\PermissionEnum;
 use App\Enums\RoleEnum;
 use App\Http\Controllers\Controller;
+use App\Models\QuestionBankType;
 use App\Models\Questions;
 use App\Models\School;
 use App\Models\User;
+use App\Models\ValuesQuestions;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -27,13 +29,16 @@ class QuestionController extends Controller
 
         return DataTables::of($questions)
             ->addColumn('text', function ($questions) {
-                return $questions->text[app()->getLocale()];
+                $text = json_decode($questions->text, true);
+                return $text[app()->getLocale()] ?? '';
             })
             ->addColumn('value', function ($questions) {
-                return $questions->value[app()->getLocale()];
+                $value = json_decode($questions->value, true);
+                return $value[app()->getLocale()] ?? '';
             })
             ->addColumn('bank', function ($questions) {
-                return $questions->bank[app()->getLocale()];
+                $bank = json_decode($questions->bank, true);
+                return $bank[app()->getLocale()] ?? '';
             })
             ->addColumn('actions', function ($questions) {
                 $actions = '';
@@ -73,59 +78,60 @@ class QuestionController extends Controller
             ->make(true);
     }
 
+    public function getDataOfBankValue()
+    {
+        try {
+            $banks = QuestionBankType::all();
+            $values = ValuesQuestions::all();
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Data retrieved successfully.',
+                'data' => [
+                    'banks' => $banks,
+                    'values' => $values
+                ]
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Failed to fetch data.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
-            'phone_number' => 'required|string|max:20|unique:users',
-            'address' => 'required|string',
-            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'is_active' => 'nullable|boolean',
+            'bank_id' => 'required|integer',
+            'value_id' => 'required|integer',
+            'text_en' => 'required|string|max:255',
+            'text_ar' => 'required|string|max:255',
         ]);
-
-        if ($request->has('is_active')) {
-            $is_active = $request->is_active;
-        } else {
-            $is_active = false;
-        }
 
         try {
             DB::beginTransaction();
-            $user = User::create([
-                'name'          => $request->name,
-                'email'         => $request->email,
-                'phone_number'  => $request->phone_number,
-                'role'          => RoleEnum::SCHOOL->value,
-                'password'      => Hash::make($request->password),
-                'is_active'     => $is_active
+
+            Questions::create([
+                'bank_id'=>$request->bank_id,
+                'value_id'=>$request->value_id,
+                'text'=>[
+                    'ar'=>$request->text_ar,
+                    'en'=>$request->text_en,
+                ],
             ]);
 
-            $user->assignRole(RoleEnum::SCHOOL->value);
-
-            $school = new School();
-
-            $school->user_id = $user->id;
-            $school->address = $request->address;
-
-            if ($request->hasFile('logo')) {
-                $logo = $request->file('logo');
-                $logoName = time() . '.' . $logo->getClientOriginalExtension();
-                $logo->storeAs('public/schools/logos', $logoName);
-                $school->logo = 'schools/logos/' . $logoName;
-            }
-            $school->save();
             DB::commit();
             if ($request->ajax()) {
-                return response()->json(['message' => 'School created successfully']);
+                return response()->json(['message' => 'Question created successfully']);
             }
 
             return redirect()->back()->with('success', 'Your Partnership requested successfully');
         } catch (\Exception $e) {
             DB::rollBack();
             if ($request->ajax()) {
-                return response()->json(['message' => 'Error creating school'], 500);
+                return response()->json(['message' => 'Error creating Question'], 500);
             }
 
             return redirect()->back()->with('error', 'Something went wrong. Please try again.');        }
@@ -133,75 +139,59 @@ class QuestionController extends Controller
 
     public function edit(string $id)
     {
-        $school = School::with(['user'])->findOrFail($id);
-        return response()->json($school);
+        $banks = QuestionBankType::all();
+        $values = ValuesQuestions::all();
+        $question = Questions::findOrFail($id);
+
+        return response()->json([
+            'question'=>$question,
+            'banks'=>$banks,
+            'values'=>$values
+        ]);
     }
 
-    public function update(Request $request, School $school)
+    public function update(Request $request, $question)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,' . $school->user_id,
-            'phone_number' => 'required|string|max:20|unique:users,phone_number,' . $school->user_id,
-            'address' => 'required|string',
-            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'is_active' => 'nullable|boolean',
+            'bank_id' => 'required|integer',
+            'value_id' => 'required|integer',
+            'text_en' => 'required|string|max:255',
+            'text_ar' => 'required|string|max:255',
         ]);
 
-        if ($request->has('is_active')) {
-            $is_active = $request->is_active;
-        } else {
-            $is_active = false;
-        }
         try {
             DB::beginTransaction();
-
-            $user = $school->user;
-            $user->name = $request->name;
-            $user->email = $request->email;
-            $user->phone_number = $request->phone_number;
-            $user->is_active = $is_active;
-            $user->save();
-
-            $school->address = $request->address;
-
-            if ($request->hasFile('logo')) {
-                if ($school->logo) {
-                    Storage::delete('public/' . $school->logo);
-                }
-
-                $logo = $request->file('logo');
-                $logoName = time() . '.' . $logo->getClientOriginalExtension();
-                $logo->storeAs('public/schools/logos', $logoName);
-                $school->logo = 'schools/logos/' . $logoName;
-            }
-            $school->save();
+            $question = Questions::findOrFail($question);
+            $question->update([
+                'bank_id'=>$request->bank_id,
+                'value_id'=>$request->value_id,
+                'text'=>[
+                    'ar'=>$request->text_ar,
+                    'en'=>$request->text_en,
+                ],
+            ]);
             DB::commit();
 
-            return response()->json(['message' => 'School updated successfully']);
+            return response()->json(['message' => 'Question updated successfully']);
         } catch (\Exception $e) {
             DB::rollBack();
-            return response()->json(['message' => 'Error updating School'] , 500);
+            return response()->json(['message' => 'Error updating Question'] , 500);
         }
 
     }
 
-    public function destroy(School $school)
+    public function destroy($question)
     {
         try {
             DB::beginTransaction();
 
-            if ($school->logo) {
-                Storage::delete('public/' . $school->logo);
-            }
-            $school->user->delete();
-            $school->delete();
+            Questions::findOrFail($question)->delete();
 
             DB::commit();
-            return response()->json(['success' => true, 'message' => 'School deleted successfully.']);
+            return response()->json(['success' => true, 'message' => 'question deleted successfully.']);
         } catch (\Exception $e) {
             DB::rollBack();
-            return response()->json(['success' => false, 'message' => 'Error deleting School.'] , 500);
+            return response()->json(['success' => false, 'message' => 'Error deleting question.'] , 500);
         }
     }
 
