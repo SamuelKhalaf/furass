@@ -23,6 +23,8 @@ use App\Http\Controllers\Admin\TripsController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\ValuesQuestionsController;
 use App\Http\Controllers\Admin\WorkshopsController;
+use App\Http\Controllers\EnrollmentController;
+use App\Http\Controllers\StudentProgramController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -211,6 +213,12 @@ Route::middleware(['auth'])->name('admin.')->group(function () {
     Route::middleware('permission:'. PermissionEnum::UPDATE_PROGRAMS->value)->group(function () {
         Route::get('programs/{program}/edit', [ProgramsController::class, 'edit'])->name('programs.edit');
         Route::put('programs/{program}', [ProgramsController::class, 'update'])->name('programs.update');
+    });
+
+    // We don't need to assign permissions for this route coz it has the school middleware
+    Route::middleware(['school'])->group(function () {
+        Route::get('programs/enroll', [EnrollmentController::class, 'showProgramAssignment'])->name('programs.enroll');
+        Route::post('programs/enroll', [EnrollmentController::class, 'assignPrograms'])->name('programs.enroll.store');
     });
     ###############################  End:Programs Routes  #####################################
 
