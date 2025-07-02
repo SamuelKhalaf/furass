@@ -84,6 +84,12 @@ enum PermissionEnum : string
     case UPDATE_PAGES = 'Update Pages';
     case DELETE_PAGES = 'Delete Pages';
 
+    // exams Permissions
+    case LIST_EXAMS   = 'List Exams';
+    case CREATE_EXAMS = 'Create Exams';
+    case UPDATE_EXAMS = 'Update Exams';
+    case DELETE_EXAMS = 'Delete Exams';
+
     // Notification Permissions
 
     case SEND_NOTIFICATIONS = 'Send Notifications';
@@ -223,6 +229,17 @@ enum PermissionEnum : string
             self::DELETE_NEWS->value,
         ];
     }
+
+    public static function ExamsPermissions(): array
+    {
+        return [
+            self::LIST_EXAMS->value,
+            self::CREATE_EXAMS->value,
+            self::UPDATE_EXAMS->value,
+            self::DELETE_EXAMS->value,
+        ];
+    }
+
 
 
 }

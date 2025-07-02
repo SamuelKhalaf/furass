@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\PagesController;
 use App\Http\Controllers\Admin\PermissionsController;
 use App\Http\Controllers\Admin\ProgramsController;
 use App\Http\Controllers\Admin\QuestionBankTypeController;
+use App\Http\Controllers\Admin\QuestionController;
 use App\Http\Controllers\Admin\RolesController;
 use App\Http\Controllers\Admin\SchoolController;
 use App\Http\Controllers\Admin\SettingController;
@@ -406,4 +407,29 @@ Route::middleware(['auth'])->name('admin.')->group(function () {
     });
 
     ###############################  End:setting Routes  #####################################
+
+    ############################### Start:Questions Routes #####################################
+    Route::middleware('permission:'. PermissionEnum::LIST_EXAMS->value)->group(function () {
+        Route::get('question', [QuestionController::class, 'index'])->name('question.index');
+        Route::get('question/all', [QuestionController::class, 'getQuestionsData'])->name('question.datatable');
+    });
+
+    Route::middleware('permission:'. PermissionEnum::CREATE_EXAMS->value)->group(function () {
+        Route::get('get-banks-values', [QuestionController::class, 'getDataOfBankValue'])->name('question.get.data');
+    });
+
+    Route::post('question-store', [QuestionController::class, 'store'])
+        ->middleware('permission:'. PermissionEnum::CREATE_EXAMS->value)
+        ->name('question.store');
+
+    Route::middleware('permission:'. PermissionEnum::UPDATE_EXAMS->value)->group(function () {
+        Route::get('question/{question}/edit', [QuestionController::class, 'edit'])->name('question.edit');
+        Route::put('question/{question}', [QuestionController::class, 'update'])->name('question.update');
+    });
+
+    Route::delete('question/{question}', [QuestionController::class, 'destroy'])
+        ->middleware('permission:'. PermissionEnum::DELETE_EXAMS->value)
+        ->name('question.destroy');
+    ###############################  End:Questions Routes  #####################################
+
 });
