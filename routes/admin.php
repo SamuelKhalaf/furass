@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\PermissionEnum;
+use App\Enums\RoleEnum;
 use App\Http\Controllers\Admin\CalendarController;
 use App\Http\Controllers\Admin\CategoryOfExamController;
 use App\Http\Controllers\Admin\CkeditorController;
@@ -208,6 +209,10 @@ Route::middleware(['auth'])->name('admin.')->group(function () {
     Route::middleware('permission:'. PermissionEnum::LIST_PROGRAMS->value)->group(function () {
         Route::get('programs', [ProgramsController::class, 'index'])->name('programs.index');
         Route::get('programs/all', [ProgramsController::class, 'getProgramsData'])->name('programs.datatable');
+    });
+
+    Route::middleware('role:' . RoleEnum::STUDENT->value)->group(function () {
+        Route::get('programs/student/{program}', [ProgramsController::class, 'studentShow'])->name('programs.student_show');
     });
 
     Route::middleware('permission:'. PermissionEnum::UPDATE_PROGRAMS->value)->group(function () {
