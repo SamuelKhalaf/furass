@@ -112,6 +112,11 @@
         @include('admin.question_bank_type.modals.edit')
         <!--end::Modal - Update user-->
     @endif
+    @if(auth()->user()->hasPermissionTo(\App\Enums\PermissionEnum::UPDATE_SCHOOLS->value))
+        <!--begin::Modal - Update user-->
+        @include('admin.question_bank_type.modals.add_question')
+        <!--end::Modal - Update user-->
+    @endif
 @endsection
 @section('scripts')
     @if(auth()->user()->hasPermissionTo(\App\Enums\PermissionEnum::LIST_SCHOOLS->value))
@@ -409,7 +414,7 @@
         </script>
     @endif
 
-    @if(auth()->user()->hasPermissionTo(\App\Enums\PermissionEnum::CREATE_SCHOOLS->value))
+    @if(auth()->user()->hasPermissionTo(\App\Enums\PermissionEnum::CREATE_EXAMS->value))
         <script>
             "use strict";
 
@@ -428,45 +433,24 @@
                         form,
                         {
                             fields: {
-                                'name': {
+                                'name_ar': {
                                     validators: {
                                         notEmpty: {
-                                            message: 'School name is required'
+                                            message: 'Arabic name is required'
                                         }
                                     }
                                 },
-                                'email': {
+                                'name_en': {
                                     validators: {
                                         notEmpty: {
-                                            message: 'Valid email address is required'
+                                            message: 'English name is required'
                                         }
                                     }
                                 },
-                                'phone_number': {
+                                'value_id[]': {
                                     validators: {
                                         notEmpty: {
-                                            message: 'Valid phone number is required'
-                                        }
-                                    }
-                                },
-                                'address': {
-                                    validators: {
-                                        notEmpty: {
-                                            message: 'Address field is required'
-                                        }
-                                    }
-                                },
-                                'password': {
-                                    validators: {
-                                        notEmpty: {
-                                            message: 'Password field is required'
-                                        }
-                                    }
-                                },
-                                'password_confirmation': {
-                                    validators: {
-                                        notEmpty: {
-                                            message: 'Confirm password field is required'
+                                            message: 'At least one value must be selected'
                                         }
                                     }
                                 },
@@ -644,7 +628,7 @@
         </script>
     @endif
 
-    @if(auth()->user()->hasPermissionTo(\App\Enums\PermissionEnum::UPDATE_SCHOOLS->value))
+    @if(auth()->user()->hasPermissionTo(\App\Enums\PermissionEnum::UPDATE_EXAMS->value))
         <script>
             "use strict";
 
@@ -653,12 +637,101 @@
                 // Shared variables
                 const element = document.getElementById('kt_modal_update_school');
                 const form = element.querySelector('#kt_modal_update_school_form');
+                const currentLocale = "{{ app()->getLocale() }}";
                 const modal = new bootstrap.Modal(element);
                 // Function to populate the form with user data
                 var populateForm = (response) => {
-                    form.querySelector('[name="name_ar"]').value = response.name.ar || "";
-                    form.querySelector('[name="name_en"]').value = response.name.en || "";
-                    $("#kt_modal_update_school_form").attr("data-user-id", response.id);
+                    form.querySelector('[name="name_ar"]').value = response.question_bank.name.ar || "";
+                    form.querySelector('[name="name_en"]').value = response.question_bank.name.en || "";
+                    $("#kt_modal_update_school_form").attr("data-user-id", response.question_bank.id);
+
+                    const percentagesContainer = document.getElementById('percentages-container-update');
+                    percentagesContainer.innerHTML = '';
+                    response.bank_values.forEach(option => {
+                        const div = document.createElement('div');
+                        div.classList.add('form-group', 'mb-2');
+
+                        const valueName = JSON.parse(option.value_name);
+                        div.innerHTML = `
+                            <label class="required fw-semibold fs-6 mb-2">
+                                ${valueName[currentLocale]} Percentage
+                            </label>
+                            <input type="text"
+                                   name="percentages[${option.value_id}]"
+                                   value="${option.percentage}"
+                                   class="form-control form-control-solid mb-3 mb-lg-0"
+                                   placeholder="Enter percentage for ${valueName[currentLocale]}">
+                        `;
+                        percentagesContainer.appendChild(div);
+                    });
+
+                    /*select new values*/
+                    const select_values_update = document.getElementById('list_value_update');
+                    const values = response.new_values;
+
+                    select_values_update.innerHTML = ''; // clear old options
+
+                    const placeholder = document.createElement('option');
+                    select_values_update.appendChild(placeholder);
+                    values.forEach(function (value) {
+                        const option = document.createElement('option');
+                        option.value = value.id;
+                        option.textContent = value.name[currentLocale];
+
+                        select_values_update.appendChild(option);
+                    });
+
+
+                    //new values percentage
+                    const percentagesContainerNew = document.getElementById('percentages-container-new');
+                    const valueSelect = document.getElementById('list_value_update');
+
+
+                    // Add a percentage input for each selected option
+                    valueSelect.addEventListener('change', function () {
+                        percentagesContainerNew.innerHTML = '';
+                        const selectedOptions = Array.from(valueSelect.selectedOptions).map(opt => ({
+                            id: opt.value,
+                            text: opt.text
+                        }));
+
+                        selectedOptions.forEach(option => {
+                            const div = document.createElement('div');
+                            div.classList.add('form-group', 'mb-2');
+                            div.innerHTML = `
+                            <label class="required fw-semibold fs-6 mb-2">${option.text} Percentage</label>
+                            <input type="text" name="percentages[${option.id}]" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Enter percentage for ${option.text}">
+                              `;
+                            percentagesContainerNew.appendChild(div);
+                        });
+
+                        // Add to validator
+                        validator.addField(`percentages[${option.id}]`, {
+                            validators: {
+                                notEmpty: {
+                                    message: 'Percentage is required'
+                                },
+                                numeric: {
+                                    message: 'Percentage must be a number'
+                                },
+                                between: {
+                                    min: 0,
+                                    max: 100,
+                                    message: 'Percentage must be between 0 and 100'
+                                }
+                            }
+                        });
+
+                    });
+
+                    validator.getFields().forEach(field => {
+                        if (field.startsWith('percentages[')) {
+                            const fieldId = field.match(/percentages\[(\d+)\]/)[1];
+                            if (!selectedOptions.some(opt => opt.id === fieldId)) {
+                                validator.removeField(field);
+                            }
+                        }
+                    });
                 };
 
                 // Fetch user data when modal is opened
@@ -671,6 +744,7 @@
                             url: `questionBank/${questionBank}/edit`,
                             type: "GET",
                             success: function (response) {
+                                console.log(response.new_values)
                                 populateForm(response);
                             },
                             error: function () {
@@ -848,7 +922,233 @@
         </script>
     @endif
 
-    @if(auth()->user()->hasPermissionTo(\App\Enums\PermissionEnum::DELETE_SCHOOLS->value))
+    @if(auth()->user()->hasPermissionTo(\App\Enums\PermissionEnum::UPDATE_EXAMS->value))
+        <script>
+            "use strict";
+
+            // Class definition
+            var KTUAddQuestion = function () {
+                // Shared variables
+                const element = document.getElementById('kt_crud_question');
+                const form = element.querySelector('#kt_crud_question_form');
+                const currentLocale = "{{ app()->getLocale() }}";
+                const modal = new bootstrap.Modal(element);
+
+
+
+                // Function to populate the form with user data
+                var populateForm = (response) => {
+                    /*select new values*/
+                    const related_value = document.getElementById('related_value_id');
+                    const values = response.related_bank_values;
+
+                    related_value.innerHTML = ''; // clear old options
+
+                    const placeholder = document.createElement('option');
+                    placeholder.value = "";
+                    placeholder.textContent = 'select value'
+                    related_value.appendChild(placeholder);
+                    values.forEach(function (value) {
+                        const option = document.createElement('option');
+                        option.value = value.value_id;
+                        const localizedName = JSON.parse(value.value_name);
+                        option.textContent = localizedName[currentLocale] || '';
+
+                        related_value.appendChild(option);
+                    });
+
+                };
+
+                // Fetch user data when modal is opened
+                element.addEventListener('show.bs.modal', function (event) {
+                    let button = event.relatedTarget;
+                    let questionBank = button.getAttribute('data-user-id');
+
+                    if (questionBank) {
+                        $.ajax({
+                            url: `related-bank-values/${questionBank}`,
+                            type: "GET",
+                            success: function (response) {
+                                console.log(response)
+                                populateForm(response);
+                            },
+                            error: function () {
+                                console.error("Error fetching school data");
+                            }
+                        });
+                    }
+                });
+
+                // Init update user modal
+                var initUpdateDetails = () => {
+                    // Init form validation
+                    var validator = FormValidation.formValidation(
+                        form,
+                        {
+                            fields: {
+                                'questions[][ar]': {
+                                    selector: 'input[name^="questions"][name$="[ar]"]',
+                                    validators: {
+                                        notEmpty: {
+                                            message: 'Arabic question is required'
+                                        }
+                                    }
+                                },
+                                'questions[][en]': {
+                                    selector: 'input[name^="questions"][name$="[en]"]',
+                                    validators: {
+                                        notEmpty: {
+                                            message: 'English question is required'
+                                        }
+                                    }
+                                },
+                            },
+                            plugins: {
+                                trigger: new FormValidation.plugins.Trigger(),
+                                bootstrap: new FormValidation.plugins.Bootstrap5({
+                                    rowSelector: '.fv-row',
+                                    eleInvalidClass: '',
+                                    eleValidClass: ''
+                                })
+                            }
+                        }
+                    );
+
+                    // Submit button handler
+                    const submitButton = element.querySelector('[data-kt-users-modal-action="submit"]');
+                    submitButton.addEventListener('click', e => {
+                        e.preventDefault();
+
+                        if (validator) {
+                            validator.validate().then(function (status) {
+                                if (status === 'Valid') {
+                                    submitButton.setAttribute('data-kt-indicator', 'on');
+                                    submitButton.disabled = true;
+
+                                    // Get form data and send AJAX request
+                                    let formData = new FormData(form);
+                                    let userId = $('#kt_crud_question_form').data('user-id');
+                                    let updateUrl = `/add-question-store/${userId}`;
+                                    $.ajax({
+                                        url: updateUrl,
+                                        type: "POST",
+                                        data: formData,
+                                        processData: false,
+                                        contentType: false,
+                                        success: function (response) {
+                                            submitButton.removeAttribute('data-kt-indicator');
+                                            submitButton.disabled = false;
+
+                                            Swal.fire({
+                                                text: response.message,
+                                                icon: "success",
+                                                buttonsStyling: false,
+                                                confirmButtonText: "Ok, got it!",
+                                                customClass: {
+                                                    confirmButton: "btn btn-primary"
+                                                }
+                                            }).then(function (result) {
+                                                if (result.isConfirmed) {
+                                                    form.reset();
+                                                    modal.hide();
+                                                    location.reload();
+                                                }
+                                            });
+                                        },
+                                        error: function (xhr) {
+                                            submitButton.removeAttribute('data-kt-indicator');
+                                            submitButton.disabled = false;
+
+                                            let errorMessage = "Something went wrong! Please try again later.";
+
+                                            if (xhr.responseJSON && xhr.responseJSON.errors) {
+                                                errorMessage = Object.values(xhr.responseJSON.errors).join("\n");
+                                            }
+
+                                            Swal.fire({
+                                                text: errorMessage,
+                                                icon: "error",
+                                                buttonsStyling: false,
+                                                confirmButtonText: "Ok, got it!",
+                                                customClass: {
+                                                    confirmButton: "btn btn-primary"
+                                                }
+                                            });
+                                        }
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        text: "Please fix the errors and try again.",
+                                        icon: "error",
+                                        buttonsStyling: false,
+                                        confirmButtonText: "Ok, got it!",
+                                        customClass: {
+                                            confirmButton: "btn btn-primary"
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                    });
+
+                    // Cancel button handler (Shared logic with close button)
+                    const cancelButton = element.querySelector('[data-kt-users-modal-action="cancel"]');
+                    cancelButton.addEventListener('click', resetAndCloseModal);
+
+                    // Close button handler
+                    const closeButton = element.querySelector('[data-kt-users-modal-action="close"]');
+                    closeButton.addEventListener('click', resetAndCloseModal);
+
+                    function resetAndCloseModal(e) {
+                        e.preventDefault();
+
+                        Swal.fire({
+                            text: "Are you sure you would like to cancel?",
+                            icon: "warning",
+                            showCancelButton: true,
+                            buttonsStyling: false,
+                            confirmButtonText: "Yes, cancel it!",
+                            cancelButtonText: "No, return",
+                            customClass: {
+                                confirmButton: "btn btn-primary",
+                                cancelButton: "btn btn-active-light"
+                            }
+                        }).then(function (result) {
+                            if (result.value) {
+                                form.reset();
+                                modal.hide();
+                            } else if (result.dismiss === 'cancel') {
+                                Swal.fire({
+                                    text: "Your form has not been cancelled!.",
+                                    icon: "error",
+                                    buttonsStyling: false,
+                                    confirmButtonText: "Ok, got it!",
+                                    customClass: {
+                                        confirmButton: "btn btn-primary",
+                                    }
+                                });
+                            }
+                        });
+                    }
+                }
+
+                return {
+                    // Public functions
+                    init: function () {
+                        initUpdateDetails();
+                    }
+                };
+            }();
+
+            // On document ready
+            KTUtil.onDOMContentLoaded(function () {
+                KTUAddQuestion.init();
+            });
+
+        </script>
+    @endif
+
+    @if(auth()->user()->hasPermissionTo(\App\Enums\PermissionEnum::DELETE_EXAMS->value))
         <script>
             // handle delete user
             $(document).on("click", '[data-kt-users-table-filter="delete_row"]', function (e) {

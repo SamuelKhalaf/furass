@@ -178,7 +178,7 @@
                     datatable = $(table).DataTable({
                         processing: true,
                         serverSide: true,
-                        ajax: "/question/all",
+                        ajax: "/question/{{$bank_id}}/all",
                         columns: [
                             {
                                 data: 'text',
@@ -428,34 +428,24 @@
                 const modal = new bootstrap.Modal(element);
                 const currentLocale = "{{ app()->getLocale() }}";
 
-                const populateListBank = (response) =>{
-                    const selectBank = document.getElementById('list_bank');
-                    const dataBank = response.data.banks;
-                    dataBank.forEach(item =>{
-                        const option = document.createElement('option');
-                        option.value = item.id;
-                        option.textContent = item.name[currentLocale];
-                        selectBank.appendChild(option);
-                    })
-                }
-
                 const populateListValue = (response) =>{
                     const selectValues = document.getElementById('list_value');
-                    const dataValues = response.data.values;
+                    const dataValues = response.values;
                     dataValues.forEach(item =>{
                         const option = document.createElement('option');
-                        option.value = item.id;
-                        option.textContent = item.name[currentLocale];
+                        option.value = item.value_id;
+                        const localizedName = JSON.parse(item.value_name);
+                        option.textContent = localizedName[currentLocale];
                         selectValues.appendChild(option);
                     })
                 }
 
                 document.getElementById('add_question').addEventListener('click', function () {
                         $.ajax({
-                            url:'get-banks-values',
+                            url:'get-banks-values/{{$bank_id}}',
                             type:'GET',
                             success:function (response) {
-                                populateListBank(response)
+                                console.log(response)
                                 populateListValue(response)
                             },
                             error:function (){
@@ -534,6 +524,7 @@
                                         data: formData,
                                         processData: false,
                                         contentType: false,
+                                        dataType: 'json',
                                         success: function (response) {
                                             submitButton.removeAttribute("data-kt-indicator");
                                             submitButton.disabled = false;
@@ -685,7 +676,7 @@
                 const form = element.querySelector('#kt_modal_update_school_form');
                 const modal = new bootstrap.Modal(element);
                 const currentLocale = "{{ app()->getLocale() }}";
-                // Function to populate the form with user data
+
                 var populateForm = (response) => {
                     form.querySelector('[name="text_en"]').value = response.question.text['en'] || "";
                     form.querySelector('[name="text_ar"]').value = response.question.text['ar'] || "";
@@ -693,29 +684,18 @@
 
                     const select_values_update = document.getElementById('list_value_update');
                     const values = response.values;
-
+                    select_values_update.innerHTML = '';
                     values.forEach(function (value) {
                         const option = document.createElement('option');
-                        option.value = value.id;
-                        option.textContent = value.name[currentLocale];
-                        if (value.id === response.question.value_id) {
+                        option.value = value.value_id;
+                        const localizedName = JSON.parse(value.value_name);
+                        option.textContent = localizedName[currentLocale];
+                        if (value.value_id === response.question.value_id) {
                             option.selected = true;
                         }
                         select_values_update.appendChild(option);
                     });
 
-                    const select_banks_update = document.getElementById('list_bank_update');
-                    const banks = response.banks;
-
-                    banks.forEach(function (bank) {
-                        const option = document.createElement('option');
-                        option.value = bank.id;
-                        option.textContent = bank.name[currentLocale];
-                        if (bank.id === response.question.bank_id) {
-                            option.selected = true;
-                        }
-                        select_banks_update.appendChild(option);
-                    });
                 };
 
                 // Fetch user data when modal is opened
@@ -725,9 +705,10 @@
 
                     if (userId) {
                         $.ajax({
-                            url: `/question/${userId}/edit`,
+                            url: `/question/${userId}/{{$bank_id}}/edit`,
                             type: "GET",
                             success: function (response) {
+                                console.log(response.question.id)
                                 populateForm(response);
                             },
                             error: function () {
@@ -787,6 +768,7 @@
                     // Submit button handler
                     const submitButton = element.querySelector('[data-kt-users-modal-action="submit"]');
                     submitButton.addEventListener('click', e => {
+                        console.log('stop');
                         e.preventDefault();
 
                         if (validator) {
@@ -797,8 +779,9 @@
 
                                     // Get form data and send AJAX request
                                     let formData = new FormData(form);
-                                    let userId = $('#kt_modal_update_school_form').data('user-id');
-                                    let updateUrl = `/question/${userId}`;
+                                    let question = $('#kt_modal_update_school_form').attr('data-user-id');
+                                    console.log(question)
+                                    let updateUrl = `/update-question/11`;
                                     $.ajax({
                                         url: updateUrl,
                                         type: "POST",

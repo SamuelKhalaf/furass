@@ -35,21 +35,7 @@
                          data-kt-scroll-max-height="auto" data-kt-scroll-dependencies="#kt_modal_add_school_header"
                          data-kt-scroll-wrappers="#kt_modal_add_school_scroll" data-kt-scroll-offset="300px">
 
-
-                        <!--begin::Input group-->
-                        <div class="fv-row mb-7">
-                            <!--begin::Label-->
-                            <label class="required fw-semibold fs-6 mb-2">{{ __('questions.modal.question_bank') }}</label>
-                            <!--end::Label-->
-                            <!--begin::Input-->
-                            <select name="bank_id" class="form-select form-control-solid" id="list_bank">
-                                <option value="">{{ __('questions.modal.enter_question_bank') }}</option>
-                            </select>
-                            <!--end::Input-->
-                        </div>
-
-
-
+                        <input type="hidden" name="bank_id" value="{{$bank_id}}">
                         <!--begin::Input group-->
                         <div class="fv-row mb-7">
                             <!--begin::Label-->
@@ -62,7 +48,6 @@
                             <!--end::Input-->
                         </div>
 
-
                         <!--begin::Input group-->
                         <div class="fv-row mb-7">
                             <!--begin::Label-->
@@ -74,7 +59,6 @@
                             <!--end::Input-->
                         </div>
                         <!--end::Input group-->
-
 
                         <!--begin::Input group-->
                         <div class="fv-row mb-7">
@@ -112,18 +96,4 @@
     <!--end::Modal dialog-->
 </div>
 @push('scripts')
-    <script>
-        // this part for change the user active text muted word
-        $(document).ready(function () {
-            $('input[name="is_active"]').on('change', function () {
-                if ($(this).is(':checked')) {
-                    $(this).val(1);
-                    $(this).closest('.form-check').find('.form-check-label').text('{{ __('users.modal.active') }}');
-                } else {
-                    $(this).val(0);
-                    $(this).closest('.form-check').find('.form-check-label').text('{{ __('users.modal.inactive') }}');
-                }
-            });
-        });
-    </script>
 @endpush

@@ -250,7 +250,7 @@
                             </div>
 
 
-                            <div class="menu-item {{setMenuOpenClass(['admin.question.index'])}}">
+                         {{--   <div class="menu-item {{setMenuOpenClass(['admin.question.index'])}}">
                                 <!--begin:Menu link-->
                                 <a class="menu-link {{setActiveClass('admin.question.index')}}"
                                    href="{{route('admin.question.index')}}">
@@ -260,7 +260,7 @@
                                     <span class="menu-title">{{ __('questions.title') }}</span>
                                 </a>
                                 <!--end:Menu link-->
-                            </div>
+                            </div>--}}
                         </div>
                     </div>
                 @endif

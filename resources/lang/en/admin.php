@@ -181,6 +181,7 @@ return [
         'questionBank_en' => 'name',
         'questionBank_ar' => 'الاسم',
         'add' => 'Add Question Bank Type',
+        'add_question' => 'Add Questions',
 
     ],
 

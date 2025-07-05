@@ -10,7 +10,7 @@
                 <!--begin::Modal header-->
                 <div class="modal-header" id="kt_modal_update_school_header">
                     <!--begin::Modal title-->
-                    <h2 class="fw-bold">Update School Details</h2>
+                    <h2 class="fw-bold">Update Question Bank Details</h2>
                     <!--end::Modal title-->
 
                     <!--begin::Close-->
@@ -44,12 +44,26 @@
                             <!--end::Input group-->
                             <div class="fv-row mb-7">
                                 <!--begin::Label-->
-                                <label class="required fw-semibold fs-6 mb-2">Category Name_en</label>
+                                <label class="required fw-semibold fs-6 mb-2">Name_en</label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
                                 <input type="text" name="name_en" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="School name" required />
                                 <!--end::Input-->
                             </div>
+
+                            {{--old values --}}
+                            <div id="percentages-container-update" class="mt-3"></div>
+                            {{--select new valus--}}
+                            <div class="fv-row mb-7">
+                                <label class="required fw-semibold fs-6 mb-2">
+                                    {{ __('questions.modal.question_value') }}
+                                </label>
+                                <select name="value_id[]" class="form-select form-control-solid" id="list_value_update" multiple>
+                                </select>
+                            </div>
+
+                            <div id="percentages-container-new" class="mt-3"></div>
+
                         </div>
                         <!--end::School form-->
                     </div>
@@ -82,3 +96,4 @@
         </div>
     </div>
 </div>
+
