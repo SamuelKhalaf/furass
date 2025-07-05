@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Enums\PermissionEnum;
+use App\Enums\RoleEnum;
 use App\Http\Controllers\Controller;
 use App\Models\PathPoint;
 use App\Models\Program;
+use App\Models\Student;
 use App\Rules\ValidPathPoint;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
@@ -14,6 +16,18 @@ class ProgramsController extends Controller
 {
     public function index()
     {
+        $user = auth()->user();
+        if ($user->hasRole(RoleEnum::STUDENT->value)) {
+            // Get the student model for this user
+            $student = Student::where('user_id', $user->id)
+                ->with(['enrollments.program'])
+                ->first();
+            $enrollments = $student ? $student->enrollments : collect();
+            return view('admin.programs.student_enrollments', [
+                'student' => $student,
+                'enrollments' => $enrollments,
+            ]);
+        }
         return view('admin.programs.index');
     }
 
@@ -132,5 +146,24 @@ class ProgramsController extends Controller
                 'message' => __('Error updating program')
             ], 500);
         }
+    }
+
+    /**
+     * Show the program path and details for a student in a program
+     */
+    public function studentShow($programId)
+    {
+        $user = auth()->user();
+        $student = Student::where('user_id', $user->id)->firstOrFail();
+        $program = Program::with(['pathPoints' => function($q) {
+            $q->orderBy('pivot_order');
+        }])->findOrFail($programId);
+        $enrollment = $student->enrollments()->where('program_id', $program->id)->first();
+        return view('admin.programs.student_program_show', [
+            'student' => $student,
+            'program' => $program,
+            'enrollment' => $enrollment,
+            'pathPoints' => $program->pathPoints,
+        ]);
     }
 }
