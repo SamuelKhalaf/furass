@@ -7,11 +7,9 @@ use App\Http\Controllers\Controller;
 use App\Models\QuestionBankType;
 use App\Models\QuestionBankValue;
 use App\Models\Questions;
-use App\Models\School;
 use App\Models\ValuesQuestions;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
 
 class QuestionBankTypeController extends Controller
@@ -38,8 +36,8 @@ class QuestionBankTypeController extends Controller
             ->addColumn('actions', function ($questionBank) {
                 $actions = '';
                 if (auth()->user()->hasAnyPermission([
-                    PermissionEnum::UPDATE_SCHOOLS->value,
-                    PermissionEnum::DELETE_SCHOOLS->value
+                    PermissionEnum::UPDATE_EXAMS->value,
+                    PermissionEnum::DELETE_EXAMS->value
                 ])) {
                     $actions = '<a href="#" class="btn btn-light btn-active-light-primary btn-sm" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                     '.__("schools.actions").'
@@ -68,14 +66,14 @@ class QuestionBankTypeController extends Controller
                         </div>';
                     }
 
-//                    if (auth()->user()->hasPermissionTo(PermissionEnum::UPDATE_EXAMS->value)) {
-//                        $url = route('admin.question.index',  $questionBank->id);
-//                        $actions .= '<div class="menu-item px-3">
-//                              <a href="' . $url . '" class="menu-link px-3" data-user-id="' . $questionBank->id . '">'
-//                            . __("admin.questionBank.add_question") .
-//                            '</a>
-//                            </div>';
-//                    }
+                    if (auth()->user()->hasPermissionTo(PermissionEnum::UPDATE_EXAMS->value)) {
+                        $url = route('admin.question.index',  $questionBank->id);
+                        $actions .= '<div class="menu-item px-3">
+                              <a href="' . $url . '" class="menu-link px-3" data-user-id="' . $questionBank->id . '">'
+                            . __("admin.questionBank.add_question") .
+                            '</a>
+                            </div>';
+                    }
 
 
                     $actions .= '</div>';
@@ -173,10 +171,10 @@ class QuestionBankTypeController extends Controller
             }
 
             DB::commit();
-            return response()->json(['message' => 'School updated successfully']);
+            return response()->json(['message' => 'Question Bank updated successfully']);
         } catch (\Exception $e) {
             DB::rollBack();
-            return response()->json(['message' => 'Error updating School'] , 500);
+            return response()->json(['message' => 'Error updating Question Bank'] , 500);
         }
 
     }
@@ -189,10 +187,10 @@ class QuestionBankTypeController extends Controller
             QuestionBankType::findOrFail($QuestionBank)->delete();
 
             DB::commit();
-            return response()->json(['success' => true, 'message' => 'School deleted successfully.']);
+            return response()->json(['success' => true, 'message' => 'Question Bank deleted successfully.']);
         } catch (\Exception $e) {
             DB::rollBack();
-            return response()->json(['success' => false, 'message' => 'Error deleting School.'] , 500);
+            return response()->json(['success' => false, 'message' => 'Error deleting Question Bank.'] , 500);
         }
     }
 

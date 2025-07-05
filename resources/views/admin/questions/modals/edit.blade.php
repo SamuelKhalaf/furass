@@ -4,12 +4,10 @@
         <!--begin::Modal content-->
         <div class="modal-content">
             <!--begin::Form-->
-            <form class="form" id="kt_modal_update_school_form" method="POST" enctype="multipart/form-data">
+            <form class="form" action="#" id="kt_modal_update_school_form" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
 
-                <input type="hidden" name="bank_id" value="{{$bank_id}}">
-                <input type="hidden" name="_method" value="PUT">
 
                 <!--begin::Modal header-->
                 <div class="modal-header" id="kt_modal_update_school_header">

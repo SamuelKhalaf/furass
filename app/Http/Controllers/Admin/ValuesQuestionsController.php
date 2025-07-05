@@ -3,17 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Enums\PermissionEnum;
-use App\Enums\RoleEnum;
 use App\Http\Controllers\Controller;
 use App\Models\QuestionBankType;
-use App\Models\School;
-use App\Models\User;
 use App\Models\ValuesQuestions;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
 
 class ValuesQuestionsController extends Controller
@@ -32,10 +26,6 @@ class ValuesQuestionsController extends Controller
                 $name = json_decode($valueQuestion->valueQuestionName, true);
                 return $name[app()->getLocale()] ?? '';
             })
-            ->addColumn('questionBankName', function ($valueQuestion) {
-                $name = json_decode($valueQuestion->questionBankName, true);
-                return $name[app()->getLocale()] ?? '';
-            })
             ->addColumn('parentName', function ($valueQuestion) {
                 $name = json_decode($valueQuestion->parentName, true);
                 return $name[app()->getLocale()] ?? '';
@@ -43,8 +33,8 @@ class ValuesQuestionsController extends Controller
             ->addColumn('actions', function ($valueQuestion) {
                 $actions = '';
                 if (auth()->user()->hasAnyPermission([
-                    PermissionEnum::UPDATE_SCHOOLS->value,
-                    PermissionEnum::DELETE_SCHOOLS->value
+                    PermissionEnum::UPDATE_EXAMS->value,
+                    PermissionEnum::DELETE_EXAMS->value
                 ])) {
                     $actions = '<a href="#" class="btn btn-light btn-active-light-primary btn-sm" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                     '.__("schools.actions").'
@@ -55,7 +45,7 @@ class ValuesQuestionsController extends Controller
 
                     $actions .= '<div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4" data-kt-menu="true">';
 
-                    if (auth()->user()->hasPermissionTo(PermissionEnum::UPDATE_SCHOOLS->value)) {
+                    if (auth()->user()->hasPermissionTo(PermissionEnum::UPDATE_EXAMS->value)) {
                         $actions .= '<div class="menu-item px-3">
                             <a href="#" class="menu-link px-3" data-user-id="' . $valueQuestion->id . '" data-bs-toggle="modal" data-bs-target="#kt_modal_update_school">
                                 '.__("valueQuestion.edit").'
@@ -63,7 +53,7 @@ class ValuesQuestionsController extends Controller
                         </div>';
                     }
 
-                    if (auth()->user()->hasPermissionTo(PermissionEnum::DELETE_SCHOOLS->value)) {
+                    if (auth()->user()->hasPermissionTo(PermissionEnum::DELETE_EXAMS->value)) {
                         $actions .= '<div class="menu-item px-3">
                             <a href="#" class="menu-link px-3" data-kt-users-table-filter="delete_row"
                                data-user-id="' . $valueQuestion->id . '">'.__("valueQuestion.delete").'</a>
@@ -74,7 +64,7 @@ class ValuesQuestionsController extends Controller
                 }
                 return $actions;
             })
-            ->rawColumns(['questionBankName', 'valueQuestionName' , 'parentName','actions'])
+            ->rawColumns(['valueQuestionName' , 'parentName','actions'])
             ->make(true);
     }
 
@@ -95,7 +85,6 @@ class ValuesQuestionsController extends Controller
         $request->validate([
             'name_ar' => 'required|string|max:255',
             'name_en' => 'required|string|max:255',
-            'question_bank_type_id' => 'required|integer',
             'parent_id' => 'nullable',
         ]);
         $parentId = $request->filled('parent_id') ? $request->parent_id : 0;
@@ -108,15 +97,14 @@ class ValuesQuestionsController extends Controller
                     'en'=>$request->name_en,
                 ],
                 'parent_id' => $parentId,
-                'question_bank_type_id'=>$request->question_bank_type_id
             ]);
 
             DB::commit();
 
-            return response()->json(['message' => 'School created successfully']);
+            return response()->json(['message' => 'Value Question created successfully']);
         } catch (\Exception $e) {
             DB::rollBack();
-            return response()->json(['message' => 'Error creating School'] , 500);
+            return response()->json(['message' => 'Error creating Value Question'] , 500);
         }
     }
 
@@ -137,7 +125,6 @@ class ValuesQuestionsController extends Controller
         $request->validate([
             'name_ar' => 'required|string|max:255',
             'name_en' => 'required|string|max:255',
-            'question_bank_type_id' => 'required|integer',
             'parent_id' => 'nullable',
         ]);
         $parentId = $request->filled('parent_id') ? $request->parent_id : 0;
@@ -150,15 +137,14 @@ class ValuesQuestionsController extends Controller
                     'en'=>$request->name_en,
                 ],
                 'parent_id' => $parentId,
-                'question_bank_type_id'=>$request->question_bank_type_id
             ]);
 
             DB::commit();
 
-            return response()->json(['data'=> $value,'message' => 'School updated successfully']);
+            return response()->json(['data'=> $value,'message' => 'Value Question updated successfully']);
         } catch (\Exception $e) {
             DB::rollBack();
-            return response()->json(['message' => 'Error updating School'] , 500);
+            return response()->json(['message' => 'Error updating Value Question'] , 500);
         }
 
     }
@@ -172,14 +158,14 @@ class ValuesQuestionsController extends Controller
             $valueQuestion = ValuesQuestions::findOrFail($value);
 
             if ($valueQuestion->parent_id == 0) {
-                return response()->json(['success' => false, 'message' => 'Error deleting School.'] , 500);
+                return response()->json(['success' => false, 'message' => 'Error deleting Value Question.'] , 500);
             }
             $valueQuestion->delete();
             DB::commit();
             return response()->json(['success' => true, 'message' => 'Value Question deleted successfully.']);
         } catch (\Exception $e) {
             DB::rollBack();
-            return response()->json(['success' => false, 'message' => 'Error deleting School.'] , 500);
+            return response()->json(['success' => false, 'message' => 'Error deleting Value Question.'] , 500);
         }
     }
 }

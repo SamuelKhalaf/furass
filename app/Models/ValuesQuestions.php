@@ -22,23 +22,18 @@ class ValuesQuestions extends Model
         if ($idValue){
             return DB::table('values_questions')
                 ->where('values_questions.id' , $idValue)
-                ->leftJoin('question_bank_types', 'values_questions.question_bank_type_id', '=', 'question_bank_types.id')
                 ->leftJoin('values_questions as parent', 'values_questions.parent_id', '=', 'parent.id')
                 ->first([
                     'values_questions.id as id',
-                    'question_bank_types.name as questionBankName',
                     'values_questions.name as valueQuestionName',
                     'parent.name as parentName',
-                    'question_bank_types.id as questionBankID',
                     'parent.id as parentID',
                 ]);
         }
         return DB::table('values_questions')
-            ->leftJoin('question_bank_types', 'values_questions.question_bank_type_id', '=', 'question_bank_types.id')
             ->leftJoin('values_questions as parent', 'values_questions.parent_id', '=', 'parent.id')
             ->get([
                 'values_questions.id as id',
-                'question_bank_types.name as questionBankName',
                 'values_questions.name as valueQuestionName',
                 'parent.name as parentName'
             ]);

@@ -10,7 +10,7 @@
                 <!--begin::Modal header-->
                 <div class="modal-header" id="kt_modal_update_school_header">
                     <!--begin::Modal title-->
-                    <h2 class="fw-bold">{{ __('schools.modal.update_school') }}</h2>
+                    <h2 class="fw-bold">{{ __('valueQuestion.modal.update_school') }}</h2>
                     <!--end::Modal title-->
 
                     <!--begin::Close-->
@@ -52,21 +52,6 @@
                                 <!--begin::Input-->
                                 <input type="text" name="name_en" class="form-control form-control-solid mb-3 mb-lg-0"
                                        placeholder="{{ __('valueQuestion.modal.enter_value_name_en') }}" required/>
-                                <!--end::Input-->
-                            </div>
-                            <!--end::Input group-->
-
-                            <!--begin::Input group-->
-                            <div class="fv-row mb-7">
-                                <!--begin::Label-->
-                                <label class="required fw-semibold fs-6 mb-2">{{ __('valueQuestion.modal.question_bank') }}</label>
-                                <!--end::Label-->
-                                <!--begin::Input-->
-                                <select id="question-bank-list-update" name="question_bank_type_id" class="form-select" required>
-                                    <option>Select a question bank</option>
-                                    <!-- Options will be populated here -->
-                                </select>
-
                                 <!--end::Input-->
                             </div>
                             <!--end::Input group-->

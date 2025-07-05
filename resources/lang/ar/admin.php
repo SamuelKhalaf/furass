@@ -179,7 +179,7 @@ return [
         'search' => 'بحث في نوع بنك الاسئله',
         'questionBank_ar' => 'الاسم',
         'add' => 'اضافه بنك اسئله',
-        'add_question' => 'اضافه اسئله',
+        'add_question' => ' اسئله',
     ],
     // questionBank
     'cke_pages' => [

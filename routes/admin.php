@@ -422,7 +422,7 @@ Route::middleware(['auth'])->name('admin.')->group(function () {
     });
 
     Route::middleware('permission:'. PermissionEnum::CREATE_EXAMS->value)->group(function () {
-        Route::get('question/get-banks-values/{bank_id}', [QuestionController::class, 'getDataOfBankValue'])->name('question.get.data');
+        Route::get('question-all/get-banks-values/{bank_id}', [QuestionController::class, 'getDataOfBankValue'])->name('question.get.data');
     });
 
     Route::post('question-store', [QuestionController::class, 'store'])

@@ -82,7 +82,6 @@
                             <tr class="text-gray-400 fw-bold fs-7 text-uppercase gs-0 text-center">
                                 <th class="min-w-200px">{{ __('valueQuestion.value') }}</th>
                                 <th class="min-w-200px">{{ __('valueQuestion.parent') }}</th>
-                                <th class="min-w-200px">{{ __('valueQuestion.questionBank') }}</th>
                                 <th class="min-w-100px">{{ __('valueQuestion.actions') }}</th>
                             </tr>
                             <!--end::Table row-->
@@ -192,13 +191,6 @@
                             {
                                 data: 'parentName',
                                 name: 'parentName',
-                                orderable: false,
-                                searchable: false,
-                                className: 'text-center'
-                            },
-                            {
-                                data: 'questionBankName',
-                                name: 'questionBankName',
                                 orderable: false,
                                 searchable: false,
                                 className: 'text-center'
@@ -419,7 +411,7 @@
         </script>
     @endif
 
-    @if(auth()->user()->hasPermissionTo(\App\Enums\PermissionEnum::CREATE_SCHOOLS->value))
+    @if(auth()->user()->hasPermissionTo(\App\Enums\PermissionEnum::CREATE_EXAMS->value))
         <script>
             "use strict";
 
@@ -430,41 +422,32 @@
                 const form = element.querySelector('#kt_modal_add_school_form');
                 const modal = new bootstrap.Modal(element);
 
-                // Function to populate the dropdown menu with question banks
-                const populateQuestionBankMenu = (response) => {
-                    const menuContainer = document.getElementById('question-bank-list');
-                    // menuContainer.innerHTML = '';
-
-                    const questionBanks = response.data.questionBankType;
-
-                    questionBanks.forEach(qb => {
-                        const option = document.createElement('option');
-                        option.value = qb.id;
-                        option.textContent = qb.name.ar; // or qb.name.en if you prefer English
-                        menuContainer.appendChild(option);
-                    });
-                };
-
                 const populateValueQuestionMenu = (response) => {
                     const menuContainer = document.getElementById('value-question-list');
-                    // menuContainer.innerHTML = '';
+                    menuContainer.innerHTML = '';
+
+                    // add default option
+                    const defaultOption = document.createElement('option');
+                    defaultOption.value = '';
+                    defaultOption.textContent = 'enter value';
+                    menuContainer.appendChild(defaultOption);
 
                     const ValueQuestion = response.data.parentValues;
 
                     ValueQuestion.forEach(qb => {
-                        const option = document.createElement('option');
+                        const option = document.createElement('option'); // create a NEW one every time
                         option.value = qb.id;
-                        option.textContent = qb.name.ar; // or qb.name.en if you prefer English
+                        option.textContent = qb.name.ar; // or qb.name.en
                         menuContainer.appendChild(option);
                     });
                 };
+
                 document.getElementById('add-question-bank-list').addEventListener('click', function () {
                     // Fetch data only once per click
                     $.ajax({
                         url: '/value-question-store',
                         type: 'GET',
                         success: function (response) {
-                            populateQuestionBankMenu(response);
                             populateValueQuestionMenu(response);
                         },
                         error: function () {
@@ -485,7 +468,7 @@
                                 'name_ar': {
                                     validators: {
                                         notEmpty: {
-                                            message: 'School name is required'
+                                            message: 'Arabic name is required'
                                         }
                                     }
                                 },
@@ -493,13 +476,6 @@
                                     validators: {
                                         notEmpty: {
                                             message: 'English name is required'
-                                        }
-                                    }
-                                },
-                                'question_bank_type_id': {
-                                    validators: {
-                                        notEmpty: {
-                                            message: 'Please select a question bank'
                                         }
                                     }
                                 },
@@ -688,7 +664,7 @@
         </script>
     @endif
 
-    @if(auth()->user()->hasPermissionTo(\App\Enums\PermissionEnum::UPDATE_SCHOOLS->value))
+    @if(auth()->user()->hasPermissionTo(\App\Enums\PermissionEnum::UPDATE_EXAMS->value))
         <script>
             "use strict";
 
@@ -710,16 +686,6 @@
                     form.querySelector('[name="name_en"]').value = name_en || "";
                     $("#kt_modal_update_school_form").attr("data-user-id", response.valuesQuestions.id);
 
-                    const questionBankSelect = $('#question-bank-list-update');
-                    questionBankSelect.empty();
-                    questionBankSelect.append(`<option value="">Select Question Bank</option>`);
-                    response.questionBankType.forEach(function(bank) {
-                        questionBankSelect.append(
-                            `<option value="${bank.id}" ${bank.id === response.valuesQuestions.questionBankID ? 'selected' : ''}>
-                                ${bank.name.ar}
-                             </option>`
-                        );
-                    });
 
                     const parentValueSelect = $('#value-question-list-update');
                     parentValueSelect.empty();
@@ -763,7 +729,7 @@
                                 'name_ar': {
                                     validators: {
                                         notEmpty: {
-                                            message: 'School name is required'
+                                            message: 'Arabic name is required'
                                         }
                                     }
                                 },
@@ -771,13 +737,6 @@
                                     validators: {
                                         notEmpty: {
                                             message: 'English name is required'
-                                        }
-                                    }
-                                },
-                                'question_bank_type_id': {
-                                    validators: {
-                                        notEmpty: {
-                                            message: 'Please select a question bank'
                                         }
                                     }
                                 },

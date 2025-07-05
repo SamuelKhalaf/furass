@@ -59,21 +59,6 @@
                         </div>
                         <!--end::Input group-->
 
-                        <!--begin::Input group-->
-                        <div class="fv-row mb-7">
-                            <!--begin::Label-->
-                            <label class="required fw-semibold fs-6 mb-2">{{ __('valueQuestion.modal.question_bank') }}</label>
-                            <!--end::Label-->
-                            <!--begin::Input-->
-                            <select id="question-bank-list" name="question_bank_type_id" class="form-select" required>
-                                <option>Select a question bank</option>
-                                <!-- Options will be populated here -->
-                            </select>
-
-                            <!--end::Input-->
-                        </div>
-                        <!--end::Input group-->
-
                         <div class="fv-row mb-7">
                             <!--begin::Label-->
                             <label class=" fw-semibold fs-6 mb-2">{{ __('valueQuestion.modal.value_name') }}</label>
