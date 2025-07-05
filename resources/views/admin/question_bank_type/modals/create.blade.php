@@ -54,6 +54,26 @@
                                    placeholder="{{ __('admin.questionBank.questionBank_en') }}" required/>
                             <!--end::Input-->
                         </div>
+
+                        <div class="fv-row mb-7">
+                            <label class="required fw-semibold fs-6 mb-2">
+                                {{ __('questions.modal.question_value') }}
+                            </label>
+
+                            <select name="value_id[]" class="form-select form-control-solid" id="list_value" multiple>
+                                @isset($question_values)
+                                    @foreach($question_values as $value)
+                                        <option value="{{ $value->id }}">
+                                            {{ $value->name[app()->getLocale()] ?? '' }}
+                                        </option>
+                                    @endforeach
+                                @endisset
+                            </select>
+                        </div>
+
+                        <div id="percentages-container" class="mt-3"></div>
+
+
                         <!--end::Input group-->
                     </div>
                     <!--end::Scroll-->
@@ -78,3 +98,62 @@
     </div>
     <!--end::Modal dialog-->
 </div>
+@push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const valueSelect = document.getElementById('list_value');
+            const percentagesContainer = document.getElementById('percentages-container');
+
+            valueSelect.addEventListener('change', function () {
+                const selectedOptions = Array.from(valueSelect.selectedOptions).map(opt => ({
+                    id: opt.value,
+                    text: opt.text
+                }));
+
+                // Clear the container
+                percentagesContainer.innerHTML = '';
+
+                // Add a percentage input for each selected option
+                selectedOptions.forEach(option => {
+                    const div = document.createElement('div');
+                    div.classList.add('form-group', 'mb-2');
+                    div.innerHTML = `
+                <label class="required fw-semibold fs-6 mb-2">${option.text} Percentage</label>
+                <input type="text" name="percentages[${option.id}]" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Enter percentage for ${option.text}">
+                     `;
+                    percentagesContainer.appendChild(div);
+                });
+
+                // Add to validator
+                validator.addField(`percentages[${option.id}]`, {
+                    validators: {
+                        notEmpty: {
+                            message: 'Percentage is required'
+                        },
+                        numeric: {
+                            message: 'Percentage must be a number'
+                        },
+                        between: {
+                            min: 0,
+                            max: 100,
+                            message: 'Percentage must be between 0 and 100'
+                        }
+                    }
+                });
+            });
+
+
+            validator.getFields().forEach(field => {
+                if (field.startsWith('percentages[')) {
+                    const fieldId = field.match(/percentages\[(\d+)\]/)[1];
+                    if (!selectedOptions.some(opt => opt.id === fieldId)) {
+                        validator.removeField(field);
+                    }
+                }
+            });
+
+        });
+    </script>
+
+
+@endpush

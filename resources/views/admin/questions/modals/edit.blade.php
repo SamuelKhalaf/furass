@@ -4,9 +4,13 @@
         <!--begin::Modal content-->
         <div class="modal-content">
             <!--begin::Form-->
-            <form class="form" action="#" id="kt_modal_update_school_form" method="POST" enctype="multipart/form-data">
+            <form class="form" id="kt_modal_update_school_form" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
+
+                <input type="hidden" name="bank_id" value="{{$bank_id}}">
+                <input type="hidden" name="_method" value="PUT">
+
                 <!--begin::Modal header-->
                 <div class="modal-header" id="kt_modal_update_school_header">
                     <!--begin::Modal title-->
@@ -33,17 +37,7 @@
                         <!--begin::School form-->
                         <div id="kt_modal_update_school_school_info" class="collapse show">
 
-                            <!--begin::Input group-->
-                            <div class="fv-row mb-7">
-                                <!--begin::Label-->
-                                <label class="required fw-semibold fs-6 mb-2">{{ __('questions.modal.question_bank') }}</label>
-                                <!--end::Label-->
-                                <!--begin::Input-->
-                                <select name="bank_id" class="form-select form-control-solid" id="list_bank_update">
-                                    <option value="">{{ __('questions.modal.enter_question_bank') }}</option>
-                                </select>
-                                <!--end::Input-->
-                            </div>
+                            <input type="hidden" name="bank_id" value="{{$bank_id}}">
 
                             <!--begin::Input group-->
                             <div class="fv-row mb-7">
@@ -97,7 +91,7 @@
                     <!--end::Button-->
 
                     <!--begin::Button-->
-                    <button type="submit" class="btn btn-primary" data-kt-users-modal-action="submit">
+                    <button type="submit" class="btn btn-primary" data-kt-users-modal-action="submit" id="submit_new">
                         <span class="indicator-label">
                             {{ __('schools.modal.submit') }}
                         </span>

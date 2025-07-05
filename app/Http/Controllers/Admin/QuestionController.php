@@ -3,29 +3,25 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Enums\PermissionEnum;
-use App\Enums\RoleEnum;
 use App\Http\Controllers\Controller;
 use App\Models\QuestionBankType;
+use App\Models\QuestionBankValue;
 use App\Models\Questions;
-use App\Models\School;
-use App\Models\User;
 use App\Models\ValuesQuestions;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
 
 class QuestionController extends Controller
 {
-    public function index()
+    public function index($bank_id)
     {
-        return view('admin.questions.index');
+        return view('admin.questions.index' , compact('bank_id'));
     }
 
-    public function getQuestionsData()
+    public function getQuestionsData($bank_id)
     {
-        $questions = Questions::getData();
+        $questions = Questions::getData($bank_id);
 
         return DataTables::of($questions)
             ->addColumn('text', function ($questions) {
@@ -78,19 +74,16 @@ class QuestionController extends Controller
             ->make(true);
     }
 
-    public function getDataOfBankValue()
+    public function getDataOfBankValue($bank_id)
     {
         try {
-            $banks = QuestionBankType::all();
-            $values = ValuesQuestions::all();
+//            $banks = QuestionBankType::all();
+            $values = QuestionBankValue::get_bank_values($bank_id);
 
             return response()->json([
                 'status' => true,
                 'message' => 'Data retrieved successfully.',
-                'data' => [
-                    'banks' => $banks,
-                    'values' => $values
-                ]
+                'values' => $values
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
@@ -123,11 +116,8 @@ class QuestionController extends Controller
             ]);
 
             DB::commit();
-            if ($request->ajax()) {
-                return response()->json(['message' => 'Question created successfully']);
-            }
 
-            return redirect()->back()->with('success', 'Your Partnership requested successfully');
+            return redirect()->back()->with('success', 'Your question requested successfully');
         } catch (\Exception $e) {
             DB::rollBack();
             if ($request->ajax()) {
@@ -137,21 +127,22 @@ class QuestionController extends Controller
             return redirect()->back()->with('error', 'Something went wrong. Please try again.');        }
     }
 
-    public function edit(string $id)
+    public function edit(string $id , $bank_id)
     {
-        $banks = QuestionBankType::all();
-        $values = ValuesQuestions::all();
+//        $banks = QuestionBankType::all();
+//        $values = ValuesQuestions::all();
         $question = Questions::findOrFail($id);
 
         return response()->json([
             'question'=>$question,
-            'banks'=>$banks,
-            'values'=>$values
+//            'banks'=>$banks,
+            'values'=>QuestionBankValue::get_bank_values($bank_id)
         ]);
     }
 
     public function update(Request $request, $question)
     {
+
         $request->validate([
             'bank_id' => 'required|integer',
             'value_id' => 'required|integer',
@@ -162,6 +153,7 @@ class QuestionController extends Controller
         try {
             DB::beginTransaction();
             $question = Questions::findOrFail($question);
+
             $question->update([
                 'bank_id'=>$request->bank_id,
                 'value_id'=>$request->value_id,
@@ -172,7 +164,9 @@ class QuestionController extends Controller
             ]);
             DB::commit();
 
-            return response()->json(['message' => 'Question updated successfully']);
+            return redirect()->back()->with('success', 'Your question requested successfully');
+
+
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json(['message' => 'Error updating Question'] , 500);
@@ -194,5 +188,20 @@ class QuestionController extends Controller
             return response()->json(['success' => false, 'message' => 'Error deleting question.'] , 500);
         }
     }
+
+    public function listQuestionBank()
+    {
+        $data['banks'] = QuestionBankType::all();
+        return view('admin.questions.list_exams', $data);
+    }
+
+    public function displayTest()
+    {
+//        $data = [];
+//        $data['bank'] = QuestionBankType::findOrFail($id);
+//        $data['questions'] = Questions::where('bank_id' , $id)->get();
+        return view('admin.questions.test');
+    }
+
 
 }
