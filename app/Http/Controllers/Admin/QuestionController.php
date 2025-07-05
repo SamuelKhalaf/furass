@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 use App\Models\QuestionBankType;
 use App\Models\QuestionBankValue;
 use App\Models\Questions;
-use App\Models\ValuesQuestions;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
@@ -117,7 +116,7 @@ class QuestionController extends Controller
 
             DB::commit();
 
-            return redirect()->back()->with('success', 'Your question requested successfully');
+            return response()->json(['success' => true, 'message' => 'question created successfully.']);
         } catch (\Exception $e) {
             DB::rollBack();
             if ($request->ajax()) {
@@ -164,9 +163,7 @@ class QuestionController extends Controller
             ]);
             DB::commit();
 
-            return redirect()->back()->with('success', 'Your question requested successfully');
-
-
+            return response()->json(['success' => true, 'message' => 'question updated successfully.']);
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json(['message' => 'Error updating Question'] , 500);

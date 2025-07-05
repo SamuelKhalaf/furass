@@ -429,8 +429,11 @@
                 const currentLocale = "{{ app()->getLocale() }}";
 
                 const populateListValue = (response) =>{
+
                     const selectValues = document.getElementById('list_value');
+                    selectValues.innerHTML = '';
                     const dataValues = response.values;
+
                     dataValues.forEach(item =>{
                         const option = document.createElement('option');
                         option.value = item.value_id;
@@ -473,13 +476,6 @@
                                     validators: {
                                         notEmpty: {
                                             message: 'Text Arabic is required'
-                                        }
-                                    }
-                                },
-                                'bank_id': {
-                                    validators: {
-                                        notEmpty: {
-                                            message: 'Bank Question is required'
                                         }
                                     }
                                 },
@@ -665,7 +661,7 @@
         </script>
     @endif
 
-    @if(auth()->user()->hasPermissionTo(\App\Enums\PermissionEnum::UPDATE_SCHOOLS->value))
+    @if(auth()->user()->hasPermissionTo(\App\Enums\PermissionEnum::UPDATE_EXAMS->value))
         <script>
             "use strict";
 
@@ -739,13 +735,6 @@
                                         }
                                     }
                                 },
-                                'bank_id': {
-                                    validators: {
-                                        notEmpty: {
-                                            message: 'Bank Question is required'
-                                        }
-                                    }
-                                },
                                 'value_id': {
                                     validators: {
                                         notEmpty: {
@@ -781,7 +770,7 @@
                                     let formData = new FormData(form);
                                     let question = $('#kt_modal_update_school_form').attr('data-user-id');
                                     console.log(question)
-                                    let updateUrl = `/update-question/11`;
+                                    let updateUrl = `/update-question/${question}`;
                                     $.ajax({
                                         url: updateUrl,
                                         type: "POST",
