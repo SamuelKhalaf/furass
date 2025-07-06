@@ -35,6 +35,9 @@ class QuestionController extends Controller
                 $bank = json_decode($questions->bank, true);
                 return $bank[app()->getLocale()] ?? '';
             })
+            ->addColumn('type', function ($questions) {
+                return $questions->type;
+            })
             ->addColumn('actions', function ($questions) {
                 $actions = '';
                 if (auth()->user()->hasAnyPermission([
@@ -69,7 +72,7 @@ class QuestionController extends Controller
                 }
                 return $actions;
             })
-            ->rawColumns(['text', 'value', 'bank','actions'])
+            ->rawColumns(['text', 'value', 'bank','type' ,'actions'])
             ->make(true);
     }
 
@@ -100,6 +103,7 @@ class QuestionController extends Controller
             'value_id' => 'required|integer',
             'text_en' => 'required|string|max:255',
             'text_ar' => 'required|string|max:255',
+            'type' => 'required|string|max:255',
         ]);
 
         try {
@@ -112,6 +116,7 @@ class QuestionController extends Controller
                     'ar'=>$request->text_ar,
                     'en'=>$request->text_en,
                 ],
+                'type'=>$request->type,
             ]);
 
             DB::commit();
@@ -147,6 +152,8 @@ class QuestionController extends Controller
             'value_id' => 'required|integer',
             'text_en' => 'required|string|max:255',
             'text_ar' => 'required|string|max:255',
+            'type' => 'required|string|max:255',
+
         ]);
 
         try {
@@ -160,6 +167,7 @@ class QuestionController extends Controller
                     'ar'=>$request->text_ar,
                     'en'=>$request->text_en,
                 ],
+                'type'=>$request->type,
             ]);
             DB::commit();
 
