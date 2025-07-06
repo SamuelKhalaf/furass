@@ -81,6 +81,7 @@
                                 <th class="min-w-200px">{{ __('questions.text') }}</th>
                                 <th class="min-w-125px">{{ __('questions.question_value') }}</th>
                                 <th class="min-w-125px">{{ __('questions.question_bank') }}</th>
+                                <th class="min-w-125px">{{ __('questions.type') }}</th>
                                 <th class="min-w-100px">{{ __('questions.actions') }}</th>
                             </tr>
                             <!--end::Table row-->
@@ -196,6 +197,13 @@
                             {
                                 data: 'bank',
                                 name: 'bank',
+                                orderable: false,
+                                searchable: false,
+                                className: 'text-center'
+                            },
+                            {
+                                data: 'type',
+                                name: 'type',
                                 orderable: false,
                                 searchable: false,
                                 className: 'text-center'
@@ -427,6 +435,18 @@
                 const form = element.querySelector('#kt_modal_add_school_form');
                 const modal = new bootstrap.Modal(element);
                 const currentLocale = "{{ app()->getLocale() }}";
+
+                document.querySelectorAll('input[name="type"]').forEach(cb => {
+                    cb.addEventListener('change', function () {
+                        if (this.checked) {
+                            document.querySelectorAll('input[name="type"]').forEach(otherCb => {
+                                if (otherCb !== this) {
+                                    otherCb.checked = false;
+                                }
+                            });
+                        }
+                    });
+                });
 
                 const populateListValue = (response) =>{
 
@@ -673,6 +693,20 @@
                 const modal = new bootstrap.Modal(element);
                 const currentLocale = "{{ app()->getLocale() }}";
 
+
+                document.querySelectorAll('input[name="type"]').forEach(cb => {
+                    cb.addEventListener('change', function () {
+                        if (this.checked) {
+                            document.querySelectorAll('input[name="type"]').forEach(otherCb => {
+                                if (otherCb !== this) {
+                                    otherCb.checked = false;
+                                }
+                            });
+                        }
+                    });
+                });
+
+
                 var populateForm = (response) => {
                     form.querySelector('[name="text_en"]').value = response.question.text['en'] || "";
                     form.querySelector('[name="text_ar"]').value = response.question.text['ar'] || "";
@@ -692,7 +726,14 @@
                         select_values_update.appendChild(option);
                     });
 
+
+                    const typeCheckboxes = document.querySelectorAll('input[name="type"]');
+                    typeCheckboxes.forEach(cb => {
+                        cb.checked = (cb.value === response.question.type);
+                    });
                 };
+
+
 
                 // Fetch user data when modal is opened
                 element.addEventListener('show.bs.modal', function (event) {

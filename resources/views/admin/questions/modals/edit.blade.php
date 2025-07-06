@@ -73,6 +73,28 @@
                             </div>
                             <!--end::Input group-->
 
+
+                            <!--begin::Input group-->
+                            <div class="fv-row mb-7">
+                                <!--begin::Label-->
+                                <label class="required fw-semibold fs-6 mb-2">{{ __('questions.type') }}</label>
+                                <div class="d-flex flex-nowrap gap-5">
+
+                                    <label class="form-check form-check-sm form-check-custom form-check-solid">
+                                        <input class="form-check-input" type="checkbox" name="type" value="true_and_false"/>
+                                        <span class="form-check-label">true and false</span>
+                                    </label>
+
+                                    <label class="form-check form-check-sm form-check-custom form-check-solid">
+                                        <input class="form-check-input" type="checkbox" name="type" value="rating" />
+                                        <span class="form-check-label">rating</span>
+                                    </label>
+
+                                </div>
+                                <!--end::Input-->
+                            </div>
+                            <!--end::Input group-->
+
                         </div>
                         <!--end::School form-->
                     </div>

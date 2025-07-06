@@ -4,6 +4,7 @@ return [
     'title' => 'Questions',
     'list' => 'Questions List',
     'create' => 'Create Questions',
+    'type' => 'Type',
     'edit' => 'Edit ',
     'delete' => 'Delete ',
     'text' => ' Text',
