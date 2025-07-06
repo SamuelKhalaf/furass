@@ -175,7 +175,7 @@
                         <i class="fas fa-calculator"></i>
                     </div>
                     <h3 class="exam-name">{{$bank->name[app()->getLocale()] ?? ''}}</h3>
-                    <a href="#" class="exam-button">
+                    <a href="{{route('admin.display.evaluation.test' , $bank->id)}}" class="exam-button">
                         <i class="fas fa-play me-2"></i>
                         Start Exam
                     </a>

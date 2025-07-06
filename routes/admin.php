@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\ConsultantController;
 use App\Http\Controllers\Admin\ConsultationController;
 use App\Http\Controllers\Admin\ConsultationNotesController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\EvaluationController;
 use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\Admin\PagesController;
@@ -443,8 +444,15 @@ Route::middleware(['auth'])->name('admin.')->group(function () {
         ->middleware('permission:'. PermissionEnum::DELETE_EXAMS->value)
         ->name('question.destroy');
 
-    Route::get('test-page', [QuestionController::class, 'displayTest'])->name('display.test');
-    Route::get('list-question-bank', [QuestionController::class, 'listQuestionBank'])->name('list.question.bank');
     ###############################  End:Questions Routes  #####################################
+
+    ###############################  End:Questions Routes  #####################################
+    Route::get('list-question-bank', [EvaluationController::class, 'listQuestionBank'])->name('list.question.bank');
+
+    Route::get('evaluation-test/{bankId}', [EvaluationController::class, 'displayTest'])->name('display.evaluation.test');
+
+    Route::post('store-evaluation', [EvaluationController::class, 'evaluation'])->name('evaluation.submit');
+    ###############################  End:Questions Routes  #####################################
+
 
 });

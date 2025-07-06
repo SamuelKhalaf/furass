@@ -4,13 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Enums\PermissionEnum;
 use App\Http\Controllers\Controller;
-use App\Models\QuestionBankType;
 use App\Models\QuestionBankValue;
 use App\Models\Questions;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
-
 class QuestionController extends Controller
 {
     public function index($bank_id)
@@ -194,19 +192,8 @@ class QuestionController extends Controller
         }
     }
 
-    public function listQuestionBank()
-    {
-        $data['banks'] = QuestionBankType::all();
-        return view('admin.questions.list_exams', $data);
-    }
 
-    public function displayTest()
-    {
-//        $data = [];
-//        $data['bank'] = QuestionBankType::findOrFail($id);
-//        $data['questions'] = Questions::where('bank_id' , $id)->get();
-        return view('admin.questions.test');
-    }
+
 
 
 }
