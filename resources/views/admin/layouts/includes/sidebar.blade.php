@@ -250,17 +250,6 @@
                             </div>
 
 
-                         {{--   <div class="menu-item {{setMenuOpenClass(['admin.question.index'])}}">
-                                <!--begin:Menu link-->
-                                <a class="menu-link {{setActiveClass('admin.question.index')}}"
-                                   href="{{route('admin.question.index')}}">
-                                    <span class="menu-bullet">
-                                        <span class="bullet bullet-dot"></span>
-                                    </span>
-                                    <span class="menu-title">{{ __('questions.title') }}</span>
-                                </a>
-                                <!--end:Menu link-->
-                            </div>--}}
                         </div>
                     </div>
                 @endif
@@ -363,6 +352,21 @@
                             @endif
                         </div>
                     </div>
+                @endif
+
+
+                @if(auth()->user()->hasAnyPermission(PermissionEnum::MANAGE_QUESTIONS))
+                    <!--begin:Menu item-->
+                    <div class="menu-item {{setMenuOpenClass(['admin.manage.question'])}}">
+                        <!--begin:Menu link-->
+                        <a class="menu-link {{setActiveClass('admin.manage.question')}}"
+                           href="{{route('admin.manage.question')}}">
+                            <span class="menu-icon"><i class="fa-solid fa-clipboard-list"></i></span>
+                            <span class="menu-title">{{ __('questions.consultant.manage_exams') }}</span>
+                        </a>
+                        <!--end:Menu link-->
+                    </div>
+                    <!--end:Menu item-->
                 @endif
             </div>
         </div>

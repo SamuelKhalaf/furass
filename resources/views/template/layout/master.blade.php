@@ -24,7 +24,7 @@
                 id="navbar-logo"
                 src="{{ asset('assets/imgs/template/furass-logo.png') }}"
                 data-default="{{ asset('assets/imgs/template/furass-logo.png') }}"
-                data-scrolled="{{ asset('assets/imgs/template/furass-logo-dark.png') }}"
+                data-scrolled="{{ asset('assets/imgs/template/furass_white.png') }}"
                 alt="Furass Logo"
                 style="height:38px; margin-right:12px; border-radius: 10px">
         </a>

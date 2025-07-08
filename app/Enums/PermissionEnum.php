@@ -93,6 +93,8 @@ enum PermissionEnum : string
     // Notification Permissions
 
     case SEND_NOTIFICATIONS = 'Send Notifications';
+
+    case MANAGE_QUESTIONS = 'Manage Questions';
     /**
      * @return array
      */

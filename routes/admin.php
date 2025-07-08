@@ -452,7 +452,16 @@ Route::middleware(['auth'])->name('admin.')->group(function () {
     Route::get('evaluation-test/{bankId}', [EvaluationController::class, 'displayTest'])->name('display.evaluation.test');
 
     Route::post('store-evaluation', [EvaluationController::class, 'evaluation'])->name('evaluation.submit');
+
+
     ###############################  End:Questions Routes  #####################################
 
+    Route::get('publish', function (){
+        return view('admin.evaluation.publish');
+    })->name('manage.question');
+
+    Route::get('exams/{examId}/questions/{valueQuestion?}', [EvaluationController::class, 'getQuestionRelated'])->name('get.question.related');
+    Route::post('/questions/select', [EvaluationController::class, 'select']);
+    Route::post('/questions/reorder', [EvaluationController::class, 'reorder'])->name('questions.reorder');
 
 });

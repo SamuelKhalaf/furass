@@ -77,7 +77,6 @@ class QuestionController extends Controller
     public function getDataOfBankValue($bank_id)
     {
         try {
-//            $banks = QuestionBankType::all();
             $values = QuestionBankValue::get_bank_values($bank_id);
 
             return response()->json([
@@ -131,13 +130,9 @@ class QuestionController extends Controller
 
     public function edit(string $id , $bank_id)
     {
-//        $banks = QuestionBankType::all();
-//        $values = ValuesQuestions::all();
         $question = Questions::findOrFail($id);
-
         return response()->json([
             'question'=>$question,
-//            'banks'=>$banks,
             'values'=>QuestionBankValue::get_bank_values($bank_id)
         ]);
     }

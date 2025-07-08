@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 class Questions extends Model
 {
     use HasFactory;
-    protected $fillable = ['bank_id', 'value_id', 'text', 'type'];
+    protected $fillable = ['bank_id', 'value_id', 'text', 'type', 'action', 'order'];
 
     protected $casts = [
         'text'=>'array'

@@ -44,4 +44,12 @@ return [
         'submit' => 'Submit',
         'please_wait' => 'Please wait...',
     ],
+
+    'consultant'=>[
+        'question_bank' => 'Question Bank',
+        'questions' => ' Questions',
+        'choose_value' => 'Select the associated value',
+        'select_option' => 'Select an option',
+        'manage_exams' => 'Manage Exams',
+    ]
 ];

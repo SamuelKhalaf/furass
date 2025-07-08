@@ -181,18 +181,45 @@ class QuestionBankTypeController extends Controller
 
     public function destroy($QuestionBank)
     {
+        DB::beginTransaction();
 
         try {
-            DB::beginTransaction();
-            QuestionBankType::findOrFail($QuestionBank)->delete();
+            $bank = QuestionBankType::find($QuestionBank);
+            if (!$bank) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Question Bank not found.'
+                ], 404);
+            }
+
+            $hasQuestions = Questions::where('bank_id', $QuestionBank)->exists();
+            if ($hasQuestions) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'This Question Bank has questions and cannot be deleted.'
+                ], 400);
+            }
+
+            QuestionBankValue::where('bank_id', $QuestionBank)->delete();
+
+            $bank->delete();
 
             DB::commit();
-            return response()->json(['success' => true, 'message' => 'Question Bank deleted successfully.']);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Question Bank deleted successfully.'
+            ]);
         } catch (\Exception $e) {
             DB::rollBack();
-            return response()->json(['success' => false, 'message' => 'Error deleting Question Bank.'] , 500);
+
+            return response()->json([
+                'success' => false,
+                'message' => 'An error occurred: ' . $e->getMessage()
+            ], 500);
         }
     }
+
 
     public function get_exam_related_values($bank_id)
     {
@@ -204,7 +231,6 @@ class QuestionBankTypeController extends Controller
 
     public function add_question(Request $request , $bank_id)
     {
-//        return $request;
         foreach ($request->questions as $question) {
             Questions::create([
                 'bank_id' => 10,

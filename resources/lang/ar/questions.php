@@ -45,6 +45,14 @@ return [
         'please_wait' => 'انتظر...',
     ],
 
+    'consultant'=>[
+        'question_bank' => 'بنك الاسئله',
+        'questions' => ' الاسئله',
+        'choose_value' => 'اختر القيمه المرتبطه',
+        'select_option' => 'حدد خيارا',
+        'manage_exams' => 'اداره الامتحانات',
+    ]
+
 
 
 ];
