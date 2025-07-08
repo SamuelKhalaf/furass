@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\EvaluationTest;
 use App\Models\QuestionBankType;
+use App\Models\QuestionBankValue;
 use App\Models\Questions;
 use App\Models\ValuesQuestions;
 use Illuminate\Http\Request;
@@ -22,7 +23,7 @@ class EvaluationController extends Controller
 
     public function displayTest($bank_id)
     {
-        $questions = Questions::where('bank_id' , $bank_id)->get();
+        $questions = Questions::where('bank_id', $bank_id)->where('action', 'select')->orderBy('order')->get();
         return view('admin.evaluation.evaluation_test',compact('questions') );
     }
 
@@ -93,4 +94,75 @@ class EvaluationController extends Controller
             ], 500);
         }
     }
+
+    public function getQuestionRelated($bank_id , $value_question = null)
+    {
+        if ($value_question == null){
+            $questions = Questions::where('bank_id', $bank_id)->orderBy('order')->get();
+        }else{
+            $questions = Questions::where('bank_id', $bank_id)->where('value_id' , $value_question)->orderBy('order')->get();
+        }
+
+
+        $selected = Questions::where('bank_id', $bank_id)->where('action', 'select')->pluck('id');
+        $values = QuestionBankValue::get_bank_values($bank_id);
+
+        if ($questions->isEmpty()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No questions found for this bank.',
+                'questions' => [],
+            ], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Questions retrieved successfully.',
+            'questions' => $questions,
+            'selected_questions' => $selected,
+            'values'=> $values ,
+        ], 200);
+    }
+
+    public function select(Request $request)
+    {
+        $validated = $request->validate([
+            'question_id' => 'required|integer|exists:questions,id',
+            'action' => 'required|in:select,deselect',
+        ]);
+
+        $question = Questions::findOrFail($validated['question_id']);
+        $question->action = $validated['action'];
+        $question->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => "Question {$validated['action']}ed successfully.",
+            'question' => [
+                'id' => $question->id,
+                'action' => $question->action,
+            ]
+        ]);
+    }
+
+    public function reorder(Request $request)
+    {
+        $validated = $request->validate([
+            'order' => 'required|array',
+            'order.*.id' => 'required|integer|exists:questions,id',
+            'order.*.order' => 'required|integer',
+        ]);
+
+        foreach ($validated['order'] as $item) {
+            Questions::where('id', $item['id'])->update(['order' => $item['order']]);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Question order updated successfully.'
+        ]);
+    }
+
+
+
 }

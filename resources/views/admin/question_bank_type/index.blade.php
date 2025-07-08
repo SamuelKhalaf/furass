@@ -1157,7 +1157,7 @@
                 var userId = $(this).data("user-id");
 
                 Swal.fire({
-                    text: "Are you sure you want to delete this School?",
+                    text: "Are you sure you want to delete this Question Bank?",
                     icon: "warning",
                     showCancelButton: true,
                     buttonsStyling: false,
@@ -1200,7 +1200,7 @@
                             },
                             error: function () {
                                 Swal.fire({
-                                    text: "Failed to delete the School. Try again Later!",
+                                    text: "This Question Bank has questions that cannot be deleted",
                                     icon: "error",
                                     buttonsStyling: false,
                                     confirmButtonText: "Ok",
