@@ -75,6 +75,7 @@ class EvaluationController extends Controller
                     'evaluation'   => $answer,
                     'trying'       => 1,
                 ]);
+
             }
 
             DB::commit();
