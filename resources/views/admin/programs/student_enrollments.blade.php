@@ -31,7 +31,7 @@
         <!--end::Toolbar container-->
     </div>
     <!--end::Toolbar-->
-    
+
     <!--begin::Content-->
     <div id="kt_app_content" class="app-content flex-column-fluid">
         <!--begin::Content container-->
@@ -72,7 +72,7 @@
                                     <!--end::Card toolbar-->
                                 </div>
                                 <!--end::Card header-->
-                                
+
                                 <!--begin::Card body-->
                                 <div class="card-body pt-0">
                                     <!--begin::Description-->
@@ -80,7 +80,7 @@
                                         {{ Str::limit($programDesc, 100) }}
                                     </div>
                                     <!--end::Description-->
-                                    
+
                                     @if(isset($enrollment->progress))
                                         <!--begin::Progress-->
                                         <div class="mb-5">
@@ -89,17 +89,17 @@
                                                 <span class="badge badge-light fs-7">{{ $enrollment->progress }}%</span>
                                             </div>
                                             <div class="progress h-6px">
-                                                <div class="progress-bar bg-{{ $colors['bg'] }}" role="progressbar" 
-                                                     style="width: {{ $enrollment->progress }}%" 
-                                                     aria-valuenow="{{ $enrollment->progress }}" 
-                                                     aria-valuemin="0" 
+                                                <div class="progress-bar bg-{{ $colors['bg'] }}" role="progressbar"
+                                                     style="width: {{ $enrollment->progress }}%"
+                                                     aria-valuenow="{{ $enrollment->progress }}"
+                                                     aria-valuemin="0"
                                                      aria-valuemax="100">
                                                 </div>
                                             </div>
                                         </div>
                                         <!--end::Progress-->
                                     @endif
-                                    
+
                                     <!--begin::Stats-->
                                     <div class="d-flex flex-wrap mb-5">
                                         <div class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-6 mb-3">
@@ -119,10 +119,10 @@
                                     <!--end::Stats-->
                                 </div>
                                 <!--end::Card body-->
-                                
+
                                 <!--begin::Card footer-->
                                 <div class="card-footer">
-                                    <a href="{{ route('admin.programs.student_show', $program->id) }}" 
+                                    <a href="{{ route('admin.student.enrollments.show', $program->id) }}"
                                        class="btn btn-{{ $colors['bg'] }} btn-sm">
                                         <i class="fa-solid fa-arrow-right me-1"></i>{{ __('View Program') }}
                                     </a>
@@ -144,18 +144,18 @@
                             <img class="mw-100 mh-300px" alt="" src="{{ asset('assets/media/illustrations/sketchy-1/4.png') }}">
                         </div>
                         <!--end::Illustration-->
-                        
+
                         <!--begin::Heading-->
                         <h1 class="fw-bolder fs-2qx text-gray-800 mb-4">{{ __('No Programs Found') }}</h1>
                         <!--end::Heading-->
-                        
+
                         <!--begin::Description-->
                         <div class="fw-semibold fs-6 text-gray-500 mb-7">
                             {{ __('You are not enrolled in any programs yet.') }}
                             <br>{{ __('Contact your administrator to get enrolled in available programs.') }}
                         </div>
                         <!--end::Description-->
-                        
+
                         <!--begin::Action-->
                         <div class="text-center">
                             <a href="{{ route('admin.dashboard') }}" class="btn btn-primary">

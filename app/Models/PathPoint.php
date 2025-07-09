@@ -15,6 +15,11 @@ class PathPoint extends Model
         'title_ar',
         'title_en',
         'table_name',
+        'meta',
+    ];
+
+    protected $casts = [
+        'meta' => 'array',
     ];
 
     public function Programs()

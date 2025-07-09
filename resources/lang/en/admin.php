@@ -117,6 +117,7 @@ return [
         'title' => ' Programs',
         'show' => 'Programs List',
         'enroll' => 'Assign Programs to Students',
+        'my_programs' => 'My Programs'
     ],
 
     // Settings
