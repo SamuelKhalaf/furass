@@ -292,7 +292,11 @@
                                                             <span>{{ __('Click the button below to begin your evaluation test.') }}</span>
                                                         </div>
                                                     </div>
-                                                    <a href="{{ route('admin.display.evaluation.test', $pathPoint->meta['question_bank_type_id']) }}" class="btn btn-primary btn-lg">
+                                                    <a href="{{ route('admin.display.evaluation.test', [
+                                                            'bank_id' => $pathPoint->meta['question_bank_type_id'],
+                                                            'program_id' => $program->id,
+                                                            'path_point_id' => $pathPoint->id
+                                                        ]) }}" class="btn btn-primary btn-lg">
                                                         <i class="fa-solid fa-play me-2"></i>{{ __('Start Test') }}
                                                     </a>
                                                 @else

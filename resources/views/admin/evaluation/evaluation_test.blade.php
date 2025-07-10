@@ -318,12 +318,21 @@
                 Evaluation Test
             </h1>
             <p class="test-subtitle">Please answer each question by either rating it from 1 to 5 or selecting whether it is true or false.
+                @if(isset($program) && isset($pathPoint))
+                    <br><small class="text-muted">
+                        Program: {{ $program->{app()->getLocale() == 'ar' ? 'title_ar' : 'title_en'} }} |
+                        Activity: {{ $pathPoint->{app()->getLocale() == 'ar' ? 'title_ar' : 'title_en'} }}
+                    </small>
+                @endif
             </p>
         </div>
 
         <form id="evaluationForm" action="{{ route('admin.evaluation.submit') }}" method="POST">
             @csrf
-
+            @if(isset($program_id) && isset($path_point_id))
+                <input type="hidden" name="program_id" value="{{ $program_id }}">
+                <input type="hidden" name="path_point_id" value="{{ $path_point_id }}">
+            @endif
             <div class="progress-bar-container">
                 <div class="progress">
                     <div class="progress-bar" role="progressbar" style="width: 0%" id="progressBar"></div>
@@ -341,6 +350,7 @@
                         <div class="question-number" id="questionNumber">1</div>
                         <p class="question-text" id="questionText"></p>
                     </div>
+
 
                     <input type="hidden" name="bank_id" value="{{$bank_id}}">
 
@@ -385,6 +395,11 @@
             </div>
             <h2 class="completion-title">Evaluation Completed!</h2>
             <p class="text-muted">Thank you for your feedback!</p>
+            @if(isset($program_id) && isset($path_point_id))
+                <a href="{{ route('admin.student.path-point.show', ['program' => $program_id, 'pathPoint' => $path_point_id]) }}" class="btn btn-primary">
+                    <i class="fas fa-arrow-left me-2"></i>Back to Activity
+                </a>
+            @endif
         </div>
 
         <div id="noThinkQuestion" style="display: none;" class="completion-screen">
@@ -399,198 +414,6 @@
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-{{--<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Get questions from PHP
-        const questions = {!! json_encode(
-        $questions->map(function ($question) {
-            return [
-                'id' => $question->id,
-                'text' => $question->text[app()->getLocale()],
-                'scale' => [
-                    '1 - ' . $question->scale_low_label,
-                    '3 - ' . $question->scale_mid_label,
-                    '5 - ' . $question->scale_high_label,
-                ],
-            ];
-        })->values()->toArray()
-    ) !!};
-
-        let currentQuestionIndex = 0;
-        let answers = {};
-
-        const questionScreen = document.getElementById('questionScreen');
-        const completionScreen = document.getElementById('completionScreen');
-        const currentQuestionSpan = document.getElementById('currentQuestion');
-        const totalQuestionsSpan = document.getElementById('totalQuestions');
-        const questionNumber = document.getElementById('questionNumber');
-        const questionText = document.getElementById('questionText');
-        const currentQuestionId = document.getElementById('currentQuestionId');
-        const ratingOptions = document.getElementById('ratingOptions');
-        const ratingScale = document.getElementById('ratingScale');
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
-        const submitBtn = document.getElementById('submitBtn');
-        const progressBar = document.getElementById('progressBar');
-        const progressText = document.getElementById('progressText');
-        const finalScore = document.getElementById('finalScore');
-        const evaluationForm = document.getElementById('evaluationForm');
-
-        // Create hidden inputs for answers
-        questions.forEach((question, index) => {
-            const input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = `answers[${question.id}]`;
-            input.id = `answer_${question.id}`;
-            input.value = '';
-            evaluationForm.appendChild(input);
-        });
-
-        function updateProgress() {
-            const answeredCount = Object.keys(answers).length;
-            const progress = (answeredCount / questions.length) * 100;
-            progressBar.style.width = progress + '%';
-            progressText.textContent = answeredCount + '/' + questions.length;
-        }
-
-        function displayQuestion(index) {
-            const question = questions[index];
-
-            currentQuestionSpan.textContent = index + 1;
-            questionNumber.textContent = index + 1;
-            questionText.textContent = question.text;
-            // currentQuestionId.value = question.id;
-
-            // Update rating scale
-            ratingScale.innerHTML = question.scale.map(item => `<span></span>`).join('');
-
-            // Clear previous selections
-            ratingOptions.querySelectorAll('.rating-option').forEach(option => {
-                option.classList.remove('selected');
-            });
-
-            // Show current selection if exists
-            if (answers[question.id] !== undefined) {
-                const selectedOption = ratingOptions.querySelector(`[data-value="${answers[question.id]}"]`);
-                if (selectedOption) {
-                    selectedOption.classList.add('selected');
-                }
-            }
-
-            // Update navigation buttons
-            prevBtn.disabled = index === 0;
-
-            if (index === questions.length - 1) {
-                nextBtn.style.display = 'none';
-                submitBtn.style.display = 'inline-block';
-            } else {
-                nextBtn.style.display = 'inline-block';
-                submitBtn.style.display = 'none';
-            }
-
-            // Enable/disable next button based on answer
-            if (answers[question.id] !== undefined) {
-                nextBtn.disabled = false;
-                submitBtn.disabled = false;
-            } else {
-                nextBtn.disabled = true;
-                submitBtn.disabled = true;
-            }
-        }
-
-        // Rating option click handlers
-        ratingOptions.addEventListener('click', function(e) {
-            const option = e.target.closest('.rating-option');
-            if (option) {
-                const value = parseInt(option.dataset.value);
-                const currentQuestion = questions[currentQuestionIndex];
-                answers[currentQuestion.id] = value;
-
-                // Update hidden input
-                document.getElementById(`answer_${currentQuestion.id}`).value = value;
-
-                // Update visual selection
-                ratingOptions.querySelectorAll('.rating-option').forEach(opt => {
-                    opt.classList.remove('selected');
-                });
-                option.classList.add('selected');
-
-                // Enable navigation
-                nextBtn.disabled = false;
-                submitBtn.disabled = false;
-
-                updateProgress();
-            }
-        });
-
-        // Navigation handlers
-        prevBtn.addEventListener('click', function() {
-            if (currentQuestionIndex > 0) {
-                currentQuestionIndex--;
-                displayQuestion(currentQuestionIndex);
-            }
-        });
-
-        nextBtn.addEventListener('click', function() {
-            if (currentQuestionIndex < questions.length - 1) {
-                currentQuestionIndex++;
-                displayQuestion(currentQuestionIndex);
-            }
-        });
-
-        // Form submission handler
-        evaluationForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-
-            if (Object.keys(answers).length === questions.length) {
-                // Calculate final score
-                const totalScore = Object.values(answers).reduce((sum, value) => sum + value, 0);
-                const averageScore = (totalScore / questions.length).toFixed(1);
-
-                // Show completion screen
-                questionScreen.style.display = 'none';
-                completionScreen.style.display = 'block';
-
-         /*       finalScore.innerHTML = `
-            Total Score: ${totalScore}/${questions.length * 5}<br>
-            Average Rating: ${averageScore}/5
-        `;*/
-
-                // Submit the form via AJAX
-                fetch(evaluationForm.action, {
-                    method: 'POST',
-                    body: new FormData(evaluationForm),
-                    headers: {
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                        'Accept': 'application/json'
-                    }
-                })
-                    .then(response => {
-                        if (!response.ok) {  // Check if response status is not OK (200-299)
-                            throw new Error('Network response was not ok');
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        console.log('Response data:', data);  // Debug log
-                        if (data.success) {
-                            alert('Evaluation submitted successfully!');
-                        } else {
-                            alert('Submission failed: ' + (data.message || 'Unknown error'));
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error submitting evaluation:', error);
-                        alert('Error submitting evaluation: ' + error.message);
-                    });
-            }
-        });
-        // Initialize
-        displayQuestion(0);
-        updateProgress();
-    });
-</script>--}}
-
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
