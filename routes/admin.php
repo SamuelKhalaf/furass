@@ -447,7 +447,8 @@ Route::middleware(['auth'])->name('admin.')->group(function () {
     ###############################  End:Questions Routes  #####################################
     Route::get('list-question-bank', [EvaluationController::class, 'listQuestionBank'])->name('list.question.bank');
 
-    Route::get('evaluation-test/{bankId}', [EvaluationController::class, 'displayTest'])->name('display.evaluation.test');
+    Route::get('evaluation-test/{bank_id}/{program_id?}/{path_point_id?}', [EvaluationController::class, 'displayTest'])
+        ->name('display.evaluation.test');
 
     Route::post('store-evaluation', [EvaluationController::class, 'evaluation'])->name('evaluation.submit');
 

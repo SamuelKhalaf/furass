@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\EvaluationTest;
+use App\Models\PathPoint;
+use App\Models\Program;
 use App\Models\QuestionBankType;
 use App\Models\QuestionBankValue;
 use App\Models\Questions;
@@ -21,10 +23,29 @@ class EvaluationController extends Controller
         return view('admin.evaluation.list_exams', $data);
     }
 
-    public function displayTest($bank_id)
+    public function displayTest($bank_id, $program_id = null, $path_point_id = null)
     {
-        $questions = Questions::where('bank_id', $bank_id)->where('action', 'select')->orderBy('order')->get();
-        return view('admin.evaluation.evaluation_test',compact('questions') );
+        $questions = Questions::where('bank_id', $bank_id)
+            ->where('action', 'select')
+            ->orderBy('order')
+            ->get();
+
+        // Get program and path point data if provided
+        $program = null;
+        $pathPoint = null;
+
+        if ($program_id && $path_point_id) {
+            $program = Program::find($program_id);
+            $pathPoint = PathPoint::find($path_point_id);
+        }
+
+        return view('admin.evaluation.evaluation_test', compact(
+            'questions',
+            'program',
+            'pathPoint',
+            'program_id',
+            'path_point_id'
+        ));
     }
 
     public function evaluation(Request $request)

@@ -238,7 +238,7 @@ class EnrollmentController extends Controller
                     'score' => null,
                     'attempt_count' => 0,
                     'time_spent' => 0,
-                    'order' => $pathPoint->pivot->order, // Store the order at enrollment time
+                    'order' => $pathPoint->pivot->order,
                 ]);
             }
         }
