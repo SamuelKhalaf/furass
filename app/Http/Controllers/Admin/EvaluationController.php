@@ -9,6 +9,7 @@ use App\Models\Program;
 use App\Models\QuestionBankType;
 use App\Models\QuestionBankValue;
 use App\Models\Questions;
+use App\Models\Student;
 use App\Models\ValuesQuestions;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -59,6 +60,15 @@ class EvaluationController extends Controller
             ], 401);
         }
 
+        if ($student->role != 'Student') {
+            return response()->json([
+                'success' => true,
+                'message' => 'You Must Be Student',
+            ], 200);
+        }
+
+        $student_id = Student::where('user_id' , $student->id)->first();
+
         $result = $request->input('answers', []);
 
         if (empty($result)) {
@@ -71,6 +81,18 @@ class EvaluationController extends Controller
         DB::beginTransaction();
 
         try {
+            // check if this student already took this exam
+            $latestAttempt = EvaluationTest::where([
+                'student_id' => $student_id->id,
+                'bank_id'    => $request->bank_id,
+            ])->orderByDesc('trying')->first();
+
+            $nextTrying = 1;
+
+            if ($latestAttempt) {
+                $nextTrying = $latestAttempt->trying + 1;
+            }
+
             foreach ($result as $questionId => $answer) {
 
                 $question = Questions::find($questionId);
@@ -89,14 +111,13 @@ class EvaluationController extends Controller
                 }
 
                 EvaluationTest::create([
-                    'student_id'   => $student->id,
+                    'student_id'   => $student_id->id,
                     'question_id'  => $questionId,
                     'bank_id'      => $bank->id,
                     'value_id'     => $value->id,
                     'evaluation'   => $answer,
-                    'trying'       => 1,
+                    'trying'       => $nextTrying,
                 ]);
-
             }
 
             DB::commit();
@@ -134,7 +155,7 @@ class EvaluationController extends Controller
                 'success' => false,
                 'message' => 'No questions found for this bank.',
                 'questions' => [],
-            ], 404);
+            ], 200);
         }
 
         return response()->json([

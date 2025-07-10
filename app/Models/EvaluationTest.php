@@ -9,4 +9,6 @@ class EvaluationTest extends Model
 {
     use HasFactory;
     protected $fillable = ['student_id', 'question_id', 'bank_id', 'value_id', 'evaluation', 'trying'];
+
+
 }
