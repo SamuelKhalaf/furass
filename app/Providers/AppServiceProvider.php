@@ -10,9 +10,11 @@ use App\Repositories\IRoleRepository;
 use App\Repositories\IUserRepository;
 use App\Services\implementation\PermissionService;
 use App\Services\implementation\RoleService;
+use App\Services\implementation\StudentProgressService;
 use App\Services\implementation\UserService;
 use App\Services\IPermissionService;
 use App\Services\IRoleService;
+use App\Services\IStudentProgressService;
 use App\Services\IUserService;
 use Illuminate\Support\ServiceProvider;
 
@@ -29,6 +31,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(IRoleService::class,         RoleService::class);
         $this->app->bind(IPermissionRepository::class,PermissionRepository::class);
         $this->app->bind(IPermissionService::class,   PermissionService::class);
+        $this->app->bind(IStudentProgressService::class, StudentProgressService::class);
     }
 
     /**

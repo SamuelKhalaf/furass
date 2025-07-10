@@ -130,6 +130,11 @@ return [
         'pages' => 'إدارة الصفحات',
     ],
 
+    // Evaluation
+    'evaluation-result' => [
+        'title' => 'نتيجه الاختبارات'
+    ],
+
     // Exams
     'exams' => [
         'title' => ' الاختبارات',

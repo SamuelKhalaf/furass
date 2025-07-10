@@ -351,7 +351,6 @@
                         <p class="question-text" id="questionText"></p>
                     </div>
 
-
                     <input type="hidden" name="bank_id" value="{{$bank_id}}">
 
                     <div class="rating-section">

@@ -120,6 +120,11 @@ return [
         'my_programs' => 'My Programs'
     ],
 
+    // Evaluation
+    'evaluation-result' => [
+        'title' => 'Assessments Result'
+    ],
+
     // Settings
     'settings' => [
         'title' => 'System Settings',
