@@ -306,8 +306,15 @@
                                                             <span>{{ __('You have successfully completed this evaluation test.') }}</span>
                                                         </div>
                                                     </div>
-                                                    <a href="#" class="btn btn-success btn-lg">
+                                                    <a href="{{route('admin.evaluation.result' , $pathPoint->meta['question_bank_type_id'])}}" class="btn btn-success btn-lg">
                                                         <i class="fa-solid fa-eye me-2"></i>{{ __('View Results') }}
+                                                    </a>
+                                                    <a href="{{ route('admin.display.evaluation.test', [
+                                                            'bank_id' => $pathPoint->meta['question_bank_type_id'],
+                                                            'program_id' => $program->id,
+                                                            'path_point_id' => $pathPoint->id
+                                                        ]) }}" class="btn btn-warning btn-lg mt-3">
+                                                        <i class="fa-solid fa-rotate-right me-2"></i>{{ __('Retake Test') }}
                                                     </a>
                                                 @endif
                                             </div>

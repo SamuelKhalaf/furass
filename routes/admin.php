@@ -160,6 +160,10 @@ Route::middleware(['auth'])->name('admin.')->group(function () {
     Route::delete('consultants/{consultant}', [ConsultantController::class, 'destroy'])
         ->middleware('permission:'. PermissionEnum::DELETE_CONSULTANTS->value)
         ->name('consultants.destroy');
+
+    Route::get('students/evaluation/result', [ConsultantController::class, 'viewStudentsResult'])
+        ->middleware('role:'. RoleEnum::CONSULTANT->value)
+        ->name('students.evaluation.result');
     ###############################  End:Consultants Routes  #####################################
 
     ############################### Start:Trips Routes #####################################

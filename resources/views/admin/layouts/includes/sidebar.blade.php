@@ -174,6 +174,19 @@
                     </div>
                 @endif
 
+                @if(auth()->user()->hasRole(RoleEnum::CONSULTANT->value))
+                    <!--begin:Menu item-->
+                    <div class="menu-item {{setMenuOpenClass(['admin.students.evaluation.result'])}}">
+                        <!--begin:Menu link-->
+                        <a class="menu-link {{setActiveClass('admin.students.evaluation.result')}}"
+                           href="{{route('admin.students.evaluation.result')}}">
+                            <span class="menu-icon"><i class="fa-solid fa-chart-line me-2"></i></span>
+                            <span class="menu-title">{{ __('admin.evaluation-result.title') }}</span>
+                        </a>
+                        <!--end:Menu link-->
+                    </div>
+                    <!--end:Menu item-->
+                @endif
                 @if(auth()->user()->hasAnyPermission(PermissionEnum::tripPermissions()))
                     <!--begin:Menu item-->
                     <div class="menu-item {{setMenuOpenClass(['admin.trips.index'])}}">

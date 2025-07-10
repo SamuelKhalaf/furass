@@ -12,6 +12,7 @@
         "laravel/tinker": "^2.8",
         "laravel/ui": "^4.6",
         "spatie/laravel-permission": "^6.16",
+        "spatie/laravel-translatable": "^6.11",
         "spatie/laravel-translation-loader": "^2.8",
         "yajra/laravel-datatables-oracle": "^10.11"
     },

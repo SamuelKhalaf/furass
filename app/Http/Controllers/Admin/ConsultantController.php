@@ -6,6 +6,7 @@ use App\Enums\PermissionEnum;
 use App\Enums\RoleEnum;
 use App\Http\Controllers\Controller;
 use App\Models\Consultant;
+use App\Models\Student;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -108,7 +109,7 @@ class ConsultantController extends Controller
         } else {
             $is_active = false;
         }
-        
+
         try {
             DB::beginTransaction();
             $user = User::create([
@@ -238,4 +239,171 @@ class ConsultantController extends Controller
         }
     }
 
+    public function viewStudentsResult(Request $request)
+    {
+        $user = auth()->user();
+        $consultant = Consultant::where('user_id', $user->id)->first();
+        $schools = $consultant->schools;
+
+        // Start building the query
+        $studentsQuery = Student::whereIn('school_id', $schools->pluck('id'))
+            ->with(['user', 'school.user', 'evaluationTests']);
+
+        // Apply school filter if provided
+        if ($request->filled('school_id')) {
+            $studentsQuery->where('school_id', $request->school_id);
+        }
+
+        $students = $studentsQuery->paginate(9);
+
+        // Process students data with simplified structure
+        $students->getCollection()->transform(function ($student) {
+            // Group evaluation tests by bank_id and get simplified data
+            $groupedTests = $student->evaluationTests
+                ->groupBy('bank_id')
+                ->map(function ($tests, $bankId) {
+                    // Get the latest attempt for this bank_id
+                    $latestTest = $tests->sortByDesc('trying')->first();
+
+                    // Simplified: Just check if there are any tests for this bank
+                    $hasTests = $tests->count() > 0;
+
+                    return [
+                        'bank_id' => $bankId,
+                        'has_tests' => $hasTests,
+                        'latest_attempt' => $latestTest->trying ?? 1,
+                        'last_updated' => $latestTest->updated_at ?? $latestTest->created_at,
+                    ];
+                });
+
+            // Add simplified test statistics to student
+            $student->total_tests = $groupedTests->count();
+            $student->has_any_tests = $student->total_tests > 0;
+
+            // Keep the grouped tests for detailed view if needed
+            $student->grouped_evaluation_tests = $groupedTests;
+
+            return $student;
+        });
+
+        return view('admin.consultants.list_students', compact('students', 'schools'));
+    }
+
+//    public function viewStudentsResult(Request $request)
+//    {
+//        $user = auth()->user();
+//        $consultant = Consultant::where('user_id', $user->id)->first();
+//        $schools = $consultant->schools;
+//
+//        // Start building the query
+//        $studentsQuery = Student::whereIn('school_id', $schools->pluck('id'))
+//            ->with(['user', 'school.user', 'evaluationTests']);
+//
+//        // Apply school filter if provided
+//        if ($request->filled('school_id')) {
+//            $studentsQuery->where('school_id', $request->school_id);
+//        }
+//
+//        // Get paginated students (10 per page)
+//        $students = $studentsQuery->paginate(9);
+//
+//        // Process students data with simplified structure
+//        $students->getCollection()->transform(function ($student) {
+//            // Group evaluation tests by bank_id and get simplified data
+//            $groupedTests = $student->evaluationTests
+//                ->groupBy('bank_id')
+//                ->map(function ($tests, $bankId) {
+//                    // Get the latest attempt for this bank_id
+//                    $latestTest = $tests->sortByDesc('trying')->first();
+//
+//                    // Calculate completion status
+//                    $totalQuestions = $tests->count();
+//                    $completedQuestions = $tests->where('evaluation', '!=', null)->count();
+//                    $completionPercentage = $totalQuestions > 0 ? round(($completedQuestions / $totalQuestions) * 100, 2) : 0;
+//
+//                    return [
+//                        'bank_id' => $bankId,
+//                        'completion_percentage' => $completionPercentage,
+//                        'is_completed' => $completionPercentage >= 100,
+//                        'total_questions' => $totalQuestions,
+//                        'completed_questions' => $completedQuestions,
+//                        'latest_attempt' => $latestTest->trying ?? 1,
+//                        'last_updated' => $latestTest->updated_at ?? $latestTest->created_at,
+//                    ];
+//                });
+//
+//            // Add simplified test statistics to student
+//            $student->total_tests = $groupedTests->count();
+//            $student->completed_tests = $groupedTests->where('is_completed', true)->count();
+//            $student->pending_tests = $groupedTests->where('is_completed', false)->count();
+//            $student->completion_percentage = $student->total_tests > 0
+//                ? round(($student->completed_tests / $student->total_tests) * 100, 2)
+//                : 0;
+//
+//            // Add flags for summary statistics
+//            $student->has_completed_tests = $student->completed_tests > 0;
+//            $student->has_pending_tests = $student->pending_tests > 0;
+//
+//            // Keep the grouped tests for detailed view if needed
+//            $student->grouped_evaluation_tests = $groupedTests;
+//
+//            return $student;
+//        });
+//
+//        return view('admin.consultants.list_students', compact('students', 'schools'));
+//    }
+
+//    public function viewStudentsResult()
+//    {
+//        $user = auth()->user();
+//        $consultant = Consultant::where('user_id', $user->id)->first();
+//        $schools = $consultant->schools;
+//
+//        // Get students with their evaluation tests grouped by bank_id
+//        $students = Student::whereIn('school_id', $schools->pluck('id'))
+//            ->with(['user', 'school.user', 'evaluationTests'])
+//            ->get()
+//            ->map(function ($student) {
+//                // Group evaluation tests by bank_id and get the latest attempt for each
+//                $groupedTests = $student->evaluationTests
+//                    ->groupBy('bank_id')
+//                    ->map(function ($tests, $bankId) {
+//                        // Get the latest attempt for this bank_id
+//                        $latestTest = $tests->sortByDesc('trying')->first();
+//
+//                        // Calculate completion percentage or score
+//                        $totalQuestions = $tests->count();
+//                        $completedQuestions = $tests->where('evaluation', '!=', null)->count();
+//                        $completionPercentage = $totalQuestions > 0 ? round(($completedQuestions / $totalQuestions) * 100, 2) : 0;
+//
+//                        return [
+//                            'bank_id' => $bankId,
+//                            'latest_attempt' => $latestTest->trying ?? 1,
+//                            'completion_percentage' => $completionPercentage,
+//                            'total_questions' => $totalQuestions,
+//                            'completed_questions' => $completedQuestions,
+//                            'last_updated' => $latestTest->updated_at ?? $latestTest->created_at,
+//                            'is_completed' => $completionPercentage >= 100,
+//                            'tests' => $tests
+//                        ];
+//                    });
+//
+//                $student->grouped_evaluation_tests = $groupedTests;
+//                return $student;
+//            });
+//
+//        return view('admin.consultants.list_students', compact('students', 'schools'));
+//    }
+//    public function viewStudentsResult()
+//    {
+//        $user = auth()->user();
+//        $consultant = Consultant::where('user_id', $user->id)->first();
+//        $schools = $consultant->schools;
+//        $students = Student::whereIn('school_id', $schools->pluck('id'))
+//            ->with(['user', 'school.user', 'evaluationTests'])
+//            ->get();
+//
+//        dd($students->first()->evaluationTests);
+//        return view('admin.consultants.list_students', compact('students', 'schools'));
+//    }
 }

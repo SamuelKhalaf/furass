@@ -20,8 +20,8 @@
                         <h1 class="fw-bolder fs-2hx text-gray-900 mb-4">Access Denied</h1>
                         <!--end::Title-->
                         <!--begin::Text-->
-                        <div class="fw-semibold fs-6 text-gray-500 mb-7">
-                            You don’t have permission to access this page.
+                        <div class="fw-semibold fs-6 text-danger mb-7">
+                            {{ $exception->getMessage() ?? 'You don’t have permission to access this page.' }}
                         </div>
                         <!--end::Text-->
                         <!--begin::Illustration-->
@@ -32,7 +32,7 @@
                         <!--end::Illustration-->
                         <!--begin::Link-->
                         <div class="mb-0">
-                            <a href="{{route('template.home')}}" class="btn btn-sm btn-primary">Return Home</a>
+                            <a href="{{ url()->previous() }}" class="btn btn-sm btn-primary">Go Back</a>
                         </div>
                         <!--end::Link-->
                     </div>

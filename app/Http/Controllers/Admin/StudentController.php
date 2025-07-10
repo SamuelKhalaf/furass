@@ -26,6 +26,8 @@ class StudentController extends Controller
             $schools = School::all();
         } elseif ($user->hasRole(RoleEnum::SCHOOL->value)) {
             $schools = School::where('user_id', $user->id)->get();
+        } else {
+            $schools = collect();
         }
         return view('admin.students.index', compact('schools'));
     }

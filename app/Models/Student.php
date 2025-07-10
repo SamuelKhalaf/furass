@@ -33,4 +33,10 @@ class Student extends Model
     {
         return $this->hasMany(Enrollment::class);
     }
+
+    public function evaluationTests()
+    {
+        return $this->hasMany(\App\Models\EvaluationTest::class, 'student_id');
+    }
+
 }

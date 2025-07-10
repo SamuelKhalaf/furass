@@ -9,6 +9,7 @@ use App\Models\Program;
 use App\Models\School;
 use App\Models\Student;
 use App\Models\StudentPathProgress;
+use App\Services\IStudentProgressService;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
@@ -18,6 +19,14 @@ use Illuminate\Support\Facades\DB;
 
 class EnrollmentController extends Controller
 {
+
+    protected IStudentProgressService $progressService;
+
+    public function __construct(IStudentProgressService $progressService)
+    {
+        $this->progressService = $progressService;
+    }
+
     /**
      * Display student enrolled programs
      */
@@ -75,15 +84,9 @@ class EnrollmentController extends Controller
             return $pathPoint;
         })->sortBy('order');
 
-        // Calculate overall progress
-        $totalPoints = $pathPointsWithProgress->count();
-        $completedPoints = $pathPointsWithProgress->where('status', 3)->count(); // 3=completed
-        $overallProgress = $totalPoints > 0 ? round(($completedPoints / $totalPoints) * 100, 1) : 0;
-
-        // Update enrollment progress if it exists
-        if ($enrollment) {
-            $enrollment->update(['progress' => $overallProgress]);
-        }
+        $this->progressService->updateProgramProgress($student->id, $program->id);
+        $enrollment->refresh();
+        $overallProgress = $enrollment->progress;
 
         return view('admin.programs.student_program_show', [
             'student' => $student,
