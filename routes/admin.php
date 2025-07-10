@@ -6,9 +6,8 @@ use App\Http\Controllers\Admin\CalendarController;
 use App\Http\Controllers\Admin\CategoryOfExamController;
 use App\Http\Controllers\Admin\CkeditorController;
 use App\Http\Controllers\Admin\ConsultantController;
-use App\Http\Controllers\Admin\ConsultationController;
-use App\Http\Controllers\Admin\ConsultationNotesController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\EnrollmentController;
 use App\Http\Controllers\Admin\EvaluationController;
 use App\Http\Controllers\Admin\EvaluationResultController;
 use App\Http\Controllers\Admin\NewsController;
@@ -26,8 +25,6 @@ use App\Http\Controllers\Admin\TripsController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\ValuesQuestionsController;
 use App\Http\Controllers\Admin\WorkshopsController;
-use App\Http\Controllers\EnrollmentController;
-use App\Http\Controllers\StudentProgramController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -213,10 +210,6 @@ Route::middleware(['auth'])->name('admin.')->group(function () {
         Route::get('programs/all', [ProgramsController::class, 'getProgramsData'])->name('programs.datatable');
     });
 
-    Route::middleware('role:' . RoleEnum::STUDENT->value)->group(function () {
-        Route::get('programs/student/{program}', [ProgramsController::class, 'studentShow'])->name('programs.student_show');
-    });
-
     Route::middleware('permission:'. PermissionEnum::UPDATE_PROGRAMS->value)->group(function () {
         Route::get('programs/{program}/edit', [ProgramsController::class, 'edit'])->name('programs.edit');
         Route::put('programs/{program}', [ProgramsController::class, 'update'])->name('programs.update');
@@ -226,6 +219,11 @@ Route::middleware(['auth'])->name('admin.')->group(function () {
     Route::middleware(['school'])->group(function () {
         Route::get('programs/enroll', [EnrollmentController::class, 'showProgramAssignment'])->name('programs.enroll');
         Route::post('programs/enroll', [EnrollmentController::class, 'assignPrograms'])->name('programs.enroll.store');
+    });
+    Route::middleware('role:' . RoleEnum::STUDENT->value)->group(function () {
+        Route::get('student/enrollments', [EnrollmentController::class, 'index'])->name('student.enrollments.index');
+        Route::get('student/enrollments/{program}', [EnrollmentController::class, 'enrollmentShow'])->name('student.enrollments.show');
+        Route::get('student/path-point/{program}/{pathPoint}', [EnrollmentController::class, 'showPathPointActivity'])->name('student.path-point.show');
     });
     ###############################  End:Programs Routes  #####################################
 

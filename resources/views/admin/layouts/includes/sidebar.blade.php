@@ -105,10 +105,19 @@
                     </div>
                     <!--end:Menu item-->
                 @endif
-                @if(auth()->user()->hasAnyPermission(PermissionEnum::programPermissions()) || auth()->user()->hasRole(RoleEnum::SCHOOL->value))
+                @if(auth()->user()->hasAnyPermission(PermissionEnum::programPermissions()) ||
+                    auth()->user()->hasRole(RoleEnum::SCHOOL->value) ||
+                    auth()->user()->hasRole(RoleEnum::STUDENT->value)
+                )
                     <!--begin:Menu item-->
                     <div data-kt-menu-trigger="click"
-                         class="menu-item menu-accordion {{setMenuOpenClass(['admin.programs.index','admin.programs.enroll'])}}">
+                         class="menu-item menu-accordion
+                         {{setMenuOpenClass([
+                            'admin.programs.index',
+                            'admin.programs.enroll',
+                            'admin.student.enrollments.index',
+                            'admin.student.enrollments.show'
+                        ])}}">
                         <span class="menu-link">
                             <span class="menu-icon"><i class="fa-solid fa-route"></i></span>
                             <span class="menu-title">{{ __('admin.programs.title') }}</span>
@@ -140,6 +149,22 @@
                                             <span class="bullet bullet-dot"></span>
                                         </span>
                                         <span class="menu-title">{{ __('admin.programs.enroll') }}</span>
+                                    </a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                            @endif
+                            @if(auth()->user()->hasRole(RoleEnum::STUDENT->value))
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link-->
+                                    <a class="menu-link
+                                        {{setActiveClass(['admin.student.enrollments.index','admin.student.enrollments.show'])}}"
+                                        href="{{route('admin.student.enrollments.index')}}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                        <span class="menu-title">{{ __('admin.programs.my_programs') }}</span>
                                     </a>
                                     <!--end:Menu link-->
                                 </div>

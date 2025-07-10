@@ -98,8 +98,6 @@ class EvaluationController extends Controller
                     'evaluation'   => $answer,
                     'trying'       => $nextTrying,
                 ]);
-
-
             }
 
             DB::commit();
