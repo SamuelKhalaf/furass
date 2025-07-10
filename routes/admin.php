@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\ConsultationController;
 use App\Http\Controllers\Admin\ConsultationNotesController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\EvaluationController;
+use App\Http\Controllers\Admin\EvaluationResultController;
 use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\Admin\PagesController;
@@ -464,4 +465,11 @@ Route::middleware(['auth'])->name('admin.')->group(function () {
     Route::post('/questions/select', [EvaluationController::class, 'select']);
     Route::post('/questions/reorder', [EvaluationController::class, 'reorder'])->name('questions.reorder');
 
+
+    ###############################  start:evaluation result Routes  #####################################
+    Route::get('all-question-bank', [EvaluationResultController::class, 'allQuestionBank']);
+    Route::get('evaluation-result/{bank_id}/{student_id?}', [EvaluationResultController::class, 'evaluationResult'])->name('evaluation.result');
+    Route::get('evaluation-question/{bank_id}/{student_id}/{trying}', [EvaluationResultController::class, 'get_evaluation_questions'])->name('evaluation.question');
+
+    ###############################  end:evaluation result Routes  #####################################
 });

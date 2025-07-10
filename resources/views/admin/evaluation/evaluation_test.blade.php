@@ -342,26 +342,9 @@
                         <p class="question-text" id="questionText"></p>
                     </div>
 
-{{--                    <input type="hidden" name="question_id[]" id="currentQuestionId">--}}
+                    <input type="hidden" name="bank_id" value="{{$bank_id}}">
 
                     <div class="rating-section">
-                        {{--<div class="rating-options" id="ratingOptions">
-                            <div class="rating-option" data-value="1">
-                                <div class="rating-circle">1</div>
-                            </div>
-                            <div class="rating-option" data-value="2">
-                                <div class="rating-circle">2</div>
-                            </div>
-                            <div class="rating-option" data-value="3">
-                                <div class="rating-circle">3</div>
-                            </div>
-                            <div class="rating-option" data-value="4">
-                                <div class="rating-circle">4</div>
-                            </div>
-                            <div class="rating-option" data-value="5">
-                                <div class="rating-circle">5</div>
-                            </div>
-                        </div>--}}
                         <div class="rating-options" id="ratingOptionsScale">
                             <div class="rating-option" data-value="1"><div class="rating-circle">1</div></div>
                             <div class="rating-option" data-value="2"><div class="rating-circle">2</div></div>
@@ -371,8 +354,8 @@
                         </div>
 
                         <div class="rating-options" id="ratingOptionsTF">
-                            <div class="rating-option" data-value="0"><div class="rating-circle">True</div></div>
-                            <div class="rating-option" data-value="-1"><div class="rating-circle">False</div></div>
+                            <div class="rating-option" data-value="1"><div class="rating-circle">True</div></div>
+                            <div class="rating-option" data-value="0"><div class="rating-circle">False</div></div>
                         </div>
                         <div class="rating-scale" id="ratingScale"></div>
                     </div>
@@ -409,7 +392,7 @@
                 <i class="fas fa-times-circle"></i>
 
             </div>
-            <h2 class="completion-title">NO Question Here</h2>
+            <h2 class="completion-title">Your Data Not Correct </h2>
             <p class="text-muted">Come Again In Another Time</p>
         </div>
     </div>
@@ -613,8 +596,8 @@
     document.addEventListener('DOMContentLoaded', function() {
 
         const checkquestions = {!! json_encode($questions) !!};
-
-        if (!checkquestions || checkquestions.length === 0) {
+        const userRole = "{{auth()->user()->role}}";
+        if (!checkquestions || checkquestions.length === 0 || userRole !== 'Student') {
             document.getElementById('questionScreen').style.display = 'none';
             document.getElementById('noThinkQuestion').style.display = 'block';
         }

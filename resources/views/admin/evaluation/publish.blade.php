@@ -578,7 +578,6 @@
                 updateSelectedCounter();
 
                 if (data.questions && data.questions.length > 0) {
-
                     const optionHtml = data.values
                         .map(value => {
                             const valueNameObj = JSON.parse(value.value_name);

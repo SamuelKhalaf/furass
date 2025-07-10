@@ -51,5 +51,11 @@ return [
         'choose_value' => 'Select the associated value',
         'select_option' => 'Select an option',
         'manage_exams' => 'Manage Exams',
-    ]
+    ],
+
+    'result'=>[
+        'number_of_attempts' => 'Number Of Attempts',
+        'choose_an_attempt' => 'Choose An Attempt',
+        'evaluations_summary' => 'Evaluations Summary',
+    ],
 ];
