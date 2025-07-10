@@ -51,7 +51,14 @@ return [
         'choose_value' => 'اختر القيمه المرتبطه',
         'select_option' => 'حدد خيارا',
         'manage_exams' => 'اداره الامتحانات',
-    ]
+    ],
+
+    'result'=>[
+        'number_of_attempts' => 'عدد المحاولات',
+        'choose_an_attempt' => 'اختر محاولة',
+        'evaluations_summary' => 'ملخص التقييمات',
+    ],
+
 
 
 
