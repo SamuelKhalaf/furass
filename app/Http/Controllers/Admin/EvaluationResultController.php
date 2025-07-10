@@ -127,7 +127,7 @@ class EvaluationResultController extends Controller
             ->where('trying', $trying)
             ->join('values_questions' , 'evaluation_tests.value_id' , '=' ,'values_questions.id')
             ->select('value_id', DB::raw('SUM(evaluation) as total_evaluation') , 'name')
-            ->groupBy('value_id')
+            ->groupBy('value_id', 'name')
             ->get();
 
         return [$questions , $evaluations];
