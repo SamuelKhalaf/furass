@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\CalendarController;
 use App\Http\Controllers\Admin\CategoryOfExamController;
 use App\Http\Controllers\Admin\CkeditorController;
 use App\Http\Controllers\Admin\ConsultantController;
+use App\Http\Controllers\Admin\ConsultationController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\EnrollmentController;
 use App\Http\Controllers\Admin\EvaluationController;
@@ -166,6 +167,81 @@ Route::middleware(['auth'])->name('admin.')->group(function () {
         ->name('students.evaluation.result');
     ###############################  End:Consultants Routes  #####################################
 
+
+    ############################### Start:Consultations Routes #####################################
+    // Student consultation routes
+    Route::middleware(['role:'. RoleEnum::STUDENT->value])->group(function () {
+        // View consultation details
+        Route::get('student/consultation/{program}/{pathPoint}', [ConsultationController::class, 'showStudentConsultation'])
+            ->name('student.consultation.show');
+
+        // Join a consultation meeting
+        Route::get('students/consultation/{consultation}/join', [ConsultationController::class, 'joinConsultation'])
+            ->name('student.consultation.join');
+
+        // View consultation notes
+        Route::get('students/consultation/{consultation}/notes', [ConsultationController::class, 'viewNotes'])
+            ->name('student.consultation.notes');
+    });
+
+    // Consultant consultation routes
+    Route::middleware('role:'. RoleEnum::CONSULTANT->value)->group(function () {
+        Route::prefix('consultant')->group(function () {
+            // List students needing consultation
+            Route::get('/students', [ConsultationController::class, 'consultantStudentsList'])
+                ->name('consultant.students.index');
+
+            // Schedule a consultation form
+            Route::get('/students/{student}/consultation/{program}/{pathPoint}/schedule', [ConsultationController::class, 'showScheduleForm'])
+                ->name('consultant.consultation.schedule.form');
+
+            // Schedule consultation
+            Route::post('/students/{student}/consultation/{program}/{pathPoint}/schedule', [ConsultationController::class, 'scheduleConsultation'])
+                ->name('consultant.consultation.schedule');
+
+            // Start a consultation meeting
+            Route::get('/consultation/{consultation}/start', [ConsultationController::class, 'startConsultation'])
+                ->name('consultant.consultation.start');
+
+            // Show a consultation notes form
+            Route::get('/consultation/{consultation}/notes', [ConsultationController::class, 'showNotesForm'])
+                ->name('consultant.consultation.notes.form');
+
+            // Save consultation notes
+            Route::post('/consultation/{consultation}/notes', [ConsultationController::class, 'saveNotes'])
+                ->name('consultant.consultation.notes.save');
+
+            // Cancel consultation
+            Route::post('/consultation/{consultation}/cancel', [ConsultationController::class, 'cancelConsultation'])
+                ->name('consultant.consultation.cancel');
+        });
+    });
+    ###############################  End:Consultations Routes  #####################################
+
+
+    ############################### Start:Programs Routes #####################################
+    Route::middleware('permission:'. PermissionEnum::LIST_PROGRAMS->value)->group(function () {
+        Route::get('programs', [ProgramsController::class, 'index'])->name('programs.index');
+        Route::get('programs/all', [ProgramsController::class, 'getProgramsData'])->name('programs.datatable');
+    });
+
+    Route::middleware('permission:'. PermissionEnum::UPDATE_PROGRAMS->value)->group(function () {
+        Route::get('programs/{program}/edit', [ProgramsController::class, 'edit'])->name('programs.edit');
+        Route::put('programs/{program}', [ProgramsController::class, 'update'])->name('programs.update');
+    });
+
+    // We don't need to assign permissions for this route coz it has the school middleware
+    Route::middleware(['school'])->group(function () {
+        Route::get('programs/enroll', [EnrollmentController::class, 'showProgramAssignment'])->name('programs.enroll');
+        Route::post('programs/enroll', [EnrollmentController::class, 'assignPrograms'])->name('programs.enroll.store');
+    });
+    Route::middleware('role:' . RoleEnum::STUDENT->value)->group(function () {
+        Route::get('student/enrollments', [EnrollmentController::class, 'index'])->name('student.enrollments.index');
+        Route::get('student/enrollments/{program}', [EnrollmentController::class, 'enrollmentShow'])->name('student.enrollments.show');
+        Route::get('student/path-point/{program}/{pathPoint}', [EnrollmentController::class, 'showPathPointActivity'])->name('student.path-point.show');
+    });
+    ###############################  End:Programs Routes  #####################################
+
     ############################### Start:Trips Routes #####################################
     Route::middleware('permission:'. PermissionEnum::LIST_TRIPS->value)->group(function () {
         Route::get('trips', [TripsController::class, 'index'])->name('trips.index');
@@ -207,29 +283,6 @@ Route::middleware(['auth'])->name('admin.')->group(function () {
         ->middleware('permission:'. PermissionEnum::DELETE_WORKSHOPS->value)
         ->name('workshops.destroy');
     ###############################  End:Workshops Routes  #####################################
-
-    ############################### Start:Programs Routes #####################################
-    Route::middleware('permission:'. PermissionEnum::LIST_PROGRAMS->value)->group(function () {
-        Route::get('programs', [ProgramsController::class, 'index'])->name('programs.index');
-        Route::get('programs/all', [ProgramsController::class, 'getProgramsData'])->name('programs.datatable');
-    });
-
-    Route::middleware('permission:'. PermissionEnum::UPDATE_PROGRAMS->value)->group(function () {
-        Route::get('programs/{program}/edit', [ProgramsController::class, 'edit'])->name('programs.edit');
-        Route::put('programs/{program}', [ProgramsController::class, 'update'])->name('programs.update');
-    });
-
-    // We don't need to assign permissions for this route coz it has the school middleware
-    Route::middleware(['school'])->group(function () {
-        Route::get('programs/enroll', [EnrollmentController::class, 'showProgramAssignment'])->name('programs.enroll');
-        Route::post('programs/enroll', [EnrollmentController::class, 'assignPrograms'])->name('programs.enroll.store');
-    });
-    Route::middleware('role:' . RoleEnum::STUDENT->value)->group(function () {
-        Route::get('student/enrollments', [EnrollmentController::class, 'index'])->name('student.enrollments.index');
-        Route::get('student/enrollments/{program}', [EnrollmentController::class, 'enrollmentShow'])->name('student.enrollments.show');
-        Route::get('student/path-point/{program}/{pathPoint}', [EnrollmentController::class, 'showPathPointActivity'])->name('student.path-point.show');
-    });
-    ###############################  End:Programs Routes  #####################################
 
     ############################### Start:Calendar Routes #####################################
     Route::middleware('permission:'. PermissionEnum::LIST_EVENTS->value)->group(function () {
@@ -283,26 +336,6 @@ Route::middleware(['auth'])->name('admin.')->group(function () {
         Route::get('/notifications/{id}', [NotificationController::class, 'show'])->name('notifications.show');
     });
     ###############################  End:Notifications Routes  #####################################
-
-    ############################### Start:Consultations Routes #####################################
-//    Route::middleware('permission:'. PermissionEnum::LIST_CONSULTANTS->value)->group(function () {
-//        Route::get('consultations', [ConsultationController::class, 'index'])->name('consultations.index');
-//        Route::get('consultations/all', [ConsultationController::class, 'getConsultationsData'])->name('consultations.datatable');
-//    });
-//
-//    Route::post('consultations', [ConsultationController::class, 'store'])
-//        ->middleware('permission:'. PermissionEnum::CREATE_CONSULTANTS->value)
-//        ->name('consultations.store');
-//
-//    Route::middleware('permission:'. PermissionEnum::UPDATE_CONSULTANTS->value)->group(function () {
-//        Route::get('consultations/{consultant}/edit', [ConsultationController::class, 'edit'])->name('consultations.edit');
-//        Route::put('consultations/{consultant}', [ConsultationController::class, 'update'])->name('consultations.update');
-//    });
-//
-//    Route::delete('consultations/{consultant}', [ConsultationController::class, 'destroy'])
-//        ->middleware('permission:'. PermissionEnum::DELETE_CONSULTANTS->value)
-//        ->name('consultations.destroy');
-    ###############################  End:Consultations Routes  #####################################
 
     ##############################  start:CatExams Routes  ####################################
     Route::middleware('permission:'. PermissionEnum::LIST_SCHOOLS->value)->group(function () {

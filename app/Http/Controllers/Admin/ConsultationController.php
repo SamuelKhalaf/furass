@@ -2,146 +2,334 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Enums\PermissionEnum;
 use App\Http\Controllers\Controller;
-use App\Models\Consultant;
 use App\Models\Consultation;
+use App\Models\ConsultationNotes;
 use App\Models\Student;
+use App\Models\Consultant;
+use App\Models\Program;
+use App\Models\PathPoint;
+use App\Models\StudentPathProgress;
+use App\Models\Enrollment;
+use App\Services\IStudentProgressService;
 use Illuminate\Http\Request;
-use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
 class ConsultationController extends Controller
 {
+
     /**
-     * Display a listing of the resource.
+     * @var IStudentProgressService
      */
-    public function index()
+    protected IStudentProgressService $progressService;
+
+    /**
+     * @param IStudentProgressService $progressService
+     */
+    public function __construct(IStudentProgressService $progressService)
     {
-        return view('admin.consultations.index');
+        $this->progressService = $progressService;
     }
 
-    public function getConsultationsData()
+    /**
+     * Display consultation details for a student
+     */
+    public function showStudentConsultation(Request $request, $programId, $pathPointId)
     {
-        $consultations = Consultation::with(['consultant', 'student'])->get();
+        $student = Student::where('user_id', Auth::id())->firstOrFail();
+        $program = Program::findOrFail($programId);
+        $pathPoint = PathPoint::findOrFail($pathPointId);
 
-        return DataTables::of($consultations)
-            ->addColumn('consultant.name', function ($consultation) {
-                return $consultation->consultant->user->name;
+        // Check if a student is enrolled in the program
+        $enrollment = Enrollment::where('student_id', $student->id)
+            ->where('program_id', $program->id)
+            ->firstOrFail();
+
+        // Get student progress for this path point
+        $progress = StudentPathProgress::where('student_id', $student->id)
+            ->where('program_id', $program->id)
+            ->where('path_point_id', $pathPoint->id)
+            ->firstOrFail();
+
+        // Get consultation if exists
+        $consultation = Consultation::where('student_id', $student->id)
+            ->whereHas('consultant.assignedSchools', function($query) use ($student) {
+                $query->where('school_id', $student->school_id);
             })
-            ->addColumn('student.name', function ($consultation) {
-                return $consultation->student->user->name;
+            ->where('updated_at', '>=', $progress->updated_at)
+            ->latest()
+            ->first();
+
+        // Get consultation notes if consultation is completed
+        $consultationNotes = null;
+        if ($consultation && $consultation->status === 'done') {
+            $consultationNotes = ConsultationNotes::where('consultation_id', $consultation->id)->first();
+        }
+
+        return view('admin.consultations.student.show_consultation', compact(
+            'student', 'program', 'pathPoint', 'progress', 'consultation', 'consultationNotes'
+        ));
+    }
+
+    /**
+     * Display a list of students needing consultation for a consultant
+     */
+    public function consultantStudentsList()
+    {
+        $consultant = Consultant::where('user_id', Auth::id())->firstOrFail();
+
+        // Get students from consultant's schools who need consultation
+        $students = Student::whereIn('school_id', function ($query) use ($consultant) {
+            $query->select('school_id')
+                ->from('consultant_school')
+                ->where('consultant_id', $consultant->id);
+        })
+            ->whereHas('studentPathProgress', function($query) {
+                $query->whereHas('pathPoint', function($subQuery) {
+                    $subQuery->where('table_name', 'consultations');
+                })
+                    ->whereIn('status', [2, 3]);
             })
-            ->addColumn('scheduled_at', function ($consultation) {
-                return Carbon::parse($consultation->scheduled_at)->format('Y-m-d h:i A');
-            })
-            ->addColumn('status', function ($consultation) {
-                return $consultation->status;
-            })
-            ->addColumn('actions', function ($consultation) {
-                $actions = '';
-                if (auth()->user()->hasAnyPermission([
-                    PermissionEnum::UPDATE_CONSULTATIONS->value,
-                    PermissionEnum::DELETE_CONSULTATIONS->value
-                ])) {
-                    $actions = '<a href="#" class="btn btn-light btn-active-light-primary btn-sm" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                    '.__("consultations.actions").'
-                                    <span class="svg-icon svg-icon-5 m-0">
-                                       <i class="fa-solid fa-caret-down"></i>
-                                   </span>
-                                </a>';
-
-                    $actions .= '<div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4" data-kt-menu="true">';
-
-                    if (auth()->user()->hasPermissionTo(PermissionEnum::UPDATE_CONSULTATIONS->value)) {
-                        $actions .= '<div class="menu-item px-3">
-                            <a href="#" class="menu-link px-3" data-user-id="' . $consultation->id . '" data-bs-toggle="modal" data-bs-target="#kt_modal_update_consultation">
-                                '.__("consultations.edit").'
-                            </a>
-                        </div>';
-                    }
-
-                    if (auth()->user()->hasPermissionTo(PermissionEnum::DELETE_CONSULTATIONS->value)) {
-                        $actions .= '<div class="menu-item px-3">
-                            <a href="#" class="menu-link px-3" data-kt-users-table-filter="delete_row"
-                               data-user-id="' . $consultation->id . '">'.__("consultations.delete").'</a>
-                        </div>';
-                    }
-
-                    $actions .= '</div>';
+            ->with([
+                'user',
+                'school',
+                'studentPathProgress' => function($query) {
+                    $query->whereHas('pathPoint', function($subQuery) {
+                        $subQuery->where('table_name', 'consultations');
+                    })
+                        ->whereIn('status', [2, 3])
+                        ->with(['program', 'pathPoint']);
                 }
-                return $actions;
-            })
-            ->rawColumns(['actions'])
-            ->make(true);
+            ])
+            ->get();
+
+        return view('admin.consultations.consultant.students_list', compact('students'));
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Show a consultation scheduling form for a consultant
      */
-    public function store(Request $request)
+    public function showScheduleForm($studentId, $programId, $pathPointId)
     {
-        $validated = $request->validate([
-            'student_id' => 'required|exists:students,id',
-            'consultant_id' => 'required|exists:consultants,id',
-            'scheduled_at' => 'required|date',
-            'status' => 'required|string',
-            'zoom_meeting_id' => 'nullable|string',
-            'zoom_join_url' => 'nullable|url',
-            'zoom_start_url' => 'nullable|url',
-            'zoom_password' => 'nullable|string',
+        $consultant = Consultant::where('user_id', Auth::id())->firstOrFail();
+        $student = Student::findOrFail($studentId);
+        $program = Program::findOrFail($programId);
+        $pathPoint = PathPoint::findOrFail($pathPointId);
+
+        // Verify a consultant has access to this student
+        $hasAccess = DB::table('consultant_school')
+            ->where('consultant_id', $consultant->id)
+            ->where('school_id', $student->school_id)
+            ->exists();
+
+        if (!$hasAccess) {
+            abort(403, 'Unauthorized access to student consultation');
+        }
+
+        // Get student progress
+        $progress = StudentPathProgress::where('student_id', $student->id)
+            ->where('program_id', $program->id)
+            ->where('path_point_id', $pathPoint->id)
+            ->firstOrFail();
+
+        // Check if consultation already exists
+        $existingConsultation = Consultation::where('student_id', $student->id)
+            ->where('consultant_id', $consultant->id)
+            ->where('updated_at', '>=', $progress->updated_at)
+            ->first();
+
+        return view('admin.consultations.consultant.schedule_consultation_form', compact(
+            'student', 'program', 'pathPoint', 'progress', 'existingConsultation'
+        ));
+    }
+
+    /**
+     * Schedule consultation (create a Zoom meeting)
+     */
+    public function scheduleConsultation(Request $request, $studentId, $programId, $pathPointId)
+    {
+        $request->validate([
+            'scheduled_at' => 'required|date|after:now',
+            'zoom_meeting_id' => 'required|string',
+            'zoom_join_url' => 'required|url',
+            'zoom_start_url' => 'required|url',
+            'zoom_password' => 'nullable|string'
         ]);
-        Consultation::create($validated);
-        return redirect()->route('consultations.index')->with('success', 'Consultation created successfully.');
+
+        $consultant = Consultant::where('user_id', Auth::id())->firstOrFail();
+        $student = Student::findOrFail($studentId);
+
+        // Verify a consultant has access to this student
+        $hasAccess = DB::table('consultant_school')
+            ->where('consultant_id', $consultant->id)
+            ->where('school_id', $student->school_id)
+            ->exists();
+
+        if (!$hasAccess) {
+            abort(403, 'Unauthorized access to student consultation');
+        }
+        DB::transaction(function() use ($request, $studentId, $programId, $pathPointId, $consultant) {
+            // Create or update consultation
+            $consultation = Consultation::updateOrCreate(
+                [
+                    'student_id' => $studentId,
+                    'consultant_id' => $consultant->id,
+                ],
+                [
+                    'scheduled_at' => $request->scheduled_at,
+                    'status' => 'pending',
+                    'zoom_meeting_id' => $request->zoom_meeting_id,
+                    'zoom_join_url' => $request->zoom_join_url,
+                    'zoom_start_url' => $request->zoom_start_url,
+                    'zoom_password' => $request->zoom_password,
+                ]
+            );
+
+        });
+
+        return redirect()->route('admin.consultant.students.index')
+            ->with('success', __('Consultation scheduled successfully'));
     }
 
     /**
-     * Display the specified resource.
+     * Join a consultation meeting for a student
      */
-    public function show($id)
+    public function joinConsultation($consultationId)
     {
-        $consultation = Consultation::with(['consultant.user', 'student', 'notes'])->findOrFail($id);
-        return view('admin.consultations.show', compact('consultation'));
+        $student = Student::where('user_id', Auth::id())->firstOrFail();
+        $consultation = Consultation::where('id', $consultationId)
+            ->where('student_id', $student->id)
+            ->where('status', 'pending')
+            ->firstOrFail();
+
+        // Check if consultation time is within 15 minutes
+        $scheduledTime = Carbon::parse($consultation->scheduled_at);
+        $now = Carbon::now();
+
+        if ($now->diffInMinutes($scheduledTime, false) > 15) {
+            return redirect()->back()->with('error', __('Consultation has not started yet'));
+        }
+
+        if ($now->diffInMinutes($scheduledTime) > 60) {
+            return redirect()->back()->with('error', __('Consultation time has passed'));
+        }
+
+        return redirect($consultation->zoom_join_url);
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Start a consultation meeting for a consultant
      */
-    public function edit($id)
+    public function startConsultation($consultationId)
     {
-        $consultation = Consultation::findOrFail($id);
-        $consultants = Consultant::with('user')->get();
-        $students = Student::with('user')->get();
-        return view('admin.consultations.edit', compact('consultation', 'consultants', 'students'));
+        $consultant = Consultant::where('user_id', Auth::id())->firstOrFail();
+        $consultation = Consultation::where('id', $consultationId)
+            ->where('consultant_id', $consultant->id)
+            ->where('status', 'pending')
+            ->firstOrFail();
+
+        return redirect($consultation->zoom_start_url);
     }
 
     /**
-     * Update the specified resource in storage.
+     * Show consultation notes form for a consultant
      */
-    public function update(Request $request, $id)
+    public function showNotesForm($consultationId)
     {
-        $consultation = Consultation::findOrFail($id);
-        $validated = $request->validate([
-            'student_id' => 'required|exists:students,id',
-            'consultant_id' => 'required|exists:consultants,id',
-            'scheduled_at' => 'required|date',
-            'status' => 'required|string',
-            'zoom_meeting_id' => 'nullable|string',
-            'zoom_join_url' => 'nullable|url',
-            'zoom_start_url' => 'nullable|url',
-            'zoom_password' => 'nullable|string',
+        $consultant = Consultant::where('user_id', Auth::id())->firstOrFail();
+        $consultation = Consultation::with(['student.user', 'student.school'])
+            ->where('id', $consultationId)
+            ->where('consultant_id', $consultant->id)
+            ->firstOrFail();
+
+        $existingNotes = ConsultationNotes::where('consultation_id', $consultation->id)->first();
+
+        return view('admin.consultations.consultant.consultation_notes', compact('consultation', 'existingNotes'));
+    }
+
+    /**
+     * Save consultation notes and mark consultation as done
+     */
+    public function saveNotes(Request $request, $consultationId)
+    {
+        $request->validate([
+            'notes' => 'required|string|min:10'
         ]);
-        $consultation->update($validated);
-        return redirect()->route('consultations.index')->with('success', 'Consultation updated successfully.');
+
+        $consultant = Consultant::where('user_id', Auth::id())->firstOrFail();
+        $consultation = Consultation::where('id', $consultationId)
+            ->where('consultant_id', $consultant->id)
+            ->firstOrFail();
+
+        DB::transaction(function() use ($request, $consultation) {
+            // Save consultation notes
+            ConsultationNotes::updateOrCreate(
+                ['consultation_id' => $consultation->id],
+                ['notes' => $request->notes]
+            );
+
+            // Mark consultation as done
+            $consultation->update(['status' => 'done']);
+
+            // Update student path progress to completed
+            $progress = StudentPathProgress::where('student_id', $consultation->student_id)
+                ->whereHas('pathPoint', function($query) {
+                    $query->where('table_name', 'consultations');
+                })
+                ->where('status', 2)
+                ->first();
+
+            if ($progress) {
+                $progress->update([
+                    'status' => 3, // Completed
+                    'completion_date' => now(),
+                    'updated_at' => now()
+                ]);
+
+                // Update overall program progress
+                $this->progressService->updateProgramProgress($consultation->student_id, $progress->program_id);
+
+                // Unlock next path point
+                $this->progressService->unlockNextPathPoint($consultation->student_id, $progress->program_id, $progress->path_point_id);
+            }
+        });
+
+        return redirect()->route('admin.consultant.students.index')
+            ->with('success', __('Consultation notes saved successfully'));
     }
 
     /**
-     * Remove the specified resource from storage.
+     * View consultation notes for student
      */
-    public function destroy($id)
+    public function viewNotes($consultationId)
     {
-        $consultation = Consultation::findOrFail($id);
-        $consultation->delete();
-        return redirect()->route('consultations.index')->with('success', 'Consultation deleted successfully.');
+        $student = Student::where('user_id', Auth::id())->firstOrFail();
+        $consultation = Consultation::with(['consultant.user'])
+            ->where('id', $consultationId)
+            ->where('student_id', $student->id)
+            ->where('status', 'done')
+            ->firstOrFail();
+
+        $notes = ConsultationNotes::where('consultation_id', $consultation->id)->firstOrFail();
+
+        return view('admin.consultations.student.show_consultation_notes', compact('consultation', 'notes'));
+    }
+
+    /**
+     * Cancel consultation
+     */
+    public function cancelConsultation($consultationId)
+    {
+        $consultant = Consultant::where('user_id', Auth::id())->firstOrFail();
+        $consultation = Consultation::where('id', $consultationId)
+            ->where('consultant_id', $consultant->id)
+            ->where('status', 'pending')
+            ->firstOrFail();
+
+        $consultation->update(['status' => 'cancelled']);
+
+        return redirect()->back()->with('success', __('Consultation cancelled successfully'));
     }
 }

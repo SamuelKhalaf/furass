@@ -126,11 +126,17 @@ class EnrollmentController extends Controller
                 ->with('error', __('This path point is not yet available.'));
         }
 
+        $consultation = \App\Models\Consultation::where('student_id', $student->id)
+            ->where('updated_at', '>=' , $progress->updated_at)
+            ->latest()
+            ->first();
+
         return view('admin.programs.student_path_point_activity', [
             'student' => $student,
             'program' => $program,
             'pathPoint' => $pathPoint,
             'progress' => $progress,
+            'consultation' => $consultation,
         ]);
     }
 

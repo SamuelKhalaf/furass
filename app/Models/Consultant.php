@@ -28,4 +28,10 @@ class Consultant extends Model
     {
         return $this->belongsToMany(School::class, 'consultant_school');
     }
+
+    public function assignedSchools()
+    {
+        return $this->belongsToMany(\App\Models\School::class, 'consultant_school', 'consultant_id', 'school_id');
+    }
+
 }
