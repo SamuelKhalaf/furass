@@ -173,19 +173,41 @@
                         </div>
                     </div>
                 @endif
-
+                <!-- Consultant only menu -->
                 @if(auth()->user()->hasRole(RoleEnum::CONSULTANT->value))
                     <!--begin:Menu item-->
-                    <div class="menu-item {{setMenuOpenClass(['admin.students.evaluation.result'])}}">
-                        <!--begin:Menu link-->
-                        <a class="menu-link {{setActiveClass('admin.students.evaluation.result')}}"
-                           href="{{route('admin.students.evaluation.result')}}">
-                            <span class="menu-icon"><i class="fa-solid fa-chart-line me-2"></i></span>
-                            <span class="menu-title">{{ __('admin.evaluation-result.title') }}</span>
-                        </a>
-                        <!--end:Menu link-->
+                    <div data-kt-menu-trigger="click"
+                         class="menu-item menu-accordion {{ setMenuOpenClass(['admin.students.evaluation.result','admin.consultant.students.index','admin.consultant.consultation.schedule.form']) }}">
+                        <span class="menu-link">
+                            <span class="menu-icon"><i class="fa-solid fa-users"></i></span>
+                            <span class="menu-title">{{ __('admin.students.title') }}</span>
+                            <span class="menu-arrow"></span>
+                        </span>
+                        <div class="menu-sub menu-sub-accordion">
+                            <!--begin:Menu item-->
+                            <div class="menu-item">
+                                <!--begin:Menu link-->
+                                <a class="menu-link {{ setActiveClass('admin.students.evaluation.result') }}"
+                                   href="{{ route('admin.students.evaluation.result') }}">
+                                    <span class="menu-icon"><i class="fa-solid fa-chart-line me-2"></i></span>
+                                    <span class="menu-title">{{ __('admin.evaluation-result.title') }}</span>
+                                </a>
+                                <!--end:Menu link-->
+                            </div>
+                            <!--end:Menu item-->
+                            <!--begin:Menu item-->
+                            <div class="menu-item">
+                                <!--begin:Menu link-->
+                                <a class="menu-link {{ setActiveClass('admin.consultant.students.index') }}"
+                                   href="{{route('admin.consultant.students.index')}}">
+                                    <span class="menu-icon"><i class="fa-solid fa-microphone-lines me-2"></i></span>
+                                    <span class="menu-title">{{ __('admin.consultations.title') }}</span>
+                                </a>
+                                <!--end:Menu link-->
+                            </div>
+                            <!--end:Menu item-->
+                        </div>
                     </div>
-                    <!--end:Menu item-->
                 @endif
                 @if(auth()->user()->hasAnyPermission(PermissionEnum::tripPermissions()))
                     <!--begin:Menu item-->

@@ -39,4 +39,8 @@ class Student extends Model
         return $this->hasMany(\App\Models\EvaluationTest::class, 'student_id');
     }
 
+    public function studentPathProgress()
+    {
+        return $this->hasMany(StudentPathProgress::class);
+    }
 }

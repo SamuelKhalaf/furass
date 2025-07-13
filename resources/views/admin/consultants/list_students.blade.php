@@ -164,64 +164,6 @@
                     </div>
                 </div>
                 <!--end::Filter Section-->
-
-                <!--begin::Stats Summary-->
-{{--                <div class="row g-6 g-xl-9 mb-6 mb-xl-9">--}}
-{{--                    <div class="col-md-6 col-lg-4 col-xl-3">--}}
-{{--                        <div class="card h-md-100">--}}
-{{--                            <div class="card-body d-flex flex-center flex-column pt-12 p-9">--}}
-{{--                                <div class="symbol symbol-65px symbol-circle mb-5">--}}
-{{--                                    <span class="symbol-label fs-2x fw-semibold text-primary bg-light-primary">--}}
-{{--                                        <i class="fa-solid fa-users"></i>--}}
-{{--                                    </span>--}}
-{{--                                </div>--}}
-{{--                                <h4 class="text-gray-800 text-center fw-bold">{{ $students->total() }}</h4>--}}
-{{--                                <div class="text-gray-500 fw-semibold text-center">Total Students</div>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                    <div class="col-md-6 col-lg-4 col-xl-3">--}}
-{{--                        <div class="card h-md-100">--}}
-{{--                            <div class="card-body d-flex flex-center flex-column pt-12 p-9">--}}
-{{--                                <div class="symbol symbol-65px symbol-circle mb-5">--}}
-{{--                                    <span class="symbol-label fs-2x fw-semibold text-success bg-light-success">--}}
-{{--                                        <i class="fa-solid fa-check-circle"></i>--}}
-{{--                                    </span>--}}
-{{--                                </div>--}}
-{{--                                <h4 class="text-gray-800 text-center fw-bold">{{ $students->where('has_completed_tests', true)->count() }}</h4>--}}
-{{--                                <div class="text-gray-500 fw-semibold text-center">With Completed Tests</div>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                    <div class="col-md-6 col-lg-4 col-xl-3">--}}
-{{--                        <div class="card h-md-100">--}}
-{{--                            <div class="card-body d-flex flex-center flex-column pt-12 p-9">--}}
-{{--                                <div class="symbol symbol-65px symbol-circle mb-5">--}}
-{{--                                    <span class="symbol-label fs-2x fw-semibold text-warning bg-light-warning">--}}
-{{--                                        <i class="fa-solid fa-clock"></i>--}}
-{{--                                    </span>--}}
-{{--                                </div>--}}
-{{--                                <h4 class="text-gray-800 text-center fw-bold">{{ $students->where('has_pending_tests', true)->count() }}</h4>--}}
-{{--                                <div class="text-gray-500 fw-semibold text-center">With Pending Tests</div>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                    <div class="col-md-6 col-lg-4 col-xl-3">--}}
-{{--                        <div class="card h-md-100">--}}
-{{--                            <div class="card-body d-flex flex-center flex-column pt-12 p-9">--}}
-{{--                                <div class="symbol symbol-65px symbol-circle mb-5">--}}
-{{--                                    <span class="symbol-label fs-2x fw-semibold text-info bg-light-info">--}}
-{{--                                        <i class="fa-solid fa-school"></i>--}}
-{{--                                    </span>--}}
-{{--                                </div>--}}
-{{--                                <h4 class="text-gray-800 text-center fw-bold">{{ $schools->count() }}</h4>--}}
-{{--                                <div class="text-gray-500 fw-semibold text-center">Total Schools</div>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-                <!--end::Stats Summary-->
-
                 <!--begin::Row-->
                 <div class="row g-6 g-xl-9">
                     @forelse($students as $student)

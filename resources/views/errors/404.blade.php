@@ -26,7 +26,7 @@
                         <!--end::Illustration-->
                         <!--begin::Link-->
                         <div class="mb-0">
-                            <a href="{{route('template.home')}}" class="btn btn-sm btn-primary">Return Home</a>
+                            <a href="{{ url()->previous() }}" class="btn btn-sm btn-primary">Return Back</a>
                         </div>
                         <!--end::Link-->
                     </div>

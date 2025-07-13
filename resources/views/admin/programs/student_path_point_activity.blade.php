@@ -383,7 +383,7 @@
                                                             <span>{{ __('Please attend your consultation at the scheduled time.') }}</span>
                                                         </div>
                                                     </div>
-                                                    <a href="#" class="btn btn-info btn-lg">
+                                                    <a href="{{ route('admin.student.consultation.show', ['program' => $program->id, 'pathPoint' => $pathPoint->id]) }}" class="btn btn-info btn-lg">
                                                         <i class="fa-solid fa-calendar me-2"></i>{{ __('View Consultation Details') }}
                                                     </a>
                                                 @else
@@ -393,7 +393,7 @@
                                                             <span>{{ __('You have successfully completed your consultation.') }}</span>
                                                         </div>
                                                     </div>
-                                                    <a href="#" class="btn btn-success btn-lg">
+                                                    <a href="{{ route('admin.student.consultation.notes' , ['consultation' => $consultation->id ?? 0]) }}" class="btn btn-success btn-lg">
                                                         <i class="fa-solid fa-eye me-2"></i>{{ __('View Consultation Notes') }}
                                                     </a>
                                                 @endif
