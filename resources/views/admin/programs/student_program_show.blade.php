@@ -1,6 +1,7 @@
 @extends('admin.layouts.master')
 @section('title', $program->{app()->getLocale() == 'ar' ? 'title_ar' : 'title_en'})
 @section('content')
+    @include('admin.layouts.includes.session_messages')
     <!--begin::Content wrapper-->
     <div class="d-flex flex-column flex-column-fluid">
         <!--begin::Toolbar-->
@@ -73,6 +74,13 @@
                                 </div>
                                 <!--end::Description-->
 
+                                <!--begin::Student Grade Info-->
+                                <div class="d-flex flex-stack mb-5">
+                                    <span class="text-gray-700 fw-bold fs-6">{{ __('Your Grade') }}</span>
+                                    <span class="badge badge-light-info fs-7 fw-bold">{{ __('Grade') }} {{ $student->grade }}</span>
+                                </div>
+                                <!--end::Student Grade Info-->
+
                                 <!--begin::Status-->
                                 <div class="d-flex flex-stack mb-5">
                                     <span class="text-gray-700 fw-bold fs-6">{{ __('Status') }}</span>
@@ -138,6 +146,18 @@
                                     <div class="d-flex flex-stack mb-4">
                                         <div class="d-flex align-items-center me-2">
                                             <div class="symbol symbol-30px me-3">
+                                                <div class="symbol-label bg-light-secondary">
+                                                    <i class="fa-solid fa-lock text-secondary fs-5"></i>
+                                                </div>
+                                            </div>
+                                            <span class="text-gray-700 fw-bold fs-6">{{ __('Grade Locked') }}</span>
+                                        </div>
+                                        <span class="text-gray-800 fw-bolder fs-6">{{ $pathPoints->where('is_grade_locked', true)->count() }}</span>
+                                    </div>
+
+                                    <div class="d-flex flex-stack mb-4">
+                                        <div class="d-flex align-items-center me-2">
+                                            <div class="symbol symbol-30px me-3">
                                                 <div class="symbol-label bg-light-info">
                                                     <i class="fa-solid fa-calendar-days text-info fs-5"></i>
                                                 </div>
@@ -178,7 +198,7 @@
                                     <div class="timeline-label">
                                         @foreach($pathPoints as $index => $point)
                                             @php
-                                                // Define status-based styling
+                                                // Define status-based styling with grade lock consideration
                                                 $statusConfig = [
                                                     1 => ['class' => 'secondary', 'icon' => 'lock', 'text' => 'Locked', 'clickable' => false],
                                                     2 => ['class' => 'warning', 'icon' => 'play', 'text' => 'Active', 'clickable' => true],
@@ -186,7 +206,17 @@
                                                     4 => ['class' => 'danger', 'icon' => 'times', 'text' => 'Skipped', 'clickable' => false],
                                                 ];
 
-                                                $config = $statusConfig[$point->status] ?? $statusConfig[1];
+                                                // Override for grade-locked items
+                                                if ($point->is_grade_locked) {
+                                                    $config = [
+                                                        'class' => 'dark',
+                                                        'icon' => 'graduation-cap',
+                                                        'text' => 'Grade Locked',
+                                                        'clickable' => false
+                                                    ];
+                                                } else {
+                                                    $config = $statusConfig[$point->status] ?? $statusConfig[1];
+                                                }
 
                                                 // Table name to icon mapping
                                                 $tableIcons = [
@@ -224,6 +254,9 @@
                                                                 {{ $point->{app()->getLocale() == 'ar' ? 'title_ar' : 'title_en'} }}
                                                             </div>
                                                             <span class="badge badge-light-{{ $config['class'] }} fs-8">{{ __($config['text']) }}</span>
+                                                            @if($point->is_grade_locked)
+                                                                <span class="badge badge-light-info fs-8 ms-2">{{ __('Grade') }} {{ $point->available_in_grade }}</span>
+                                                            @endif
                                                         </div>
                                                         <!--end::Title-->
 
@@ -235,16 +268,28 @@
                                                             <span class="badge badge-light fs-7">#{{ $point->order }}</span>
                                                         </div>
                                                         <!--end::Description-->
+
+                                                        <!--begin::Grade Lock Message-->
+                                                        @if($point->is_grade_locked && $point->grade_lock_message)
+                                                            <div class="mt-2">
+                                                                <div class="alert alert-dismissible bg-light-warning border border-warning border-dashed d-flex flex-column flex-sm-row p-5 mb-3">
+                                                                    <div class="d-flex flex-column pe-0 pe-sm-10">
+                                                                        <span class="fs-7 text-warning">{{ $point->grade_lock_message }}</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        @endif
+                                                        <!--end::Grade Lock Message-->
                                                     </div>
                                                     <!--end::Timeline heading-->
 
                                                     <!--begin::Timeline details-->
                                                     <div class="overflow-auto pb-5">
-                                                        @if($config['clickable'])
+                                                        @if($config['clickable'] && !$point->is_grade_locked)
                                                             <a href="{{ route('admin.student.path-point.show', [$program->id, $point->id]) }}"
                                                                class="d-flex align-items-center border border-dashed border-gray-300 rounded px-7 py-3 mb-5 text-hover-primary activity-link">
                                                                 @else
-                                                                    <div class="d-flex align-items-center border border-dashed border-gray-300 rounded px-7 py-3 mb-5 opacity-50">
+                                                                    <div class="d-flex align-items-center border border-dashed border-gray-300 rounded px-7 py-3 mb-5 {{ $point->is_grade_locked ? 'opacity-75 bg-light-warning' : 'opacity-50' }}">
                                                                         @endif
                                                                         <div class="symbol symbol-35px me-5">
                                                                             <div class="symbol-label bg-light-{{ $config['class'] }}">
@@ -256,11 +301,16 @@
                                                                                 <div class="d-flex flex-column">
                                                                                     <div class="d-flex align-items-center mb-1">
                                                                                         <span class="text-gray-800 fw-bold fs-6 me-2">{{ $point->{app()->getLocale() == 'ar' ? 'title_ar' : 'title_en'} }}</span>
-                                                                                        @if($config['clickable'])
+                                                                                        @if($config['clickable'] && !$point->is_grade_locked)
                                                                                             <i class="fa-solid fa-external-link-alt text-primary fs-8 ms-2"></i>
+                                                                                        @elseif($point->is_grade_locked)
+                                                                                            <i class="fa-solid fa-graduation-cap text-warning fs-8 ms-2"></i>
                                                                                         @endif
                                                                                     </div>
                                                                                     <span class="text-gray-400 fw-semibold fs-7">{{ __('Path Point') }} #{{ $point->order }}</span>
+                                                                                    @if($point->is_grade_locked)
+                                                                                        <span class="text-warning fw-semibold fs-8 mt-1">{{ __('Available in Grade') }} {{ $point->available_in_grade }}</span>
+                                                                                    @endif
                                                                                 </div>
                                                                                 <div class="d-flex flex-column align-items-end">
                                                                                     <span class="badge badge-light-{{ $config['class'] }} fs-8 mb-1">{{ __($config['text']) }}</span>
@@ -270,7 +320,7 @@
                                                                                 </div>
                                                                             </div>
 
-                                                                            @if($point->status == 3 || $point->status == 2)
+                                                                            @if(($point->status == 3 || $point->status == 2) && !$point->is_grade_locked)
                                                                                 <!--begin::Progress Info-->
                                                                                 <div class="d-flex align-items-center mt-3">
                                                                                     @if($point->score)
@@ -295,7 +345,7 @@
                                                                                 <!--end::Progress Info-->
                                                                             @endif
                                                                         </div>
-                                                                    @if($config['clickable'])
+                                                                    @if($config['clickable'] && !$point->is_grade_locked)
                                                             </a>
                                                         @else
                                                     </div>
@@ -312,7 +362,7 @@
                             @else
                                 <!--begin::Empty state-->
                                 <div class="d-flex flex-column flex-center">
-                                    <img src="{{ asset('assets/media/illustrations/sketchy-1/5.png') }}" class="mw-400px">
+                                    <img src="{{ asset('assets/media/illustrations/sketchy-1/5.png') }}" class="mw-400px" alt="image">
                                     <div class="fs-1 fw-bolder text-gray-400 mb-5">{{ __('No Path Points') }}</div>
                                     <div class="fs-6 text-gray-600 text-center mb-8">
                                         {{ __('No path points have been defined for this program yet.') }}
@@ -334,9 +384,3 @@
     </div>
     <!--end::Content wrapper-->
 @endsection
-
-@push('styles')
-    <style>
-
-    </style>
-@endpush

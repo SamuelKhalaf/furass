@@ -32,6 +32,7 @@ return [
     'showing' => 'Showing',
     'to' => 'to',
     'of' => 'of',
+    'records' => 'records',
     'entries' => 'entries',
     'no_results' => 'No results found',
     'actions' => 'Actions',

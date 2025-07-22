@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Consultant extends Model
 {
@@ -34,4 +35,20 @@ class Consultant extends Model
         return $this->belongsToMany(\App\Models\School::class, 'consultant_school', 'consultant_id', 'school_id');
     }
 
+    public function tripAttendanceRecords()
+    {
+        return $this->hasMany(TripAttendance::class, 'recorded_by');
+    }
+
+    public function students(): HasManyThrough
+    {
+        return $this->hasManyThrough(
+            Student::class,
+            Consultation::class,
+            'consultant_id',
+            'id',
+            'id',
+            'student_id'
+        );
+    }
 }

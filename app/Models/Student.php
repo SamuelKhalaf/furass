@@ -43,4 +43,20 @@ class Student extends Model
     {
         return $this->hasMany(StudentPathProgress::class);
     }
+
+    public function tripAttendances()
+    {
+        return $this->hasMany(TripAttendance::class);
+    }
+
+    public function tripEvaluations()
+    {
+        return $this->hasMany(TripEvaluation::class);
+    }
+
+    public function consultations()
+    {
+        return $this->hasMany(\App\Models\Consultation::class, 'student_id', 'id');
+    }
+
 }

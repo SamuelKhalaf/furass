@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('student_id')->constrained()->onDelete('cascade');
             $table->foreignId('consultant_id')->constrained()->onDelete('cascade');
             $table->dateTime('scheduled_at');
-            $table->enum('status',['pending','done','cancelled'])->default('pending');
+            $table->enum('status',['pending','done','cancelled','cancelled_by_student'])->default('pending');
             $table->string('zoom_meeting_id')->nullable();
             $table->string('zoom_join_url')->nullable();
             $table->string('zoom_start_url')->nullable();

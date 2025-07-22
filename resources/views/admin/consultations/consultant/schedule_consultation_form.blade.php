@@ -159,6 +159,8 @@
                                                     {{ __('Consultation Completed') }}
                                                 @elseif($existingConsultation->status === 'cancelled')
                                                     {{ __('Consultation Cancelled') }}
+                                                @elseif($existingConsultation->status === 'cancelled_by_student')
+                                                    {{ __('Consultation Cancelled') }}
                                                 @else
                                                     {{ __('Consultation Already Scheduled') }}
                                                 @endif
@@ -171,6 +173,11 @@
                                                     {{ __('This consultation was cancelled on') }}
                                                     {{ \Carbon\Carbon::parse($existingConsultation->scheduled_at)->format('M d, Y h:i A') }}.
                                                     {{ __('However, you can reactivate or reschedule it at any time if needed.') }}
+                                                @elseif($existingConsultation->status === 'cancelled_by_student')
+                                                    {{ __('This consultation was cancelled on') }}
+                                                    {{ \Carbon\Carbon::parse($existingConsultation->scheduled_at)->format('M d, Y h:i A') }}.<br>
+                                                    {{ __('The student requested a different time.') }}<br>
+                                                    {{ __('Please schedule a new consultation at a mutually convenient time.') }}
                                                 @else
                                                     {{ __('A consultation is already scheduled for this student on') }}
                                                     {{ \Carbon\Carbon::parse($existingConsultation->scheduled_at)->format('M d, Y h:i A') }}.

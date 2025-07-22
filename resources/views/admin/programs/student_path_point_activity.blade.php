@@ -322,6 +322,10 @@
                                             @break
 
                                         @case('events')
+                                            @php
+                                                $event_id = $pathPoint->meta['event_id'];
+                                                $event = \App\Models\Event::where('id' , $event_id)->first();
+                                            @endphp
                                             <!--begin::Event content-->
                                             <div class="d-flex flex-column">
                                                 <div class="d-flex align-items-center mb-5">
@@ -343,9 +347,15 @@
                                                             <span>{{ __('Please attend the scheduled event at the specified time.') }}</span>
                                                         </div>
                                                     </div>
-                                                    <a href="#" class="btn btn-warning btn-lg">
-                                                        <i class="fa-solid fa-info-circle me-2"></i>{{ __('View Event Details') }}
-                                                    </a>
+                                                    @if($event->event_type == 'trip')
+                                                        <a href="{{ route('admin.student.trip.show', ['program' => $program->id, 'pathPoint' => $pathPoint->id]) }}" class="btn btn-warning btn-lg">
+                                                            <i class="fa-solid fa-info-circle me-2"></i>{{ __('View Event Details') }}
+                                                        </a>
+                                                    @else
+                                                        <a href="{{ route('admin.student.workshop.show', ['program' => $program->id, 'pathPoint' => $pathPoint->id]) }}" class="btn btn-warning btn-lg">
+                                                            <i class="fa-solid fa-info-circle me-2"></i>{{ __('View Event Details') }}
+                                                        </a>
+                                                    @endif
                                                 @else
                                                     <div class="alert alert-success d-flex align-items-center p-5 mb-10">
                                                         <div class="d-flex flex-column">
@@ -353,9 +363,15 @@
                                                             <span>{{ __('You have successfully attended this event.') }}</span>
                                                         </div>
                                                     </div>
-                                                    <a href="#" class="btn btn-success btn-lg">
-                                                        <i class="fa-solid fa-eye me-2"></i>{{ __('View Event Summary') }}
-                                                    </a>
+                                                    @if($event->event_type == 'trip')
+                                                        <a href="{{ route('admin.student.trip.show', ['program' => $program->id, 'pathPoint' => $pathPoint->id]) }}" class="btn btn-success btn-lg">
+                                                            <i class="fa-solid fa-eye me-2"></i>{{ __('View Event Summary') }}
+                                                        </a>
+                                                    @else
+                                                        <a href="{{ route('admin.student.workshop.show', ['program' => $program->id, 'pathPoint' => $pathPoint->id]) }}" class="btn btn-success btn-lg">
+                                                            <i class="fa-solid fa-eye me-2"></i>{{ __('View Event Summary') }}
+                                                        </a>
+                                                    @endif
                                                 @endif
                                             </div>
                                             <!--end::Event content-->

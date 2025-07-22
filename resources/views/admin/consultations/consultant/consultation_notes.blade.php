@@ -164,7 +164,7 @@
                             <!--begin::Card body-->
                             <div class="card-body pt-0">
                                 <!--begin::Form-->
-                                <form method="POST" action="{{ route('admin.consultant.consultation.notes.save', $consultation->id) }}">
+                                <form method="POST" action="{{ route('admin.consultant.consultation.notes.save', $consultation->id) }}" enctype="multipart/form-data">
                                     @csrf
 
                                     <!--begin::Notes Input-->
@@ -174,7 +174,7 @@
                                             class="form-control form-control-solid @error('notes') is-invalid @enderror"
                                             id="notes"
                                             name="notes"
-                                            rows="15"
+                                            rows="6"
                                             placeholder="{{ __('Please provide detailed notes about the consultation session, including recommendations, next steps, and any important insights discussed...') }}"
                                         >{{ old('notes', $existingNotes->notes ?? '') }}</textarea>
 
@@ -188,6 +188,26 @@
                                     </div>
                                     <!--end::Notes Input-->
 
+                                    <div class="mb-8">
+                                        <label for="report_pdf" class="form-label fw-semibold fs-6 mb-2">{{ __('Consultation Report PDF') }}</label>
+                                        <input type="file" class="form-control form-control-solid @error('report_pdf') is-invalid @enderror"
+                                               id="report_pdf" name="report_pdf" accept=".pdf">
+
+                                        @error('report_pdf')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                        @enderror
+
+                                        @if(isset($existingNotes) && $existingNotes->report_pdf)
+                                            <div class="form-text text-success mt-2">
+                                                <i class="fa-solid fa-file-pdf text-danger me-2"></i>
+                                                {{ __('A report PDF is already uploaded. Uploading a new file will replace it.') }}
+                                            </div>
+                                        @else
+                                            <div class="form-text">{{ __('Optional: Upload a PDF report (max 2MB)') }}</div>
+                                        @endif
+                                    </div>
                                     <!--begin::Guidelines-->
                                     <div class="alert alert-primary d-flex align-items-center p-5 mb-8">
                                         <div class="d-flex flex-column">

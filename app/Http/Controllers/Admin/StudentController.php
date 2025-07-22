@@ -13,9 +13,17 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\DataTables;
+use App\Services\IStudentProgressService;
 
 class StudentController extends Controller
 {
+    protected IStudentProgressService $progressService;
+
+    public function __construct(IStudentProgressService $progressService)
+    {
+        $this->progressService = $progressService;
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -217,6 +225,7 @@ class StudentController extends Controller
                 'phone_number' => $request->phone_number,
                 'is_active' => $is_active
             ]);
+            $student->user->assignRole(RoleEnum::STUDENT);
 
             // Handle avatar upload
             if ($request->hasFile('avatar')) {
@@ -229,12 +238,18 @@ class StudentController extends Controller
             }
 
             // Update student
+            $oldGrade = $student->grade;
             $student->update([
                 'school_id' => $request->school_id,
                 'grade' => $request->grade,
                 'birth_date' => $request->birth_date,
                 'gender' => $request->gender
             ]);
+
+            // Call refreshPathPointsForGradeChange if grade changed
+            if ($oldGrade !== $request->grade) {
+                $this->progressService->refreshPathPointsForGradeChange($student->id);
+            }
 
             DB::commit();
 

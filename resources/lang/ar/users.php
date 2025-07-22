@@ -58,5 +58,7 @@ return [
         'discard' => 'إلغاء',
         'submit' => 'حفظ',
         'please_wait' => 'يرجى الانتظار...',
+        'schools' => 'المدارس',
+        'select_schools' => 'اختر المدارس',
     ],
 ];

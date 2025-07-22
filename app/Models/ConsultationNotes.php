@@ -12,6 +12,7 @@ class ConsultationNotes extends Model
     protected $fillable = [
         'consultation_id',
         'notes',
+        'report_pdf'
     ];
 
     public function consultation()

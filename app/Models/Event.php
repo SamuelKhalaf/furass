@@ -26,4 +26,14 @@ class Event extends Model
     {
         return $this->belongsToMany(Program::class, 'event_program');
     }
+
+    public function tripAttendances()
+    {
+        return $this->hasMany(TripAttendance::class);
+    }
+
+    public function tripEvaluations()
+    {
+        return $this->hasMany(TripEvaluation::class);
+    }
 }

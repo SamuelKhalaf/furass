@@ -1,6 +1,7 @@
 <?php
 namespace App\Repositories\implementation;
 
+use App\Enums\RoleEnum;
 use App\Models\User;
 use App\Repositories\IUserRepository;
 use Exception;
@@ -13,7 +14,9 @@ class UserRepository implements IUserRepository
      */
     public function getAll(): Builder
     {
-        return User::select('id', 'name', 'email','phone_number','role','created_at')->orderBy('id','desc');
+        return User::select('id', 'name', 'email','phone_number','role','created_at')
+            ->whereNotIn('role',[RoleEnum::CONSULTANT->value,RoleEnum::SCHOOL->value,RoleEnum::STUDENT->value])
+            ->orderBy('id','desc');
     }
 
     public function findUserById(int $id): ?User

@@ -6,6 +6,7 @@ use App\Enums\RoleEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\CreateUserRequest;
 use App\Http\Requests\Admin\UpdateUserRequest;
+use App\Models\School;
 use App\Models\User;
 use App\Services\IRoleService;
 use App\Services\IUserService;
@@ -68,6 +69,11 @@ class UsersController extends Controller
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
+        // Handle schools if a sub-admin role is selected
+        if ($request->input('role') === RoleEnum::SUB_ADMIN->value && $request->has('schools')) {
+            $created->schools()->sync($request->input('schools', []));
+        }
+
         return response()->json([
             'status' => 'success',
             'message' => 'User has been successfully added!',
@@ -92,7 +98,12 @@ class UsersController extends Controller
             'email'         => $user->email,
             'phone_number'  => $user->phone_number,
             'role'          => $user->roles->first()?->name,
-            'is_active'     => $user->is_active
+            'is_active'     => $user->is_active,
+            'schools' => $user->schools()
+                ->join('users', 'schools.user_id', '=', 'users.id')
+                ->select('schools.id', 'users.name')
+                ->get(),
+            'all_schools' => School::with('user:id,name')->get(),
         ]);
     }
 
@@ -109,6 +120,15 @@ class UsersController extends Controller
 
         if (!$updated) {
             return response()->json(['message' => 'User not found'], Response::HTTP_NOT_FOUND);
+        }
+
+        // Handle schools if a sub-admin role is selected
+        $user = $this->userService->findUser($id);
+        if ($request->input('role') === RoleEnum::SUB_ADMIN->value) {
+            $user->schools()->sync($request->input('schools', []));
+        } elseif ($request->input('role') !== RoleEnum::SUB_ADMIN->value) {
+            // Remove all schools if a role is not sub-admin
+            $user->schools()->detach();
         }
 
         return response()->json(['message' => 'User updated successfully']);

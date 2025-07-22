@@ -29,4 +29,12 @@ class School extends Model
     {
         return $this->belongsToMany(Consultant::class, 'consultant_school');
     }
+
+    /**
+     * Get the users associated with the school (sub-admins)
+     */
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'sub_admin_school', 'school_id', 'sub_admin_id');
+    }
 }

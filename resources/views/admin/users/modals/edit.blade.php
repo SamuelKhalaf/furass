@@ -83,6 +83,18 @@
                             </div>
                             <!--end::Input group-->
                             <!--begin::Input group-->
+                            <div class="fv-row mb-7 schools-input-group" style="display: none;">
+                                <!--begin::Label-->
+                                <label class="fw-semibold fs-6 mb-2">{{ __('users.modal.schools') }}</label>
+                                <!--end::Label-->
+                                <!--begin::Select-->
+                                <select name="schools[]" id="kt_modal_update_user_schools" class="form-select form-control-solid" multiple="multiple">
+                                    <!-- Options will be loaded via AJAX -->
+                                </select>
+                                <!--end::Select-->
+                            </div>
+                            <!--end::Input group-->
+                            <!--begin::Input group-->
                             <div class="fv-row mb-7 fv-plugins-icon-container">
                                 <!--begin::Wrapper-->
                                 <div class="d-flex flex-stack">

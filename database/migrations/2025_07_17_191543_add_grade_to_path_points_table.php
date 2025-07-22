@@ -11,12 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('assessments', function (Blueprint $table) {
-            $table->id();
-            $table->string('title');
-            $table->string('description');
-            $table->json('questions');
-            $table->timestamps();
+        Schema::table('path_points', function (Blueprint $table) {
+            $table->unsignedTinyInteger('grade')->nullable()->after('meta');
         });
     }
 
@@ -25,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('assessments');
+        Schema::table('path_points', function (Blueprint $table) {
+            $table->dropColumn('grade');
+        });
     }
 };

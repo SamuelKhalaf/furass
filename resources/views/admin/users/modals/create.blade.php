@@ -88,6 +88,25 @@
                         </div>
                         <!--end::Input group-->
                         <!--begin::Input group-->
+                        <div class="fv-row mb-7 schools-input-group" style="display: none;">
+                            <!--begin::Label-->
+                            <label class="fw-semibold fs-6 mb-2">{{ __('users.modal.schools') }}</label>
+                            <!--end::Label-->
+                            <!--begin::Select-->
+                            <select name="schools[]" id="kt_modal_add_user_schools" class="form-select form-control-solid" multiple="multiple">
+                                @php
+                                    $allSchools = \App\Models\School::with('user:id,name')->get();
+                                @endphp
+                                @foreach($allSchools as $school)
+                                    <option value="{{ $school->id }}">
+                                        {{ $school->user->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            <!--end::Select-->
+                        </div>
+                        <!--end::Input group-->
+                        <!--begin::Input group-->
                         <div class="fv-row mb-7 fv-plugins-icon-container">
                             <!--begin::Wrapper-->
                             <div class="d-flex flex-stack">

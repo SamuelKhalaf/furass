@@ -14,3 +14,12 @@ if (!function_exists('setMenuOpenClass')) {
         return in_array(Route::currentRouteName(), (array) $routes) ? $class : '';
     }
 }
+function getStatusColor($status) {
+    switch ($status) {
+        case 'active': return 'primary';
+        case 'attended': return 'success';
+        case 'evaluated': return 'info';
+        case 'skipped': return 'warning';
+        default: return 'secondary';
+    }
+}

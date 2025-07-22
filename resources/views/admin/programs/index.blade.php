@@ -251,7 +251,7 @@
     </div>
     @if(auth()->user()->hasPermissionTo(PermissionEnum::CREATE_PROGRAMS->value))
         <!--begin::Modal - Add Users-->
-        @include('admin.programs.modals.create')
+{{--        @include('admin.programs.modals.create')--}}
         <!--end::Modal - Add Users-->
     @endif
     @if(auth()->user()->hasPermissionTo(PermissionEnum::UPDATE_PROGRAMS->value))
@@ -841,6 +841,7 @@
                         title_en: point.title_en,
                         title_ar: point.title_ar,
                         table_name: point.table_name,
+                        grade: point.grade,
                         order: point.pivot ? point.pivot.order : point.order
                     }));
                     // Sort by order
@@ -886,6 +887,8 @@
                         <i class="fas fa-location-dot text-success me-2"></i>
                         <div class="flex-grow-1">
                             <strong>${point.title_en}</strong> / ${point.title_ar}
+                            </br>
+                            <small>Grade: ${point.grade}</small>
                         </div>
                         <button class="btn btn-sm btn-icon btn-light-success ms-2"
                                 onclick="event.preventDefault();
@@ -1026,6 +1029,7 @@
                         <div class="path-step-number">${order}</div>
                         <div class="flex-grow-1">
                             <h6 class="mb-1">${point.title_en} / ${point.title_ar}</h6>
+                            <small class="text-muted">Grade ${point.grade}</small>
                         </div>
                         <div class="d-flex align-items-center">
                             <i class="fas fa-grip-vertical drag-handle text-muted me-2" title="Drag to reorder"></i>
