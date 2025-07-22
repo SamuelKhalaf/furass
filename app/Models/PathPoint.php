@@ -16,6 +16,7 @@ class PathPoint extends Model
         'title_en',
         'table_name',
         'meta',
+        'grade',
     ];
 
     protected $casts = [
@@ -25,5 +26,11 @@ class PathPoint extends Model
     public function Programs()
     {
         return $this->belongsToMany(Program::class)->withPivot('order')->orderBy('pivot_order');
+    }
+
+    // In your PathPoint model
+    public function studentPathProgress()
+    {
+        return $this->hasMany(StudentPathProgress::class);
     }
 }

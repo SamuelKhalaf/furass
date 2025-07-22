@@ -5,6 +5,7 @@ use App\Enums\RoleEnum;
 use App\Http\Controllers\Admin\CalendarController;
 use App\Http\Controllers\Admin\CategoryOfExamController;
 use App\Http\Controllers\Admin\CkeditorController;
+use App\Http\Controllers\Admin\ConsultantCalendarController;
 use App\Http\Controllers\Admin\ConsultantController;
 use App\Http\Controllers\Admin\ConsultationController;
 use App\Http\Controllers\Admin\DashboardController;
@@ -21,7 +22,9 @@ use App\Http\Controllers\Admin\QuestionController;
 use App\Http\Controllers\Admin\RolesController;
 use App\Http\Controllers\Admin\SchoolController;
 use App\Http\Controllers\Admin\SettingController;
+use App\Http\Controllers\Admin\StudentCalendarController;
 use App\Http\Controllers\Admin\StudentController;
+use App\Http\Controllers\Admin\StudentEventsController;
 use App\Http\Controllers\Admin\TripsController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\ValuesQuestionsController;
@@ -60,6 +63,8 @@ Route::middleware(['auth'])->name('admin.')->group(function () {
     Route::delete('users/{user}', [UsersController::class, 'destroy'])
         ->middleware('permission:'. PermissionEnum::DELETE_USERS->value)
         ->name('users.destroy');
+
+    Route::get('/admin/schools/search', [UsersController::class, 'searchSchools'])->name('schools.search');
     ###############################  End:Users Routes  #####################################
 
     ############################### Start:Roles Routes #####################################
@@ -120,6 +125,12 @@ Route::middleware(['auth'])->name('admin.')->group(function () {
     Route::delete('schools/{school}', [SchoolController::class, 'destroy'])
         ->middleware('permission:'. PermissionEnum::DELETE_SCHOOLS->value)
         ->name('schools.destroy');
+
+    Route::get('/inactive-students', [SchoolController::class, 'inActiveStudents'])
+        ->name('school.inactive-students');
+
+    Route::get('/students/program-status', [SchoolController::class, 'studentProgramStatus'])
+        ->name('school.students.program-status');
     ###############################  End:Schools Routes  #####################################
 
     ##############################  Start:Students Routes  ####################################
@@ -182,6 +193,9 @@ Route::middleware(['auth'])->name('admin.')->group(function () {
         // View consultation notes
         Route::get('students/consultation/{consultation}/notes', [ConsultationController::class, 'viewNotes'])
             ->name('student.consultation.notes');
+
+        Route::post('/student/consultations/{consultation}/cancel', [ConsultationController::class, 'cancelByStudent'])
+            ->name('student.consultation.cancel');
     });
 
     // Consultant consultation routes
@@ -284,6 +298,68 @@ Route::middleware(['auth'])->name('admin.')->group(function () {
         ->name('workshops.destroy');
     ###############################  End:Workshops Routes  #####################################
 
+    ############################### Start:Student_Events Routes #####################################
+    // Student Trip Routes
+    Route::group(['prefix' => 'student'], function () {
+        Route::get('trips/{program}/{pathPoint}', [StudentEventsController::class, 'showTripDetails'])
+            ->name('student.trip.show');
+
+        Route::post('trips/{program}/{pathPoint}/evaluate', [StudentEventsController::class, 'submitEvaluation'])
+            ->name('student.trip.evaluate');
+
+        Route::get('trips/{program}/{pathPoint}/certificate', [StudentEventsController::class, 'downloadCertificate'])
+            ->name('student.trip.certificate');
+    });
+
+    // Sub-Admin Trip Management
+    Route::group([
+        'prefix' => 'sub-admin',
+        'middleware' => 'role:' . RoleEnum::SUB_ADMIN->value,
+    ], function () {
+        Route::get('trips', [StudentEventsController::class, 'subAdminTrips'])
+            ->name('sub-admin.trips.index');
+
+        Route::get('trips/{program}/{pathPoint}/attendance', [StudentEventsController::class, 'attendance'])
+            ->name('sub-admin.trip.attendance');
+
+        Route::post('trips/{program}/{pathPoint}/attendance', [StudentEventsController::class, 'updateAttendance'])
+            ->name('sub-admin.trip.update-attendance');
+
+        Route::get('trips/{program}/{pathPoint}/students', [StudentEventsController::class, 'studentsList'])
+            ->name('sub-admin.trip.students');
+    });
+
+    // Student Workshop Routes
+    Route::group(['prefix' => 'student'], function () {
+        Route::get('workshops/{program}/{pathPoint}', [StudentEventsController::class, 'showWorkshopDetails'])
+            ->name('student.workshop.show');
+
+        Route::post('workshops/{program}/{pathPoint}/evaluate', [StudentEventsController::class, 'submitEvaluation'])
+            ->name('student.workshop.evaluate');
+
+        Route::get('workshops/{program}/{pathPoint}/certificate', [StudentEventsController::class, 'downloadCertificate'])
+            ->name('student.workshop.certificate');
+    });
+
+    // Sub-Admin Workshop Management
+    Route::group([
+        'prefix' => 'sub-admin',
+        'middleware' => 'role:' . RoleEnum::SUB_ADMIN->value,
+    ], function () {
+        Route::get('workshops', [StudentEventsController::class, 'subAdminWorkshops'])
+            ->name('sub-admin.workshops.index');
+
+        Route::get('workshops/{program}/{pathPoint}/attendance', [StudentEventsController::class, 'attendance'])
+            ->name('sub-admin.workshop.attendance');
+
+        Route::post('workshops/{program}/{pathPoint}/attendance', [StudentEventsController::class, 'updateAttendance'])
+            ->name('sub-admin.workshop.update-attendance');
+
+        Route::get('workshops/{program}/{pathPoint}/students', [StudentEventsController::class, 'studentsList'])
+            ->name('sub-admin.workshop.students');
+    });
+    ################################ End:Student_Events Routes ######################################
+
     ############################### Start:Calendar Routes #####################################
     Route::middleware('permission:'. PermissionEnum::LIST_EVENTS->value)->group(function () {
         Route::get('calendar', [CalendarController::class, 'index'])->name('calendar.index');
@@ -302,6 +378,15 @@ Route::middleware(['auth'])->name('admin.')->group(function () {
     Route::delete('calendar/{calendar}', [CalendarController::class, 'destroy'])
         ->middleware('permission:'. PermissionEnum::DELETE_EVENTS->value)
         ->name('calendar.destroy');
+
+    Route::prefix('student')->middleware(['role:' . RoleEnum::STUDENT->value])->group(function () {
+        Route::get('/calendar', [StudentCalendarController::class, 'index'])->name('student.calendar');
+        Route::get('/calendar/events', [StudentCalendarController::class, 'getEvents'])->name('student.calendar.events');
+    });
+    Route::prefix('consultant')->middleware(['role:'. RoleEnum::CONSULTANT->value])->group(function() {
+        Route::get('/calendar', [ConsultantCalendarController::class, 'index'])->name('consultant.calendar');
+        Route::get('/calendar/events', [ConsultantCalendarController::class, 'getEvents'])->name('consultant.calendar.events');
+    });
     ###############################  End:Calendar Routes  #####################################
 
     ############################### Start:News Routes #####################################

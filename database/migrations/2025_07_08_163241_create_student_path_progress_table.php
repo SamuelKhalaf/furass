@@ -23,7 +23,6 @@ return new class extends Migration
                 ->comment('1=locked, 2=active, 3=completed, 4=skipped');
 
             $table->dateTime('completion_date')->nullable();
-            $table->decimal('score', 5, 2)->nullable();
             $table->unsignedInteger('attempt_count')->default(0);
             $table->unsignedInteger('time_spent')->default(0);
 

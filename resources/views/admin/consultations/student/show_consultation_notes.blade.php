@@ -124,7 +124,24 @@
                                     </div>
                                 </div>
                                 <!--end::Notes Content-->
-
+                                @if($notes->report_pdf)
+                                    <div class="mb-8">
+                                        <h4 class="text-gray-800 fw-bold mb-4">{{ __('Consultation Report') }}</h4>
+                                        <div class="card bg-light-primary p-5">
+                                            <div class="d-flex align-items-center">
+                                                <i class="fa-solid fa-file-pdf text-danger fs-1 me-4"></i>
+                                                <div>
+                                                    <h5 class="text-gray-800 mb-1">{{ __('Download Consultation Report') }}</h5>
+                                                    <a href="{{ asset('storage/'.$notes->report_pdf) }}"
+                                                       class="btn btn-sm btn-primary" download>
+                                                        <i class="fa-solid fa-download me-2"></i>
+                                                        {{ __('Download PDF Report') }}
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
                                 <!--begin::Next Steps-->
                                 <div class="alert alert-primary d-flex align-items-center p-5">
                                     <div class="d-flex flex-column">

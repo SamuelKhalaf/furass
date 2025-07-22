@@ -1,3 +1,4 @@
+@php use App\Enums\PermissionEnum; @endphp
 <div class="modal fade" id="kt_modal_view_event" tabindex="-1" aria-hidden="true">
     <!--begin::Modal dialog-->
     <div class="modal-dialog modal-dialog-centered mw-650px">
@@ -5,6 +6,7 @@
         <div class="modal-content">
             <!--begin::Modal header-->
             <div class="modal-header border-0 justify-content-end">
+                @if( Auth()->user()->hasAnyPermission(PermissionEnum::UPDATE_EVENTS->value) )
                 <!--begin::Edit-->
                 <div class="btn btn-icon btn-sm btn-color-gray-400 btn-active-icon-primary me-2" data-bs-toggle="tooltip" data-bs-dismiss="click" title="Edit Event" id="kt_modal_view_event_edit">
                     <!--begin::Svg Icon | path: icons/duotune/art/art005.svg-->
@@ -17,7 +19,9 @@
                     <!--end::Svg Icon-->
                 </div>
                 <!--end::Edit-->
-                <!--begin::Edit-->
+                @endif
+                @if( Auth()->user()->hasAnyPermission(PermissionEnum::DELETE_EVENTS->value) )
+                <!--begin::Delete-->
                 <div class="btn btn-icon btn-sm btn-color-gray-400 btn-active-icon-danger me-2" data-bs-toggle="tooltip" data-bs-dismiss="click" title="Delete Event" id="kt_modal_view_event_delete">
                     <!--begin::Svg Icon | path: icons/duotune/general/gen027.svg-->
                     <span class="svg-icon svg-icon-2">
@@ -29,7 +33,8 @@
                     </span>
                     <!--end::Svg Icon-->
                 </div>
-                <!--end::Edit-->
+                <!--end::Delete-->
+                @endif
                 <!--begin::Close-->
                 <div class="btn btn-icon btn-sm btn-color-gray-500 btn-active-icon-primary" data-bs-toggle="tooltip" title="Hide Event" data-bs-dismiss="modal">
                     <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
@@ -46,6 +51,12 @@
             <!--end::Modal header-->
             <!--begin::Modal body-->
             <div class="modal-body pt-0 pb-20 px-lg-17">
+                <!--begin::Event type badge-->
+                <div class="d-flex align-items-center mb-4">
+                    <span class="fs-4 fw-bold me-3" data-kt-calendar="event_name"></span>
+                    <span class="badge" data-kt-calendar="event_type"></span>
+                </div>
+                <!--end::Event type badge-->
                 <!--begin::Row-->
                 <div class="d-flex">
                     <!--begin::Icon-->

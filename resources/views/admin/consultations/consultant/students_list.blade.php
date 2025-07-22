@@ -134,6 +134,10 @@
                                                         <span class="badge badge-light-success fs-7 fw-bold">
                                                             <i class="fa-solid fa-check-circle me-1"></i>{{ __('Completed') }}
                                                         </span>
+                                                    @elseif($consultation->status === 'cancelled_by_student')
+                                                        <span class="badge badge-light-danger fs-7 fw-bold">
+                                                            <i class="fa-solid fa-user-times me-1"></i>{{ __('Cancelled by Student') }}
+                                                        </span>
                                                     @else
                                                         <span class="badge badge-light-warning fs-7 fw-bold">
                                                             <i class="fa-solid fa-clock me-1"></i>{{ __('Waiting for Schedule') }}

@@ -173,42 +173,139 @@
                         </div>
                     </div>
                 @endif
-                <!-- Consultant only menu -->
-                @if(auth()->user()->hasRole(RoleEnum::CONSULTANT->value))
+
+                <!--start:In-Active School Students-->
+                @if( auth()->user()->hasRole(RoleEnum::SCHOOL->value) )
+                    <!--begin:Menu item-->
+                    <div class="menu-item {{setMenuOpenClass(['admin.school.inactive-students'])}}">
+                        <!--begin:Menu link-->
+                        <a class="menu-link {{setActiveClass('admin.school.inactive-students')}}"
+                           href="{{route('admin.school.inactive-students')}}">
+                            <span class="menu-icon"><i class="fa-solid fa-users"></i></span>
+                            <span class="menu-title">{{ __('dashboard.inactive_students') }}</span>
+                        </a>
+                        <!--end:Menu link-->
+                    </div>
+                    <!--end:Menu item-->
+                    <!--begin:Menu item-->
+                    <div class="menu-item {{setMenuOpenClass(['admin.school.students.program-status'])}}">
+                        <!--begin:Menu link-->
+                        <a class="menu-link {{setActiveClass('admin.school.students.program-status')}}"
+                           href="{{route('admin.school.students.program-status')}}">
+                            <span class="menu-icon"><i class="fa-solid fa-users"></i></span>
+                            <span class="menu-title">{{ __('schools.student_program_status') }}</span>
+                        </a>
+                        <!--end:Menu link-->
+                    </div>
+                    <!--end:Menu item-->
+                @endif
+                <!--end:In-Active School Students-->
+
+                <!--start:Student Calendar -->
+                @if( auth()->user()->hasRole(RoleEnum::STUDENT->value) )
+                    <!--begin:Menu item-->
+                    <div class="menu-item {{setMenuOpenClass(['admin.student.calendar'])}}">
+                        <!--begin:Menu link-->
+                        <a class="menu-link {{setActiveClass('admin.student.calendar')}}"
+                           href="{{route('admin.student.calendar')}}">
+                            <span class="menu-icon"><i class="fa-solid fa-calendar"></i></span>
+                            <span class="menu-title">{{ __('admin.calendar.title') }}</span>
+                        </a>
+                        <!--end:Menu link-->
+                    </div>
+                    <!--end:Menu item-->
+                @endif
+                <!--end:Student Calendar -->
+                <!--start:Consultant and Sub-admin Students-->
+                @if(auth()->user()->hasRole([RoleEnum::CONSULTANT->value, RoleEnum::SUB_ADMIN->value]))
                     <!--begin:Menu item-->
                     <div data-kt-menu-trigger="click"
-                         class="menu-item menu-accordion {{ setMenuOpenClass(['admin.students.evaluation.result','admin.consultant.students.index','admin.consultant.consultation.schedule.form']) }}">
+                         class="menu-item menu-accordion {{ setMenuOpenClass(
+                            [
+                                'admin.students.evaluation.result',
+                                'admin.consultant.students.index',
+                                'admin.consultant.consultation.schedule.form',
+                                'admin.sub-admin.trips.index',
+                                'admin.sub-admin.trip.students',
+                                'admin.sub-admin.trip.attendance',
+                                'admin.sub-admin.workshops.index',
+                                'admin.sub-admin.workshop.students',
+                                'admin.sub-admin.workshop.attendance'
+                            ]) }}">
                         <span class="menu-link">
                             <span class="menu-icon"><i class="fa-solid fa-users"></i></span>
                             <span class="menu-title">{{ __('admin.students.title') }}</span>
                             <span class="menu-arrow"></span>
                         </span>
                         <div class="menu-sub menu-sub-accordion">
-                            <!--begin:Menu item-->
-                            <div class="menu-item">
-                                <!--begin:Menu link-->
-                                <a class="menu-link {{ setActiveClass('admin.students.evaluation.result') }}"
-                                   href="{{ route('admin.students.evaluation.result') }}">
-                                    <span class="menu-icon"><i class="fa-solid fa-chart-line me-2"></i></span>
-                                    <span class="menu-title">{{ __('admin.evaluation-result.title') }}</span>
-                                </a>
-                                <!--end:Menu link-->
-                            </div>
-                            <!--end:Menu item-->
-                            <!--begin:Menu item-->
-                            <div class="menu-item">
-                                <!--begin:Menu link-->
-                                <a class="menu-link {{ setActiveClass('admin.consultant.students.index') }}"
-                                   href="{{route('admin.consultant.students.index')}}">
-                                    <span class="menu-icon"><i class="fa-solid fa-microphone-lines me-2"></i></span>
-                                    <span class="menu-title">{{ __('admin.consultations.title') }}</span>
-                                </a>
-                                <!--end:Menu link-->
-                            </div>
-                            <!--end:Menu item-->
+                            @if(auth()->user()->hasRole([RoleEnum::CONSULTANT->value]))
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link-->
+                                    <a class="menu-link {{ setActiveClass('admin.students.evaluation.result') }}"
+                                       href="{{ route('admin.students.evaluation.result') }}">
+                                        <span class="menu-icon"><i class="fa-solid fa-chart-line me-2"></i></span>
+                                        <span class="menu-title">{{ __('admin.evaluation-result.title') }}</span>
+                                    </a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link-->
+                                    <a class="menu-link {{ setActiveClass('admin.consultant.students.index') }}"
+                                       href="{{route('admin.consultant.students.index')}}">
+                                        <span class="menu-icon"><i class="fa-solid fa-microphone-lines me-2"></i></span>
+                                        <span class="menu-title">{{ __('admin.consultations.title') }}</span>
+                                    </a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                            @endif
+                            @if(auth()->user()->hasRole([RoleEnum::SUB_ADMIN->value]))
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link-->
+                                    <a class="menu-link {{ setActiveClass(['admin.sub-admin.trips.index','admin.sub-admin.trip.students','admin.sub-admin.trip.attendance']) }}"
+                                       href="{{route('admin.sub-admin.trips.index')}}">
+                                        <span class="menu-icon"><i class="fa-solid fa-map-location-dot me-2"></i></span>
+                                        <span class="menu-title">{{ __('admin.trips.title') }}</span>
+                                    </a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link-->
+                                    <a class="menu-link {{ setActiveClass(['admin.sub-admin.workshops.index','admin.sub-admin.workshop.students','admin.sub-admin.workshop.attendance']) }}"
+                                       href="{{route('admin.sub-admin.workshops.index')}}">
+                                        <span class="menu-icon"><i class="fa-solid fa-map-location-dot me-2"></i></span>
+                                        <span class="menu-title">{{ __('admin.workshops.title') }}</span>
+                                    </a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                            @endif
+
                         </div>
                     </div>
                 @endif
+                <!--end:Consultant and Sub-admin Students-->
+                <!--start:Consultant Calendar -->
+                @if( auth()->user()->hasRole(RoleEnum::CONSULTANT->value) )
+                    <!--begin:Menu item-->
+                    <div class="menu-item {{setMenuOpenClass(['admin.consultant.calendar'])}}">
+                        <!--begin:Menu link-->
+                        <a class="menu-link {{setActiveClass('admin.consultant.calendar')}}"
+                           href="{{route('admin.consultant.calendar')}}">
+                            <span class="menu-icon"><i class="fa-solid fa-calendar"></i></span>
+                            <span class="menu-title">{{ __('admin.calendar.title') }}</span>
+                        </a>
+                        <!--end:Menu link-->
+                    </div>
+                    <!--end:Menu item-->
+                @endif
+                <!--end:Consultant Calendar -->
                 @if(auth()->user()->hasAnyPermission(PermissionEnum::tripPermissions()))
                     <!--begin:Menu item-->
                     <div class="menu-item {{setMenuOpenClass(['admin.trips.index'])}}">

@@ -46,4 +46,12 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    /**
+     * Get the schools associated with the user (for sub-admin role)
+     */
+    public function schools()
+    {
+        return $this->belongsToMany(School::class, 'sub_admin_school', 'sub_admin_id', 'school_id');
+    }
 }

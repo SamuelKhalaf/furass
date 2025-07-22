@@ -301,6 +301,19 @@
                                                 </ul>
                                             </div>
                                             <!--end::Meeting instructions-->
+                                            <!--cancellation button-->
+                                            @if($consultation->status === 'pending')
+                                                <form method="POST" action="{{ route('admin.student.consultation.cancel', $consultation->id) }}" class="mt-3">
+                                                    @csrf
+                                                    <button type="submit" class="btn btn-danger btn-lg" onclick="return confirm('{{ __('Are you sure you want to cancel this consultation?') }}')">
+                                                        <i class="fa-solid fa-times me-2"></i>{{ __('Cancel Consultation') }}
+                                                    </button>
+                                                    <div class="text-muted mt-2">
+                                                        {{ __('If this time doesn\'t convenient for you, you may cancel the consultation.') }}<br>
+                                                        {{ __('After cancellation, your consultant will schedule a new consultation.') }}
+                                                    </div>
+                                                </form>
+                                            @endif
                                         </div>
                                         <!--end::Scheduled consultation-->
                                     @elseif($consultation->status === 'done')
@@ -339,7 +352,8 @@
                                             @endif
                                         </div>
                                         <!--end::Completed consultation-->
-                                    @else
+                                        // Replace the cancelled consultation section (around line 280) with:
+                                    @elseif(in_array($consultation->status, ['cancelled', 'cancelled_by_student']))
                                         <!--begin::Cancelled consultation-->
                                         <div class="d-flex flex-column">
                                             <div class="d-flex align-items-center mb-5">
@@ -349,15 +363,29 @@
                                                     </div>
                                                 </div>
                                                 <div class="flex-grow-1">
-                                                    <h4 class="text-gray-800 fw-bold mb-1">{{ __('Consultation Cancelled') }}</h4>
-                                                    <span class="text-gray-600 fw-semibold">{{ __('This consultation session has been cancelled') }}</span>
+                                                    <h4 class="text-gray-800 fw-bold mb-1">
+                                                        {{ $consultation->status === 'cancelled_by_student' ? __('Consultation Cancelled By You') : __('Consultation Cancelled') }}
+                                                    </h4>
+                                                    <span class="text-gray-600 fw-semibold">
+                                                        {{ $consultation->status === 'cancelled_by_student'
+                                                            ? __('You have cancelled this consultation. A new session will be scheduled soon.')
+                                                            : __('This consultation session has been cancelled') }}
+                                                    </span>
                                                 </div>
                                             </div>
 
                                             <div class="alert alert-danger d-flex align-items-center p-5 mb-8">
                                                 <div class="d-flex flex-column">
-                                                    <h4 class="mb-1 text-dark">{{ __('Session Cancelled') }}</h4>
-                                                    <span>{{ __('This consultation session has been cancelled. A new session will be scheduled soon.') }}</span>
+                                                    <h4 class="mb-1 text-dark">
+                                                        {{ $consultation->status === 'cancelled_by_student'
+                                                            ? __('Session Cancelled By You')
+                                                            : __('Session Cancelled') }}
+                                                    </h4>
+                                                    <span>
+                                                        {{ $consultation->status === 'cancelled_by_student'
+                                                            ? __('You have cancelled this consultation session. Your consultant will schedule a new session for you.')
+                                                            : __('This consultation session has been cancelled. A new session will be scheduled soon.') }}
+                                                    </span>
                                                 </div>
                                             </div>
                                         </div>

@@ -5,8 +5,12 @@ namespace App\Http\Controllers\Admin;
 use App\Enums\PermissionEnum;
 use App\Enums\RoleEnum;
 use App\Http\Controllers\Controller;
+use App\Models\Enrollment;
+use App\Models\Program;
 use App\Models\School;
+use App\Models\Student;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -221,5 +225,54 @@ class SchoolController extends Controller
             DB::rollBack();
             return response()->json(['success' => false, 'message' => 'Error deleting School.'] , 500);
         }
+    }
+
+    public function inActiveStudents()
+    {
+        $schoolId = School::where('user_id', auth()->id())->first()->id;
+        $inactiveStudents = $this->getInactiveStudents($schoolId);
+
+        return view('admin.schools.in_active_students', [
+            'inactiveStudents' => $inactiveStudents,
+            'inactiveDaysThreshold' => 30
+        ]);
+    }
+
+    public function getInactiveStudents($schoolId, $daysThreshold = 30)
+    {
+        return Student::where('school_id', $schoolId)
+            ->where(function ($query) use ($daysThreshold) {
+                // Students with no recent path progress
+                $query->whereDoesntHave('studentPathProgress', function ($subQuery) use ($daysThreshold) {
+                    $subQuery->where('updated_at', '>=', Carbon::now()->subDays($daysThreshold));
+                })
+                    ->orWhereHas('enrollments', function ($subQuery) {
+                        // Students with active enrollments but no progress
+                        $subQuery->where('status', 'active')
+                            ->where('progress', 0);
+                    });
+            })
+            ->with(['user', 'enrollments' => function ($query) {
+                $query->where('status', 'active');
+            }, 'studentPathProgress' => function ($query) {
+                $query->orderBy('updated_at', 'desc')->limit(1);
+            }])
+            ->orderBy('created_at', 'asc')
+            ->paginate(10);
+    }
+
+    public function studentProgramStatus()
+    {
+        $schoolId = School::where('user_id', auth()->id())->first()->id;
+
+        $students = Student::where('school_id', $schoolId)
+            ->with(['user', 'enrollments' => function($query) {
+                $query->with('program')
+                    ->orderBy('progress', 'desc');
+            }, 'studentPathProgress'])
+            ->orderBy('created_at', 'asc')
+            ->paginate(10);
+
+        return view('admin.schools.student_program_status', compact('students'));
     }
 }

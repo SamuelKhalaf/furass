@@ -23,4 +23,9 @@ class Program extends Model
     {
         return $this->belongsToMany(PathPoint::class)->withPivot('order')->orderBy('pivot_order');
     }
+
+    public function enrollments()
+    {
+        return $this->hasMany(Enrollment::class);
+    }
 }

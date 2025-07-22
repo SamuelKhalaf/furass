@@ -1,6 +1,6 @@
 @php use App\Enums\PermissionEnum; @endphp
 @extends('admin.layouts.master')
-@section('title', __('calendar.title'))
+@section('title', __('Calendar'))
 @section('content')
     <div class="d-flex flex-column flex-column-fluid">
         <!--begin::Toolbar-->
@@ -54,12 +54,6 @@
                     <!--end::Card body-->
                 </div>
                 <!--end::Card-->
-                <!--begin::Modals-->
-                <!--begin::Modal - New Product-->
-                <!--end::Modal - New Product-->
-                <!--begin::Modal - New Product-->
-                <!--end::Modal - New Product-->
-                <!--end::Modals-->
             </div>
             <!--end::Content container-->
         </div>
@@ -146,6 +140,7 @@
 
                 // Init calendar --- more info: https://fullcalendar.io/docs/initialize-globals
                 calendar = new FullCalendar.Calendar(calendarEl, {
+                    timeZone: 'local',
                     headerToolbar: {
                         left: 'prev,next today',
                         center: 'title',
@@ -172,8 +167,8 @@
                                     id: event.id,
                                     title: event.event_name,
                                     start: event.start_date,
-                                    end: event.end_date, // Adjust if you have separate end time
-                                    allDay: false, // Adjust based on your needs
+                                    end: event.end_date,
+                                    allDay: false,
                                     extendedProps: {
                                         description: event.description || '',
                                         location: event.location || '',

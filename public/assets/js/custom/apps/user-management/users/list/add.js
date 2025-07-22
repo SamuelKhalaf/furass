@@ -216,10 +216,46 @@ var KTUsersAddUser = function () {
         });
     }
 
+    var initSchoolsSelect = () => {
+        // Initialize Select2 for schools
+        $('#kt_modal_add_user_schools').select2({
+            placeholder: "Select schools",
+            allowClear: false
+        });
+
+        // Handle role change to show/hide schools select
+        $('select[name="role"]').on('change', function() {
+            const selectedRole = $(this).val();
+            const schoolsGroup = $('.schools-input-group');
+
+            if (selectedRole === 'Sub Admin') { // Replace it with your actual sub-admin role name
+                schoolsGroup.show();
+                // Add validation for schools when sub-admin is selected
+                if (validator) {
+                    validator.addField('schools[]', {
+                        validators: {
+                            notEmpty: {
+                                message: 'At least one school must be selected for sub-admin'
+                            }
+                        }
+                    });
+                }
+            } else {
+                schoolsGroup.hide();
+                $('#kt_modal_add_user_schools').val(null).trigger('change');
+                // Remove validation for schools when other roles are selected
+                if (validator) {
+                    validator.removeField('schools[]');
+                }
+            }
+        });
+    };
+
     return {
         // Public functions
         init: function () {
             initAddUser();
+            initSchoolsSelect();
             // Initialize Flatpickr for the birth date input
             if (typeof flatpickr !== 'undefined') {
                 flatpickr("#student_birth_date", {

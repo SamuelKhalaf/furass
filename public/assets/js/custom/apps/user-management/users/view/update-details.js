@@ -20,6 +20,31 @@ var KTUsersUpdateDetails = function () {
             Array.from(roleSelect.options).forEach(option => {
                 option.selected = option.value === userData.role;
             });
+
+            // Handle schools selection for Sub Admin
+            const schoolsGroup = $('.schools-input-group');
+            const schoolsSelect = $('#kt_modal_update_user_schools');
+            schoolsSelect.html(''); // Clear all options
+
+            if (userData.all_schools && userData.all_schools.length > 0) {
+                // Populate all available schools
+                userData.all_schools.forEach(school => {
+                    const label = `${school.user.name}`;
+                    schoolsSelect.append(new Option(label, school.id, false, false));
+                });
+            }
+
+            if (userData.role === 'Sub Admin') {
+                schoolsGroup.show();
+                if (userData.schools && userData.schools.length > 0) {
+                    // Preselect the schools assigned to this user
+                    const selectedIds = userData.schools.map(school => school.id);
+                    schoolsSelect.val(selectedIds).trigger('change');
+                }
+            } else {
+                schoolsGroup.hide();
+                $('#kt_modal_update_user_schools').val(null).trigger('change');
+            }
         }
         // check the user is active or not
         if (userData.is_active && userData.is_active === 1) {
@@ -31,6 +56,44 @@ var KTUsersUpdateDetails = function () {
             form.querySelector('[name="is_active"]').value = 0;
             form.querySelector('.form-check-label').innerText = "Inactive";
         }
+    };
+
+    var initSchoolsSelect = () => {
+        // Initialize Select2 for schools
+        const $schoolsSelect = $('#kt_modal_update_user_schools');
+        if ($schoolsSelect.data('select2')) return;
+
+        $schoolsSelect.select2({
+            placeholder: "Select schools",
+            allowClear: false,
+        });
+
+        // Handle role change to show/hide schools select
+        $('select[name="role"]').on('change', function() {
+            const selectedRole = $(this).val();
+            const schoolsGroup = $('.schools-input-group');
+
+            if (selectedRole === 'Sub Admin') {
+                schoolsGroup.show();
+                // Add validation for schools when sub-admin is selected
+                if (validator) {
+                    validator.addField('schools[]', {
+                        validators: {
+                            notEmpty: {
+                                message: 'At least one school must be selected for sub-admin'
+                            }
+                        }
+                    });
+                }
+            } else {
+                schoolsGroup.hide();
+                $('#kt_modal_update_user_schools').val(null).trigger('change');
+                // Remove validation for schools when other roles are selected
+                if (validator) {
+                    validator.removeField('schools[]');
+                }
+            }
+        });
     };
 
     // Fetch user data when modal is opened
@@ -221,6 +284,7 @@ var KTUsersUpdateDetails = function () {
         // Public functions
         init: function () {
             initUpdateDetails();
+            initSchoolsSelect();
         }
     };
 }();

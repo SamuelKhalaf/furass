@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 
 class ConsultationController extends Controller
 {
@@ -255,7 +256,8 @@ class ConsultationController extends Controller
     public function saveNotes(Request $request, $consultationId)
     {
         $request->validate([
-            'notes' => 'required|string|min:10'
+            'notes' => 'required|string|min:10',
+            'report_pdf' => 'nullable|file|mimes:pdf|max:2048'
         ]);
 
         $consultant = Consultant::where('user_id', Auth::id())->firstOrFail();
@@ -264,16 +266,34 @@ class ConsultationController extends Controller
             ->firstOrFail();
 
         DB::transaction(function() use ($request, $consultation) {
+            $data = ['notes' => $request->notes];
+            $existingNotes = ConsultationNotes::where('consultation_id', $consultation->id)->first();
+
+            // Handle PDF upload
+            if ($request->hasFile('report_pdf')) {
+
+                // Delete an old file if exists
+                if ($existingNotes && $existingNotes->report_pdf) {
+                    Storage::disk('public')->delete($existingNotes->report_pdf);
+                }
+
+                // Store a new file with sanitized name
+                $extension = $request->file('report_pdf')->getClientOriginalExtension();
+                $fileName = 'Consultation_Report_' . time() . '.' . $extension;
+                $path = $request->file('report_pdf')->storeAs('consultation_reports', $fileName, 'public');
+                $data['report_pdf'] = $path;
+            }
+
             // Save consultation notes
             ConsultationNotes::updateOrCreate(
                 ['consultation_id' => $consultation->id],
-                ['notes' => $request->notes]
+                $data
             );
 
             // Mark consultation as done
             $consultation->update(['status' => 'done']);
 
-            // Update student path progress to completed
+            // Update student path progress to complete
             $progress = StudentPathProgress::where('student_id', $consultation->student_id)
                 ->whereHas('pathPoint', function($query) {
                     $query->where('table_name', 'consultations');
@@ -331,5 +351,21 @@ class ConsultationController extends Controller
         $consultation->update(['status' => 'cancelled']);
 
         return redirect()->back()->with('success', __('Consultation cancelled successfully'));
+    }
+
+    /**
+     * Cancel consultation by student
+     */
+    public function cancelByStudent($consultationId)
+    {
+        $student = Student::where('user_id', Auth::id())->firstOrFail();
+        $consultation = Consultation::where('id', $consultationId)
+            ->where('student_id', $student->id)
+            ->where('status', 'pending')
+            ->firstOrFail();
+
+        $consultation->update(['status' => 'cancelled_by_student']);
+
+        return redirect()->back()->with('success', __('Consultation cancelled successfully. Please wait for a new schedule.'));
     }
 }

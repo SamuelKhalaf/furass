@@ -70,8 +70,8 @@ class EnrollmentController extends Controller
                 ->with('error', __('No enrollment found for this program.'));
         }
 
-        // Create path points collection from student's progress records
-        $pathPointsWithProgress = $studentPathProgress->map(function ($progress) {
+        // Create a path points collection from student's progress records
+        $pathPointsWithProgress = $studentPathProgress->map(function ($progress) use ($student) {
             $pathPoint = $progress->pathPoint;
             $pathPoint->progress = $progress;
             $pathPoint->status = $progress->status;
@@ -80,6 +80,20 @@ class EnrollmentController extends Controller
             $pathPoint->attempt_count = $progress->attempt_count;
             $pathPoint->time_spent = $progress->time_spent;
             $pathPoint->order = $progress->order ?? 1; // Use stored order from progress
+
+            // Check if path point grade matches student's grade
+            $pathPoint->is_grade_locked = false;
+            $pathPoint->available_in_grade = null;
+            $pathPoint->grade_lock_message = null;
+
+            if ($pathPoint->grade && $student->grade < $pathPoint->grade) {
+                $pathPoint->is_grade_locked = true;
+                $pathPoint->available_in_grade = $pathPoint->grade;
+                $pathPoint->grade_lock_message = __('This path point will be available in grade :grade', ['grade' => $pathPoint->grade]);
+
+                // Override status to lock if grade doesn't match
+                $pathPoint->status = 1; // Force locked status
+            }
 
             return $pathPoint;
         })->sortBy('order');
@@ -119,6 +133,12 @@ class EnrollmentController extends Controller
         }
 
         $pathPoint = $progress->pathPoint;
+
+        // Check if this path point is grade-locked
+        if ($pathPoint->grade && $student->grade < $pathPoint->grade) {
+            return redirect()->route('admin.student.enrollments.show', $programId)
+                ->with('error', __('This path point will be available in grade :grade', ['grade' => $pathPoint->grade]));
+        }
 
         // Check if this path point is accessible (active or completed)
         if ($progress->status == 1) { // 1=locked
@@ -224,19 +244,35 @@ class EnrollmentController extends Controller
     /**
      * Initialize student path progress when enrolled in a program
      * This captures the current state of the program's path points at enrollment time
+     * and respects grade restrictions
      */
     private function initializeStudentPathProgress($studentId, $programId)
     {
+        $student = Student::find($studentId);
         $program = Program::with(['pathPoints' => function($q) {
             $q->orderBy('path_point_program.order');
         }])->find($programId);
 
         if ($program && $program->pathPoints->count() > 0) {
             $pathPoints = $program->pathPoints;
+            $firstAvailableFound = false;
 
             foreach ($pathPoints as $index => $pathPoint) {
-                // The First path point is active (2), others are locked (1)
-                $status = $index === 0 ? 2 : 1;
+                // Check if this path point is grade-restricted
+                $isGradeLocked = $pathPoint->grade && $student->grade < $pathPoint->grade;
+
+                // Determine status based on grade restrictions and order
+                if ($isGradeLocked) {
+                    // Grade-locked path points are always locked (1)
+                    $status = 1;
+                } else if (!$firstAvailableFound) {
+                    // First available (not grade-locked) path point is active (2)
+                    $status = 2;
+                    $firstAvailableFound = true;
+                } else {
+                    // All other available path points are locked (1) until unlocked
+                    $status = 1;
+                }
 
                 StudentPathProgress::create([
                     'student_id' => $studentId,
@@ -250,77 +286,6 @@ class EnrollmentController extends Controller
                     'order' => $pathPoint->pivot->order,
                 ]);
             }
-        }
-    }
-
-    /**
-     * Helper method to check if a student's path structure needs updating
-     * This should only be called in special circumstances (optional)
-     */
-    public function checkStudentPathStructure($studentId, $programId)
-    {
-        $currentProgramPaths = Program::with('pathPoints')->find($programId)->pathPoints->pluck('id');
-        $studentPaths = StudentPathProgress::where('student_id', $studentId)
-            ->where('program_id', $programId)
-            ->pluck('path_point_id');
-
-        // Check if student has path points that no longer exist in the program
-        $removedPaths = $studentPaths->diff($currentProgramPaths);
-        $newPaths = $currentProgramPaths->diff($studentPaths);
-
-        return [
-            'needs_update' => $removedPaths->isNotEmpty() || $newPaths->isNotEmpty(),
-            'removed_paths' => $removedPaths,
-            'new_paths' => $newPaths,
-        ];
-    }
-
-    /**
-     * Force update a student's path structure (use with caution)
-     * This should only be used in exceptional cases
-     */
-    public function forceUpdateStudentPath($studentId, $programId)
-    {
-        DB::beginTransaction();
-        try {
-            // Get current student progress
-            $currentProgress = StudentPathProgress::where('student_id', $studentId)
-                ->where('program_id', $programId)
-                ->get()
-                ->keyBy('path_point_id');
-
-            // Get current program structure
-            $program = Program::with(['pathPoints' => function($q) {
-                $q->orderBy('path_point_program.order');
-            }])->find($programId);
-
-            // Remove old progress records
-            StudentPathProgress::where('student_id', $studentId)
-                ->where('program_id', $programId)
-                ->delete();
-
-            // Recreate with current structure, preserving completed status where possible
-            foreach ($program->pathPoints as $index => $pathPoint) {
-                $oldProgress = $currentProgress->get($pathPoint->id);
-
-                StudentPathProgress::create([
-                    'student_id' => $studentId,
-                    'program_id' => $programId,
-                    'path_point_id' => $pathPoint->id,
-                    'status' => $oldProgress ? $oldProgress->status : ($index === 0 ? 2 : 1),
-                    'completion_date' => $oldProgress ? $oldProgress->completion_date : null,
-                    'score' => $oldProgress ? $oldProgress->score : null,
-                    'attempt_count' => $oldProgress ? $oldProgress->attempt_count : 0,
-                    'time_spent' => $oldProgress ? $oldProgress->time_spent : 0,
-                    'order' => $pathPoint->pivot->order,
-                ]);
-            }
-
-            DB::commit();
-            return true;
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return false;
         }
     }
 }

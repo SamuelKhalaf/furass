@@ -11,14 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('assessment_results', function (Blueprint $table) {
+        Schema::create('trip_attendances', function (Blueprint $table) {
             $table->id();
             $table->foreignId('student_id')->constrained()->onDelete('cascade');
-            $table->foreignId('assessment_id')->constrained()->onDelete('cascade');
-            $table->json('answers');
-            $table->decimal('score',3,1,true);
-            $table->string('feedback')->nullable();
+            $table->foreignId('event_id')->constrained()->onDelete('cascade');
+            $table->enum('status', ['attended', 'absent']);
+            $table->text('notes')->nullable();
+            $table->unsignedBigInteger('recorded_by')->nullable();
+            $table->timestamp('recorded_at');
             $table->timestamps();
+
+            $table->unique(['student_id', 'event_id']);
         });
     }
 
@@ -27,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('assessment_results');
+        Schema::dropIfExists('trip_attendances');
     }
 };

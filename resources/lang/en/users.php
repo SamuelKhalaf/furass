@@ -58,5 +58,7 @@ return [
         'discard' => 'Discard',
         'submit' => 'Submit',
         'please_wait' => 'Please wait...',
+        'schools' => 'Schools',
+        'select_schools' => 'Select Schools',
     ],
 ];
