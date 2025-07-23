@@ -493,11 +493,11 @@
             @forelse($exams as $exam)
                 <div class="exam-card" data-exam-id="{{ $exam->id }}">
                     <div class="exam-content">
-                        <div class="exam-name">{{ $exam->name[app()->getLocale()] }}</div>
+                        <div class="exam-name">{{ $exam->getTranslation('name',app()->getLocale()) }}</div>
                         <div class="exam-meta">
                             <span>{{ $exam->questions_count ?? 0 }} Questions</span>
                         </div>
-                        <button class="view-questions-btn" onclick="loadQuestions({{ $exam->id }}, '{{ $exam->name[app()->getLocale()] }}')">
+                        <button class="view-questions-btn" onclick="loadQuestions({{ $exam->id }}, '{{ $exam->getTranslation('name',app()->getLocale()) }}')">
                             View Questions
                         </button>
                     </div>

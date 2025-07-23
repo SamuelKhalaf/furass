@@ -28,10 +28,10 @@ class QuestionBankTypeController extends Controller
 
         return DataTables::of($questionBank)
             ->addColumn('name_ar', function ($questionBank) {
-                return $questionBank->name['ar'];
+                return $questionBank->getTranslation('name', 'ar');
             })
             ->addColumn('name_en', function ($questionBank) {
-                return $questionBank->name['en'];
+                return $questionBank->getTranslation('name', 'en');
             })
             ->addColumn('actions', function ($questionBank) {
                 $actions = '';
