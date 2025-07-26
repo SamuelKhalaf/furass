@@ -10,8 +10,10 @@ class Program extends Model
     use HasFactory;
 
     protected $fillable = [
-        'title',
-        'description'
+        'title_ar',
+        'title_en',
+        'description_ar',
+        'description_en'
     ];
 
     public function events()

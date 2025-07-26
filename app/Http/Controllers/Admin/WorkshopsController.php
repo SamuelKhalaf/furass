@@ -23,7 +23,7 @@ class WorkshopsController extends Controller
 
     public function getWorkshopsData()
     {
-        $workshops = Event::where('event_type', 'workshop')->with('programs')->get();
+        $workshops = Event::where('event_type', 'workshop')->get();
 
         return DataTables::of($workshops)
 
@@ -95,8 +95,7 @@ class WorkshopsController extends Controller
      */
     public function create()
     {
-        $programs = Program::all();
-        return view('workshops.create', compact('programs'));
+        return view('workshops.create');
     }
 
     /**
@@ -113,8 +112,6 @@ class WorkshopsController extends Controller
             'media' => 'nullable|file|mimes:jpeg,png,jpg,mp4|max:10240', // 10MB max
             'document' => 'nullable|file|mimes:pdf,doc,docx,txt|max:10240', // 10MB max
             'description' => 'nullable|string',
-            'program_ids' => 'nullable|array|min:1',
-            'program_ids.*' => 'exists:programs,id',
         ]);
 
         try {
@@ -145,9 +142,6 @@ class WorkshopsController extends Controller
                 'event_type' => 'workshop',
             ]);
 
-            // Sync programs
-            $event->programs()->sync($validated['program_ids'] ?? []);
-
             return response()->json([
                 'success' => true,
                 'message' => __('workshops.messages.created')
@@ -167,7 +161,6 @@ class WorkshopsController extends Controller
      */
     public function show(Event $workshop)
     {
-        $workshop->load('programs');
         return response()->json([
             'success' => true,
             'data' => $workshop
@@ -179,11 +172,8 @@ class WorkshopsController extends Controller
      */
     public function edit(Event $workshop)
     {
-        $programIds = $workshop->programs()->pluck('program_id');
-
         return response()->json([
             'workshop' => $workshop,
-            'program_ids' => $programIds,
         ]);
     }
 
@@ -201,8 +191,6 @@ class WorkshopsController extends Controller
             'media' => 'nullable|file|mimes:jpeg,png,jpg,mp4', // 10MB max
             'document' => 'nullable|file|mimes:pdf,doc,docx,txt|max:10240', // 10MB max
             'description' => 'nullable|string',
-            'program_ids' => 'nullable|array|min:1',
-            'program_ids.*' => 'exists:programs,id',
             'current_media_path' => 'nullable|string',
             'current_document_path' => 'nullable|string',
         ]);
@@ -254,9 +242,6 @@ class WorkshopsController extends Controller
                 'document_path' => $documentPath,
             ]);
 
-            // Sync programs
-            $workshop->programs()->sync($validated['program_ids'] ?? []);
-
             return response()->json([
                 'success' => true,
                 'message' => __('workshops.messages.updated')
@@ -287,7 +272,6 @@ class WorkshopsController extends Controller
             }
 
             // Delete the workshop
-            $workshop->programs()->detach();
             $workshop->delete();
 
             return response()->json([

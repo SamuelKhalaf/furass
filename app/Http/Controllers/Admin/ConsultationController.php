@@ -16,6 +16,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 
 class ConsultationController extends Controller
@@ -91,7 +93,7 @@ class ConsultationController extends Controller
                 $query->whereHas('pathPoint', function($subQuery) {
                     $subQuery->where('table_name', 'consultations');
                 })
-                    ->whereIn('status', [2, 3]);
+                ->whereIn('status', [2, 3]);
             })
             ->with([
                 'user',
@@ -161,6 +163,8 @@ class ConsultationController extends Controller
 
         $consultant = Consultant::where('user_id', Auth::id())->firstOrFail();
         $student = Student::findOrFail($studentId);
+        $program = Program::findOrFail($programId);
+        $pathPoint = PathPoint::findOrFail($pathPointId);
 
         // Verify a consultant has access to this student
         $hasAccess = DB::table('consultant_school')
@@ -171,7 +175,7 @@ class ConsultationController extends Controller
         if (!$hasAccess) {
             abort(403, 'Unauthorized access to student consultation');
         }
-        DB::transaction(function() use ($request, $studentId, $programId, $pathPointId, $consultant) {
+        DB::transaction(function() use ($request, $studentId, $programId, $pathPointId, $consultant, $student, $program, $pathPoint) {
             // Create or update consultation
             $consultation = Consultation::updateOrCreate(
                 [
@@ -188,6 +192,15 @@ class ConsultationController extends Controller
                 ]
             );
 
+            // Load the consultant relationship for the consultation
+            $consultation->load('consultant.user');
+
+            // Send an email notification to a student
+            try {
+                Mail::to($student->user->email)->queue(new \App\Mail\ConsultationScheduled($consultation, $student, $program, $pathPoint));
+            } catch (\Exception $e) {
+                Log::error('Failed to send consultation email: ' . $e->getMessage());
+            }
         });
 
         return redirect()->route('admin.consultant.students.index')
@@ -261,7 +274,8 @@ class ConsultationController extends Controller
         ]);
 
         $consultant = Consultant::where('user_id', Auth::id())->firstOrFail();
-        $consultation = Consultation::where('id', $consultationId)
+        $consultation = Consultation::with(['student.user', 'consultant.user'])
+            ->where('id', $consultationId)
             ->where('consultant_id', $consultant->id)
             ->firstOrFail();
 
@@ -271,7 +285,6 @@ class ConsultationController extends Controller
 
             // Handle PDF upload
             if ($request->hasFile('report_pdf')) {
-
                 // Delete an old file if exists
                 if ($existingNotes && $existingNotes->report_pdf) {
                     Storage::disk('public')->delete($existingNotes->report_pdf);
@@ -285,7 +298,7 @@ class ConsultationController extends Controller
             }
 
             // Save consultation notes
-            ConsultationNotes::updateOrCreate(
+            $consultationNotes = ConsultationNotes::updateOrCreate(
                 ['consultation_id' => $consultation->id],
                 $data
             );
@@ -307,6 +320,25 @@ class ConsultationController extends Controller
                     'completion_date' => now(),
                     'updated_at' => now()
                 ]);
+
+                // Get the program and path point for the email
+                $program = Program::find($progress->program_id);
+                $pathPoint = PathPoint::find($progress->path_point_id);
+
+                // Send completion email to a student
+                try {
+                    Mail::to($consultation->student->user->email)->queue(
+                        new \App\Mail\ConsultationCompleted(
+                            $consultation,
+                            $consultationNotes,
+                            $consultation->student,
+                            $program,
+                            $pathPoint
+                        )
+                    );
+                } catch (\Exception $e) {
+                    Log::error('Failed to send consultation completion email: ' . $e->getMessage());
+                }
 
                 // Update overall program progress
                 $this->progressService->updateProgramProgress($consultation->student_id, $progress->program_id);

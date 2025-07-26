@@ -22,11 +22,6 @@ class Event extends Model
         'event_type'
     ];
 
-    public function programs()
-    {
-        return $this->belongsToMany(Program::class, 'event_program');
-    }
-
     public function tripAttendances()
     {
         return $this->hasMany(TripAttendance::class);
