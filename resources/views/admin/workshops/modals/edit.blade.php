@@ -128,21 +128,6 @@
                         </div>
                         <!--end::Input group-->
 
-                        <!--begin::Input group-->
-                        <div class="row g-9 mb-7">
-                            <!--begin::Col-->
-                            <div class="col-12 fv-row">
-                                <label class="fs-6 fw-semibold mb-2">{{ __('workshops.modal.programs') }}</label>
-                                <select name="program_ids[]" id="edit_program_ids" class="form-select form-select-solid" data-control="select2" data-close-on-select="false" data-placeholder="{{ __('workshops.modal.select_programs') }}" multiple="multiple" required>
-                                    @foreach(\App\Models\Program::all() as $program)
-                                        <option value="{{ $program->id }}">{{app()->getLocale() == 'ar' ? $program->title_ar : $program->title_en }}</option>
-                                    @endforeach
-                                </select>
-                                <div class="fv-plugins-message-container invalid-feedback"></div>
-                            </div>
-                            <!--end::Col-->
-                        </div>
-                        <!--end::Input group-->
                     </div>
                     <!--end::Scroll-->
                 </div>

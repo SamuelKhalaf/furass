@@ -16,6 +16,7 @@ use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\Admin\PagesController;
 use App\Http\Controllers\Admin\PermissionsController;
+use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\ProgramsController;
 use App\Http\Controllers\Admin\QuestionBankTypeController;
 use App\Http\Controllers\Admin\QuestionController;
@@ -237,6 +238,11 @@ Route::middleware(['auth'])->name('admin.')->group(function () {
     Route::middleware('permission:'. PermissionEnum::LIST_PROGRAMS->value)->group(function () {
         Route::get('programs', [ProgramsController::class, 'index'])->name('programs.index');
         Route::get('programs/all', [ProgramsController::class, 'getProgramsData'])->name('programs.datatable');
+    });
+
+    Route::middleware('permission:'. PermissionEnum::CREATE_PROGRAMS->value)->group(function () {
+        Route::get('/programs/create', [ProgramsController::class, 'create'])->name('programs.create');
+        Route::post('/programs', [ProgramsController::class, 'store'])->name('programs.store');
     });
 
     Route::middleware('permission:'. PermissionEnum::UPDATE_PROGRAMS->value)->group(function () {
@@ -593,4 +599,14 @@ Route::middleware(['auth'])->name('admin.')->group(function () {
     Route::get('evaluation-question/{bank_id}/{student_id}/{trying}', [EvaluationResultController::class, 'get_evaluation_questions'])->name('evaluation.question');
 
     ###############################  end:evaluation result Routes  #####################################
+
+    ############################### start:Profile Routes #####################################
+    Route::prefix('profile')->name('profile.')->group(function () {
+        Route::get('/', [ProfileController::class, 'show'])->name('show');
+        Route::get('/edit', [ProfileController::class, 'edit'])->name('edit');
+        Route::put('/update', [ProfileController::class, 'update'])->name('update');
+        Route::get('/password/edit', [ProfileController::class, 'editPassword'])->name('password.edit');
+        Route::put('/password/update', [ProfileController::class, 'updatePassword'])->name('password.update');
+    });
+    ################################ end:Profile Routes ######################################
 });

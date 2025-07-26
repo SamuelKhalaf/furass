@@ -23,7 +23,7 @@ class TripsController extends Controller
 
     public function getTripsData()
     {
-        $trips = Event::where('event_type', 'trip')->with('programs')->get();
+        $trips = Event::where('event_type', 'trip')->get();
 
         return DataTables::of($trips)
 
@@ -95,8 +95,7 @@ class TripsController extends Controller
      */
     public function create()
     {
-        $programs = Program::all();
-        return view('trips.create', compact('programs'));
+        return view('trips.create');
     }
 
     /**
@@ -113,8 +112,6 @@ class TripsController extends Controller
             'media' => 'nullable|file|mimes:jpeg,png,jpg,mp4|max:10240', // 10MB max
             'document' => 'nullable|file|mimes:pdf,doc,docx,txt|max:10240', // 10MB max
             'description' => 'nullable|string',
-            'program_ids' => 'nullable|array|min:1',
-            'program_ids.*' => 'exists:programs,id',
         ]);
 
         try {
@@ -145,9 +142,6 @@ class TripsController extends Controller
                 'event_type' => 'trip',
             ]);
 
-            // Sync programs
-            $event->programs()->sync($validated['program_ids'] ?? []);
-
             return response()->json([
                 'success' => true,
                 'message' => __('trips.messages.created')
@@ -167,7 +161,6 @@ class TripsController extends Controller
      */
     public function show(Event $trip)
     {
-        $trip->load('programs');
         return response()->json([
             'success' => true,
             'data' => $trip
@@ -179,11 +172,9 @@ class TripsController extends Controller
      */
     public function edit(Event $trip)
     {
-        $programIds = $trip->programs()->pluck('program_id');
 
         return response()->json([
             'trip' => $trip,
-            'program_ids' => $programIds,
         ]);
     }
 
@@ -201,8 +192,6 @@ class TripsController extends Controller
             'media' => 'nullable|file|mimes:jpeg,png,jpg,mp4', // 10MB max
             'document' => 'nullable|file|mimes:pdf,doc,docx,txt|max:10240', // 10MB max
             'description' => 'nullable|string',
-            'program_ids' => 'nullable|array|min:1',
-            'program_ids.*' => 'exists:programs,id',
             'current_media_path' => 'nullable|string',
             'current_document_path' => 'nullable|string',
         ]);
@@ -254,9 +243,6 @@ class TripsController extends Controller
                 'document_path' => $documentPath,
             ]);
 
-            // Sync programs
-            $trip->programs()->sync($validated['program_ids'] ?? []);
-
             return response()->json([
                 'success' => true,
                 'message' => __('trips.messages.updated')
@@ -287,7 +273,6 @@ class TripsController extends Controller
             }
 
             // Delete the trip
-            $trip->programs()->detach();
             $trip->delete();
 
             return response()->json([

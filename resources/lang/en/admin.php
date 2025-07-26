@@ -199,4 +199,81 @@ return [
     'setting' => [
         'name' => 'social and emails',
     ],
+
+    'profile' => [
+        'title' => 'My Profile',
+        'edit_title' => 'Edit Profile',
+        'edit' => 'Edit',
+        'change_password' => 'Change Password',
+        'details' => 'Details',
+        'information' => 'Information',
+        'basic_info' => 'Basic Information',
+        'additional_info' => 'Additional Information',
+        'not_provided' => 'Not Provided',
+        'created_at' => 'Created At',
+        'save_changes' => 'Save Changes',
+        'cancel' => 'Cancel',
+        'update_password' => 'Update Password',
+        'please_wait' => 'Please wait',
+        'password_requirements' => 'Use 8 or more characters with a mix of letters, numbers & symbols.',
+        'security_tips' => 'Security Tips',
+        'password_security_title' => 'Password Security',
+        'last_password_change' => 'Last password change',
+        'your_role' => 'Your Role',
+
+        // Fields
+        'name' => 'Full Name',
+        'email' => 'Email',
+        'phone' => 'Phone Number',
+        'role' => 'Role',
+        'roles' => [
+            'admin' => 'Administrator',
+            'consultant' => 'Consultant',
+            'school' => 'School',
+            'student' => 'Student',
+            'sub_admin' => 'Sub Admin',
+        ],
+        'bio' => 'Bio',
+        'address' => 'Address',
+        'school_name' => 'School Name',
+        'student_code' => 'Student Code',
+        'grade' => 'Grade',
+        'grade_10' => 'Grade 10',
+        'grade_11' => 'Grade 11',
+        'grade_12' => 'Grade 12',
+        'select_grade' => 'Select Grade',
+        'birth_date' => 'Birth Date',
+        'gender' => 'Gender',
+        'male' => 'Male',
+        'gender_male' => 'Male',
+        'gender_female' => 'Female',
+        'female' => 'Female',
+        'avatar' => 'Avatar',
+        'logo' => 'Logo',
+
+        // Password
+        'current_password' => 'Current Password',
+        'new_password' => 'New Password',
+        'confirm_password' => 'Confirm Password',
+        'current_password_placeholder' => 'Enter current password',
+        'new_password_placeholder' => 'Enter new password',
+        'confirm_password_placeholder' => 'Confirm new password',
+
+        // Image
+        'change_image' => 'Change image',
+        'cancel_image' => 'Cancel image',
+        'remove_image' => 'Remove image',
+        'image_formats' => 'Allowed file types: png, jpg, jpeg.',
+
+        // Security tips
+        'security_tip_1' => 'Use a unique password for this account',
+        'security_tip_2' => 'Don\'t use personal information in your password',
+        'security_tip_3' => 'Change your password regularly',
+        'security_tip_4' => 'Never share your password with anyone',
+
+        // Messages
+        'updated_successfully' => 'Profile updated successfully',
+        'password_updated_successfully' => 'Password updated successfully',
+        'current_password_incorrect' => 'Current password is incorrect',
+    ],
 ];

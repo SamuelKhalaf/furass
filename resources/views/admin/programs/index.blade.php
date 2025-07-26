@@ -199,19 +199,19 @@
                         </div>
                         <!--begin::Card title-->
                         <!--begin::Card toolbar-->
-{{--                        <div class="card-toolbar">--}}
+                        <div class="card-toolbar">
                             <!--begin::Toolbar-->
-{{--                            <div class="d-flex justify-content-end" data-kt-user-table-toolbar="base">--}}
-{{--                                @if(auth()->user()->hasPermissionTo(PermissionEnum::CREATE_PROGRAMS->value))--}}
-{{--                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"--}}
-{{--                                            data-bs-target="#kt_modal_add_program">--}}
-{{--                                        <span class="svg-icon svg-icon-2"><i class="fa-solid fa-plus"></i></span>--}}
-{{--                                        {{ __('programs.create') }}--}}
-{{--                                    </button>--}}
-{{--                                @endif--}}
-{{--                            </div>--}}
+                            <div class="d-flex justify-content-end" data-kt-user-table-toolbar="base">
+                                @if(auth()->user()->hasPermissionTo(PermissionEnum::CREATE_PROGRAMS->value))
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                            data-bs-target="#kt_modal_add_program">
+                                        <span class="svg-icon svg-icon-2"><i class="fa-solid fa-plus"></i></span>
+                                        {{ __('programs.create') }}
+                                    </button>
+                                @endif
+                            </div>
                             <!--end::Toolbar-->
-{{--                        </div>--}}
+                        </div>
                         <!--end::Card toolbar-->
                     </div>
                     <!--end::Card header-->
@@ -251,7 +251,7 @@
     </div>
     @if(auth()->user()->hasPermissionTo(PermissionEnum::CREATE_PROGRAMS->value))
         <!--begin::Modal - Add Users-->
-{{--        @include('admin.programs.modals.create')--}}
+        @include('admin.programs.modals.create')
         <!--end::Modal - Add Users-->
     @endif
     @if(auth()->user()->hasPermissionTo(PermissionEnum::UPDATE_PROGRAMS->value))
@@ -570,65 +570,341 @@
         <script>
             "use strict";
 
-            // Class definition
-            var KTUsersAddUser = function () {
+            // Class definition for Create Program Modal
+            var KTProgramsAddProgram = function () {
                 // Shared variables
                 const element = document.getElementById('kt_modal_add_program');
                 const form = element.querySelector('#kt_modal_add_program_form');
                 const modal = new bootstrap.Modal(element);
 
-                // Init add schedule modal
-                var initAddUser = () => {
+                // Path management variables
+                let createProgramPathData = [];
+                let createAvailablePathPoints = {};
+                let createSortableInstance = null;
 
-                    // Init form validation rules. For more info check the FormValidation plugin's official documentation:https://formvalidation.io/
+                // Function to load available path points
+                var loadAvailablePathPoints = () => {
+                    $.ajax({
+                        url: "/programs/create",
+                        type: "GET",
+                        success: function (response) {
+                            // Store available path points
+                            createAvailablePathPoints = {};
+                            response.path_points.forEach(point => {
+                                createAvailablePathPoints[point.id] = point;
+                            });
+
+                            // Render available points
+                            renderCreateAvailablePathPoints();
+                        },
+                        error: function () {
+                            console.error("Error fetching path points data");
+                        }
+                    });
+                };
+
+                // Initialize sortable functionality for create modal
+                function initializeCreateSortable() {
+                    const pathContainer = document.getElementById('createProgramPath');
+                    if (!pathContainer) return;
+
+                    // Destroy previous instance if exists
+                    if (createSortableInstance) {
+                        createSortableInstance.destroy();
+                    }
+
+                    createSortableInstance = new Sortable(pathContainer, {
+                        animation: 150,
+                        ghostClass: 'sortable-ghost',
+                        handle: '.drag-handle',
+                        onEnd: function() {
+                            updateCreatePathDataFromDOM();
+                            updateCreatePathVisual();
+                        }
+                    });
+                }
+
+                // Render available path points for create modal
+                function renderCreateAvailablePathPoints() {
+                    const container = document.querySelector('.create-available-points');
+                    if (!container) return;
+
+                    let html = '';
+                    Object.values(createAvailablePathPoints).forEach(point => {
+                        html += `
+                <div class="available-point border rounded p-2 mb-2" data-id="${point.id}">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-location-dot text-success me-2"></i>
+                        <div class="flex-grow-1">
+                            <strong>${point.title_en}</strong> / ${point.title_ar}
+                            </br>
+                            <small>Grade: ${point.grade || 'N/A'}</small>
+                        </div>
+                        <button class="btn btn-sm btn-icon btn-light-success ms-2"
+                                onclick="event.preventDefault(); KTProgramsAddProgram.addCreatePathPoint(${point.id})"
+                                title="Add to new step">
+                            <i class="fa-solid fa-plus-circle"></i>
+                        </button>
+                        <button class="btn btn-sm btn-icon btn-light-primary ms-2"
+                                onclick="event.preventDefault(); KTProgramsAddProgram.addCreatePathPoint(${point.id}, true)"
+                                title="Add to current step">
+                            <i class="fas fa-layer-group"></i>
+                        </button>
+                    </div>
+                </div>
+            `;
+                    });
+
+                    container.innerHTML = html;
+                }
+
+                // Add path point to create program
+                function addCreatePathPoint(pathPointId, sameOrder = false) {
+                    const point = createAvailablePathPoints[pathPointId];
+                    if (!point) return;
+
+                    // Check if already exists
+                    if (createProgramPathData.some(p => p.id === pathPointId)) {
+                        Swal.fire({
+                            text: "This path point is already in the program",
+                            icon: "warning",
+                            buttonsStyling: false,
+                            confirmButtonText: "Ok, got it!",
+                            customClass: {
+                                confirmButton: "btn btn-primary",
+                            }
+                        });
+                        return;
+                    }
+
+                    // Determine the order number
+                    let order;
+                    if (sameOrder && createProgramPathData.length > 0) {
+                        // Use the same order as the last point
+                        order = createProgramPathData[createProgramPathData.length - 1].order;
+                    } else {
+                        // Use the next sequential order
+                        order = createProgramPathData.length > 0
+                            ? Math.max(...createProgramPathData.map(p => p.order)) + 1
+                            : 1;
+                    }
+
+                    createProgramPathData.push({
+                        id: point.id,
+                        title_en: point.title_en,
+                        title_ar: point.title_ar,
+                        table_name: point.table_name,
+                        grade: point.grade,
+                        order: order
+                    });
+
+                    updateCreatePathVisual();
+                    updateCreatePathData();
+                }
+
+                // Remove path point from create program
+                function removeCreatePathPoint(pathPointId) {
+                    createProgramPathData = createProgramPathData.filter(p => p.id !== pathPointId);
+
+                    // Recalculate order
+                    createProgramPathData.forEach((point, index) => {
+                        point.order = index + 1;
+                    });
+
+                    updateCreatePathVisual();
+                    updateCreatePathData();
+                }
+
+                // Clear all path points in create modal
+                function clearCreatePath() {
+                    if (createProgramPathData.length === 0) return;
+
+                    Swal.fire({
+                        text: "Are you sure you want to clear all path points?",
+                        icon: "warning",
+                        showCancelButton: true,
+                        buttonsStyling: false,
+                        confirmButtonText: "Yes, clear them!",
+                        cancelButtonText: "No, keep them",
+                        customClass: {
+                            confirmButton: "btn btn-primary",
+                            cancelButton: "btn btn-active-light"
+                        }
+                    }).then(function (result) {
+                        if (result.isConfirmed) {
+                            createProgramPathData = [];
+                            updateCreatePathVisual();
+                            updateCreatePathData();
+                        }
+                    });
+                }
+
+                // Update create path visual representation
+                function updateCreatePathVisual() {
+                    const pathContainer = document.getElementById('createProgramPath');
+
+                    if (createProgramPathData.length === 0) {
+                        pathContainer.innerHTML = `
+                <div class="empty-path">
+                    <i class="fas fa-route fa-2x mb-3 text-muted"></i>
+                    <p class="mb-0">Drag path points here to create a learning path</p>
+                    <small class="text-muted">You can reorder by dragging</small>
+                </div>
+            `;
+                    } else {
+                        // Group points by order
+                        const groupedPoints = {};
+                        createProgramPathData.forEach(point => {
+                            if (!groupedPoints[point.order]) {
+                                groupedPoints[point.order] = [];
+                            }
+                            groupedPoints[point.order].push(point);
+                        });
+
+                        let pathHtml = '';
+                        Object.keys(groupedPoints).forEach(order => {
+                            const points = groupedPoints[order];
+
+                            points.forEach((point, index) => {
+                                pathHtml += `
+                        <div class="path-point-item card mb-3 p-3" data-id="${point.id}">
+                            <div class="d-flex align-items-center">
+                                <div class="path-step-number">${order}</div>
+                                <div class="flex-grow-1">
+                                    <h6 class="mb-1">${point.title_en} / ${point.title_ar}</h6>
+                                    <small class="text-muted">Grade ${point.grade || 'N/A'}</small>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-grip-vertical drag-handle text-muted me-2" title="Drag to reorder"></i>
+                                    <button type="button" class="btn btn-sm btn-light-danger"
+                                            onclick="KTProgramsAddProgram.removeCreatePathPoint(${point.id})"
+                                            title="Remove">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            ${index < points.length - 1 ? '<div class="path-connector"></div>' : ''}
+                        </div>
+                    `;
+                            });
+
+                            // Add connector between different order groups
+                            if (order < Math.max(...Object.keys(groupedPoints).map(Number))) {
+                                pathHtml += '<div class="path-connector"></div>';
+                            }
+                        });
+
+                        pathContainer.innerHTML = pathHtml;
+                    }
+
+                    updateCreateSummary();
+                }
+
+                // Update create path data from DOM after reordering
+                function updateCreatePathDataFromDOM() {
+                    const pathItems = document.querySelectorAll('#createProgramPath .path-point-item');
+                    const newPathData = [];
+                    let currentOrder = 1;
+
+                    pathItems.forEach((item, index) => {
+                        const pathPointId = parseInt(item.dataset.id);
+                        const pathPoint = createProgramPathData.find(p => p.id === pathPointId);
+
+                        if (pathPoint) {
+                            // Check if this is a new order group
+                            if (index > 0 && !item.previousElementSibling.classList.contains('path-point-item')) {
+                                currentOrder++;
+                            }
+
+                            newPathData.push({
+                                ...pathPoint,
+                                order: currentOrder
+                            });
+                        }
+                    });
+
+                    createProgramPathData = newPathData;
+                    updateCreatePathData();
+                }
+
+                // Update hidden input with creation path data
+                function updateCreatePathData() {
+                    const pathPointsInput = document.getElementById('createPathPointsData');
+                    if (pathPointsInput) {
+                        pathPointsInput.value = createProgramPathData.map(p => p.id);
+                    }
+                }
+
+                // Update creates summary information
+                function updateCreateSummary() {
+                    document.getElementById('createTotalSteps').textContent = createProgramPathData.length;
+                }
+
+                // Reset create modal
+                function resetCreateModal() {
+                    createProgramPathData = [];
+                    form.reset();
+                    updateCreatePathVisual();
+                    updateCreatePathData();
+                    loadAvailablePathPoints();
+                }
+
+                // Init add program modal
+                var initAddProgram = () => {
+                    // Load available path points when modal is shown
+                    element.addEventListener('show.bs.modal', function () {
+                        loadAvailablePathPoints();
+                        initializeCreateSortable();
+                    });
+
+                    // Reset modal when hidden
+                    element.addEventListener('hidden.bs.modal', function () {
+                        resetCreateModal();
+                    });
+
+                    // Add clear path button event listener
+                    const clearButton = element.querySelector('.create-clear-path-btn');
+                    if (clearButton) {
+                        clearButton.addEventListener('click', function(e) {
+                            e.preventDefault();
+                            clearCreatePath();
+                        });
+                    }
+
+                    // Init form validation
                     var validator = FormValidation.formValidation(
                         form,
                         {
                             fields: {
-                                'name': {
+                                'title_ar': {
                                     validators: {
                                         notEmpty: {
-                                            message: 'Program name is required'
+                                            message: 'Arabic title is required'
                                         }
                                     }
                                 },
-                                'email': {
+                                'title_en': {
                                     validators: {
                                         notEmpty: {
-                                            message: 'Valid email address is required'
+                                            message: 'English title is required'
                                         }
                                     }
                                 },
-                                'phone_number': {
+                                'description_ar': {
                                     validators: {
                                         notEmpty: {
-                                            message: 'Valid phone number is required'
+                                            message: 'Arabic description is required'
                                         }
                                     }
                                 },
-                                'bio': {
+                                'description_en': {
                                     validators: {
                                         notEmpty: {
-                                            message: 'Bio field is required'
+                                            message: 'English description is required'
                                         }
                                     }
-                                },
-                                'password': {
-                                    validators: {
-                                        notEmpty: {
-                                            message: 'Password field is required'
-                                        }
-                                    }
-                                },
-                                'password_confirmation': {
-                                    validators: {
-                                        notEmpty: {
-                                            message: 'Confirm password field is required'
-                                        }
-                                    }
-                                },
+                                }
                             },
-
                             plugins: {
                                 trigger: new FormValidation.plugins.Trigger(),
                                 bootstrap: new FormValidation.plugins.Bootstrap5({
@@ -654,6 +930,14 @@
                                     // Get form data
                                     let formData = new FormData(form);
 
+                                    // Add path points data
+                                    if (createProgramPathData.length > 0) {
+                                        createProgramPathData.forEach((point, index) => {
+                                            formData.append(`path_points[${index}][id]`, point.id);
+                                            formData.append(`path_points[${index}][order]`, point.order);
+                                        });
+                                    }
+
                                     // Send AJAX request
                                     $.ajax({
                                         url: form.getAttribute('action'),
@@ -676,8 +960,13 @@
                                             }).then(function (result) {
                                                 if (result.isConfirmed) {
                                                     modal.hide();
-                                                    form.reset();
-                                                    location.reload();
+                                                    resetCreateModal();
+                                                    // Reload the datatable
+                                                    if (typeof datatable !== 'undefined' && datatable.ajax) {
+                                                        datatable.ajax.reload(null, false);
+                                                    } else {
+                                                        location.reload();
+                                                    }
                                                 }
                                             });
                                         },
@@ -689,6 +978,8 @@
 
                                             if (xhr.responseJSON && xhr.responseJSON.errors) {
                                                 errorMessage = Object.values(xhr.responseJSON.errors).join("\n");
+                                            } else if (xhr.responseJSON && xhr.responseJSON.message) {
+                                                errorMessage = xhr.responseJSON.message;
                                             }
 
                                             Swal.fire({
@@ -717,45 +1008,22 @@
                             });
                         }
                     });
+
                     // Cancel button handler
                     const cancelButton = element.querySelector('[data-kt-users-modal-action="cancel"]');
                     cancelButton.addEventListener('click', e => {
                         e.preventDefault();
-
-                        Swal.fire({
-                            text: "Are you sure you would like to cancel?",
-                            icon: "warning",
-                            showCancelButton: true,
-                            buttonsStyling: false,
-                            confirmButtonText: "Yes, cancel it!",
-                            cancelButtonText: "No, return",
-                            customClass: {
-                                confirmButton: "btn btn-primary",
-                                cancelButton: "btn btn-active-light"
-                            }
-                        }).then(function (result) {
-                            if (result.value) {
-                                modal.hide();
-                                form.reset();
-                            } else if (result.dismiss === 'cancel') {
-                                Swal.fire({
-                                    text: "Your form has not been cancelled!.",
-                                    icon: "error",
-                                    buttonsStyling: false,
-                                    confirmButtonText: "Ok, got it!",
-                                    customClass: {
-                                        confirmButton: "btn btn-primary",
-                                    }
-                                });
-                            }
-                        });
+                        handleModalClose();
                     });
 
                     // Close button handler
                     const closeButton = element.querySelector('[data-kt-users-modal-action="close"]');
                     closeButton.addEventListener('click', e => {
                         e.preventDefault();
+                        handleModalClose();
+                    });
 
+                    function handleModalClose() {
                         Swal.fire({
                             text: "Are you sure you would like to cancel?",
                             icon: "warning",
@@ -770,10 +1038,10 @@
                         }).then(function (result) {
                             if (result.value) {
                                 modal.hide();
-                                form.reset();
+                                resetCreateModal();
                             } else if (result.dismiss === 'cancel') {
                                 Swal.fire({
-                                    text: "Your form has not been cancelled!.",
+                                    text: "Your form has not been cancelled!",
                                     icon: "error",
                                     buttonsStyling: false,
                                     confirmButtonText: "Ok, got it!",
@@ -783,20 +1051,29 @@
                                 });
                             }
                         });
-                    });
+                    }
                 }
 
                 return {
                     // Public functions
                     init: function () {
-                        initAddUser();
+                        initAddProgram();
+                    },
+                    addCreatePathPoint: function(pathPointId, sameOrder = false) {
+                        addCreatePathPoint(pathPointId, sameOrder);
+                    },
+                    removeCreatePathPoint: function(pathPointId) {
+                        removeCreatePathPoint(pathPointId);
+                    },
+                    clearCreatePath: function() {
+                        clearCreatePath();
                     }
                 };
             }();
 
             // On document ready
             KTUtil.onDOMContentLoaded(function () {
-                KTUsersAddUser.init();
+                KTProgramsAddProgram.init();
             });
         </script>
     @endif
@@ -1232,8 +1509,10 @@
                                             if (result.isConfirmed) {
                                                 modal.hide();
                                                 // Optionally refresh the page or update UI
-                                                if (typeof KTProgramsList !== 'undefined') {
-                                                    KTProgramsList.reload();
+                                                if (typeof datatable !== 'undefined' && datatable.ajax) {
+                                                    datatable.ajax.reload(null, false);
+                                                } else {
+                                                    location.reload();
                                                 }
                                             }
                                         });

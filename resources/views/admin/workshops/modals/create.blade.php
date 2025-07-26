@@ -83,15 +83,6 @@
                             <label class="fw-semibold fs-6 mb-2">{{ __('workshops.modal.description') }}</label>
                             <textarea name="description" class="form-control form-control-solid" rows="3" placeholder="{{ __('workshops.modal.enter_description') }}"></textarea>
                         </div>
-
-                        <div class="fv-row mb-7">
-                            <label class="fw-semibold fs-6 mb-2">{{ __('workshops.modal.programs') }}</label>
-                            <select name="program_ids[]" class="form-select form-select-solid" data-control="select2" data-close-on-select="false" data-placeholder="{{ __('workshops.modal.select_programs') }}" multiple="multiple" required>
-                                @foreach(\App\Models\Program::all() as $program)
-                                    <option value="{{ $program->id }}">{{app()->getLocale() == 'ar' ? $program->title_ar : $program->title_en }}</option>
-                                @endforeach
-                            </select>
-                        </div>
                     </div>
                     <!--end::Scroll-->
                     <!--begin::Actions-->

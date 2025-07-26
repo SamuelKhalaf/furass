@@ -135,4 +135,71 @@ class ProgramsController extends Controller
             ], 500);
         }
     }
+
+    /**
+     * Show the form for creating a new program.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function create()
+    {
+        $pathPoints = PathPoint::all();
+
+        return response()->json([
+            'path_points' => $pathPoints
+        ]);
+    }
+
+    /**
+     * Store a newly created program in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function store(Request $request)
+    {
+        // Validate the request data
+        $validated = $request->validate([
+            'title_ar' => 'required|string|max:255',
+            'title_en' => 'required|string|max:255',
+            'description_ar' => 'required|string',
+            'description_en' => 'required|string',
+            'path_points' => 'nullable|array',
+            'path_points.*.id' => 'required|integer|exists:path_points,id',
+            'path_points.*.order' => 'required|integer|min:1',
+        ]);
+
+        try {
+            // Create the program
+            $program = Program::create([
+                'title_ar' => $validated['title_ar'],
+                'title_en' => $validated['title_en'],
+                'description_ar' => $validated['description_ar'],
+                'description_en' => $validated['description_en']
+            ]);
+
+            // Attach path points with order if they exist in request
+            if ($request->has('path_points') && !empty($request->path_points)) {
+                $pathPointsData = [];
+
+                // Prepare the pivot data with order
+                foreach ($request->path_points as $pathPoint) {
+                    $pathPointsData[$pathPoint['id']] = ['order' => $pathPoint['order']];
+                }
+
+                $program->pathPoints()->attach($pathPointsData);
+            }
+
+            return response()->json([
+                'success' => true,
+                'message' => __('Program created successfully')
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => __('Error creating program')
+            ], 500);
+        }
+    }
 }
