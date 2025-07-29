@@ -15,7 +15,6 @@ class StudentPathProgress extends Model
         'path_point_id',
         'status',
         'completion_date',
-        'score',
         'attempt_count',
         'time_spent',
         'order',

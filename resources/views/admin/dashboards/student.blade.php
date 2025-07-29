@@ -1,7 +1,7 @@
 @extends('admin.layouts.master')
 @section('title', __('dashboard.student_dashboard'))
 @section('content')
-    <div class="d-flex flex-column flex-column-fluid">
+    <div class="d-flex flex-column flex-column-fluid" style="background-color: #a4acfc">
         <!--begin::Toolbar-->
         <div id="kt_app_toolbar" class="app-toolbar py-4 py-lg-6">
             <div id="kt_app_toolbar_container" class="app-container container-fluid d-flex flex-stack">
@@ -26,9 +26,9 @@
                 <!--begin::Progress Overview Row-->
                 <div class="row g-5 g-xl-8 mb-5 mb-xl-10">
                     <div class="col-xl-3">
-                        <div class="card card-flush h-xl-100 bg-primary bg-opacity-10 card-hover border-primary border-opacity-25 border border-dashed">
+                        <div class="card card-flush h-xl-100 bg-body card-hover border border-gray-300 border-2">
                             <div class="card-body d-flex flex-column justify-content-between">
-                                <div class="d-flex flex-center rounded-circle h-70px w-70px mb-5 bg-primary bg-opacity-10">
+                                <div class="d-flex flex-center rounded-circle h-70px w-70px mb-5 bg-light-primary">
                                     <i class="fa fa-graduation-cap text-primary fs-2x lh-0"></i>
                                 </div>
                                 <div>
@@ -41,9 +41,9 @@
                     </div>
 
                     <div class="col-xl-3">
-                        <div class="card card-flush h-xl-100 bg-success bg-opacity-10 card-hover border-success border-opacity-25 border border-dashed">
+                        <div class="card card-flush h-xl-100 bg-body card-hover border border-gray-300 border-2">
                             <div class="card-body d-flex flex-column justify-content-between">
-                                <div class="d-flex flex-center rounded-circle h-70px w-70px mb-5 bg-success bg-opacity-10">
+                                <div class="d-flex flex-center rounded-circle h-70px w-70px mb-5 bg-light-success">
                                     <i class="fa fa-route text-success fs-2x lh-0"></i>
                                 </div>
                                 <div>
@@ -56,9 +56,9 @@
                     </div>
 
                     <div class="col-xl-3">
-                        <div class="card card-flush h-xl-100 bg-info bg-opacity-10 card-hover border-info border-opacity-25 border border-dashed">
+                        <div class="card card-flush h-xl-100 bg-body card-hover border border-gray-300 border-2">
                             <div class="card-body d-flex flex-column justify-content-between">
-                                <div class="d-flex flex-center rounded-circle h-70px w-70px mb-5 bg-info bg-opacity-10">
+                                <div class="d-flex flex-center rounded-circle h-70px w-70px mb-5 bg-light-info">
                                     <i class="fa fa-headset text-info fs-2x lh-0"></i>
                                 </div>
                                 <div>
@@ -71,9 +71,9 @@
                     </div>
 
                     <div class="col-xl-3">
-                        <div class="card card-flush h-xl-100 bg-warning bg-opacity-10 card-hover border-warning border-opacity-25 border border-dashed">
+                        <div class="card card-flush h-xl-100 bg-body card-hover border border-gray-300 border-2">
                             <div class="card-body d-flex flex-column justify-content-between">
-                                <div class="d-flex flex-center rounded-circle h-70px w-70px mb-5 bg-warning bg-opacity-10">
+                                <div class="d-flex flex-center rounded-circle h-70px w-70px mb-5 bg-light-warning">
                                     <i class="fa fa-calendar-check text-warning fs-2x lh-0"></i>
                                 </div>
                                 <div>
@@ -196,7 +196,7 @@
                                     <span class="card-label fw-bold text-gray-800">
                                         <i class="fa fa-certificate text-primary me-2"></i>{{ __('dashboard.certificates') }}
                                     </span>
-                                    <span class="text-muted fs-7">{{ __('dashboard.your_completed_events') }}</span>
+                                    <span class="text-muted fs-7">{{ __('dashboard.your_achievements_and_completions') }}</span>
                                 </h3>
                             </div>
                             <div class="card-body pt-6">
@@ -206,19 +206,35 @@
                                             <div class="d-flex align-items-center mb-5 p-3 bg-light rounded hover-elevate-up transition">
                                                 <!--begin::Icon-->
                                                 <div class="symbol symbol-40px me-4">
-                                                    <span class="symbol-label bg-light-primary">
-                                                        <i class="fa fa-award text-primary fs-4"></i>
-                                                    </span>
+                                                <span class="symbol-label bg-light-{{ $cert->type === 'program' ? 'success' : ($cert->event_type === 'trip' ? 'primary' : 'info') }}">
+                                                    @if($cert->type === 'program')
+                                                        <i class="fa fa-trophy text-success fs-4"></i>
+                                                    @elseif($cert->event_type === 'trip')
+                                                        <i class="fa fa-bus text-primary fs-4"></i>
+                                                    @else
+                                                        <i class="fa fa-award text-info fs-4"></i>
+                                                    @endif
+                                                </span>
                                                 </div>
                                                 <!--end::Icon-->
 
                                                 <!--begin::Details-->
                                                 <div class="flex-grow-1">
                                                     <div class="d-flex justify-content-between align-items-center mb-1">
-                                                        <span class="text-gray-800 fw-bold fs-6">{{ $cert->event_name }}</span>
-                                                        <span class="badge badge-light-{{ $cert->event_type === 'trip' ? 'success' : 'info' }}">
-                                                            {{ $cert->event_type === 'trip' ? __('dashboard.trip') : __('dashboard.workshop') }}
+                                                        <span class="text-gray-800 fw-bold fs-6">{{ $cert->title }}</span>
+                                                        <span class="badge badge-light-{{ $cert->type === 'program' ? 'success' : ($cert->event_type === 'trip' ? 'primary' : 'info') }}">
+                                                            @if($cert->type === 'program')
+                                                                {{ __('dashboard.program_certificate') }}
+                                                            @elseif($cert->event_type === 'trip')
+                                                                {{ __('dashboard.trip') }}
+                                                            @else
+                                                                {{ __('dashboard.workshop') }}
+                                                            @endif
                                                         </span>
+                                                    </div>
+                                                    <div class="text-muted fs-8 mb-1">
+                                                        <i class="fa fa-certificate me-1"></i>
+                                                        {{ $cert->certificate_type }}
                                                     </div>
                                                     <div class="text-muted fs-8">
                                                         <i class="fa fa-calendar-alt me-1"></i>
@@ -229,9 +245,19 @@
 
                                                 <!--begin::Download/Action-->
                                                 <div class="ms-3">
-                                                    <a target="_blank" href="{{ route('admin.student.trip.certificate', ['program' => $cert->program_id, 'pathPoint' => $cert->path_point_id]) }}" class="btn btn-icon btn-sm btn-light-primary" title="{{ __('dashboard.download_certificate') }}">
-                                                        <i class="fa fa-download"></i>
-                                                    </a>
+                                                    @if($cert->type === 'program')
+                                                        <a target="_blank" href="{{ route($cert->download_route, $cert->route_params['programId']) }}"
+                                                           class="btn btn-icon btn-sm btn-light-success"
+                                                           title="{{ __('dashboard.download_program_certificate') }}">
+                                                            <i class="fa fa-download"></i>
+                                                        </a>
+                                                    @else
+                                                        <a target="_blank" href="{{ route($cert->download_route, $cert->route_params) }}"
+                                                           class="btn btn-icon btn-sm btn-light-primary"
+                                                           title="{{ __('dashboard.download_certificate') }}">
+                                                            <i class="fa fa-download"></i>
+                                                        </a>
+                                                    @endif
                                                 </div>
                                                 <!--end::Download/Action-->
                                             </div>
@@ -241,6 +267,7 @@
                                     <div class="text-center py-10">
                                         <i class="fa fa-info-circle text-muted fs-2 mb-3"></i>
                                         <div class="text-muted fs-6">{{ __('dashboard.no_certificates') }}</div>
+                                        <div class="text-muted fs-7 mt-2">{{ __('dashboard.complete_programs_or_events_to_earn_certificates') }}</div>
                                     </div>
                                 @endif
                             </div>

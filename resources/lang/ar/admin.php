@@ -6,6 +6,18 @@ return [
         'title' => 'لوحة التحكم',
     ],
 
+    'achievements' => [
+        'title' => 'إنجازاتي'
+    ],
+
+    'my_profile' => [
+        'title' => 'الملف الشخصي'
+    ],
+
+    'events' => [
+        'title' => 'الفعاليات'
+    ],
+
     // Calendar
     'calendar' => [
         'title' => 'التقويم',

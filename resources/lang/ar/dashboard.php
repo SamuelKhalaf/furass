@@ -103,6 +103,10 @@ return [
     'workshop' => 'ورشة عمل',
     'download_certificate' => 'تحميل الشهادة',
     'no_certificates' => 'لا توجد شهادات متاحة',
+    'your_achievements_and_completions' => 'إنجازاتك وإكمالك',
+    'program_certificate' => 'شهادة برنامج',
+    'download_program_certificate' => 'تحميل شهادة البرنامج',
+    'complete_programs_or_events_to_earn_certificates' => 'أكمل البرامج أو الفعاليات للحصول على شهادات.',
 
     // Consultant Keywords
     'consultant_dashboard' => 'لوحة تحكم المستشار',

@@ -121,7 +121,7 @@
                                 <!--end::Card body-->
 
                                 <!--begin::Card footer-->
-                                <div class="card-footer">
+                                <div class="card-footer bg-body">
                                     <a href="{{ route('admin.student.enrollments.show', $program->id) }}"
                                        class="btn btn-{{ $colors['bg'] }} btn-sm">
                                         <i class="fa-solid fa-arrow-right me-1"></i>{{ __('View Program') }}

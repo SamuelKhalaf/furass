@@ -7,7 +7,8 @@
 <body id="kt_app_body" data-kt-app-layout="dark-sidebar" data-kt-app-header-fixed="true"
       data-kt-app-sidebar-enabled="true" data-kt-app-sidebar-fixed="true" data-kt-app-sidebar-hoverable="true"
       data-kt-app-sidebar-push-header="true" data-kt-app-sidebar-push-toolbar="true"
-      data-kt-app-sidebar-push-footer="true" data-kt-app-toolbar-enabled="true" class="app-default">
+      data-kt-app-sidebar-push-footer="true" data-kt-app-toolbar-enabled="true"
+      class="app-default @if(auth()->user()->hasRole(\App\Enums\RoleEnum::STUDENT->value)) student-dashboard @endif">
 <!--begin::Theme mode setup on page load-->
 <script>var defaultThemeMode = "light";
     var themeMode;
@@ -30,7 +31,11 @@
 <!--begin::App-->
 <div class="d-flex flex-column flex-root app-root" id="kt_app_root">
     <!--begin::Page-->
-    <div class="app-page flex-column flex-column-fluid" id="kt_app_page">
+    <div class="app-page flex-column flex-column-fluid"
+         @if(auth()->user()->hasRole(\App\Enums\RoleEnum::STUDENT->value))
+            style="background-color: #a4acfc"
+         @endif
+         id="kt_app_page">
         <!--begin::Header-->
         @include('admin.layouts.includes.header')
         <!--end::Header-->

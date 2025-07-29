@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Enums\RoleEnum;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -82,11 +83,17 @@ class LoginController extends Controller
             return $response;
         }
 
-        if ($request->ajax()) {
+        if ($request->expectsJson()) {
+            $user = $this->guard()->user();
+
+            $redirectUrl = $user->hasRole(RoleEnum::STUDENT->value)
+                ? url('/achievements')
+                : url('/dashboard');
+
             return response()->json([
                 'status' => 'success',
                 'message' => 'Login successful!',
-                'redirect_url' => route('admin.dashboard')
+                'redirect_url' => $redirectUrl
             ], 200);
         }
 
