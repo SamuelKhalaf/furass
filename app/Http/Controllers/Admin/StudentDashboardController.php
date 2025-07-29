@@ -339,12 +339,15 @@ class StudentDashboardController extends Controller
 
     private function getAchievements(Student $student)
     {
-        return $student->studentPathProgress()
+        $achievements = collect();
+
+        // Get event certificates (existing logic)
+        $eventCertificates = $student->studentPathProgress()
             ->where('status', 3)
             ->whereHas('pathPoint', function ($query) {
                 $query->where('table_name', 'events');
             })
-            ->with('pathPoint') // Ensure pathPoint is eager loaded
+            ->with('pathPoint')
             ->get()
             ->map(function ($progress) {
                 $eventId = $progress->pathPoint->meta['event_id'] ?? null;
@@ -358,12 +361,45 @@ class StudentDashboardController extends Controller
                 }
 
                 return (object) [
-                    'program_id'    => $progress->program_id,
+                    'type' => 'event',
+                    'program_id' => $progress->program_id,
                     'path_point_id' => $progress->path_point_id,
-                    'event_name'      => $eventName,
-                    'event_type'    => $eventType,
-                    'start_date'    => $progress->completion_date,
+                    'event_name' => $eventName,
+                    'event_type' => $eventType,
+                    'start_date' => $progress->completion_date,
+                    'title' => $eventName,
+                    'certificate_type' => $eventType === 'trip' ? 'Trip Certificate' : 'Workshop Certificate',
+                    'download_route' => 'admin.student.trip.certificate',
+                    'route_params' => ['program' => $progress->program_id, 'pathPoint' => $progress->path_point_id]
                 ];
             });
+
+        // Get program completion certificates (new logic)
+        $programCertificates = $student->enrollments()
+            ->with(['program'])
+            ->where('status', 'attended')
+            ->where('progress', '>=', 100)
+            ->get()
+            ->map(function ($enrollment) {
+                return (object) [
+                    'type' => 'program',
+                    'program_id' => $enrollment->program_id,
+                    'path_point_id' => null,
+                    'event_name' => null,
+                    'event_type' => 'program_completion',
+                    'start_date' => $enrollment->updated_at,
+                    'title' => app()->getLocale() == 'ar' ?
+                        $enrollment->program->title_ar : $enrollment->program->title_en,
+                    'certificate_type' => 'Program Completion Certificate',
+                    'download_route' => 'admin.student.certificate.download',
+                    'route_params' => ['programId' => $enrollment->program_id]
+                ];
+            });
+
+        // Combine both types and sort by completion date (most recent first)
+        $achievements = $eventCertificates->merge($programCertificates)
+            ->sortByDesc('start_date');
+
+        return $achievements;
     }
 }

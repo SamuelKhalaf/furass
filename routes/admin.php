@@ -25,6 +25,7 @@ use App\Http\Controllers\Admin\SchoolController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\StudentCalendarController;
 use App\Http\Controllers\Admin\StudentController;
+use App\Http\Controllers\Admin\StudentDashboardController;
 use App\Http\Controllers\Admin\StudentEventsController;
 use App\Http\Controllers\Admin\TripsController;
 use App\Http\Controllers\Admin\UsersController;
@@ -44,8 +45,18 @@ use Illuminate\Support\Facades\Route;
 */
 Route::middleware(['auth'])->name('admin.')->group(function () {
 
+    $allowedRoles = collect(RoleEnum::cases())
+        ->reject(fn($role) => $role === RoleEnum::STUDENT)
+        ->map(fn($role) => $role->value)
+        ->implode('|');
+
     // View Dashboard
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])
+        ->middleware('role:'. $allowedRoles)
+        ->name('dashboard');
+
+    Route::get('/achievements', [StudentDashboardController::class, 'index'])
+        ->name('student.achievements');
     ############################### Start:Users Routes #####################################
     Route::middleware('permission:'. PermissionEnum::LIST_USERS->value)->group(function () {
         Route::get('users', [UsersController::class, 'index'])->name('users.index');
@@ -260,6 +271,8 @@ Route::middleware(['auth'])->name('admin.')->group(function () {
         Route::get('student/enrollments/{program}', [EnrollmentController::class, 'enrollmentShow'])->name('student.enrollments.show');
         Route::get('student/path-point/{program}/{pathPoint}', [EnrollmentController::class, 'showPathPointActivity'])->name('student.path-point.show');
     });
+    Route::get('/student/certificate/download/{programId}', [EnrollmentController::class, 'downloadCertificate'])
+        ->name('student.certificate.download');
     ###############################  End:Programs Routes  #####################################
 
     ############################### Start:Trips Routes #####################################

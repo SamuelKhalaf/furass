@@ -25,8 +25,29 @@
             <div class="app-header-menu app-header-mobile-drawer align-items-stretch" data-kt-drawer="true" data-kt-drawer-name="app-header-menu" data-kt-drawer-activate="{default: true, lg: false}" data-kt-drawer-overlay="true" data-kt-drawer-width="250px" data-kt-drawer-direction="end" data-kt-drawer-toggle="#kt_app_header_menu_toggle" data-kt-swapper="true" data-kt-swapper-mode="{default: 'append', lg: 'prepend'}" data-kt-swapper-parent="{default: '#kt_app_body', lg: '#kt_app_header_wrapper'}">
                 <!--begin::Menu-->
                 <div class="menu menu-rounded menu-column menu-lg-row my-5 my-lg-0 align-items-stretch fw-semibold px-2 px-lg-0" id="kt_app_header_menu" data-kt-menu="true">
-
-{{--                    Include Header Menu--}}
+                    @if( auth()->user()?->hasRole(\App\Enums\RoleEnum::STUDENT->value) )
+                        <!--begin:Menu item-->
+                        <div class="menu-item me-10 {{setMenuOpenClass(['admin.student.enrollments.index','admin.student.enrollments.show'])}}">
+                            <!--begin:Menu link-->
+                            <a class="menu-link
+                            {{setActiveClass(['admin.student.enrollments.index','admin.student.enrollments.show'])}}"
+                               href="{{route('admin.student.enrollments.index')}}">
+                                <span class="menu-title">{{ __('admin.programs.my_programs') }}</span>
+                            </a>
+                            <!--end:Menu link-->
+                        </div>
+                        <!--end:Menu item-->
+                        <!--begin:Menu item-->
+                        <div class="menu-item {{setMenuOpenClass(['admin.student.calendar'])}}">
+                            <!--begin:Menu link-->
+                            <a class="menu-link {{setActiveClass('admin.student.calendar')}}"
+                               href="{{route('admin.student.calendar')}}">
+                                <span class="menu-title">{{ __('admin.events.title') }}</span>
+                            </a>
+                            <!--end:Menu link-->
+                        </div>
+                        <!--end:Menu item-->
+                    @endif
                 </div>
                 <!--end::Menu-->
             </div>
@@ -35,22 +56,10 @@
             <div class="app-navbar flex-shrink-0">
                 <!--begin::Language-->
                 <div class="app-navbar-item ms-1 ms-md-3">
-                    <div class="btn btn-icon btn-custom btn-icon-muted btn-active-light btn-active-color-primary w-35px h-35px w-md-40px h-md-40px" data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">
-                        @if(app()->getLocale() == 'ar')
-                            <span class="svg-icon svg-icon-2">
-                                <i class="fa-solid fa-globe fs-2"></i>
-                            </span>
-                        @else
-                            <span class="svg-icon svg-icon-2">
-                                <i class="fa-solid fa-globe fs-2"></i>
-                            </span>
-                        @endif
-                    </div>
-                    <!--begin::Menu-->
-                    <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg menu-state-primary fw-bold py-4 w-175px" data-kt-menu="true">
-                        @include('admin.layouts.partials.language-switcher')
-                    </div>
-                    <!--end::Menu-->
+                    <a href="{{ route('language.switch', app()->getLocale() == 'ar' ? 'en' : 'ar') }}"
+                       class="btn btn-secondary px-4 py-2">
+                        {{ app()->getLocale() == 'ar' ? 'English' : 'العربية' }}
+                    </a>
                 </div>
                 <!--end::Language-->
                 <!--begin::Notifications-->
@@ -153,59 +162,72 @@
                 </div>
                 <!--end::Theme mode-->
                 <!--begin::User menu-->
-                <div class="app-navbar-item ms-1 ms-md-3" id="kt_header_user_menu_toggle">
-                    <!--begin::Menu wrapper-->
-                    <div class="cursor-pointer symbol symbol-30px symbol-md-40px" data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">
-                        <img src="{{asset('assets/media/avatars/300-1.jpg')}}" alt="user" />
+                @if( auth()->user()->hasRole( \App\Enums\RoleEnum::STUDENT->value ))
+                    <!-- Student: Logout Icon Only -->
+                    <div class="app-navbar-item ms-1 ms-md-3">
+                        <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="btn btn-icon btn-custom btn-icon-muted btn-active-light btn-active-color-primary w-35px h-35px w-md-40px h-md-40px">
+                            <i class="fa-solid fa-right-from-bracket fs-2"></i>
+                        </a>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                            @csrf
+                        </form>
                     </div>
-                    <!--begin::User account menu-->
-                    <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg menu-state-color fw-semibold py-4 fs-6 w-275px" data-kt-menu="true">
-                        <!--begin::Menu item-->
-                        <div class="menu-item px-3">
-                            <div class="menu-content d-flex align-items-center px-3">
-                                <!--begin::Avatar-->
-                                <div class="symbol symbol-50px me-5">
-                                    <img alt="Logo" src="{{asset('assets/media/avatars/300-1.jpg')}}" />
-                                </div>
-                                <!--end::Avatar-->
-                                <!--begin::Username-->
-                                <div class="d-flex flex-column">
-                                    <div class="fw-bold d-flex align-items-center fs-5">
-                                        {{auth()->user()?->name}}
-                                        <span class="badge badge-light-success fw-bold fs-8 px-2 py-1 ms-2">
-                                            {{ auth()->user()?->roles->first()?->name }}
-                                        </span>
+                @else
+                    <!--begin::User menu-->
+                    <div class="app-navbar-item ms-1 ms-md-3" id="kt_header_user_menu_toggle">
+                        <!--begin::Menu wrapper-->
+                        <div class="cursor-pointer symbol symbol-30px symbol-md-40px"
+                             data-kt-menu-trigger="{default: 'click', lg: 'hover'}"
+                             data-kt-menu-attach="parent"
+                             data-kt-menu-placement="bottom-end">
+                            <img src="{{ asset('assets/media/avatars/300-1.jpg') }}" alt="user" />
+                        </div>
+
+                        <!--begin::User account menu-->
+                        <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg menu-state-color fw-semibold py-4 fs-6 w-275px"
+                             data-kt-menu="true">
+
+                            <!--begin::Menu item-->
+                            <div class="menu-item px-3">
+                                <div class="menu-content d-flex align-items-center px-3">
+                                    <div class="symbol symbol-50px me-5">
+                                        <img alt="Logo" src="{{ asset('assets/media/avatars/300-1.jpg') }}" />
                                     </div>
-                                    <a href="#" class="fw-semibold text-muted text-hover-primary fs-7">
-                                        {{ auth()->user()?->email }}
-                                    </a>
+                                    <div class="d-flex flex-column">
+                                        <div class="fw-bold d-flex align-items-center fs-5">
+                                            {{ auth()->user()?->name }}
+                                            <span class="badge badge-light-success fw-bold fs-8 px-2 py-1 ms-2">
+                                {{ auth()->user()?->roles->first()?->name }}
+                            </span>
+                                        </div>
+                                        <a href="#" class="fw-semibold text-muted text-hover-primary fs-7">
+                                            {{ auth()->user()?->email }}
+                                        </a>
+                                    </div>
                                 </div>
-                                <!--end::Username-->
                             </div>
+                            <div class="separator my-2"></div>
+
+                            <div class="menu-item px-5">
+                                <a href="{{ route('admin.profile.show') }}" class="menu-link px-5">{{ __('admin.profile.title') }}</a>
+                            </div>
+
+                            <div class="menu-item px-5">
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                    @csrf
+                                </form>
+                                <a href="#" class="menu-link px-5"
+                                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                    Sign Out
+                                </a>
+                            </div>
+
                         </div>
-                        <!--end::Menu item-->
-                        <!--begin::Menu separator-->
-                        <div class="separator my-2"></div>
-                        <!--end::Menu separator-->
-                        <!--begin::Menu item-->
-                        <div class="menu-item px-5">
-                            <a href="{{ route('admin.profile.show') }}" class="menu-link px-5">My Profile</a>
-                        </div>
-                        <!--end::Menu item-->
-                        <!--begin::Menu item-->
-                        <div class="menu-item px-5">
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                @csrf
-                            </form>
-                            <a href="#" class="menu-link px-5" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                Sign Out
-                            </a>
-                        </div>
-                        <!--end::Menu item-->
+                        <!--end::User account menu-->
+                        <!--end::Menu wrapper-->
                     </div>
-                    <!--end::User account menu-->
-                    <!--end::Menu wrapper-->
-                </div>
+                    <!--end::User menu-->
+                @endif
                 <!--end::User menu-->
             </div>
             <!--end::Navbar-->

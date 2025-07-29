@@ -280,8 +280,7 @@ class StudentEventsController extends Controller
 
         $event = Event::find($eventId);
 
-        // Generate PDF certificate
-        $pdf = PDF::loadView('admin.trips.certificate', [
+        $pdf = PDF::loadView('admin.certificates.certificate', [
             'student' => $student,
             'event' => $event,
             'program' => $program,

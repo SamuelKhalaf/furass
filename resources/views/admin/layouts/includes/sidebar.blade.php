@@ -7,18 +7,25 @@
         <!--begin::Logo image-->
         <a href="#">
             <img alt="Logo" src="{{asset('assets/media/logos/furass.png')}}"
-                 class="app-sidebar-logo-default" style="width: 230px; height: 150px;"/>
+                 class="app-sidebar-logo-default"
+                 @if( auth()->user()?->hasRole(RoleEnum::STUDENT->value) )
+                     style="padding-left: 34px;width: 200px;height: 112px;"
+                 @else
+                    style="width: 230px; height: 150px;"
+                 @endif
+            />
             <img alt="Logo" src="{{asset('assets/media/logos/furass.png')}}"
                  class="app-sidebar-logo-minimize" style="width: 60px;height: 98px;"/>
         </a>
         <!--end::Logo image-->
-        <!--begin::Sidebar toggle-->
-        <div id="kt_app_sidebar_toggle"
-             class="app-sidebar-toggle btn btn-icon btn-shadow btn-sm btn-color-muted btn-active-color-primary body-bg h-30px w-30px position-absolute top-50 start-100 translate-middle rotate"
-             data-kt-toggle="true" data-kt-toggle-state="active" data-kt-toggle-target="body"
-             data-kt-toggle-name="app-sidebar-minimize">
-            <!--begin::Svg Icon | path: icons/duotune/arrows/arr079.svg-->
-            <span class="svg-icon svg-icon-2 rotate-180">
+        @if( !auth()->user()?->hasRole(RoleEnum::STUDENT->value) )
+            <!--begin::Sidebar toggle-->
+            <div id="kt_app_sidebar_toggle"
+                 class="app-sidebar-toggle btn btn-icon btn-shadow btn-sm btn-color-muted btn-active-color-primary body-bg h-30px w-30px position-absolute top-50 start-100 translate-middle rotate"
+                 data-kt-toggle="true" data-kt-toggle-state="active" data-kt-toggle-target="body"
+                 data-kt-toggle-name="app-sidebar-minimize">
+                <!--begin::Svg Icon | path: icons/duotune/arrows/arr079.svg-->
+                <span class="svg-icon svg-icon-2 rotate-180">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path opacity="0.5"
                           d="M14.2657 11.4343L18.45 7.25C18.8642 6.83579 18.8642 6.16421 18.45 5.75C18.0358 5.33579 17.3642 5.33579 16.95 5.75L11.4071 11.2929C11.0166 11.6834 11.0166 12.3166 11.4071 12.7071L16.95 18.25C17.3642 18.6642 18.0358 18.6642 18.45 18.25C18.8642 17.8358 18.8642 17.1642 18.45 16.75L14.2657 12.5657C13.9533 12.2533 13.9533 11.7467 14.2657 11.4343Z"
@@ -28,9 +35,10 @@
                         fill="currentColor"/>
                 </svg>
             </span>
-            <!--end::Svg Icon-->
-        </div>
-        <!--end::Sidebar toggle-->
+                <!--end::Svg Icon-->
+            </div>
+            <!--end::Sidebar toggle-->
+        @endif
     </div>
     <!--end::Logo-->
     <!--begin::sidebar menu-->
@@ -45,14 +53,66 @@
             <div class="menu menu-column menu-rounded menu-sub-indention px-3" id="#kt_app_sidebar_menu"
                  data-kt-menu="true" data-kt-menu-expand="false">
                 <!--begin:Menu item-->
-                <div class="menu-item {{setMenuOpenClass(['admin.dashboard'])}}">
-                    <a class="menu-link {{setActiveClass('admin.dashboard')}}"
-                       href="{{route('admin.dashboard')}}">
-                        <span class="menu-icon"><i class="fa-solid fa-gauge-high"></i></span>
-                        <span class="menu-title">{{ __('admin.dashboard.title') }}</span>
-                    </a>
-                </div>
-                <!--begin:Menu item-->
+                @if( !auth()->user()->hasRole(RoleEnum::STUDENT->value) )
+                    <div class="menu-item {{setMenuOpenClass(['admin.dashboard'])}}">
+                        <a class="menu-link {{setActiveClass('admin.dashboard')}}"
+                           href="{{route('admin.dashboard')}}">
+                            <span class="menu-icon"><i class="fa-solid fa-gauge-high"></i></span>
+                            <span class="menu-title">{{ __('admin.dashboard.title') }}</span>
+                        </a>
+                    </div>
+                @endif
+
+                <!--start:Student Links -->
+                @if( auth()->user()->hasRole(RoleEnum::STUDENT->value) )
+                    <!--begin:Menu item-->
+                    <div class="menu-item {{setMenuOpenClass(['admin.profile.show'])}}">
+                        <!--begin:Menu link-->
+                        <a class="menu-link {{setActiveClass('admin.profile.show')}}"
+                           href="{{route('admin.profile.show')}}">
+                            <span class="menu-icon"><i class="fa-solid fa-user"></i></span>
+                            <span class="menu-title">{{ __('admin.profile.title') }}</span>
+                        </a>
+                        <!--end:Menu link-->
+                    </div>
+                    <!--end:Menu item-->
+
+                    <!--begin:Menu item-->
+                    <div class="menu-item {{setMenuOpenClass(['admin.student.achievements'])}}">
+                        <a class="menu-link {{setActiveClass('admin.student.achievements')}}"
+                           href="{{route('admin.student.achievements')}}">
+                            <span class="menu-icon"><i class="fa-solid fa-award"></i></span>
+                            <span class="menu-title">{{ __('admin.achievements.title') }}</span>
+                        </a>
+                    </div>
+                    <!--end:Menu item-->
+
+                    <!--begin:Menu item-->
+                    <div class="menu-item {{setMenuOpenClass(['admin.student.enrollments.index','admin.student.enrollments.show'])}}">
+                        <!--begin:Menu link-->
+                        <a class="menu-link
+                                        {{setActiveClass(['admin.student.enrollments.index','admin.student.enrollments.show'])}}"
+                           href="{{route('admin.student.enrollments.index')}}">
+                            <span class="menu-icon"><i class="fa-solid fa-briefcase"></i></span>
+                            <span class="menu-title">{{ __('admin.programs.my_programs') }}</span>
+                        </a>
+                        <!--end:Menu link-->
+                    </div>
+                    <!--end:Menu item-->
+                    <!--begin:Menu item-->
+                    <div class="menu-item {{setMenuOpenClass(['admin.student.calendar'])}}">
+                        <!--begin:Menu link-->
+                        <a class="menu-link {{setActiveClass('admin.student.calendar')}}"
+                           href="{{route('admin.student.calendar')}}">
+                            <span class="menu-icon"><i class="fa-solid fa-calendar-days"></i></span>
+                            <span class="menu-title">{{ __('admin.events.title') }}</span>
+                        </a>
+                        <!--end:Menu link-->
+                    </div>
+                    <!--end:Menu item-->
+                @endif
+                <!--end:Student Links -->
+
                 @if(auth()->user()->hasAnyPermission(PermissionEnum::userPermissions()))
                     <!--begin:Menu item-->
                     <div class="menu-item {{setMenuOpenClass(['admin.users.index'])}}">
@@ -66,6 +126,7 @@
                     </div>
                     <!--end:Menu item-->
                 @endif
+
                 @if(auth()->user()->hasAnyPermission(PermissionEnum::schoolPermissions()))
                     <!--begin:Menu item-->
                     <div class="menu-item {{setMenuOpenClass(['admin.schools.index'])}}">
@@ -79,6 +140,7 @@
                     </div>
                     <!--end:Menu item-->
                 @endif
+
                 @if(auth()->user()->hasAnyPermission(PermissionEnum::consultantPermissions()))
                     <!--begin:Menu item-->
                     <div class="menu-item {{setMenuOpenClass(['admin.consultants.index'])}}">
@@ -92,6 +154,7 @@
                     </div>
                     <!--end:Menu item-->
                 @endif
+
                 @if(auth()->user()->hasAnyPermission(PermissionEnum::studentPermissions()))
                     <!--begin:Menu item-->
                     <div class="menu-item {{setMenuOpenClass(['admin.students.index'])}}">
@@ -105,9 +168,9 @@
                     </div>
                     <!--end:Menu item-->
                 @endif
+
                 @if(auth()->user()->hasAnyPermission(PermissionEnum::programPermissions()) ||
-                    auth()->user()->hasRole(RoleEnum::SCHOOL->value) ||
-                    auth()->user()->hasRole(RoleEnum::STUDENT->value)
+                    auth()->user()->hasRole(RoleEnum::SCHOOL->value)
                 )
                     <!--begin:Menu item-->
                     <div data-kt-menu-trigger="click"
@@ -154,22 +217,7 @@
                                 </div>
                                 <!--end:Menu item-->
                             @endif
-                            @if(auth()->user()->hasRole(RoleEnum::STUDENT->value))
-                                <!--begin:Menu item-->
-                                <div class="menu-item">
-                                    <!--begin:Menu link-->
-                                    <a class="menu-link
-                                        {{setActiveClass(['admin.student.enrollments.index','admin.student.enrollments.show'])}}"
-                                        href="{{route('admin.student.enrollments.index')}}">
-                                    <span class="menu-bullet">
-                                        <span class="bullet bullet-dot"></span>
-                                    </span>
-                                        <span class="menu-title">{{ __('admin.programs.my_programs') }}</span>
-                                    </a>
-                                    <!--end:Menu link-->
-                                </div>
-                                <!--end:Menu item-->
-                            @endif
+
                         </div>
                     </div>
                 @endif
@@ -201,21 +249,6 @@
                 @endif
                 <!--end:In-Active School Students-->
 
-                <!--start:Student Calendar -->
-                @if( auth()->user()->hasRole(RoleEnum::STUDENT->value) )
-                    <!--begin:Menu item-->
-                    <div class="menu-item {{setMenuOpenClass(['admin.student.calendar'])}}">
-                        <!--begin:Menu link-->
-                        <a class="menu-link {{setActiveClass('admin.student.calendar')}}"
-                           href="{{route('admin.student.calendar')}}">
-                            <span class="menu-icon"><i class="fa-solid fa-calendar"></i></span>
-                            <span class="menu-title">{{ __('admin.calendar.title') }}</span>
-                        </a>
-                        <!--end:Menu link-->
-                    </div>
-                    <!--end:Menu item-->
-                @endif
-                <!--end:Student Calendar -->
                 <!--start:Consultant and Sub-admin Students-->
                 @if(auth()->user()->hasRole([RoleEnum::CONSULTANT->value, RoleEnum::SUB_ADMIN->value]))
                     <!--begin:Menu item-->
@@ -291,6 +324,7 @@
                     </div>
                 @endif
                 <!--end:Consultant and Sub-admin Students-->
+
                 <!--start:Consultant Calendar -->
                 @if( auth()->user()->hasRole(RoleEnum::CONSULTANT->value) )
                     <!--begin:Menu item-->
@@ -306,6 +340,7 @@
                     <!--end:Menu item-->
                 @endif
                 <!--end:Consultant Calendar -->
+
                 @if(auth()->user()->hasAnyPermission(PermissionEnum::tripPermissions()))
                     <!--begin:Menu item-->
                     <div class="menu-item {{setMenuOpenClass(['admin.trips.index'])}}">
@@ -319,6 +354,7 @@
                     </div>
                     <!--end:Menu item-->
                 @endif
+
                 @if(auth()->user()->hasAnyPermission(PermissionEnum::workshopPermissions()))
                     <!--begin:Menu item-->
                     <div class="menu-item {{setMenuOpenClass(['admin.workshops.index'])}}">
@@ -332,6 +368,7 @@
                     </div>
                     <!--end:Menu item-->
                 @endif
+
                 @if(auth()->user()->hasAnyPermission(PermissionEnum::eventPermissions()))
                     <!--begin:Menu item-->
                     <div class="menu-item {{setMenuOpenClass(['admin.calendar.index'])}}">
@@ -345,6 +382,7 @@
                     </div>
                     <!--end:Menu item-->
                 @endif
+
                 @if(auth()->user()->hasAnyPermission(PermissionEnum::newsPermissions()))
                     <!--begin:Menu item-->
                     <div class="menu-item {{setMenuOpenClass(['admin.news.index'])}}">
@@ -358,6 +396,7 @@
                     </div>
                     <!--end:Menu item-->
                 @endif
+
                 @if(auth()->user()->hasPermissionTo(PermissionEnum::SEND_NOTIFICATIONS))
                     <!--begin:Menu item-->
                     <div class="menu-item {{setMenuOpenClass(['admin.notifications.index'])}}">
@@ -371,7 +410,7 @@
                     </div>
                     <!--end:Menu item-->
                 @endif
-                <!--end:Menu item-->
+
                 @if(auth()->user()->hasAnyPermission(PermissionEnum::ExamsPermissions()))
                     <!--begin:Menu item-->
                     <div data-kt-menu-trigger="click"
@@ -405,8 +444,6 @@
                                 </a>
                                 <!--end:Menu link-->
                             </div>
-
-
                         </div>
                     </div>
                 @endif
@@ -510,7 +547,6 @@
                         </div>
                     </div>
                 @endif
-
 
                 @if(auth()->user()->hasAnyPermission(PermissionEnum::MANAGE_QUESTIONS))
                     <!--begin:Menu item-->

@@ -103,6 +103,10 @@ return [
     'workshop' => 'Workshop',
     'download_certificate' => 'Download Certificate',
     'no_certificates' => 'No certificates available',
+    'your_achievements_and_completions' => 'Your achievements and completions',
+    'program_certificate' => 'Program Certificate',
+    'download_program_certificate' => 'Download Program Certificate',
+    'complete_programs_or_events_to_earn_certificates' => 'Complete programs or events to earn certificates.',
 
     // Consultant Keywords
     'consultant_dashboard' => 'Consultant Dashboard',

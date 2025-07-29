@@ -6,6 +6,18 @@ return [
         'title' => 'Dashboard',
     ],
 
+    'achievements' => [
+        'title' => 'My Achievements'
+    ],
+
+    'my_profile' => [
+        'title' => 'My Profile'
+    ],
+
+    'events' => [
+        'title' => 'Events'
+    ],
+
     // Calendar
     'calendar' => [
         'title' => 'Calendar',

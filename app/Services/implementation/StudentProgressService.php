@@ -81,7 +81,7 @@ class StudentProgressService implements IStudentProgressService
             ->where('program_id', $program_id)
             ->update([
                 'progress' => $percentage,
-                'status' => $percentage === 100 ? 'attended' : 'active',
+                'status' => $percentage == 100 ? 'attended' : 'active',
             ]);
     }
 

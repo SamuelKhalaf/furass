@@ -207,7 +207,6 @@ class EvaluationController extends Controller
                 if ($progress) {
                     $progress->update([
                         'status' => 3,
-                        'score' => null, // Can be calculated later
                         'attempt_count' => $progress->attempt_count + 1,
                         'completion_date' => now(),
                         'time_spent' => 0, // Can be calculated later

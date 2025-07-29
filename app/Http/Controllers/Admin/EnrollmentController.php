@@ -10,12 +10,14 @@ use App\Models\School;
 use App\Models\Student;
 use App\Models\StudentPathProgress;
 use App\Services\IStudentProgressService;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class EnrollmentController extends Controller
 {
@@ -34,7 +36,6 @@ class EnrollmentController extends Controller
     {
         $user = auth()->user();
 
-        // Get the student model for this user
         $student = Student::where('user_id', $user->id)
             ->with(['enrollments.program'])
             ->first();
@@ -286,6 +287,50 @@ class EnrollmentController extends Controller
                     'order' => $pathPoint->pivot->order,
                 ]);
             }
+        }
+    }
+
+    /**
+     * Download certificate for completed program
+     */
+    public function downloadCertificate($programId)
+    {
+        $user = auth()->user();
+        $student = Student::where('user_id', $user->id)->firstOrFail();
+        $program = Program::findOrFail($programId);
+        $enrollment = $student->enrollments()->where('program_id', $program->id)->first();
+
+        // Check if enrollment exists and is completed
+        if (!$enrollment || $enrollment->status != 'attended' || $enrollment->progress < 100) {
+            return redirect()->route('admin.student.enrollments.show', $programId)
+                ->with('error', __('Certificate is only available for completed programs.'));
+        }
+
+        if ($program->title_en == 'Self Campus')
+            $view = 'admin.certificates.self_campus';
+        else if ($program->title_en == 'Explore Your Career')
+            $view = 'admin.certificates.explore_your_career';
+        else if ($program->title_en == 'Ready for The Future')
+            $view = 'admin.certificates.ready_for_the_future';
+        else
+            $view = 'admin.certificates.self_campus';
+
+
+        // Generate certificate PDF
+        try {
+            $pdf = PDF::loadView($view, [
+                'student' => $student,
+                'program' => $program,
+                'enrollment' => $enrollment,
+                'completion_date' => $enrollment->updated_at->format('F d, Y'),
+            ]);
+
+            $fileName = 'certificate-' . Str::slug($program->{app()->getLocale() == 'ar' ? 'title_ar' : 'title_en'}) . '.pdf';
+
+            return $pdf->stream($fileName);
+        } catch (\Exception $e) {
+            return redirect()->route('admin.student.enrollments.show', $programId)
+                ->with('error', __('Error generating certificate. Please try again later.'));
         }
     }
 }

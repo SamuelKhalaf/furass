@@ -105,6 +105,60 @@
                                 </div>
                                 <!--end::Progress-->
 
+                                <!--begin::Certificate Section (Only show if program is completed)-->
+                                @if($enrollment->status === 'attended' && $overallProgress >= 100)
+                                    <div class="mb-8">
+                                        <!--begin::Certificate Card-->
+                                        <div class="card bg-light-success border-success border-dashed">
+                                            <div class="card-body p-6">
+                                                <!--begin::Header-->
+                                                <h4 class="text-success fw-bold mb-1">{{ __('Congratulations!') }}</h4>
+                                                <div class="d-flex align-items-center mb-4">
+                                                    <div class="symbol symbol-40px me-4">
+                                                        <div class="symbol-label bg-success">
+                                                            <i class="fa-solid fa-trophy text-white fs-4"></i>
+                                                        </div>
+                                                    </div>
+                                                    <div >
+                                                        <p class="text-gray-700 fs-6 mb-0">{{ __('You have successfully completed this program') }}</p>
+                                                    </div>
+                                                </div>
+                                                <!--end::Header-->
+
+                                                <!--begin::Completion Info-->
+{{--                                                <div class="d-flex flex-stack mb-4">--}}
+{{--                                                    <span class="text-gray-700 fw-semibold fs-6">{{ __('Completed On') }}</span>--}}
+{{--                                                    <span class="badge badge-success fs-7 fw-bold">{{ $enrollment->updated_at->format('M d, Y') }}</span>--}}
+{{--                                                </div>--}}
+                                                <!--end::Completion Info-->
+
+                                                <!--begin::Certificate Download-->
+                                                <div class="separator separator-dashed my-4"></div>
+                                                <div class="d-flex flex-column">
+                                                    <div class="d-flex align-items-center mb-3">
+                                                        <div class="symbol symbol-30px me-3">
+                                                            <div class="symbol-label bg-light-primary">
+                                                                <i class="fa-solid fa-certificate text-primary fs-5"></i>
+                                                            </div>
+                                                        </div>
+                                                        <div class="flex-grow-1">
+                                                            <div class="fw-bold text-gray-800 fs-6">{{ __('Program Certificate') }}</div>
+                                                            <div class="text-gray-500 fs-7">{{ __('Download your completion certificate') }}</div>
+                                                        </div>
+                                                    </div>
+                                                    <a href="{{ route('admin.student.certificate.download', $program->id) }}"
+                                                       class="btn btn-success btn-sm">
+                                                        <i class="fa-solid fa-download me-2"></i>{{ __('Download Certificate') }}
+                                                    </a>
+                                                </div>
+                                                <!--end::Certificate Download-->
+                                            </div>
+                                        </div>
+                                        <!--end::Certificate Card-->
+                                    </div>
+                                @endif
+                                <!--end::Certificate Section-->
+
                                 <!--begin::Stats-->
                                 <div class="d-flex flex-column">
                                     <div class="d-flex flex-stack mb-4">

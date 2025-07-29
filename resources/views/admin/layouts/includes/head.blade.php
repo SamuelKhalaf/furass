@@ -26,6 +26,56 @@
     <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
 
     @stack('styles')
+    @if(auth()->user()->hasRole(\App\Enums\RoleEnum::STUDENT->value))
+        <style>
+            /* Student Dashboard Custom Styles */
+            html[data-bs-theme="light"] .student-dashboard #kt_app_sidebar {
+                background-color: #fff !important;
+            }
+
+            html[data-bs-theme="light"] .student-dashboard #kt_app_sidebar .app-sidebar-logo {
+                background-color: #efefef !important;
+                border-bottom: 1px solid #838ceb !important;
+            }
+
+            html[data-bs-theme="light"] .student-dashboard #kt_app_header {
+                background-color: #efefef !important;
+            }
+
+            .student-dashboard #kt_app_sidebar .menu-item {
+                margin-bottom: 5px !important;
+            }
+
+            .student-dashboard #kt_app_sidebar .menu-item .menu-link{
+                padding: 4px 13px !important;
+            }
+
+            .student-dashboard #kt_app_sidebar .menu-item .menu-link{
+                font-size: 17px ;
+                color: #0a6aa1;
+            }
+
+            /* Menu Items - Hover State */
+            .student-dashboard #kt_app_sidebar .menu-item .menu-link:hover {
+                background-color: #a3abfa !important;
+                color: #fff !important;
+                box-shadow: 0 2px 12px #a3abfa;
+            }
+
+            /* Menu Items - Active State */
+            .student-dashboard  #kt_app_sidebar .menu-item .menu-link.active {
+                background-color: #a3abfa !important;
+                color: #fff !important;
+                font-weight: 600;
+                border-radius: 8px;
+            }
+
+            .student-dashboard #kt_app_sidebar .menu-item .menu-link .menu-icon i {
+                font-size: 20px;
+            }
+        </style>
+    @endif
+
     {{-- notification styles--}}
     <style>
         /* Notification animations */

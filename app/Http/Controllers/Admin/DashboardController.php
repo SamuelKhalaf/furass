@@ -15,10 +15,6 @@ class DashboardController extends Controller
             return app(AdminDashboardController::class)->index();
         }
 
-        if ($user->hasRole(RoleEnum::STUDENT->value)) {
-            return app(StudentDashboardController::class)->index();
-        }
-
         if ($user->hasRole(RoleEnum::CONSULTANT->value)) {
             return app(ConsultantDashboardController::class)->index();
         }
