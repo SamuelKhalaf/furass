@@ -107,6 +107,9 @@ return [
     'program_certificate' => 'Program Certificate',
     'download_program_certificate' => 'Download Program Certificate',
     'complete_programs_or_events_to_earn_certificates' => 'Complete programs or events to earn certificates.',
+    'community_service' => 'Community Service',
+    'hours' => 'hours',
+    'download_volunteer_certificate' => 'Download Volunteer Certificate',
 
     // Consultant Keywords
     'consultant_dashboard' => 'Consultant Dashboard',

@@ -59,4 +59,8 @@ class Student extends Model
         return $this->hasMany(\App\Models\Consultation::class, 'student_id', 'id');
     }
 
+    public function volunteerHours()
+    {
+        return $this->hasMany(VolunteerHour::class);
+    }
 }

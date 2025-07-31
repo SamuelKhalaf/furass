@@ -81,7 +81,7 @@
 
                 <!-- Interest Distribution Section -->
                 <div class="row g-5 g-xl-8 mb-5 mb-xl-10">
-                    <div class="col-xl-6">
+                    <div class="col-12">
                         <div class="card card-flush h-xl-100">
                             <div class="card-header pt-7">
                                 <h3 class="card-title align-items-start flex-column">
@@ -90,60 +90,27 @@
                             </div>
                             <div class="card-body pt-6">
                                 @forelse($interestDistribution as $index => $program)
-                                    <div class="d-flex align-items-center mb-6">
-                                        <span class="bullet bullet-vertical h-40px bg-{{ ['primary', 'success', 'warning', 'danger', 'info'][$index] }} me-5"></span>
-                                        <div class="flex-grow-1">
-                                            <span class="text-gray-800 fw-bold d-block fs-6">{{ $program['program_name'] }}</span>
-                                            <span class="text-gray-500 fw-semibold fs-7">{{ $program['enrollment_count'] }} {{ __('dashboard.students') }}</span>
-                                        </div>
-                                        <div class="min-w-70px text-end">
-                                            <span class="text-{{ ['primary', 'success', 'warning', 'danger', 'info'][$index] }} fw-bold fs-6">{{ number_format($program['percentage'],1) }}%</span>
-                                        </div>
-                                    </div>
-                                @empty
-                                    <div class="text-center py-10">
-                                        <span class="text-muted fs-6">{{ __('dashboard.no_data') }}</span>
-                                    </div>
-                                @endforelse
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Activity Evaluations Section -->
-                    <div class="col-xl-6">
-                        <div class="card card-flush h-xl-100">
-                            <div class="card-header pt-7">
-                                <h3 class="card-title align-items-start flex-column">
-                                    <span class="card-label fw-bold text-gray-800">{{ __('dashboard.activity_evaluations') }}</span>
-                                </h3>
-                            </div>
-                            <div class="card-body pt-6">
-                                @forelse($activityEvaluations as $activity)
-                                    <div class="d-flex align-items-center justify-content-between mb-6">
-                                        <div class="d-flex align-items-center flex-grow-1">
-                                            <div class="symbol symbol-45px me-5">
-                                        <span class="symbol-label bg-light-{{ $activity['type'] == 'trip' ? 'success' : 'primary' }}">
-                                            <i class="fa fa-{{ $activity['type'] == 'trip' ? 'bus' : 'chalkboard-teacher' }} text-{{ $activity['type'] == 'trip' ? 'success' : 'primary' }} fs-3"></i>
-                                        </span>
-                                            </div>
+                                    <div class="d-flex align-items-center justify-content-between mb-6 p-3 bg-light rounded hover-elevate-up transition w-100">
+                                        <div class="d-flex align-items-center">
+                                            <span class="bullet bullet-vertical h-40px bg-{{ ['primary', 'success', 'warning', 'danger', 'info'][$index] }} me-5"></span>
                                             <div class="flex-grow-1">
-                                                <span class="text-gray-800 fw-bold d-block fs-6">{{ Str::limit($activity['name'], 30) }}</span>
-                                                <span class="text-gray-500 fw-semibold fs-7">{{ $activity['evaluation_count'] }} {{ __('dashboard.evaluations') }}</span>
+                                                <span class="text-gray-800 fw-bold d-block fs-6">{{ $program['program_name'] }}</span>
+                                                <span class="text-gray-500 fw-semibold fs-7">{{ $program['enrollment_count'] }} {{ __('dashboard.students') }}</span>
                                             </div>
                                         </div>
-                                        <div class="text-end">
-                                            <div class="d-flex align-items-center justify-content-end mb-1">
-                                                @for($i = 1; $i <= 5; $i++)
-                                                    @if($i <= $activity['rating_stars']['full'])
-                                                        <i class="fa fa-star text-warning fs-7"></i>
-                                                    @elseif($i == $activity['rating_stars']['full'] + 1 && $activity['rating_stars']['half'])
-                                                        <i class="fa fa-star-half-alt text-warning fs-7"></i>
-                                                    @else
-                                                        <i class="fa fa-star text-gray-300 fs-7"></i>
-                                                    @endif
-                                                @endfor
+                                        <div class="d-flex align-items-center">
+                                            <div class="progress h-10px w-200px me-5">
+                                                <div class="progress-bar bg-{{ ['primary', 'success', 'warning', 'danger', 'info'][$index] }}"
+                                                     role="progressbar"
+                                                     style="width: {{ $program['percentage'] }}%"
+                                                     aria-valuenow="{{ $program['percentage'] }}"
+                                                     aria-valuemin="0"
+                                                     aria-valuemax="100">
+                                                </div>
                                             </div>
-                                            <span class="text-gray-800 fw-bold fs-6">{{ $activity['avg_rating'] }}/5</span>
+                                            <div class="min-w-70px text-end">
+                                                <span class="text-{{ ['primary', 'success', 'warning', 'danger', 'info'][$index] }} fw-bold fs-6">{{ number_format($program['percentage'],1) }}%</span>
+                                            </div>
                                         </div>
                                     </div>
                                 @empty
@@ -154,6 +121,50 @@
                             </div>
                         </div>
                     </div>
+{{--                    <div class="col-xl-6">--}}
+{{--                        <div class="card card-flush h-xl-100">--}}
+{{--                            <div class="card-header pt-7">--}}
+{{--                                <h3 class="card-title align-items-start flex-column">--}}
+{{--                                    <span class="card-label fw-bold text-gray-800">{{ __('dashboard.activity_evaluations') }}</span>--}}
+{{--                                </h3>--}}
+{{--                            </div>--}}
+{{--                            <div class="card-body pt-6">--}}
+{{--                                @forelse($activityEvaluations as $activity)--}}
+{{--                                    <div class="d-flex align-items-center justify-content-between mb-6">--}}
+{{--                                        <div class="d-flex align-items-center flex-grow-1">--}}
+{{--                                            <div class="symbol symbol-45px me-5">--}}
+{{--                                        <span class="symbol-label bg-light-{{ $activity['type'] == 'trip' ? 'success' : 'primary' }}">--}}
+{{--                                            <i class="fa fa-{{ $activity['type'] == 'trip' ? 'bus' : 'chalkboard-teacher' }} text-{{ $activity['type'] == 'trip' ? 'success' : 'primary' }} fs-3"></i>--}}
+{{--                                        </span>--}}
+{{--                                            </div>--}}
+{{--                                            <div class="flex-grow-1">--}}
+{{--                                                <span class="text-gray-800 fw-bold d-block fs-6">{{ Str::limit($activity['name'], 30) }}</span>--}}
+{{--                                                <span class="text-gray-500 fw-semibold fs-7">{{ $activity['evaluation_count'] }} {{ __('dashboard.evaluations') }}</span>--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
+{{--                                        <div class="text-end">--}}
+{{--                                            <div class="d-flex align-items-center justify-content-end mb-1">--}}
+{{--                                                @for($i = 1; $i <= 5; $i++)--}}
+{{--                                                    @if($i <= $activity['rating_stars']['full'])--}}
+{{--                                                        <i class="fa fa-star text-warning fs-7"></i>--}}
+{{--                                                    @elseif($i == $activity['rating_stars']['full'] + 1 && $activity['rating_stars']['half'])--}}
+{{--                                                        <i class="fa fa-star-half-alt text-warning fs-7"></i>--}}
+{{--                                                    @else--}}
+{{--                                                        <i class="fa fa-star text-gray-300 fs-7"></i>--}}
+{{--                                                    @endif--}}
+{{--                                                @endfor--}}
+{{--                                            </div>--}}
+{{--                                            <span class="text-gray-800 fw-bold fs-6">{{ $activity['avg_rating'] }}/5</span>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                @empty--}}
+{{--                                    <div class="text-center py-10">--}}
+{{--                                        <span class="text-muted fs-6">{{ __('dashboard.no_data') }}</span>--}}
+{{--                                    </div>--}}
+{{--                                @endforelse--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
                 </div>
 
                 <!-- Participation Rates Section -->

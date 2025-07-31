@@ -11,6 +11,7 @@ use App\Models\Student;
 use App\Models\StudentPathProgress;
 use App\Models\TripAttendance;
 use App\Models\TripEvaluation;
+use App\Models\VolunteerHour;
 use App\Services\IStudentProgressService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -479,5 +480,164 @@ class StudentEventsController extends Controller
             'event',
             'students'
         ));
+    }
+
+    public function addVolunteerHours(Program $program, PathPoint $pathPoint)
+    {
+        $subAdminSchools = DB::table('sub_admin_school')
+            ->where('sub_admin_id', Auth::id())
+            ->pluck('school_id');
+
+        if ($subAdminSchools->isEmpty()) {
+            abort(403, 'You are not authorized');
+        }
+
+        $eventId = $pathPoint->meta['event_id'] ?? null;
+        $event = Event::find($eventId);
+
+        if (!$event) {
+            abort(404, 'Event not found');
+        }
+
+        // Get students with attendance marked as 'attended' from sub-admin's schools
+        $students = Student::whereHas('enrollments', function ($query) use ($program) {
+            $query->where('program_id', $program->id)
+                ->where('status', 'active');
+        })
+            ->whereHas('studentPathProgress', function ($query) use ($program, $pathPoint) {
+                $query->where('program_id', $program->id)
+                    ->where('path_point_id', $pathPoint->id)
+                    ->whereIn('status', [2,3,4]);
+            })
+            ->whereHas('school', function ($query) use ($subAdminSchools) {
+                $query->whereIn('id', $subAdminSchools);
+            })
+            ->whereHas('tripAttendances', function ($query) use ($eventId) {
+                $query->where('event_id', $eventId)->where('status', 'attended');
+            })
+            ->with(['user', 'school.user', 'volunteerHours' => function ($query) use ($eventId, $program) {
+                $query->where('event_id', $eventId)->where('program_id', $program->id);
+            }])
+            ->get();
+
+        // Determine the view based on event type
+        $viewName = $event->event_type === 'trip'
+            ? 'admin.trips.add_volunteer_hours'
+            : 'admin.workshops.add_volunteer_hours';
+
+        return view($viewName, compact(
+            'program',
+            'pathPoint',
+            'event',
+            'students'
+        ));
+    }
+
+    public function storeVolunteerHours(Request $request, Program $program, PathPoint $pathPoint)
+    {
+        $subAdminSchools = DB::table('sub_admin_school')
+            ->where('sub_admin_id', Auth::id())
+            ->pluck('school_id');
+
+        if ($subAdminSchools->isEmpty()) {
+            abort(403, 'You are not authorized');
+        }
+
+        $request->validate([
+            'volunteer_hours' => 'required|array',
+            'volunteer_hours.*.student_id' => 'required|exists:students,id',
+            'volunteer_hours.*.student_id_number' => 'required|string|max:50',
+            'volunteer_hours.*.hours' => 'required|numeric|min:0.1|max:100',
+            'volunteer_hours.*.volunteer_date' => 'required|date',
+            'volunteer_hours.*.description' => 'nullable|string|max:500'
+        ]);
+
+        $eventId = $pathPoint->meta['event_id'] ?? null;
+        $event = Event::find($eventId);
+
+        if (!$event) {
+            return back()->with('error', 'Event not found');
+        }
+
+        DB::beginTransaction();
+
+        try {
+            foreach ($request->volunteer_hours as $volunteerData) {
+                // Verify that the student belongs to one of the sub-admin's schools
+                $studentBelongsToSubAdmin = Student::where('id', $volunteerData['student_id'])
+                    ->whereHas('school', function ($query) use ($subAdminSchools) {
+                        $query->whereIn('id', $subAdminSchools);
+                    })
+                    ->exists();
+
+                if (!$studentBelongsToSubAdmin) {
+                    continue; // Skip students not belonging to sub-admin's schools
+                }
+
+                // Check if volunteer hours already exist for this student, event, and program
+                $existingRecord = VolunteerHour::where('student_id', $volunteerData['student_id'])
+                    ->where('event_id', $event->id)
+                    ->where('program_id', $program->id)
+                    ->first();
+
+                if ($existingRecord) {
+                    // Update existing record
+                    $existingRecord->update([
+                        'student_id_number' => $volunteerData['student_id_number'],
+                        'hours' => $volunteerData['hours'],
+                        'volunteer_date' => $volunteerData['volunteer_date'],
+                        'description' => $volunteerData['description'] ?? null,
+                        'recorded_by' => Auth::id()
+                    ]);
+                } else {
+                    // Create new record
+                    VolunteerHour::create([
+                        'student_id' => $volunteerData['student_id'],
+                        'student_id_number' => $volunteerData['student_id_number'],
+                        'event_id' => $event->id,
+                        'program_id' => $program->id,
+                        'hours' => $volunteerData['hours'],
+                        'volunteer_date' => $volunteerData['volunteer_date'],
+                        'description' => $volunteerData['description'] ?? null,
+                        'recorded_by' => Auth::id()
+                    ]);
+                }
+            }
+
+            DB::commit();
+
+            $eventType = $event->event_type === 'trip' ? 'trip' : 'workshop';
+            return back()->with('success', 'Volunteer hours for ' . $eventType . ' have been saved successfully!');
+
+        } catch (\Exception $e) {
+            DB::rollback();
+            return back()->with('error', 'Error saving volunteer hours');
+        }
+    }
+
+    public function downloadVolunteerCertificate($volunteerHourId)
+    {
+        $student = Student::where('user_id', Auth::id())->first();
+
+        if (!$student) {
+            abort(404, 'Student not found');
+        }
+
+        // Get the volunteer hour record with relationships
+        $volunteerHour = VolunteerHour::with(['student.user', 'event', 'program'])
+            ->where('id', $volunteerHourId)
+            ->where('student_id', $student->id)
+            ->first();
+
+        if (!$volunteerHour) {
+            abort(404, 'Volunteer hours record not found or you do not have access to this certificate.');
+        }
+
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('admin.certificates.volunteer_hours', [
+            'volunteerHour' => $volunteerHour,
+            'student' => $student
+        ]);
+
+        return $pdf->stream('volunteer_certificate_' . $volunteerHour->event->event_name . '.pdf');
     }
 }

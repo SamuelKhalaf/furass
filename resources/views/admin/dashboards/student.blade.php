@@ -189,7 +189,7 @@
                 <div class="row g-5 g-xl-8 mb-5 mb-xl-10">
 
                     <!--begin::Certificates-->
-                    <div class="col-xl-6">
+                    <div class="col-12">
                         <div class="card card-flush h-xl-100">
                             <div class="card-header pt-7">
                                 <h3 class="card-title align-items-start flex-column">
@@ -203,63 +203,83 @@
                                 @if(isset($certificates) && $certificates->count() > 0)
                                     <div class="scroll-y mh-300px pe-2">
                                         @foreach($certificates as $cert)
-                                            <div class="d-flex align-items-center mb-5 p-3 bg-light rounded hover-elevate-up transition">
+                                            <div class="d-flex align-items-center mb-5 p-3 bg-light rounded hover-elevate-up transition w-100">
                                                 <!--begin::Icon-->
                                                 <div class="symbol symbol-40px me-4">
-                                                <span class="symbol-label bg-light-{{ $cert->type === 'program' ? 'success' : ($cert->event_type === 'trip' ? 'primary' : 'info') }}">
-                                                    @if($cert->type === 'program')
-                                                        <i class="fa fa-trophy text-success fs-4"></i>
-                                                    @elseif($cert->event_type === 'trip')
-                                                        <i class="fa fa-bus text-primary fs-4"></i>
-                                                    @else
-                                                        <i class="fa fa-award text-info fs-4"></i>
-                                                    @endif
-                                                </span>
+                                                    <span class="symbol-label bg-light-{{ $cert->type === 'program' ? 'success' : ($cert->type === 'volunteer' ? 'warning' : ($cert->event_type === 'trip' ? 'primary' : 'info')) }}">
+                                                        @if($cert->type === 'program')
+                                                            <i class="fa fa-trophy text-success fs-4"></i>
+                                                        @elseif($cert->type === 'volunteer')
+                                                            <i class="fa fa-heart text-warning fs-4"></i>
+                                                        @elseif($cert->event_type === 'trip')
+                                                            <i class="fa fa-bus text-primary fs-4"></i>
+                                                        @else
+                                                            <i class="fa fa-award text-info fs-4"></i>
+                                                        @endif
+                                                    </span>
                                                 </div>
                                                 <!--end::Icon-->
 
                                                 <!--begin::Details-->
-                                                <div class="flex-grow-1">
-                                                    <div class="d-flex justify-content-between align-items-center mb-1">
-                                                        <span class="text-gray-800 fw-bold fs-6">{{ $cert->title }}</span>
-                                                        <span class="badge badge-light-{{ $cert->type === 'program' ? 'success' : ($cert->event_type === 'trip' ? 'primary' : 'info') }}">
-                                                            @if($cert->type === 'program')
-                                                                {{ __('dashboard.program_certificate') }}
-                                                            @elseif($cert->event_type === 'trip')
-                                                                {{ __('dashboard.trip') }}
-                                                            @else
-                                                                {{ __('dashboard.workshop') }}
+                                                <div class="flex-grow-1 d-flex justify-content-between align-items-center">
+                                                    <div class="me-4">
+                                                        <div class="d-flex justify-content-between align-items-center mb-1">
+                                                            <span class="text-gray-800 fw-bold fs-6">{{ $cert->title }}</span>
+                                                            <span class="badge badge-light-{{ $cert->type === 'program' ? 'success' : ($cert->type === 'volunteer' ? 'warning' : ($cert->event_type === 'trip' ? 'primary' : 'info')) }} ms-2">
+                                                                @if($cert->type === 'program')
+                                                                    {{ __('dashboard.program_certificate') }}
+                                                                @elseif($cert->type === 'volunteer')
+                                                                    {{ __('dashboard.community_service') }}
+                                                                @elseif($cert->event_type === 'trip')
+                                                                    {{ __('dashboard.trip') }}
+                                                                @else
+                                                                    {{ __('dashboard.workshop') }}
+                                                                @endif
+                                                            </span>
+                                                        </div>
+                                                        <div class="d-flex flex-wrap">
+                                                            <div class="text-muted fs-8 mb-1 me-3">
+                                                                <i class="fa fa-certificate me-1"></i>
+                                                                {{ $cert->certificate_type }}
+                                                            </div>
+                                                            @if($cert->type === 'volunteer')
+                                                                <div class="text-muted fs-8 mb-1 me-3">
+                                                                    <i class="fa fa-clock me-1"></i>
+                                                                    {{ $cert->volunteer_hours }} {{ __('dashboard.hours') }}
+                                                                </div>
                                                             @endif
-                                                        </span>
+                                                            <div class="text-muted fs-8">
+                                                                <i class="fa fa-calendar-alt me-1"></i>
+                                                                {{ \Carbon\Carbon::parse($cert->start_date)->format('d M Y') }}
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                    <div class="text-muted fs-8 mb-1">
-                                                        <i class="fa fa-certificate me-1"></i>
-                                                        {{ $cert->certificate_type }}
+
+                                                    <!--begin::Download/Action-->
+                                                    <div class="ms-3">
+                                                        @if($cert->type === 'program')
+                                                            <a target="_blank" href="{{ route($cert->download_route, $cert->route_params['programId']) }}"
+                                                               class="btn btn-icon btn-sm btn-light-success"
+                                                               title="{{ __('dashboard.download_program_certificate') }}">
+                                                                <i class="fa fa-download"></i>
+                                                            </a>
+                                                        @elseif($cert->type === 'volunteer')
+                                                            <a target="_blank" href="{{ route($cert->download_route, $cert->route_params) }}"
+                                                               class="btn btn-icon btn-sm btn-light-warning"
+                                                               title="{{ __('dashboard.download_volunteer_certificate') }}">
+                                                                <i class="fa fa-download"></i>
+                                                            </a>
+                                                        @else
+                                                            <a target="_blank" href="{{ route($cert->download_route, $cert->route_params) }}"
+                                                               class="btn btn-icon btn-sm btn-light-primary"
+                                                               title="{{ __('dashboard.download_certificate') }}">
+                                                                <i class="fa fa-download"></i>
+                                                            </a>
+                                                        @endif
                                                     </div>
-                                                    <div class="text-muted fs-8">
-                                                        <i class="fa fa-calendar-alt me-1"></i>
-                                                        {{ \Carbon\Carbon::parse($cert->start_date)->format('d M Y') }}
-                                                    </div>
+                                                    <!--end::Download/Action-->
                                                 </div>
                                                 <!--end::Details-->
-
-                                                <!--begin::Download/Action-->
-                                                <div class="ms-3">
-                                                    @if($cert->type === 'program')
-                                                        <a target="_blank" href="{{ route($cert->download_route, $cert->route_params['programId']) }}"
-                                                           class="btn btn-icon btn-sm btn-light-success"
-                                                           title="{{ __('dashboard.download_program_certificate') }}">
-                                                            <i class="fa fa-download"></i>
-                                                        </a>
-                                                    @else
-                                                        <a target="_blank" href="{{ route($cert->download_route, $cert->route_params) }}"
-                                                           class="btn btn-icon btn-sm btn-light-primary"
-                                                           title="{{ __('dashboard.download_certificate') }}">
-                                                            <i class="fa fa-download"></i>
-                                                        </a>
-                                                    @endif
-                                                </div>
-                                                <!--end::Download/Action-->
                                             </div>
                                         @endforeach
                                     </div>
@@ -276,49 +296,49 @@
                     <!--end::Certificates-->
 
                     <!--begin::Recent Evaluations-->
-                    <div class="col-xl-6">
-                        <div class="card card-flush h-xl-100">
-                            <div class="card-header pt-7">
-                                <h3 class="card-title align-items-start flex-column">
-                                    <span class="card-label fw-bold text-gray-800">{{ __('dashboard.recent_evaluations') }}</span>
-                                    <span class="text-muted fs-7">{{ __('dashboard.your_event_feedback') }}</span>
-                                </h3>
-                            </div>
-                            <div class="card-body pt-6">
-                                @forelse($recentEvaluations as $evaluation)
-                                    <div class="d-flex align-items-start mb-6">
-                                        <div class="symbol symbol-40px me-4">
-                                            <span class="symbol-label bg-light-{{ $evaluation['event_type'] == 'trip' ? 'success' : 'primary' }}">
-                                                <i class="fa fa-{{ $evaluation['event_type'] == 'trip' ? 'bus' : 'chalkboard-teacher' }} text-{{ $evaluation['event_type'] == 'trip' ? 'success' : 'primary' }} fs-4"></i>
-                                            </span>
-                                        </div>
-                                        <div class="flex-grow-1">
-                                            <div class="d-flex align-items-center justify-content-between mb-2">
-                                                <span class="text-gray-800 fw-bold fs-6">{{ $evaluation['event_name'] }}</span>
-                                                <div class="d-flex align-items-center">
-                                                    @for($i = 1; $i <= 5; $i++)
-                                                        @if($i <= $evaluation['rating'])
-                                                            <i class="fa fa-star text-warning fs-7"></i>
-                                                        @else
-                                                            <i class="fa fa-star text-gray-300 fs-7"></i>
-                                                        @endif
-                                                    @endfor
-                                                </div>
-                                            </div>
-                                            @if($evaluation['feedback'])
-                                                <p class="text-gray-600 fs-7 mb-2">{{ Str::limit($evaluation['feedback'], 80) }}</p>
-                                            @endif
-                                            <div class="text-muted fs-8">{{ $evaluation['created_at']->diffForHumans() }}</div>
-                                        </div>
-                                    </div>
-                                @empty
-                                    <div class="text-center py-10">
-                                        <span class="text-muted fs-6">{{ __('dashboard.no_evaluations') }}</span>
-                                    </div>
-                                @endforelse
-                            </div>
-                        </div>
-                    </div>
+{{--                    <div class="col-xl-6">--}}
+{{--                        <div class="card card-flush h-xl-100">--}}
+{{--                            <div class="card-header pt-7">--}}
+{{--                                <h3 class="card-title align-items-start flex-column">--}}
+{{--                                    <span class="card-label fw-bold text-gray-800">{{ __('dashboard.recent_evaluations') }}</span>--}}
+{{--                                    <span class="text-muted fs-7">{{ __('dashboard.your_event_feedback') }}</span>--}}
+{{--                                </h3>--}}
+{{--                            </div>--}}
+{{--                            <div class="card-body pt-6">--}}
+{{--                                @forelse($recentEvaluations as $evaluation)--}}
+{{--                                    <div class="d-flex align-items-start mb-6">--}}
+{{--                                        <div class="symbol symbol-40px me-4">--}}
+{{--                                            <span class="symbol-label bg-light-{{ $evaluation['event_type'] == 'trip' ? 'success' : 'primary' }}">--}}
+{{--                                                <i class="fa fa-{{ $evaluation['event_type'] == 'trip' ? 'bus' : 'chalkboard-teacher' }} text-{{ $evaluation['event_type'] == 'trip' ? 'success' : 'primary' }} fs-4"></i>--}}
+{{--                                            </span>--}}
+{{--                                        </div>--}}
+{{--                                        <div class="flex-grow-1">--}}
+{{--                                            <div class="d-flex align-items-center justify-content-between mb-2">--}}
+{{--                                                <span class="text-gray-800 fw-bold fs-6">{{ $evaluation['event_name'] }}</span>--}}
+{{--                                                <div class="d-flex align-items-center">--}}
+{{--                                                    @for($i = 1; $i <= 5; $i++)--}}
+{{--                                                        @if($i <= $evaluation['rating'])--}}
+{{--                                                            <i class="fa fa-star text-warning fs-7"></i>--}}
+{{--                                                        @else--}}
+{{--                                                            <i class="fa fa-star text-gray-300 fs-7"></i>--}}
+{{--                                                        @endif--}}
+{{--                                                    @endfor--}}
+{{--                                                </div>--}}
+{{--                                            </div>--}}
+{{--                                            @if($evaluation['feedback'])--}}
+{{--                                                <p class="text-gray-600 fs-7 mb-2">{{ Str::limit($evaluation['feedback'], 80) }}</p>--}}
+{{--                                            @endif--}}
+{{--                                            <div class="text-muted fs-8">{{ $evaluation['created_at']->diffForHumans() }}</div>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                @empty--}}
+{{--                                    <div class="text-center py-10">--}}
+{{--                                        <span class="text-muted fs-6">{{ __('dashboard.no_evaluations') }}</span>--}}
+{{--                                    </div>--}}
+{{--                                @endforelse--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
                     <!--end::Recent Evaluations-->
                 </div>
                 <!--end::Current Activities Row-->
