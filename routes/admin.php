@@ -330,6 +330,18 @@ Route::middleware(['auth'])->name('admin.')->group(function () {
             ->name('student.trip.certificate');
     });
 
+    // Student Workshop Routes
+    Route::group(['prefix' => 'student'], function () {
+        Route::get('workshops/{program}/{pathPoint}', [StudentEventsController::class, 'showWorkshopDetails'])
+            ->name('student.workshop.show');
+
+        Route::post('workshops/{program}/{pathPoint}/evaluate', [StudentEventsController::class, 'submitEvaluation'])
+            ->name('student.workshop.evaluate');
+
+        Route::get('workshops/{program}/{pathPoint}/certificate', [StudentEventsController::class, 'downloadCertificate'])
+            ->name('student.workshop.certificate');
+    });
+
     // Sub-Admin Trip Management
     Route::group([
         'prefix' => 'sub-admin',
@@ -346,18 +358,6 @@ Route::middleware(['auth'])->name('admin.')->group(function () {
 
         Route::get('trips/{program}/{pathPoint}/students', [StudentEventsController::class, 'studentsList'])
             ->name('sub-admin.trip.students');
-    });
-
-    // Student Workshop Routes
-    Route::group(['prefix' => 'student'], function () {
-        Route::get('workshops/{program}/{pathPoint}', [StudentEventsController::class, 'showWorkshopDetails'])
-            ->name('student.workshop.show');
-
-        Route::post('workshops/{program}/{pathPoint}/evaluate', [StudentEventsController::class, 'submitEvaluation'])
-            ->name('student.workshop.evaluate');
-
-        Route::get('workshops/{program}/{pathPoint}/certificate', [StudentEventsController::class, 'downloadCertificate'])
-            ->name('student.workshop.certificate');
     });
 
     // Sub-Admin Workshop Management
@@ -377,6 +377,16 @@ Route::middleware(['auth'])->name('admin.')->group(function () {
         Route::get('workshops/{program}/{pathPoint}/students', [StudentEventsController::class, 'studentsList'])
             ->name('sub-admin.workshop.students');
     });
+
+    // Volunteer Hours Routes
+    Route::get('/volunteer-hours/{program}/{pathPoint}/add', [StudentEventsController::class, 'addVolunteerHours'])
+        ->name('sub-admin.volunteer-hours.add');
+    Route::post('/volunteer-hours/{program}/{pathPoint}/store', [StudentEventsController::class, 'storeVolunteerHours'])
+        ->name('sub-admin.volunteer-hours.store');
+
+    // Student Volunteer Certificate Routes
+    Route::get('/volunteer-certificate/{volunteerHourId}/download', [StudentEventsController::class, 'downloadVolunteerCertificate'])
+        ->name('student.volunteer.certificate');
     ################################ End:Student_Events Routes ######################################
 
     ############################### Start:Calendar Routes #####################################

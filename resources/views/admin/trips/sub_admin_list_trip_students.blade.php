@@ -35,8 +35,8 @@
                 <!--end::Page title-->
                 <!--begin::Actions-->
                 <div class="d-flex align-items-center gap-2 gap-lg-3">
-                    <a href="{{ route('admin.sub-admin.trips.index') }}" class="btn btn-sm btn-secondary">
-                        <i class="fa-solid fa-arrow-left me-1"></i>{{ __('Back to Trips') }}
+                    <a href="{{ route('admin.sub-admin.volunteer-hours.add', [$program->id, $pathPoint->id]) }}" class="btn btn-sm btn-success">
+                        <i class="fa-solid fa-clock me-1"></i>{{ __('Add Volunteer Hours') }}
                     </a>
                     <a href="{{ route('admin.sub-admin.trip.attendance', [$program->id, $pathPoint->id]) }}" class="btn btn-sm btn-primary">
                         <i class="fa-solid fa-user-check me-1"></i>{{ __('Manage Attendance') }}

@@ -107,6 +107,9 @@ return [
     'program_certificate' => 'شهادة برنامج',
     'download_program_certificate' => 'تحميل شهادة البرنامج',
     'complete_programs_or_events_to_earn_certificates' => 'أكمل البرامج أو الفعاليات للحصول على شهادات.',
+    'community_service' => 'خدمة المجتمع',
+    'hours' => 'ساعات',
+    'download_volunteer_certificate' => 'تحميل شهادة العمل التطوعي',
 
     // Consultant Keywords
     'consultant_dashboard' => 'لوحة تحكم المستشار',

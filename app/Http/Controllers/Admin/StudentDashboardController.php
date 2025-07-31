@@ -341,7 +341,6 @@ class StudentDashboardController extends Controller
     {
         $achievements = collect();
 
-        // Get event certificates (existing logic)
         $eventCertificates = $student->studentPathProgress()
             ->where('status', 3)
             ->whereHas('pathPoint', function ($query) {
@@ -374,7 +373,6 @@ class StudentDashboardController extends Controller
                 ];
             });
 
-        // Get program completion certificates (new logic)
         $programCertificates = $student->enrollments()
             ->with(['program'])
             ->where('status', 'attended')
@@ -396,8 +394,28 @@ class StudentDashboardController extends Controller
                 ];
             });
 
-        // Combine both types and sort by completion date (most recent first)
-        $achievements = $eventCertificates->merge($programCertificates)
+        $volunteerCertificates = $student->volunteerHours()
+            ->with(['event', 'program'])
+            ->get()
+            ->map(function ($volunteerHour) {
+                return (object) [
+                    'type' => 'volunteer',
+                    'program_id' => $volunteerHour->program_id,
+                    'event_id' => $volunteerHour->event_id,
+                    'volunteer_hour_id' => $volunteerHour->id,
+                    'event_name' => $volunteerHour->event->event_name,
+                    'event_type' => $volunteerHour->event->event_type,
+                    'volunteer_hours' => $volunteerHour->hours,
+                    'student_id_number' => $volunteerHour->student_id_number,
+                    'start_date' => $volunteerHour->volunteer_date,
+                    'title' => $volunteerHour->event->event_name,
+                    'certificate_type' => 'Community Service Certificate',
+                    'download_route' => 'admin.student.volunteer.certificate',
+                    'route_params' => ['volunteerHourId' => $volunteerHour->id]
+                ];
+            });
+
+        $achievements = $eventCertificates->merge($programCertificates)->merge($volunteerCertificates)
             ->sortByDesc('start_date');
 
         return $achievements;
