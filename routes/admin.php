@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\EvaluationResultController;
 use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\Admin\PagesController;
+use App\Http\Controllers\Admin\PathPointController;
 use App\Http\Controllers\Admin\PermissionsController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\ProgramsController;
@@ -632,4 +633,25 @@ Route::middleware(['auth'])->name('admin.')->group(function () {
         Route::put('/password/update', [ProfileController::class, 'updatePassword'])->name('password.update');
     });
     ################################ end:Profile Routes ######################################
+
+    ##############################  Start:Path Points Routes  ####################################
+    Route::middleware('permission:' . PermissionEnum::LIST_PATH_POINTS->value)->group(function () {
+        Route::get('path-points', [PathPointController::class, 'index'])->name('path_points.index');
+        Route::get('path-points-data', [PathPointController::class, 'getPathPointsData'])->name('path_points.data');
+    });
+
+    Route::post('path-points', [PathPointController::class, 'store'])
+        ->middleware('permission:' . PermissionEnum::CREATE_PATH_POINTS->value)
+        ->name('path_points.store');
+
+    Route::middleware('permission:' . PermissionEnum::UPDATE_PATH_POINTS->value)->group(function () {
+        Route::get('path-points/{path_point}/edit', [PathPointController::class, 'edit'])->name('path_points.edit');
+        Route::put('path-points/{path_point}', [PathPointController::class, 'update'])->name('path_points.update');
+    });
+
+    Route::delete('path-points/{path_point}', [PathPointController::class, 'destroy'])
+        ->middleware('permission:' . PermissionEnum::DELETE_PATH_POINTS->value)
+        ->name('path_points.destroy');
+    ###############################  End:Path Points Routes  #####################################
+
 });

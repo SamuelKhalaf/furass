@@ -41,7 +41,6 @@ class EnrollmentController extends Controller
             ->first();
 
         $enrollments = $student ? $student->enrollments : collect();
-
         return view('admin.programs.student_enrollments', [
             'student' => $student,
             'enrollments' => $enrollments,

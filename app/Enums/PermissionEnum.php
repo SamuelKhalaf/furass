@@ -95,6 +95,15 @@ enum PermissionEnum : string
     case SEND_NOTIFICATIONS = 'Send Notifications';
 
     case MANAGE_QUESTIONS = 'Manage Questions';
+
+    // Path Points Permissions
+
+    case LIST_PATH_POINTS = 'List Path_Points';
+    case CREATE_PATH_POINTS = 'Create Path_Points';
+    case UPDATE_PATH_POINTS = 'Update Path_Points';
+    case DELETE_PATH_POINTS = 'Delete Path_Points';
+
+
     /**
      * @return array
      */
@@ -209,6 +218,16 @@ enum PermissionEnum : string
             self::LIST_PROGRAMS->value,
             self::CREATE_PROGRAMS->value,
             self::UPDATE_PROGRAMS->value,
+        ];
+    }
+
+    public static function pathPointPermissions(): array
+    {
+        return [
+            self::LIST_PATH_POINTS->value,
+            self::CREATE_PATH_POINTS->value,
+            self::UPDATE_PATH_POINTS->value,
+            self::DELETE_PATH_POINTS->value,
         ];
     }
 

@@ -25,7 +25,7 @@
                 <!--begin::Statistics Row-->
                 <div class="row g-5 g-xl-8 mb-5 mb-xl-10">
                     <div class="col-xl-3">
-                        <div class="card card-flush h-xl-100 bg-danger bg-opacity-10 card-hover border-danger border-opacity-25 border border-dashed">
+                        <div class="card card-flush h-xl-100 bg-body card-hover border-danger border-opacity-25 border border-dashed">
                             <div class="card-body d-flex flex-column justify-content-between">
                                 <div class="d-flex flex-center rounded-circle h-70px w-70px mb-5 bg-danger bg-opacity-10">
                                     <i class="fa fa-user-tie text-danger fs-2x lh-0"></i>
@@ -39,7 +39,7 @@
                     </div>
 
                     <div class="col-xl-3">
-                        <div class="card card-flush h-xl-100 bg-primary bg-opacity-10 card-hover border-primary border-opacity-25 border border-dashed">
+                        <div class="card card-flush h-xl-100 bg-body card-hover border-primary border-opacity-25 border border-dashed">
                             <div class="card-body d-flex flex-column justify-content-between">
                                 <div class="d-flex flex-center rounded-circle h-70px w-70px mb-5 bg-primary bg-opacity-10">
                                     <i class="fa fa-headset text-primary fs-2x lh-0"></i>
@@ -53,7 +53,7 @@
                     </div>
 
                     <div class="col-xl-3">
-                        <div class="card card-flush h-xl-100 bg-success bg-opacity-10 card-hover border-success border-opacity-25 border border-dashed">
+                        <div class="card card-flush h-xl-100 bg-body card-hover border-success border-opacity-25 border border-dashed">
                             <div class="card-body d-flex flex-column justify-content-between">
                                 <div class="d-flex flex-center rounded-circle h-70px w-70px mb-5 bg-success bg-opacity-10">
                                     <i class="fa fa-school text-success fs-2x lh-0"></i>
@@ -67,7 +67,7 @@
                     </div>
 
                     <div class="col-xl-3">
-                        <div class="card card-flush h-xl-100 bg-warning bg-opacity-10 card-hover border-warning border-opacity-25 border border-dashed">
+                        <div class="card card-flush h-xl-100 bg-body card-hover border-warning border-opacity-25 border border-dashed">
                             <div class="card-body d-flex flex-column justify-content-between">
                                 <div class="d-flex flex-center rounded-circle h-70px w-70px mb-5 bg-warning bg-opacity-10">
                                     <i class="fa fa-users text-warning fs-2x lh-0"></i>
