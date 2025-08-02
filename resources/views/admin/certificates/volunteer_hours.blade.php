@@ -178,7 +178,7 @@
         </div>
 
         <div class="volunteer-details">
-            Student ID: {{ $volunteerHour->student_id_number }} |
+            Student ID: {{ $volunteerHour->student->student_id_number }} |
             Date: {{ $volunteerHour->volunteer_date->format('M d, Y') }} |
             Hours Completed: {{ $volunteerHour->hours }}
         </div>

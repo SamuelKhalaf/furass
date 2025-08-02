@@ -42,6 +42,8 @@ return [
         'contact_info' => 'Contact Information',
     ],
     'modal' => [
+        'student_id_number' => 'ID Number',
+        'enter_student_id' => 'Enter student ID number',
         'add_student' => 'Add Student',
         'update_student' => 'Update Student Details',
         'student_name' => ' Name',

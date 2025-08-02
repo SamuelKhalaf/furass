@@ -80,6 +80,7 @@
                             <tr class="text-gray-400 fw-bold fs-7 text-uppercase gs-0 text-center">
                                 <th class="min-w-125px">{{ __('students.name') }}</th>
                                 <th class="min-w-125px">{{ __('students.school') }}</th>
+                                <th class="min-w-125px">{{ __('students.modal.student_id_number') }}</th>
                                 <th class="min-w-125px">{{ __('students.grade') }}</th>
                                 <th class="min-w-125px">{{ __('students.birth_date') }}</th>
                                 <th class="min-w-125px">{{ __('students.gender') }}</th>
@@ -191,6 +192,13 @@
                             {
                                 data: 'school.name',
                                 name: 'school.name',
+                                orderable: false,
+                                searchable: false,
+                                className: 'text-center'
+                            },
+                            {
+                                data: 'student_id_number',
+                                name: 'student_id_number',
                                 orderable: false,
                                 searchable: false,
                                 className: 'text-center'
@@ -514,6 +522,13 @@
                                         }
                                     }
                                 },
+                                'student_id_number': {
+                                    validators: {
+                                        notEmpty: {
+                                            message: 'Student ID number is required'
+                                        }
+                                    }
+                                },
                             },
 
                             plugins: {
@@ -711,6 +726,7 @@
                     form.querySelector('[name="email"]').value = response.user.email || "";
                     form.querySelector('[name="phone_number"]').value = response.user.phone_number || "";
                     form.querySelector('[name="birth_date"]').value = response.birth_date || "";
+                    form.querySelector('[name="student_id_number"]').value = response.student_id_number || "";
                     $("#kt_modal_update_user_form").attr("data-user-id", response.id);
 
                     // Set the selected school and grade in the edit modal
@@ -792,7 +808,14 @@
                                             message: 'role field is required'
                                         }
                                     }
-                                }
+                                },
+                                'student_id_number': {
+                                    validators: {
+                                        notEmpty: {
+                                            message: 'Student ID number is required'
+                                        }
+                                    }
+                                },
                             },
                             plugins: {
                                 trigger: new FormValidation.plugins.Trigger(),

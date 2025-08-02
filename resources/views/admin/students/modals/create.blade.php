@@ -108,6 +108,17 @@
                         <!--begin::Input group-->
                         <div class="fv-row mb-7">
                             <!--begin::Label-->
+                            <label class="required fw-semibold fs-6 mb-2">{{ __('students.modal.student_id_number') }}</label>
+                            <!--end::Label-->
+                            <!--begin::Input-->
+                            <input type="text" name="student_id_number" class="form-control form-control-solid mb-3 mb-lg-0"
+                                   placeholder="{{ __('students.modal.enter_student_id') }}"/>
+                            <!--end::Input-->
+                        </div>
+                        <!--end::Input group-->
+                        <!--begin::Input group-->
+                        <div class="fv-row mb-7">
+                            <!--begin::Label-->
                             <label class="required fw-semibold fs-6 mb-2">{{ __('students.modal.grade') }}</label>
                             <!--end::Label-->
                             <!--begin::Select-->

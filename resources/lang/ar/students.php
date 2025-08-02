@@ -42,6 +42,8 @@ return [
         'contact_info' => 'معلومات الاتصال',
     ],
     'modal' => [
+        'student_id_number' => 'رقم الهوية',
+        'enter_student_id' => 'أدخل رقم الهوية',
         'add_student' => 'إضافة طالب',
         'update_student' => 'تحديث بيانات الطالب',
         'student_name' => 'الاسم',

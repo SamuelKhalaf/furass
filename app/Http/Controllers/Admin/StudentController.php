@@ -59,7 +59,6 @@ class StudentController extends Controller
                     $avatarUrl = asset('storage/' . $student->avatar);
                     $imgTag = '<img src="' . $avatarUrl . '" alt="Avatar" width="40" height="40" class="rounded-circle me-3 border" style="object-fit:cover; background:#f3f6f9;">';
                 } else {
-                    // Inline SVG placeholder
                     $imgTag = '<span class="rounded-circle me-3 border" style="width:40px;height:40px;background:#f3f6f9;display:flex;align-items:center;justify-content:center;">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <circle cx="12" cy="8" r="4" fill="#b5b5c3"/>
@@ -73,6 +72,7 @@ class StudentController extends Controller
                 $html .= '</div>';
                 return $html;
             })
+            ->addColumn('student_id_number', fn($student) => $student->student_id_number)
             ->addColumn('school.name', fn($student) => $student->school->user->name)
             ->addColumn('grade', fn($student) => $student->grade)
             ->addColumn('birth_date', fn($student) => $student->birth_date)
@@ -129,6 +129,7 @@ class StudentController extends Controller
             'phone_number' => 'required|string|max:20|unique:users',
             'password' => 'required|string|min:6|confirmed',
             'school_id' => 'required|exists:schools,id',
+            'student_id_number' => 'required|string|max:30|unique:students,student_id_number',
             'grade' => 'required|string|max:50',
             'birth_date' => 'required|date',
             'gender' => 'required|in:male,female',
@@ -166,6 +167,7 @@ class StudentController extends Controller
             Student::create([
                 'user_id' => $user->id,
                 'school_id' => $request->school_id,
+                'student_id_number' => $request->student_id_number,
                 'grade' => $request->grade,
                 'birth_date' => $request->birth_date,
                 'gender' => $request->gender,
@@ -203,6 +205,7 @@ class StudentController extends Controller
             'email' => 'required|string|email|max:255|unique:users,email,' . $student->user_id,
             'phone_number' => 'required|string|max:20',
             'school_id' => 'required|exists:schools,id',
+            'student_id_number' => 'required|string|max:30|unique:students,student_id_number,' . $student->id,
             'grade' => 'required|string|max:50',
             'birth_date' => 'required|date',
             'gender' => 'required|in:male,female',
@@ -241,6 +244,7 @@ class StudentController extends Controller
             $oldGrade = $student->grade;
             $student->update([
                 'school_id' => $request->school_id,
+                'student_id_number' => $request->student_id_number,
                 'grade' => $request->grade,
                 'birth_date' => $request->birth_date,
                 'gender' => $request->gender

@@ -149,8 +149,9 @@
                                                 <td>
                                                     <input type="text" class="form-control form-control-sm"
                                                            name="volunteer_hours[{{ $index }}][student_id_number]"
-                                                           value="{{ $existingVolunteerHour->student_id_number ?? '' }}"
-                                                           placeholder="{{ __('Enter ID Number') }}" required>
+                                                           value="{{ $student->student_id_number ?? '' }}"
+                                                           placeholder="{{ __('Enter ID Number') }}" required disabled
+                                                           style="width: {{ strlen($student->student_id_number ?? '') + 2 }}ch;">
                                                 </td>
                                                 <td>
                                                     <input type="number" class="form-control form-control-sm"
