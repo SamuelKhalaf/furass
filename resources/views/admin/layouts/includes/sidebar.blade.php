@@ -1,4 +1,4 @@
-@use(App\Enums\PermissionEnum;use App\Enums\RoleEnum)
+@use(App\Enums\PermissionEnum;use App\Enums\RoleEnum;use App\Models\Student)
 <div id="kt_app_sidebar" class="app-sidebar flex-column" data-kt-drawer="true" data-kt-drawer-name="app-sidebar"
      data-kt-drawer-activate="{default: true, lg: false}" data-kt-drawer-overlay="true" data-kt-drawer-width="225px"
      data-kt-drawer-direction="start" data-kt-drawer-toggle="#kt_app_sidebar_mobile_toggle">
@@ -8,17 +8,17 @@
         <a href="#">
             <img alt="Logo" src="{{asset('assets/media/logos/furass.png')}}"
                  class="app-sidebar-logo-default"
-                 @if( auth()->user()?->hasRole(RoleEnum::STUDENT->value) )
-                     style="padding-left: 34px;width: 200px;height: 112px;"
-                 @else
-                    style="width: 230px; height: 150px;"
-                 @endif
+                 {{--                 @if( auth()->user()?->hasRole(RoleEnum::STUDENT->value) )--}}
+                 style="padding-left: 34px;width: 200px;height: 112px;"
+                {{--                 @else--}}
+                {{--                    style="width: 230px; height: 150px;"--}}
+                {{--                 @endif--}}
             />
             <img alt="Logo" src="{{asset('assets/media/logos/furass.png')}}"
                  class="app-sidebar-logo-minimize" style="width: 60px;height: 98px;"/>
         </a>
         <!--end::Logo image-->
-        @if( !auth()->user()?->hasRole(RoleEnum::STUDENT->value) )
+        @if( false )
             <!--begin::Sidebar toggle-->
             <div id="kt_app_sidebar_toggle"
                  class="app-sidebar-toggle btn btn-icon btn-shadow btn-sm btn-color-muted btn-active-color-primary body-bg h-30px w-30px position-absolute top-50 start-100 translate-middle rotate"
@@ -88,10 +88,11 @@
                     <!--end:Menu item-->
 
                     <!--begin:Menu item-->
-                    <div class="menu-item {{setMenuOpenClass(['admin.student.enrollments.index','admin.student.enrollments.show'])}}">
+                    <div
+                        class="menu-item {{setMenuOpenClass(['admin.student.enrollments.index'])}}">
                         <!--begin:Menu link-->
                         <a class="menu-link
-                                        {{setActiveClass(['admin.student.enrollments.index','admin.student.enrollments.show'])}}"
+                            {{setActiveClass(['admin.student.enrollments.index'])}}"
                            href="{{route('admin.student.enrollments.index')}}">
                             <span class="menu-icon"><i class="fa-solid fa-briefcase"></i></span>
                             <span class="menu-title">{{ __('admin.programs.my_programs') }}</span>
@@ -99,6 +100,32 @@
                         <!--end:Menu link-->
                     </div>
                     <!--end:Menu item-->
+                    @php
+                        $user = auth()->user();
+
+                       $student = Student::where('user_id', $user->id)
+                           ->with(['enrollments.program'])
+                           ->first();
+
+                       $enrollments = $student ? $student->enrollments : collect();
+                    @endphp
+                    <!--begin:Menu items - Enrollments -->
+                    @foreach($enrollments as $enrollment)
+                        @php
+                            $program = $enrollment->program;
+                        @endphp
+                        @if($program)
+                            <div class="menu-item {{ setMenuOpenClass([['admin.student.enrollments.show' => ['program' => $enrollment->program_id]]]) }}">
+                                <a class="menu-link {{ setActiveClass([['admin.student.enrollments.show' => ['program' => $enrollment->program_id]]]) }}"
+                                   href="{{ route('admin.student.enrollments.show', $enrollment->program_id) }}">
+                                    <span class="menu-icon"><i class="fa-solid fa-graduation-cap"></i></span>
+                                    <span class="menu-title">{{ app()->getLocale() == 'ar' ? $program->title_ar : $program->title_en }}</span>
+                                </a>
+                            </div>
+                        @endif
+                    @endforeach
+                    <!--end:Menu items - Enrollments -->
+
                     <!--begin:Menu item-->
                     <div class="menu-item {{setMenuOpenClass(['admin.student.calendar'])}}">
                         <!--begin:Menu link-->
@@ -179,8 +206,6 @@
                          {{setMenuOpenClass([
                             'admin.programs.index',
                             'admin.programs.enroll',
-                            'admin.student.enrollments.index',
-                            'admin.student.enrollments.show',
                             'admin.path_points.index'
                         ])}}">
                         <span class="menu-link">
@@ -219,21 +244,21 @@
                                 </div>
                                 <!--end:Menu item-->
                             @endif
-                                @if( auth()->user()->hasAnyPermission(PermissionEnum::pathPointPermissions()) )
-                                    <!--begin:Menu item-->
-                                    <div class="menu-item">
-                                        <!--begin:Menu link-->
-                                        <a class="menu-link {{setActiveClass('admin.path_points.index')}}"
-                                           href="{{route('admin.path_points.index')}}">
+                            @if( auth()->user()->hasAnyPermission(PermissionEnum::pathPointPermissions()) )
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link-->
+                                    <a class="menu-link {{setActiveClass('admin.path_points.index')}}"
+                                       href="{{route('admin.path_points.index')}}">
                                         <span class="menu-bullet">
                                             <span class="bullet bullet-dot"></span>
                                         </span>
-                                            <span class="menu-title">{{ __('admin.path_points.title') }}</span>
-                                        </a>
-                                        <!--end:Menu link-->
-                                    </div>
-                                    <!--end:Menu item-->
-                                @endif
+                                        <span class="menu-title">{{ __('admin.path_points.title') }}</span>
+                                    </a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                            @endif
 
                         </div>
                     </div>

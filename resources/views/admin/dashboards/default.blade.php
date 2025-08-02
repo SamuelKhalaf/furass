@@ -39,10 +39,10 @@
                     <!--begin::Content-->
                     <div class="d-flex flex-column flex-center text-center p-0 h-100 w-100">
                         <!--begin::Wrapper-->
-                        <div class="card card-flush w-100 h-100 d-flex flex-column justify-content-center border-0 bg-transparent">
+                        <div class="card card-flush w-100 h-100 d-flex flex-column justify-content-center border-0">
                             <div class="card-body p-10 position-relative">
                                 <!-- Fixed Background Circles -->
-                                <div class="position-fixed w-100 h-100 top-0 start-0 overflow-hidden opacity-15 z-0 fixed-background">
+                                <div class="position-fixed w-100 h-100 overflow-hidden opacity-15 z-0 fixed-background" style="top:15px; left:15px;">
                                     <div class="position-absolute rounded-circle bg-primary w-300px h-300px top-50px start-10 animate-bounce" style="animation-delay: 0.5s;"></div>
                                     <div class="position-absolute rounded-circle bg-success w-150px h-150px top-100px end-10 animate-bounce" style="animation-delay: 1s;"></div>
                                     <div class="position-absolute rounded-circle bg-warning w-200px h-200px bottom-100px start-20 animate-bounce" style="animation-delay: 1.5s;"></div>

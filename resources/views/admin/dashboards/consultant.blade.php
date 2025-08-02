@@ -27,7 +27,7 @@
                 <div class="row g-5 g-xl-8 mb-5 mb-xl-10">
                     <!-- Total Students Card -->
                     <div class="col-xl-4">
-                        <div class="card card-flush h-xl-100 bg-primary bg-opacity-10 card-hover border-primary border-opacity-25 border border-dashed">
+                        <div class="card card-flush h-xl-100 bg-body card-hover border-primary border-opacity-25 border border-dashed">
                             <div class="card-body d-flex flex-column justify-content-between">
                                 <div class="d-flex flex-center rounded-circle h-70px w-70px mb-5 bg-primary bg-opacity-10">
                                     <i class="fa fa-users text-primary fs-2x lh-0"></i>
@@ -42,7 +42,7 @@
 
                     <!-- Upcoming Sessions Card -->
                     <div class="col-xl-4">
-                        <div class="card card-flush h-xl-100 bg-warning bg-opacity-10 card-hover border-warning border-opacity-25 border border-dashed">
+                        <div class="card card-flush h-xl-100 bg-body card-hover border-warning border-opacity-25 border border-dashed">
                             <div class="card-body d-flex flex-column justify-content-between">
                                 <div class="d-flex flex-center rounded-circle h-70px w-70px mb-5 bg-warning bg-opacity-10">
                                     <i class="fa fa-calendar-alt text-warning fs-2x lh-0"></i>
@@ -57,7 +57,7 @@
 
                     <!-- Completed Sessions Card -->
                     <div class="col-xl-4">
-                        <div class="card card-flush h-xl-100 bg-success bg-opacity-10 card-hover border-success border-opacity-25 border border-dashed">
+                        <div class="card card-flush h-xl-100 bg-body card-hover border-success border-opacity-25 border border-dashed">
                             <div class="card-body d-flex flex-column justify-content-between">
                                 <div class="d-flex flex-center rounded-circle h-70px w-70px mb-5 bg-success bg-opacity-10">
                                     <i class="fa fa-check-circle text-success fs-2x lh-0"></i>
