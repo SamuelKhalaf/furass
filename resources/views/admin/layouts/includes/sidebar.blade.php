@@ -169,8 +169,9 @@
                     <!--end:Menu item-->
                 @endif
 
-                @if(auth()->user()->hasAnyPermission(PermissionEnum::programPermissions()) ||
-                    auth()->user()->hasRole(RoleEnum::SCHOOL->value)
+                @if( auth()->user()->hasAnyPermission(PermissionEnum::programPermissions()) ||
+                     auth()->user()->hasRole(RoleEnum::SCHOOL->value) ||
+                    auth()->user()->hasAnyPermission(PermissionEnum::pathPointPermissions())
                 )
                     <!--begin:Menu item-->
                     <div data-kt-menu-trigger="click"
@@ -179,7 +180,8 @@
                             'admin.programs.index',
                             'admin.programs.enroll',
                             'admin.student.enrollments.index',
-                            'admin.student.enrollments.show'
+                            'admin.student.enrollments.show',
+                            'admin.path_points.index'
                         ])}}">
                         <span class="menu-link">
                             <span class="menu-icon"><i class="fa-solid fa-route"></i></span>
@@ -217,6 +219,21 @@
                                 </div>
                                 <!--end:Menu item-->
                             @endif
+                                @if( auth()->user()->hasAnyPermission(PermissionEnum::pathPointPermissions()) )
+                                    <!--begin:Menu item-->
+                                    <div class="menu-item">
+                                        <!--begin:Menu link-->
+                                        <a class="menu-link {{setActiveClass('admin.path_points.index')}}"
+                                           href="{{route('admin.path_points.index')}}">
+                                        <span class="menu-bullet">
+                                            <span class="bullet bullet-dot"></span>
+                                        </span>
+                                            <span class="menu-title">{{ __('admin.path_points.title') }}</span>
+                                        </a>
+                                        <!--end:Menu link-->
+                                    </div>
+                                    <!--end:Menu item-->
+                                @endif
 
                         </div>
                     </div>

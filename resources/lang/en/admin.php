@@ -14,6 +14,10 @@ return [
         'title' => 'My Profile'
     ],
 
+    'path_points' => [
+        'title' => 'Programs Path Points'
+    ],
+
     'events' => [
         'title' => 'Events'
     ],
