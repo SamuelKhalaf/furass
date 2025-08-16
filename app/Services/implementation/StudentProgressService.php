@@ -10,7 +10,7 @@ class StudentProgressService implements IStudentProgressService
 {
     /**
      * Unlock the next path point in the student's program flow.
-     * Skips grade-locked path points and finds the next available one.
+     * Skips grade-locked path points and find the next available one.
      */
     public function unlockNextPathPoint(int $student_id, int $program_id, int $current_path_point_id): void
     {
@@ -72,7 +72,7 @@ class StudentProgressService implements IStudentProgressService
 
         $completed = StudentPathProgress::where('student_id', $student_id)
             ->where('program_id', $program_id)
-            ->whereIn('status', [3,4])
+            ->whereIn('status', [3])
             ->count();
 
         $percentage = $total > 0 ? round(($completed / $total) * 100) : 0;

@@ -125,18 +125,6 @@
                         @endif
                     @endforeach
                     <!--end:Menu items - Enrollments -->
-
-                    <!--begin:Menu item-->
-                    <div class="menu-item {{setMenuOpenClass(['admin.student.calendar'])}}">
-                        <!--begin:Menu link-->
-                        <a class="menu-link {{setActiveClass('admin.student.calendar')}}"
-                           href="{{route('admin.student.calendar')}}">
-                            <span class="menu-icon"><i class="fa-solid fa-calendar-days"></i></span>
-                            <span class="menu-title">{{ __('admin.events.title') }}</span>
-                        </a>
-                        <!--end:Menu link-->
-                    </div>
-                    <!--end:Menu item-->
                 @endif
                 <!--end:Student Links -->
 

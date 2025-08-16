@@ -13,6 +13,7 @@
     @endif
 
     <link rel="stylesheet" href="{{asset('assets/css/template.css')}}">
+    @stack('css')
 </head>
 <body class="d-flex flex-column min-vh-100">
 <!-- nav bar -->

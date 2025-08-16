@@ -10,16 +10,12 @@
                 <!--end::Modal title-->
                 <!--begin::Close-->
                 <div class="btn btn-icon btn-sm btn-active-icon-primary" data-kt-users-modal-action="close">
-                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
                     <span class="svg-icon svg-icon-1">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
-                                  transform="rotate(-45 6 17.3137)" fill="currentColor"/>
-                            <rect x="7.41422" y="6" width="16" height="2" rx="1" transform="rotate(45 7.41422 6)"
-                                  fill="currentColor"/>
+                            <rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1" transform="rotate(-45 6 17.3137)" fill="currentColor" />
+                            <rect x="7.41422" y="6" width="16" height="2" rx="1" transform="rotate(45 7.41422 6)" fill="currentColor" />
                         </svg>
                     </span>
-                    <!--end::Svg Icon-->
                 </div>
                 <!--end::Close-->
             </div>
@@ -34,147 +30,222 @@
                          data-kt-scroll-max-height="auto" data-kt-scroll-dependencies="#kt_modal_add_user_header"
                          data-kt-scroll-wrappers="#kt_modal_add_user_scroll" data-kt-scroll-offset="300px">
                         @csrf
+                        <!--begin::Row-->
+                        <div class="row g-5 mb-7">
+                            <!--begin::Col-->
+                            <div class="col-md-6">
+                                <!--begin::Input group-->
+                                <div class="fv-row mb-7">
+                                    <label class="required fw-semibold fs-6 mb-2">{{ __('students.modal.student_name') }}</label>
+                                    <input type="text" name="name" class="form-control form-control-solid mb-3 mb-lg-0"
+                                           placeholder="{{ __('students.modal.enter_student_name') }}"/>
+                                </div>
+                                <!--end::Input group-->
+                            </div>
+                            <!--end::Col-->
+
+                            <!--begin::Col-->
+                            <div class="col-md-6">
+                                <!--begin::Input group-->
+                                <div class="fv-row mb-7">
+                                    <label class="required fw-semibold fs-6 mb-2">{{ __('students.modal.email') }}</label>
+                                    <input type="email" name="email" class="form-control form-control-solid mb-3 mb-lg-0"
+                                           placeholder="{{ __('students.modal.enter_email') }}"/>
+                                </div>
+                                <!--end::Input group-->
+                            </div>
+                            <!--end::Col-->
+                        </div>
+                        <!--end::Row-->
+
+                        <!--begin::Row-->
+                        <div class="row g-5 mb-7">
+                            <!--begin::Col-->
+                            <div class="col-md-6">
+                                <!--begin::Input group-->
+                                <div class="fv-row mb-7">
+                                    <label class="required fw-semibold fs-6 mb-2">{{ __('students.modal.phone_number') }}</label>
+                                    <input type="number" name="phone_number"
+                                           class="form-control form-control-solid mb-3 mb-lg-0" placeholder="{{ __('students.modal.enter_phone') }}"/>
+                                </div>
+                                <!--end::Input group-->
+                            </div>
+                            <!--end::Col-->
+
+                            <!--begin::Col-->
+                            <div class="col-md-6">
+                                <!--begin::Input group-->
+                                <div class="fv-row mb-7">
+                                    <label class="required fw-semibold fs-6 mb-2">{{ __('students.modal.student_id_number') }}</label>
+                                    <input type="text" name="student_id_number" class="form-control form-control-solid mb-3 mb-lg-0"
+                                           placeholder="{{ __('students.modal.enter_student_id') }}"/>
+                                </div>
+                                <!--end::Input group-->
+                            </div>
+                            <!--end::Col-->
+                        </div>
+                        <!--end::Row-->
+
+                        <!--begin::Row-->
+                        <div class="row g-5 mb-7">
+                            <!--begin::Col-->
+                            <div class="col-md-6">
+                                <!--begin::Input group-->
+                                <div class="fv-row mb-7">
+                                    <label class="required fw-semibold fs-6 mb-2">{{ __('students.modal.school') }}</label>
+                                    <select name="school_id" class="form-select form-control-solid">
+                                        <option value="">{{ __('students.modal.select_school') }}</option>
+                                        @foreach($schools as $school)
+                                            <option value="{{ $school->id }}">{{ $school->user->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <!--end::Input group-->
+                            </div>
+                            <!--end::Col-->
+
+                            <!--begin::Col-->
+                            <div class="col-md-6">
+                                <!--begin::Input group-->
+                                <div class="fv-row mb-7">
+                                    <label class="required fw-semibold fs-6 mb-2">{{ __('students.modal.grade') }}</label>
+                                    <select name="grade" class="form-select form-control-solid">
+                                        <option value="">{{ __('students.modal.select_grade') }}</option>
+                                        <option value="10">10</option>
+                                        <option value="11">11</option>
+                                        <option value="12">12</option>
+                                    </select>
+                                </div>
+                                <!--end::Input group-->
+                            </div>
+                            <!--end::Col-->
+                        </div>
+                        <!--end::Row-->
+
+                        <!--begin::Row-->
+                        <div class="row g-5 mb-7">
+                            <!--begin::Col-->
+                            <div class="col-md-6">
+                                <!--begin::Input group-->
+                                <div class="fv-row mb-7">
+                                    <label class="required fw-semibold fs-6 mb-2">{{ __('students.modal.birth_date') }}</label>
+                                    <input type="date" name="birth_date" id="student_birth_date" class="form-control form-control-solid mb-3 mb-lg-0"/>
+                                </div>
+                                <!--end::Input group-->
+                            </div>
+                            <!--end::Col-->
+
+                            <!--begin::Col-->
+                            <div class="col-md-6">
+                                <!--begin::Input group-->
+                                <div class="fv-row mb-7">
+                                    <label class="required fw-semibold fs-6 mb-2">{{ __('students.modal.gender') }}</label>
+                                    <select name="gender" class="form-select form-control-solid">
+                                        <option value="">{{ __('students.modal.select_gender') }}</option>
+                                        <option value="male">{{ __('students.modal.male') }}</option>
+                                        <option value="female">{{ __('students.modal.female') }}</option>
+                                    </select>
+                                </div>
+                                <!--end::Input group-->
+                            </div>
+                            <!--end::Col-->
+                        </div>
+                        <!--end::Row-->
+
+                        <!--begin::Row-->
+                        <div class="row g-5 mb-7">
+                            <!--begin::Col-->
+                            <div class="col-md-6">
+                                <!--begin::Input group-->
+                                <div class="fv-row mb-7">
+                                    <label class="required fw-semibold fs-6 mb-2">{{ __('students.modal.password') }}</label>
+                                    <input type="password" name="password"
+                                           class="form-control form-control-solid mb-3 mb-lg-0"/>
+                                </div>
+                                <!--end::Input group-->
+                            </div>
+                            <!--end::Col-->
+
+                            <!--begin::Col-->
+                            <div class="col-md-6">
+                                <!--begin::Input group-->
+                                <div class="fv-row mb-7">
+                                    <label class="required fw-semibold fs-6 mb-2">{{ __('students.modal.confirm_password') }}</label>
+                                    <input type="password" name="password_confirmation"
+                                           class="form-control form-control-solid mb-3 mb-lg-0"/>
+                                </div>
+                                <!--end::Input group-->
+                            </div>
+                            <!--end::Col-->
+                        </div>
+                        <!--end::Row-->
+
                         <!--begin::Input group-->
                         <div class="fv-row mb-7">
-                            <!--begin::Label-->
-                            <label class="required fw-semibold fs-6 mb-2">{{ __('students.modal.student_name') }}</label>
-                            <!--end::Label-->
-                            <!--begin::Input-->
-                            <input type="text" name="name" class="form-control form-control-solid mb-3 mb-lg-0"
-                                   placeholder="{{ __('students.modal.enter_student_name') }}"/>
-                            <!--end::Input-->
+                            <label class="fw-semibold fs-6 mb-2">{{ __('students.modal.avatar') }}</label>
+                            <input type="file" name="avatar" class="form-control form-control-solid mb-3 mb-lg-0"
+                                   accept="image/*"/>
                         </div>
                         <!--end::Input group-->
-                        <!--begin::Input group-->
-                        <div class="fv-row mb-7">
-                            <!--begin::Label-->
-                            <label class="required fw-semibold fs-6 mb-2">{{ __('students.modal.email') }}</label>
-                            <!--end::Label-->
-                            <!--begin::Input-->
-                            <input type="email" name="email" class="form-control form-control-solid mb-3 mb-lg-0"
-                                   placeholder="{{ __('students.modal.enter_email') }}"/>
-                            <!--end::Input-->
-                        </div>
-                        <!--end::Input group-->
-                        <!--begin::Input group-->
-                        <div class="fv-row mb-7">
-                            <!--begin::Label-->
-                            <label class="required fw-semibold fs-6 mb-2">{{ __('students.modal.phone_number') }}</label>
-                            <!--end::Label-->
-                            <!--begin::Input-->
-                            <input type="number" name="phone_number"
-                                   class="form-control form-control-solid mb-3 mb-lg-0" placeholder="{{ __('students.modal.enter_phone') }}"/>
-                            <!--end::Input-->
-                        </div>
-                        <!--end::Input group-->
+
                         <!--begin::Input group-->
                         <div class="fv-row mb-7 fv-plugins-icon-container">
-                            <!--begin::Wrapper-->
                             <div class="d-flex flex-stack">
-                                <!--begin::Label-->
                                 <div class="me-5">
                                     <label class="fs-6 fw-semibold">{{ __('users.modal.is_active') }}</label>
                                     <div class="fs-7 fw-semibold text-muted">{{ __('users.modal.is_active_help') }}</div>
                                 </div>
-                                <!--end::Label-->
-
-                                <!--begin::Switch-->
                                 <label class="form-check form-switch form-check-custom form-check-solid">
                                     <input class="form-check-input" type="checkbox" value="0" name="is_active">
                                     <span class="form-check-label fw-semibold text-muted">
                                         {{ __('users.modal.inactive') }}
                                     </span>
                                 </label>
-                                <!--end::Switch-->
                             </div>
-                            <!--end::Wrapper-->
                         </div>
                         <!--end::Input group-->
+
+                        <!-- Parent Information Section -->
+                        <div class="separator separator-dashed my-5"></div>
+                        <h5 class="mb-5">{{ __('students.modal.parent_information') }}</h5>
+
+                        <!--begin::Row-->
+                        <div class="row g-5 mb-7">
+                            <!--begin::Col-->
+                            <div class="col-md-6">
+                                <!--begin::Input group-->
+                                <div class="fv-row mb-7">
+                                    <label class="fw-semibold fs-6 mb-2">{{ __('students.modal.parent_name') }}</label>
+                                    <input type="text" name="parent_name" class="form-control form-control-solid mb-3 mb-lg-0"
+                                           placeholder="{{ __('students.modal.enter_parent_name') }}"/>
+                                </div>
+                                <!--end::Input group-->
+                            </div>
+                            <!--end::Col-->
+
+                            <!--begin::Col-->
+                            <div class="col-md-6">
+                                <!--begin::Input group-->
+                                <div class="fv-row mb-7">
+                                    <label class="fw-semibold fs-6 mb-2">{{ __('students.modal.parent_phone') }}</label>
+                                    <input type="text" name="parent_phone" class="form-control form-control-solid mb-3 mb-lg-0"
+                                           placeholder="{{ __('students.modal.enter_parent_phone') }}"/>
+                                </div>
+                                <!--end::Input group-->
+                            </div>
+                            <!--end::Col-->
+                        </div>
+                        <!--end::Row-->
+
                         <!--begin::Input group-->
                         <div class="fv-row mb-7">
-                            <!--begin::Label-->
-                            <label class="required fw-semibold fs-6 mb-2">{{ __('students.modal.school') }}</label>
-                            <!--end::Label-->
-                            <!--begin::Select-->
-                            <select name="school_id" class="form-select form-control-solid">
-                                <option value="">{{ __('students.modal.select_school') }}</option>
-                                @foreach($schools as $school)
-                                    <option value="{{ $school->id }}">{{ $school->user->name }}</option>
+                            <label class="fw-semibold fs-6 mb-2">{{ __('students.modal.parent_relationship') }}</label>
+                            <select name="parent_relationship" class="form-select form-control-solid">
+                                <option value="">{{ __('students.modal.select_relationship') }}</option>
+                                @foreach(App\Models\Student::relationshipOptions() as $value => $label)
+                                    <option value="{{ $value }}">{{ $label }}</option>
                                 @endforeach
                             </select>
-                            <!--end::Select-->
-                        </div>
-                        <!--end::Input group-->
-                        <!--begin::Input group-->
-                        <div class="fv-row mb-7">
-                            <!--begin::Label-->
-                            <label class="required fw-semibold fs-6 mb-2">{{ __('students.modal.grade') }}</label>
-                            <!--end::Label-->
-                            <!--begin::Select-->
-                            <select name="grade" class="form-select form-control-solid">
-                                <option value="">{{ __('students.modal.select_grade') }}</option>
-                                <option value="10">10</option>
-                                <option value="11">11</option>
-                                <option value="12">12</option>
-                            </select>
-                            <!--end::Select-->
-                        </div>
-                        <!--end::Input group-->
-                        <!--begin::Input group-->
-                        <div class="fv-row mb-7">
-                            <!--begin::Label-->
-                            <label class="required fw-semibold fs-6 mb-2">{{ __('students.modal.birth_date') }}</label>
-                            <!--end::Label-->
-                            <!--begin::Input-->
-                            <input type="date" name="birth_date" id="student_birth_date" class="form-control form-control-solid mb-3 mb-lg-0"/>
-                            <!--end::Input-->
-                        </div>
-                        <!--end::Input group-->
-                        <!--begin::Input group-->
-                        <div class="fv-row mb-7">
-                            <!--begin::Label-->
-                            <label class="required fw-semibold fs-6 mb-2">{{ __('students.modal.gender') }}</label>
-                            <!--end::Label-->
-                            <!--begin::Select-->
-                            <select name="gender" class="form-select form-control-solid">
-                                <option value="">{{ __('students.modal.select_gender') }}</option>
-                                <option value="male">{{ __('students.modal.male') }}</option>
-                                <option value="female">{{ __('students.modal.female') }}</option>
-                            </select>
-                            <!--end::Select-->
-                        </div>
-                        <!--end::Input group-->
-                        <!--begin::Input group-->
-                        <div class="fv-row mb-7">
-                            <!--begin::Label-->
-                            <label class="fw-semibold fs-6 mb-2">{{ __('students.modal.avatar') }}</label>
-                            <!--end::Label-->
-                            <!--begin::Input-->
-                            <input type="file" name="avatar" class="form-control form-control-solid mb-3 mb-lg-0"
-                                   accept="image/*"/>
-                            <!--end::Input-->
-                        </div>
-                        <!--end::Input group-->
-                        <!--begin::Input group-->
-                        <div class="fv-row mb-7">
-                            <!--begin::Label-->
-                            <label class="required fw-semibold fs-6 mb-2">{{ __('students.modal.password') }}</label>
-                            <!--end::Label-->
-                            <!--begin::Input-->
-                            <input type="password" name="password"
-                                   class="form-control form-control-solid mb-3 mb-lg-0"/>
-                            <!--end::Input-->
-                        </div>
-                        <!--end::Input group-->
-                        <!--begin::Input group-->
-                        <div class="fv-row mb-7">
-                            <!--begin::Label-->
-                            <label class="required fw-semibold fs-6 mb-2">{{ __('students.modal.confirm_password') }}</label>
-                            <!--end::Label-->
-                            <!--begin::Input-->
-                            <input type="password" name="password_confirmation"
-                                   class="form-control form-control-solid mb-3 mb-lg-0"/>
-                            <!--end::Input-->
                         </div>
                         <!--end::Input group-->
                     </div>
@@ -200,19 +271,3 @@
     </div>
     <!--end::Modal dialog-->
 </div>
-@push('scripts')
-    <script>
-        // this part for change the user active text muted word
-        $(document).ready(function () {
-            $('input[name="is_active"]').on('change', function () {
-                if ($(this).is(':checked')) {
-                    $(this).val(1);
-                    $(this).closest('.form-check').find('.form-check-label').text('{{ __('users.modal.active') }}');
-                } else {
-                    $(this).val(0);
-                    $(this).closest('.form-check').find('.form-check-label').text('{{ __('users.modal.inactive') }}');
-                }
-            });
-        });
-    </script>
-@endpush

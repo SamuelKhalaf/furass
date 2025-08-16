@@ -227,12 +227,121 @@
 
 @section('scripts')
     <script>
-        // Initialize DataTable
+        // Initialize DataTable with export buttons
         $('#kt_students_table').DataTable({
+            dom: '<"top-row d-flex justify-content-between"lB>rt<"bottom-row d-flex justify-content-between"ip>',
             responsive: true,
-            {{--language: {--}}
-            {{--    url: "{{ app()->getLocale() == 'ar' ? '//cdn.datatables.net/plug-ins/1.10.25/i18n/Arabic.json' : '' }}"--}}
-            {{--}--}}
+            lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, 'All']],
+            buttons: [
+                {
+                    extend: 'csv',
+                    text: '<i class="fa-solid fa-file-csv"></i> CSV',
+                    className: 'btn btn-light-info btn-sm me-2',
+                    exportOptions: {
+                        columns: ':visible:not(:last-child)', // Exclude actions column
+                        format: {
+                            body: function (data, row, column, node) {
+                                // Clean HTML from data
+                                return data
+                                    .replace(/<[^>]*>/g, '')
+                                    .replace(/\s+/g, ' ')
+                                    .trim();
+                            }
+                        }
+                    },
+                    filename: 'students-needing-consultation-report'
+                },
+                {
+                    extend: 'excel',
+                    text: '<i class="fa-solid fa-file-excel"></i> Excel',
+                    className: 'btn btn-light-success btn-sm me-2',
+                    exportOptions: {
+                        columns: ':visible:not(:last-child)', // Exclude actions column
+                        format: {
+                            body: function (data, row, column, node) {
+                                return data
+                                    .replace(/<[^>]*>/g, '')
+                                    .replace(/\s+/g, ' ')
+                                    .trim();
+                            }
+                        }
+                    },
+                    filename: 'students-needing-consultation-report'
+                },
+                {
+                    extend: 'pdf',
+                    text: '<i class="fa-solid fa-file-pdf"></i> PDF',
+                    className: 'btn btn-light-primary btn-sm',
+                    orientation: 'landscape',
+                    pageSize: 'A4',
+                    exportOptions: {
+                        columns: ':visible:not(:last-child)', // Exclude actions column
+                        format: {
+                            body: function (data, row, column, node) {
+                                return data
+                                    .replace(/<[^>]*>/g, '')
+                                    .replace(/\s+/g, ' ')
+                                    .trim();
+                            }
+                        }
+                    },
+                    filename: 'students-needing-consultation-report',
+                    customize: function(doc) {
+                        doc.pageMargins = [20, 60, 20, 60];
+                        doc.defaultStyle.fontSize = 10;
+                        doc.styles.tableHeader.fontSize = 12;
+
+                        // Set column widths
+                        doc.content[1].table.widths = ['*', '15%', '15%', '15%', '15%'];
+
+                        // Style the table
+                        doc.styles.tableHeader = {
+                            fillColor: '#f8f9fa',
+                            color: '#212529',
+                            bold: true,
+                            alignment: 'center'
+                        };
+
+                        // Add title
+                        doc.content.splice(0, 0, {
+                            text: 'Students Needing Consultation Report',
+                            fontSize: 14,
+                            bold: true,
+                            alignment: 'center',
+                            margin: [0, 0, 0, 20]
+                        });
+
+                        // Add footer
+                        var now = new Date();
+                        var formattedDate = now.toLocaleDateString() + ' ' + now.toLocaleTimeString();
+
+                        doc.footer = function(currentPage, pageCount) {
+                            return {
+                                columns: [
+                                    {
+                                        text: 'Generated on: ' + formattedDate,
+                                        alignment: 'left',
+                                        fontSize: 8,
+                                        margin: [20, 0]
+                                    },
+                                    {
+                                        text: 'Page ' + currentPage.toString() + ' of ' + pageCount,
+                                        alignment: 'right',
+                                        fontSize: 8,
+                                        margin: [0, 0, 20, 0]
+                                    }
+                                ]
+                            };
+                        };
+                    }
+                }
+            ],
+            initComplete: function() {
+                // Move buttons to the card header
+                this.api().buttons().container()
+                    .addClass('d-inline-block ms-3')
+                    .appendTo($('.dataTables_length').parent());
+            }
         });
 
         // Search functionality

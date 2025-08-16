@@ -546,7 +546,7 @@ class StudentEventsController extends Controller
         $request->validate([
             'volunteer_hours' => 'required|array',
             'volunteer_hours.*.student_id' => 'required|exists:students,id',
-            'volunteer_hours.*.student_id_number' => 'required|string|max:50',
+//            'volunteer_hours.*.student_id_number' => 'required|string|max:50',
             'volunteer_hours.*.hours' => 'required|numeric|min:0.1|max:100',
             'volunteer_hours.*.volunteer_date' => 'required|date',
             'volunteer_hours.*.description' => 'nullable|string|max:500'
@@ -583,7 +583,7 @@ class StudentEventsController extends Controller
                 if ($existingRecord) {
                     // Update existing record
                     $existingRecord->update([
-                        'student_id_number' => $volunteerData['student_id_number'],
+//                        'student_id_number' => $volunteerData['student_id_number'],
                         'hours' => $volunteerData['hours'],
                         'volunteer_date' => $volunteerData['volunteer_date'],
                         'description' => $volunteerData['description'] ?? null,
@@ -593,7 +593,7 @@ class StudentEventsController extends Controller
                     // Create new record
                     VolunteerHour::create([
                         'student_id' => $volunteerData['student_id'],
-                        'student_id_number' => $volunteerData['student_id_number'],
+//                        'student_id_number' => $volunteerData['student_id_number'],
                         'event_id' => $event->id,
                         'program_id' => $program->id,
                         'hours' => $volunteerData['hours'],

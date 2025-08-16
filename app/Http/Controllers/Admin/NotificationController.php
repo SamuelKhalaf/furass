@@ -24,7 +24,6 @@ class NotificationController extends Controller
 
     public function store(Request $request)
     {
-//        dd($request->all());
         // Validate the request
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|max:255',
@@ -69,35 +68,25 @@ class NotificationController extends Controller
                     $path = $file->storeAs('notifications/attachments', $filename, 'public');
 
                     $attachmentPaths[] = [
-//                        'original_name' => $originalName,
                         'path' => $path,
                         'url' => Storage::url($path),
-//                        'size' => $file->getSize(),
-//                        'mime_type' => $file->getMimeType()
                     ];
                 }
             }
 
-            // Prepare meta data
             $meta = [
                 'link' => $request->input('link'),
                 'attachments' => $attachmentPaths,
                 'sent_by' => auth()->id(),
                 'sent_at' => now()->toISOString(),
-//                'recipient_summary' => [
-//                    'groups' => $recipientGroups,
-//                    'specific_users_count' => count($specificUsers)
-//                ]
             ];
 
-            // Create the notification
             $notification = Notification::create([
                 'title' => $request->input('title'),
                 'body' => $request->input('body'),
                 'meta' => $meta
             ]);
 
-            // Collect all target users
             $allTargetUsers = collect();
 
             // Handle recipient groups
@@ -107,7 +96,6 @@ class NotificationController extends Controller
 
                     switch ($group) {
                         case 'admins':
-                            // Assuming you have a role system or user_type column
                             $groupUsers = User::where('role', RoleEnum::ADMIN)
                                 ->get();
                             break;

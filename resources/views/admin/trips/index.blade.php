@@ -151,14 +151,14 @@
                             <thead>
                             <!--begin::Table row-->
                             <tr class="text-gray-400 fw-bold fs-7 text-uppercase gs-0 text-center">
-                                <th class="min-w-125px">{{ __('trips.name') }}</th>
-                                <th class="min-w-125px">{{ __('trips.company_name') }}</th>
-                                <th class="min-w-100px">{{ __('trips.location') }}</th>
-                                <th class="min-w-150px">{{ __('trips.start_date') }}</th>
-                                <th class="min-w-150px">{{ __('trips.end_date') }}</th>
-                                <th class="min-w-50px">{{ __('trips.media') }}</th>
-                                <th class="min-w-50px">{{ __('trips.documents') }}</th>
-                                <th class="min-w-100px">{{ __('trips.actions') }}</th>
+                                <th class="w-125px">{{ __('trips.name') }}</th>
+                                <th class="w-125px">{{ __('trips.company_name') }}</th>
+                                <th class="w-100px">{{ __('trips.location') }}</th>
+                                <th class="w-150px">{{ __('trips.start_date') }}</th>
+                                <th class="w-150px">{{ __('trips.end_date') }}</th>
+                                <th class="w-50px">{{ __('trips.media') }}</th>
+                                <th class="w-50px">{{ __('trips.documents') }}</th>
+                                <th class="w-100px">{{ __('trips.actions') }}</th>
                             </tr>
                             <!--end::Table row-->
                             </thead>
@@ -267,6 +267,8 @@
 
                     // Init datatable --- more info on datatables: https://datatables.net/manual/
                     datatable = $(table).DataTable({
+                        dom: '<"top-row d-flex justify-content-between"lB>rt<"bottom-row d-flex justify-content-between"ip>',
+                        lengthMenu: [[10, 50, 100, 500, -1], [10, 50, 100, 500, 'All Records']],
                         processing: true,
                         serverSide: true,
                         ajax: "/trips/all",
@@ -326,15 +328,156 @@
                                 searchable: false,
                                 className: 'text-center'
                             }
+                        ],
+                        buttons: [
+                            {
+                                extend: 'csv',
+                                text: '<i class="fa-solid fa-file-csv"></i> CSV',
+                                className: 'btn btn-light-info btn-sm me-2',
+                                exportOptions: {
+                                    columns: ':visible:not(:nth-last-child(-n+3))', // Exclude actions column
+                                    modifier: {
+                                        search: 'none'
+                                    }
+                                }
+                            },
+                            {
+                                extend: 'excel',
+                                text: '<i class="fa-solid fa-file-excel"></i> Excel',
+                                className: 'btn btn-light-success btn-sm me-2',
+                                exportOptions: {
+                                    columns: ':visible:not(:nth-last-child(-n+3))', // Exclude actions column
+                                    modifier: {
+                                        page: 'all'
+                                    }
+                                }
+                            },
+                            {
+                                extend: 'pdfHtml5',
+                                text: '<i class="fa-solid fa-file-pdf"></i> PDF',
+                                className: 'btn btn-light-primary btn-sm',
+                                filename: 'trips-report',
+                                orientation: 'landscape',
+                                pageSize: 'A4',
+                                exportOptions: {
+                                    columns: ':visible:not(:nth-last-child(-n+3))', // Exclude actions column
+                                    search: 'applied',
+                                    order: 'applied'
+                                },
+                                customize: function(doc) {
+                                    // Page margins and styling
+                                    doc.pageMargins = [25, 70, 25, 70];
+                                    doc.defaultStyle.fontSize = 10;
+                                    doc.styles.tableHeader.fontSize = 12;
+                                    doc.styles.title = {
+                                        color: 'black',
+                                        fontSize: '14',
+                                        alignment: 'center'
+                                    };
+
+                                    // Calculate column widths for landscape orientation
+                                    var totalTableWidth = 842 - 50; // A4 landscape width minus margins
+                                    var columns = [
+                                        { width: 125 }, // Name
+                                        { width: 125 }, // Company
+                                        { width: 100 }, // Location
+                                        { width: 150 }, // Start Date
+                                        { width: 150 }, // End Date
+                                    ];
+
+                                    var tableContent = doc.content[1]?.table;
+                                    if (tableContent) {
+                                        tableContent.widths = columns.map(col => col.width);
+                                    }
+
+                                    // Header styling
+                                    doc.styles.tableHeader = {
+                                        alignment: 'center',
+                                        fillColor: '#dedede',
+                                        color: 'black',
+                                        bold: true
+                                    };
+
+                                    doc.styles.tableBodyEven = {
+                                        alignment: 'center',
+                                        fontSize: 10,
+                                        margin: [0, 5, 0, 5]
+                                    };
+
+                                    doc.styles.tableBodyOdd = {
+                                        alignment: 'center',
+                                        fontSize: 10,
+                                        margin: [0, 5, 0, 5]
+                                    };
+
+                                    // Footer
+                                    doc['footer'] = function(currentPage, pageCount) {
+                                        var now = new Date();
+                                        var formattedDate = ('0' + now.getDate()).slice(-2) + '-' +
+                                            ('0' + (now.getMonth() + 1)).slice(-2) + '-' +
+                                            now.getFullYear() + ' ' +
+                                            ('0' + now.getHours()).slice(-2) + ':' +
+                                            ('0' + now.getMinutes()).slice(-2) + ':' +
+                                            ('0' + now.getSeconds()).slice(-2);
+
+                                        return {
+                                            columns: [
+                                                {
+                                                    width: '*',
+                                                    text: `Generated at: ${formattedDate}`,
+                                                    alignment: 'left',
+                                                    fontSize: 8,
+                                                    margin: [10, 0]
+                                                },
+                                                {
+                                                    width: '*',
+                                                    text: `Page ${currentPage} of ${pageCount}`,
+                                                    alignment: 'right',
+                                                    fontSize: 8,
+                                                    margin: [0, 0, 10, 0]
+                                                }
+                                            ]
+                                        };
+                                    };
+
+                                    // Table layout
+                                    var objLayout = {};
+                                    objLayout['hLineWidth'] = function(i) { return 0.5; };
+                                    objLayout['vLineWidth'] = function(i) { return 0.5; };
+                                    objLayout['hLineColor'] = function(i) { return '#aaa'; };
+                                    objLayout['vLineColor'] = function(i) { return '#aaa'; };
+                                    objLayout['paddingLeft'] = function(i) { return 4; };
+                                    objLayout['paddingRight'] = function(i) { return 4; };
+                                    objLayout['paddingTop'] = function(i) { return 1; };
+                                    objLayout['paddingBottom'] = function(i) { return 1; };
+                                    doc.content[1].layout = objLayout;
+
+                                    // Style header rows
+                                    for (var row = 0; row < doc.content[1].table.headerRows; row++) {
+                                        var header = doc.content[1].table.body[row];
+                                        for (var col = 0; col < header.length; col++) {
+                                            header[col].fillColor = '#dedede';
+                                            header[col].color = 'black';
+                                            header[col].bold = true;
+                                        }
+                                    }
+                                }
+                            }
                         ]
                     });
-
                     // Re-init functions on every table re-draw -- more info: https://datatables.net/reference/event/draw
                     datatable.on('draw', function () {
                         initToggleToolbar();
                         handleDeleteRows();
                         toggleToolbars();
                     });
+                }
+
+                var initExportButtons = function() {
+                    // Append buttons container next to the length menu
+                    datatable.buttons().container()
+                        .addClass('d-inline-block ms-3')
+                        .appendTo($('.dataTables_length').parent());
                 }
 
                 // Search Datatable --- official docs reference: https://datatables.net/reference/api/search()
@@ -522,7 +665,7 @@
                         handleResetForm();
                         handleDeleteRows();
                         handleFilterDatatable();
-
+                        initExportButtons();
                     }
                 }
             }();
