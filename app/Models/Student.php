@@ -10,6 +10,11 @@ class Student extends Model
 {
     use HasFactory;
 
+    const RELATIONSHIP_FATHER = 1;
+    const RELATIONSHIP_MOTHER = 2;
+    const RELATIONSHIP_SIBLING = 3;
+    const RELATIONSHIP_OTHER = 4;
+
     protected $fillable = [
         'user_id',
         'school_id',
@@ -17,8 +22,21 @@ class Student extends Model
         'grade',
         'birth_date',
         'gender',
-        'avatar'
+        'avatar',
+        'parent_name',
+        'parent_phone',
+        'parent_relationship'
     ];
+
+    public static function relationshipOptions()
+    {
+        return [
+            self::RELATIONSHIP_FATHER => __('students.modal.father'),
+            self::RELATIONSHIP_MOTHER => __('students.modal.mother'),
+            self::RELATIONSHIP_SIBLING => __('students.modal.sibling'),
+            self::RELATIONSHIP_OTHER => __('students.modal.other'),
+        ];
+    }
 
     public function user()
     {

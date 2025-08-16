@@ -175,6 +175,19 @@
                                     <h3 class="fw-bold text-dark">{{ __('Students List') }}</h3>
                                 </div>
                                 <!--end::Card title-->
+                                <!--begin::Card toolbar-->
+                                <div class="card-toolbar">
+                                    <div class="d-flex align-items-center position-relative me-4">
+                                        <span class="svg-icon svg-icon-1 position-absolute ms-4">
+                                            <i class="fas fa-search"></i>
+                                        </span>
+                                        <input type="text" class="form-control form-control-solid w-250px ps-12"
+                                               placeholder="{{ __('Search students') }}"
+                                               id="trip-students-search"/>
+                                    </div>
+                                    <!-- Export buttons will be inserted here by DataTables -->
+                                </div>
+                                <!--end::Card toolbar-->
                             </div>
                             <!--end::Card header-->
 
@@ -182,8 +195,7 @@
                             <div class="card-body pt-0">
                                 <!--begin::Table-->
                                 <div class="table-responsive">
-                                    <table class="table table-striped table-row-bordered gy-5 gs-7">
-                                        <thead>
+                                    <table class="table table-striped table-row-bordered gy-5 gs-7" id="trip-students-table">                                        <thead>
                                         <tr class="fw-semibold fs-6 text-gray-800 border-bottom-2 border-gray-200">
                                             <th class="min-w-200px">{{ __('Student Name') }}</th>
                                             <th class="min-w-150px">{{ __('School') }}</th>
@@ -292,3 +304,129 @@
     </div>
     <!--end::Content wrapper-->
 @endsection
+@push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize DataTable with export buttons
+            const table = $('#trip-students-table').DataTable({
+                dom: '<"top-row d-flex justify-content-between"lB>rt<"bottom-row d-flex justify-content-between"ip>',
+                lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, 'All']],
+                buttons: [
+                    {
+                        extend: 'csv',
+                        text: '<i class="fa-solid fa-file-csv"></i> CSV',
+                        className: 'btn btn-light-info btn-sm me-2',
+                        exportOptions: {
+                            columns: ':visible',
+                            format: {
+                                body: function (data, row, column, node) {
+                                    // Clean HTML from data
+                                    return data
+                                        .replace(/<[^>]*>/g, '')
+                                        .replace(/\s+/g, ' ')
+                                        .trim();
+                                }
+                            }
+                        },
+                        filename: 'trip-students-report'
+                    },
+                    {
+                        extend: 'excel',
+                        text: '<i class="fa-solid fa-file-excel"></i> Excel',
+                        className: 'btn btn-light-success btn-sm me-2',
+                        exportOptions: {
+                            columns: ':visible',
+                            format: {
+                                body: function (data, row, column, node) {
+                                    return data
+                                        .replace(/<[^>]*>/g, '')
+                                        .replace(/\s+/g, ' ')
+                                        .trim();
+                                }
+                            }
+                        },
+                        filename: 'trip-students-report'
+                    },
+                    {
+                        extend: 'pdf',
+                        text: '<i class="fa-solid fa-file-pdf"></i> PDF',
+                        className: 'btn btn-light-primary btn-sm',
+                        orientation: 'landscape',
+                        pageSize: 'A4',
+                        exportOptions: {
+                            columns: ':visible',
+                            format: {
+                                body: function (data, row, column, node) {
+                                    return data
+                                        .replace(/<[^>]*>/g, '')
+                                        .replace(/\s+/g, ' ')
+                                        .trim();
+                                }
+                            }
+                        },
+                        filename: 'trip-students-report',
+                        customize: function(doc) {
+                            doc.pageMargins = [20, 60, 20, 60];
+                            doc.defaultStyle.fontSize = 10;
+                            doc.styles.tableHeader.fontSize = 12;
+
+                            // Set column widths
+                            doc.content[1].table.widths = ['*', '20%', '15%', '15%'];
+
+                            // Style the table
+                            doc.styles.tableHeader = {
+                                fillColor: '#f8f9fa',
+                                color: '#212529',
+                                bold: true,
+                                alignment: 'center'
+                            };
+
+                            // Add title
+                            doc.content.splice(0, 0, {
+                                text: 'Trip Students Report - ' + '{{ $event->event_name }}',
+                                fontSize: 14,
+                                bold: true,
+                                alignment: 'center',
+                                margin: [0, 0, 0, 20]
+                            });
+
+                            // Add footer
+                            var now = new Date();
+                            var formattedDate = now.toLocaleDateString() + ' ' + now.toLocaleTimeString();
+
+                            doc.footer = function(currentPage, pageCount) {
+                                return {
+                                    columns: [
+                                        {
+                                            text: 'Generated on: ' + formattedDate,
+                                            alignment: 'left',
+                                            fontSize: 8,
+                                            margin: [20, 0]
+                                        },
+                                        {
+                                            text: 'Page ' + currentPage.toString() + ' of ' + pageCount,
+                                            alignment: 'right',
+                                            fontSize: 8,
+                                            margin: [0, 0, 20, 0]
+                                        }
+                                    ]
+                                };
+                            };
+                        }
+                    }
+                ],
+                initComplete: function() {
+                    // Move buttons to the toolbar
+                    this.api().buttons().container()
+                        .addClass('d-inline-block ms-3')
+                        .appendTo($('.dataTables_length').parent());
+                }
+            });
+
+            // Search functionality
+            $('#trip-students-search').keyup(function() {
+                table.search(this.value).draw();
+            });
+        });
+    </script>
+@endpush

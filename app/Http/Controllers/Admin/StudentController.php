@@ -111,10 +111,22 @@ class StudentController extends Controller
                 }
                 return $actions;
             })
+            ->addColumn('parent_info', function ($student) {
+                if ($student->parent_name) {
+                    $relationship = $student->parent_relationship ?
+                        \App\Models\Student::relationshipOptions()[$student->parent_relationship] : '';
+                    return '<div class="d-flex flex-column">' .
+                        '<span class="fw-bold">' . e($student->parent_name) . '</span>' .
+                        '<small class="text-muted">' . e($student->parent_phone) . '</small>' .
+                        '<small class="text-muted">' . e($relationship) . '</small>' .
+                        '</div>';
+                }
+                return '<span class="text-muted">-</span>';
+            })
             ->addColumn('created_at' , function ($row) {
                 return $row->created_at->format('Y-m-d');
             })
-            ->rawColumns(['actions', 'avatar_name'])
+            ->rawColumns(['actions', 'avatar_name', 'parent_info'])
             ->make(true);
     }
 
@@ -135,6 +147,9 @@ class StudentController extends Controller
             'gender' => 'required|in:male,female',
             'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'is_active' => 'nullable|boolean',
+            'parent_name' => 'nullable|string|max:255',
+            'parent_phone' => 'nullable|string|max:20',
+            'parent_relationship' => 'nullable|integer|in:1,2,3,4',
         ]);
 
         if ($request->has('is_active')) {
@@ -171,7 +186,10 @@ class StudentController extends Controller
                 'grade' => $request->grade,
                 'birth_date' => $request->birth_date,
                 'gender' => $request->gender,
-                'avatar' => $avatarPath
+                'avatar' => $avatarPath,
+                'parent_name' => $request->parent_name,
+                'parent_phone' => $request->parent_phone,
+                'parent_relationship' => $request->parent_relationship,
             ]);
 
             DB::commit();
@@ -211,6 +229,9 @@ class StudentController extends Controller
             'gender' => 'required|in:male,female',
             'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'is_active' => 'nullable|boolean',
+            'parent_name' => 'nullable|string|max:255',
+            'parent_phone' => 'nullable|string|max:20',
+            'parent_relationship' => 'nullable|integer|in:1,2,3,4',
         ]);
 
         if ($request->has('is_active')) {
@@ -247,7 +268,10 @@ class StudentController extends Controller
                 'student_id_number' => $request->student_id_number,
                 'grade' => $request->grade,
                 'birth_date' => $request->birth_date,
-                'gender' => $request->gender
+                'gender' => $request->gender,
+                'parent_name' => $request->parent_name,
+                'parent_phone' => $request->parent_phone,
+                'parent_relationship' => $request->parent_relationship,
             ]);
 
             // Call refreshPathPointsForGradeChange if grade changed

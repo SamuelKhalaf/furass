@@ -72,31 +72,34 @@
                     <!--end::Card header-->
                     <!--begin::Card body-->
                     <div class="card-body py-4">
-                        <!--begin::Table-->
-                        <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_table_users">
-                            <!--begin::Table head-->
-                            <thead>
-                            <!--begin::Table row-->
-                            <tr class="text-gray-400 fw-bold fs-7 text-uppercase gs-0 text-center">
-                                <th class="min-w-125px">{{ __('students.name') }}</th>
-                                <th class="min-w-125px">{{ __('students.school') }}</th>
-                                <th class="min-w-125px">{{ __('students.modal.student_id_number') }}</th>
-                                <th class="min-w-125px">{{ __('students.grade') }}</th>
-                                <th class="min-w-125px">{{ __('students.birth_date') }}</th>
-                                <th class="min-w-125px">{{ __('students.gender') }}</th>
-                                <th class="min-w-100px">{{ __('students.actions') }}</th>
-                            </tr>
-                            <!--end::Table row-->
-                            </thead>
-                            <!--end::Table head-->
-                            <!--begin::Table body-->
-                            <tbody class="text-gray-600 fw-semibold">
-                            <!--begin::Table row-->
-                            <!--end::Table row-->
-                            </tbody>
-                            <!--end::Table body-->
-                        </table>
-                        <!--end::Table-->
+                        <div class="table-responsive">
+                            <!--begin::Table-->
+                            <table class="table w-100 align-middle table-row-dashed fs-6 gy-5" id="kt_table_users">
+                                <!--begin::Table head-->
+                                <thead>
+                                <!--begin::Table row-->
+                                <tr class="text-gray-400 fw-bold fs-7 text-uppercase gs-0 text-center">
+                                    <th class="w-125px">{{ __('students.name') }}</th>
+                                    <th class="w-125px">{{ __('students.school') }}</th>
+                                    <th class="w-125px">{{ __('students.modal.student_id_number') }}</th>
+                                    <th class="w-125px">{{ __('students.grade') }}</th>
+                                    <th class="w-125px">{{ __('students.birth_date') }}</th>
+                                    <th class="w-125px">{{ __('students.gender') }}</th>
+                                    <th class="w-125px">{{ __('students.parent_info') }}</th>
+                                    <th class="w-100px">{{ __('students.actions') }}</th>
+                                </tr>
+                                <!--end::Table row-->
+                                </thead>
+                                <!--end::Table head-->
+                                <!--begin::Table body-->
+                                <tbody class="text-gray-600 fw-semibold">
+                                <!--begin::Table row-->
+                                <!--end::Table row-->
+                                </tbody>
+                                <!--end::Table body-->
+                            </table>
+                            <!--end::Table-->
+                        </div>
                     </div>
                     <!--end::Card body-->
                 </div>
@@ -132,6 +135,8 @@
                 var toolbarBase;
                 var toolbarSelected;
                 var selectedCount;
+                var print_var = 0;
+                let originalLength = 10;
 
                 // Private functions
                 var initUserTable = function () {
@@ -179,6 +184,27 @@
 
                     // Init datatable --- more info on datatables: https://datatables.net/manual/
                     datatable = $(table).DataTable({
+                        drawCallback: function (settings) {
+                            if (!print_var) return;
+
+                            let title = 'Students List Report';
+                            $(document).prop('title', title);
+
+                            if (print_var === 1) {
+                                $('.btn-export-pdf').click();
+                            } else if (print_var === 2) {
+                                $('.btn-export-csv').click();
+                            } else if (print_var === 3) {
+                                $('.btn-export-excel').click();
+                            }
+
+                            setTimeout(() => {
+                                datatable.page.len(originalLength).draw();
+                                print_var = 0;
+                            }, 500);
+                        },
+                        dom: '<"top-row d-flex justify-content-between"lB>rt<"bottom-row d-flex justify-content-between"ip>',
+                        lengthMenu: [[10, 50, 100, 500, -1], [10, 50, 100, 500, 'All Records']],
                         processing: true,
                         serverSide: true,
                         ajax: "/students/all",
@@ -194,42 +220,227 @@
                                 name: 'school.name',
                                 orderable: false,
                                 searchable: false,
-                                className: 'text-center'
+                                className: 'text-center',
                             },
                             {
                                 data: 'student_id_number',
                                 name: 'student_id_number',
                                 orderable: false,
                                 searchable: false,
-                                className: 'text-center'
+                                className: 'text-center',
                             },
                             {
                                 data: 'grade',
                                 name: 'grade',
                                 orderable: false,
                                 searchable: false,
-                                className: 'text-center'
+                                className: 'text-center',
                             },
                             {
                                 data: 'birth_date',
                                 name: 'birth_date',
                                 orderable: false,
                                 searchable: false,
-                                className: 'text-center'
+                                className: 'text-center',
                             },
                             {
                                 data: 'gender',
                                 name: 'gender',
                                 orderable: false,
                                 searchable: false,
-                                className: 'text-center'
+                                className: 'text-center',
+                            },
+                            {
+                                data: 'parent_info',
+                                name: 'parent_info',
+                                orderable: false,
+                                searchable: false,
+                                className: 'text-center',
                             },
                             {
                                 data: 'actions',
                                 name: 'actions',
                                 orderable: false,
                                 searchable: false,
-                                className: 'text-center'
+                            }
+                        ],
+                        buttons: [
+                            {
+                                extend: 'csv',
+                                text: '<i class="fa-solid fa-file-csv"></i> CSV',
+                                className: 'btn btn-light-info btn-sm me-2',
+                                exportOptions: {
+                                    columns: ':visible:not(:last-child)', // Exclude actions column
+                                    modifier: {
+                                        search: 'none'
+                                    }
+                                }
+                            },
+                            {
+                                extend: 'excel',
+                                text: '<i class="fa-solid fa-file-excel"></i> Excel',
+                                className: 'btn btn-light-success btn-sm me-2',
+                                exportOptions: {
+                                    columns: ':visible:not(:last-child)', // Exclude actions column
+                                    modifier: {
+                                        page: 'all'
+                                    }
+                                }
+                            },
+                            {
+                                extend: 'pdfHtml5',
+                                text: '<i class="fa-solid fa-file-pdf"></i> PDF',
+                                className: 'btn btn-light-primary btn-sm',
+                                filename: 'students-report',
+                                orientation: 'landscape',
+                                pageSize: 'A4',
+                                exportOptions: {
+                                    columns: ':visible:not(:last-child)', // Exclude actions column
+                                    search: 'applied',
+                                    order: 'applied',
+                                    format: {
+                                        body: function (data, row, column, node) {
+                                            // Clean HTML from name column (remove avatar image)
+                                            if (column === 0) {
+                                                var cleanText = $(data).text() || data;
+                                                return cleanText.trim().replace(/\s+/g, ' ');
+                                            }
+                                            if (column === 6) {
+                                                return $(data).text() || data;
+                                            }
+                                            return data;
+                                        }
+                                    }
+                                },
+                                customize: function(doc) {
+                                    try {
+                                        var footer = null;
+                                        var logo = null;
+
+                                        // Page margins and styling
+                                        doc.pageMargins = [25, 70, 25, 70];
+                                        doc.defaultStyle.fontSize = 10;
+                                        doc.styles.tableHeader.fontSize = 12;
+                                        doc.styles.title = {
+                                            color: 'black',
+                                            fontSize: '14',
+                                            alignment: 'center'
+                                        };
+
+                                        // Calculate column widths for landscape orientation
+                                        var totalTableWidth = 842 - 50; // A4 landscape width minus margins
+                                        var columns = [
+                                            { width: 120 }, // Name
+                                            { width: 120 }, // School
+                                            { width: 100 }, // Student ID
+                                            { width: 80 },  // Grade
+                                            { width: 100 }, // Birth Date
+                                            { width: 80 },   // Gender
+                                            { width: 120 },   // Parent Info
+                                        ];
+
+                                        var tableContent = doc.content[1]?.table;
+                                        if (tableContent) {
+                                            tableContent.widths = columns.map(col => col.width);
+                                        }
+
+                                        // Header styling
+                                        doc.styles.tableHeader = {
+                                            alignment: 'center',
+                                            fillColor: '#dedede',
+                                            color: 'black',
+                                            bold: true
+                                        };
+
+                                        doc.styles.tableBodyEven = {
+                                            alignment: 'center',
+                                            fontSize: 10,
+                                            margin: [0, 5, 0, 5]
+                                        };
+
+                                        doc.styles.tableBodyOdd = {
+                                            alignment: 'center',
+                                            fontSize: 10,
+                                            margin: [0, 5, 0, 5]
+                                        };
+
+                                        // Header with logo
+                                        // doc['header'] = function(currentPage, pageCount) {
+                                        //     return {
+                                        //         columns: [
+                                        //             { width: '*', text: '' },
+                                        //             {
+                                        //                 image: logo,
+                                        //                 width: 80,
+                                        //                 alignment: 'center',
+                                        //                 margin: [0, 5]
+                                        //             },
+                                        //             { width: '*', text: '' }
+                                        //         ]
+                                        //     };
+                                        // };
+
+                                        // Footer
+                                        doc['footer'] = function(currentPage, pageCount) {
+                                            var now = new Date();
+                                            var formattedDate = ('0' + now.getDate()).slice(-2) + '-'
+                                                + ('0' + (now.getMonth() + 1)).slice(-2) + '-'
+                                                + now.getFullYear() + ' '
+                                                + ('0' + now.getHours()).slice(-2) + ':'
+                                                + ('0' + now.getMinutes()).slice(-2) + ':'
+                                                + ('0' + now.getSeconds()).slice(-2);
+
+                                            return {
+                                                columns: [
+                                                    {
+                                                        width: '*',
+                                                        text: `Generated at: ${formattedDate}`,
+                                                        alignment: 'left',
+                                                        fontSize: 8,
+                                                        margin: [10, 0]
+                                                    },
+                                                    // {
+                                                    //     image: footer,
+                                                    //     width: 250,
+                                                    //     alignment: 'center',
+                                                    //     margin: [0, 5]
+                                                    // },
+                                                    {
+                                                        width: '*',
+                                                        text: `Page ${currentPage} of ${pageCount}`,
+                                                        alignment: 'right',
+                                                        fontSize: 8,
+                                                        margin: [0, 0, 10, 0]
+                                                    }
+                                                ]
+                                            };
+                                        };
+
+                                        // Table layout
+                                        var objLayout = {};
+                                        objLayout['hLineWidth'] = function(i) { return 0.5; };
+                                        objLayout['vLineWidth'] = function(i) { return 0.5; };
+                                        objLayout['hLineColor'] = function(i) { return '#aaa'; };
+                                        objLayout['vLineColor'] = function(i) { return '#aaa'; };
+                                        objLayout['paddingLeft'] = function(i) { return 4; };
+                                        objLayout['paddingRight'] = function(i) { return 4; };
+                                        objLayout['paddingTop'] = function(i) { return 1; };
+                                        objLayout['paddingBottom'] = function(i) { return 1; };
+                                        doc.content[1].layout = objLayout;
+
+                                        // Style header rows
+                                        for (var row = 0; row < doc.content[1].table.headerRows; row++) {
+                                            var header = doc.content[1].table.body[row];
+                                            for (var col = 0; col < header.length; col++) {
+                                                header[col].fillColor = '#dedede';
+                                                header[col].color = 'black';
+                                                header[col].bold = true;
+                                            }
+                                        }
+                                    }catch (e) {
+                                        console.error(e);
+                                    }
+                                }
                             }
                         ]
                     });
@@ -240,6 +451,13 @@
                         handleDeleteRows();
                         toggleToolbars();
                     });
+                }
+
+                var initExportButtons = function() {
+                    // Append buttons container next to the length menu
+                    datatable.buttons().container()
+                        .addClass('d-inline-block ms-3')
+                        .appendTo($('.dataTables_length').parent());
                 }
 
                 // Search Datatable --- official docs reference: https://datatables.net/reference/api/search()
@@ -427,7 +645,7 @@
                         handleResetForm();
                         handleDeleteRows();
                         handleFilterDatatable();
-
+                        initExportButtons();
                     }
                 }
             }();
@@ -727,6 +945,8 @@
                     form.querySelector('[name="phone_number"]').value = response.user.phone_number || "";
                     form.querySelector('[name="birth_date"]').value = response.birth_date || "";
                     form.querySelector('[name="student_id_number"]').value = response.student_id_number || "";
+                    form.querySelector('[name="parent_name"]').value = response.parent_name || "";
+                    form.querySelector('[name="parent_phone"]').value = response.parent_phone || "";
                     $("#kt_modal_update_user_form").attr("data-user-id", response.id);
 
                     // Set the selected school and grade in the edit modal
@@ -741,6 +961,10 @@
                     let genderSelect = form.querySelector('[name="gender"]');
                     if (genderSelect && response.gender) {
                         genderSelect.value = response.gender;
+                    }
+                    let relationshipSelect = form.querySelector('[name="parent_relationship"]');
+                    if (relationshipSelect && response.parent_relationship !== null) {
+                        relationshipSelect.value = response.parent_relationship;
                     }
 
                     // check the user is active or not

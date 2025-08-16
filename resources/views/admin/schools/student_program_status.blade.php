@@ -56,11 +56,11 @@
                                             <div class="d-flex align-items-center">
                                                 <div class="symbol symbol-45px me-5">
                                                     @if($student->avatar)
-                                                        <img src="{{ asset($student->avatar) }}" alt="{{ $student->user->name }}"/>
+                                                        <img src="{{ asset('storage/' . $student->avatar) }}" alt="{{ $student->user->name }}"/>
                                                     @else
                                                         <span class="symbol-label bg-light-primary">
-                                                    <i class="fas fa-user text-primary fs-4"></i>
-                                                </span>
+                                                            <i class="fas fa-user text-primary fs-4"></i>
+                                                        </span>
                                                     @endif
                                                 </div>
                                                 <div class="d-flex justify-content-start flex-column">
@@ -95,8 +95,8 @@
                                                          style="width: {{ $enrollment->progress }}%"></div>
                                                 </div>
                                                 <span class="text-gray-800 fw-bold fs-7 mt-1 d-block">
-                                                {{ $enrollment->progress }}%
-                                            </span>
+                                                    {{ $enrollment->progress }}%
+                                                </span>
                                                 @if(!$loop->last)<br>@endif
                                             @empty
                                                 <span class="text-muted fs-7">0%</span>
@@ -115,7 +115,6 @@
                             </table>
                         </div>
 
-                        {{ $students->links('pagination::bootstrap-5') }}
                     </div>
                 </div>
             </div>
@@ -126,25 +125,113 @@
 @push('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Initialize student search functionality
-            const searchInput = document.getElementById('students-search');
-            const studentsTable = document.getElementById('students-table');
+            // Initialize DataTable with export buttons
+            const table = $('#students-table').DataTable({
+                dom: '<"top-row d-flex align-items-center justify-content-between"lB>rt<"bottom-row d-flex justify-content-between"ip>',
+                lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, 'All']],
+                order: [[5, 'asc']],
+                buttons: [
+                    {
+                        extend: 'csv',
+                        text: '<i class="fa-solid fa-file-csv"></i> CSV',
+                        className: 'btn btn-light-info btn-sm me-2',
+                        exportOptions: {
+                            columns: ':visible',
+                            format: {
+                                body: function (data, row, column, node) {
+                                    return data
+                                        .replace(/<[^>]*>/g, '')
+                                        .replace(/\s+/g, ' ')
+                                        .replace(/^\s+|\s+$/g, '');
+                                }
+                            }
+                        }
+                    },
+                    {
+                        extend: 'excel',
+                        text: '<i class="fa-solid fa-file-excel"></i> Excel',
+                        className: 'btn btn-light-success btn-sm me-2',
+                        exportOptions: {
+                            columns: ':visible',
+                            format: {
+                                body: function (data, row, column, node) {
+                                    return data
+                                        .replace(/<[^>]*>/g, '')
+                                        .replace(/\s+/g, ' ')
+                                        .replace(/^\s+|\s+$/g, '');
+                                }
+                            }
+                        }
+                    },
+                    {
+                        extend: 'pdf',
+                        text: '<i class="fa-solid fa-file-pdf"></i> PDF',
+                        className: 'btn btn-light-primary btn-sm',
+                        orientation: 'landscape',
+                        pageSize: 'A4',
+                        exportOptions: {
+                            columns: ':visible',
+                            format: {
+                                body: function (data, row, column, node) {
+                                    return data
+                                        .replace(/<[^>]*>/g, '')
+                                        .replace(/\s+/g, ' ')
+                                        .replace(/^\s+|\s+$/g, '');
+                                }
+                            }
+                        },
+                        customize: function(doc) {
+                            doc.pageMargins = [20, 60, 20, 60];
+                            doc.defaultStyle.fontSize = 10;
+                            doc.styles.tableHeader.fontSize = 12;
 
-            searchInput.addEventListener('keyup', function() {
-                const filter = this.value.toLowerCase();
-                const rows = studentsTable.getElementsByTagName('tr');
+                            // Set column widths
+                            doc.content[1].table.widths = ['*', '15%', '20%', '15%', '15%', '15%'];
 
-                for (let i = 1; i < rows.length; i++) {
-                    const nameColumn = rows[i].getElementsByTagName('td')[0];
-                    if (nameColumn) {
-                        const txtValue = nameColumn.textContent || nameColumn.innerText;
-                        if (txtValue.toLowerCase().indexOf(filter) > -1) {
-                            rows[i].style.display = "";
-                        } else {
-                            rows[i].style.display = "none";
+                            // Style the table
+                            doc.styles.tableHeader = {
+                                fillColor: '#f8f9fa',
+                                color: '#212529',
+                                bold: true,
+                                alignment: 'center'
+                            };
+
+                            // Add footer
+                            var now = new Date();
+                            var formattedDate = now.toLocaleDateString() + ' ' + now.toLocaleTimeString();
+
+                            doc.footer = function(currentPage, pageCount) {
+                                return {
+                                    columns: [
+                                        {
+                                            text: 'Generated on: ' + formattedDate,
+                                            alignment: 'left',
+                                            fontSize: 8,
+                                            margin: [20, 0]
+                                        },
+                                        {
+                                            text: 'Page ' + currentPage.toString() + ' of ' + pageCount,
+                                            alignment: 'right',
+                                            fontSize: 8,
+                                            margin: [0, 0, 20, 0]
+                                        }
+                                    ]
+                                };
+                            };
                         }
                     }
+                ],
+                initComplete: function() {
+                    // Move buttons to the toolbar
+                    this.api().buttons().container()
+                        .addClass('d-inline-block ms-3')
+                        .appendTo($('.dataTables_length').parent());
                 }
+            });
+
+            // Search functionality
+            $('#students-search').keyup(function() {
+                table.search(this.value).draw();
             });
         });
     </script>

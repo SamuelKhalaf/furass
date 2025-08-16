@@ -2,7 +2,7 @@
 
 return [
     // Page titles and headers
-    'title' => 'Title',
+    'title' => 'News',
     'list' => 'News List',
     'create' => 'Create News',
     'edit' => 'Edit',
