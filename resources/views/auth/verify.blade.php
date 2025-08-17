@@ -13,11 +13,11 @@
             <div class="card card-flush w-lg-650px py-5">
                 <div class="card-body py-15 py-lg-20">
                     <!--begin::Logo-->
-                    <div class="mb-14">
-                        <a class="">
-                            <img alt="Logo" src="{{asset('assets/media/logos/custom-2.svg')}}" class="h-40px" />
-                        </a>
-                    </div>
+{{--                    <div class="mb-14">--}}
+{{--                        <a class="">--}}
+{{--                            <img alt="Logo" src="{{asset('assets/media/logos/custom-2.svg')}}" class="h-40px" />--}}
+{{--                        </a>--}}
+{{--                    </div>--}}
                     <!--end::Logo-->
                     <!--begin::Title-->
                     <h1 class="fw-bolder text-gray-900 mb-5">Verify your email</h1>
