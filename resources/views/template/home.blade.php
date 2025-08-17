@@ -48,7 +48,7 @@
         <!-- Background Video Container -->
         <div class="video-background position-absolute w-100 h-100">
             <video autoplay muted loop playsinline class="h-100 w-100" style="object-fit: cover;">
-                <source src="{{ asset('assets/videos/hero_section.mp4') }}" type="video/mp4">
+                <source src="{{ asset('assets/videos/hero_section1.mp4') }}" type="video/mp4">
                 <!-- Fallback image if video doesn't load -->
                 <img src="{{ asset('imgs/template/home.jpeg') }}" alt="Fallback Background" style="object-fit: cover; width: 100%; height: 100%;">
             </video>

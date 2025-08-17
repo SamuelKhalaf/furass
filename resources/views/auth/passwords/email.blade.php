@@ -12,12 +12,12 @@
             <!--begin::Aside-->
             <div class="d-flex flex-center flex-lg-start flex-column">
                 <!--begin::Logo-->
-                <a class="mb-7">
-                    <img alt="Logo" src="{{asset('assets/media/logos/custom-3.svg')}}" />
-                </a>
+{{--                <a class="mb-7">--}}
+{{--                    <img alt="Logo" src="{{asset('assets/media/logos/custom-3.svg')}}" />--}}
+{{--                </a>--}}
                 <!--end::Logo-->
                 <!--begin::Title-->
-                <h2 class="text-white fw-normal m-0">Branding tools designed for your business</h2>
+{{--                <h2 class="text-white fw-normal m-0">Branding tools designed for your business</h2>--}}
                 <!--end::Title-->
             </div>
             <!--begin::Aside-->

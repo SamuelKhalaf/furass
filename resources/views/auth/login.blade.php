@@ -12,12 +12,12 @@
             <!--begin::Aside-->
             <div class="d-flex flex-center flex-lg-start flex-column">
                 <!--begin::Logo-->
-                <a>
-                    <img alt="Logo" src="{{asset('assets/media/logos/furass.png')}}" style="width: 200px; height: 160px" />
-                </a>
+{{--                <a>--}}
+{{--                    <img alt="Logo" src="{{asset('assets/media/logos/furass.png')}}" style="width: 200px; height: 160px" />--}}
+{{--                </a>--}}
                 <!--end::Logo-->
                 <!--begin::Title-->
-                <h2 class="text-white fw-normal m-0 ms-6 " style="position: relative; top: -34px;">Branding tools designed for your business</h2>
+{{--                <h2 class="text-white fw-normal m-0 ms-6 " style="position: relative; top: -34px;">Branding tools designed for your business</h2>--}}
                 <!--end::Title-->
             </div>
             <!--begin::Aside-->

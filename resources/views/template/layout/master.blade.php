@@ -23,8 +23,8 @@
         <a class="navbar-brand" href="{{route('template.home')}}">
             <img
                 id="navbar-logo"
-                src="{{ asset('assets/imgs/template/furass-logo.png') }}"
-                data-default="{{ asset('assets/imgs/template/furass-logo.png') }}"
+                src="{{ asset('assets/imgs/template/furass_colored.png') }}"
+                data-default="{{ asset('assets/imgs/template/furass_colored.png') }}"
                 data-scrolled="{{ asset('assets/imgs/template/furass_white.png') }}"
                 alt="Furass Logo"
                 style="height:38px; margin-right:12px; border-radius: 10px">
