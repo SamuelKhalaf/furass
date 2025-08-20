@@ -105,8 +105,8 @@ class NewsController extends Controller
             $mediaPath = null;
 
             if ($request->hasFile('media')) {
-                $mediaPath = $request->file('media')->store('public/news/media');
-                $mediaPath = str_replace('public/', 'storage/', $mediaPath);
+                $mediaPath = $request->file('media')->store('news/media', 'public');
+                $mediaPath = 'storage/'.$mediaPath;
             }
 
             // Create the news
@@ -167,8 +167,9 @@ class NewsController extends Controller
                     Storage::delete(str_replace('storage/', 'public/', $news->media));
                 }
 
-                $mediaPath = $request->file('media')->store('public/news/media');
-                $mediaPath = str_replace('public/', 'storage/', $mediaPath);
+                $mediaPath = $request->file('media')->store('news/media', 'public');
+                dd($mediaPath);
+                $mediaPath = 'storage/'.$mediaPath;
             } elseif (!$request->filled('current_media_path')) {
                 // Remove if current is not set and no new file uploaded
                 if ($news->media && Storage::exists(str_replace('storage/', 'public/', $news->media))) {
@@ -239,6 +240,7 @@ class NewsController extends Controller
         $data['latestNews'] = $latestNews;
         $data['news'] = News::with('user')
             ->where('id', '!=', optional($latestNews)->id)
+            ->where('status' ,1)
             ->orderBy('published_at', 'desc')
             ->get();
 

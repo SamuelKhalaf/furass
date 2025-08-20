@@ -413,20 +413,6 @@
                     <!--end:Menu item-->
                 @endif
 
-                @if(auth()->user()->hasAnyPermission(PermissionEnum::newsPermissions()))
-                    <!--begin:Menu item-->
-                    <div class="menu-item {{setMenuOpenClass(['admin.news.index'])}}">
-                        <!--begin:Menu link-->
-                        <a class="menu-link {{setActiveClass('admin.news.index')}}"
-                           href="{{route('admin.news.index')}}">
-                            <span class="menu-icon"><i class="fa-regular fa-newspaper"></i></span>
-                            <span class="menu-title">{{ __('admin.news.title') }}</span>
-                        </a>
-                        <!--end:Menu link-->
-                    </div>
-                    <!--end:Menu item-->
-                @endif
-
                 @if(auth()->user()->hasPermissionTo(PermissionEnum::SEND_NOTIFICATIONS))
                     <!--begin:Menu item-->
                     <div class="menu-item {{setMenuOpenClass(['admin.notifications.index'])}}">
@@ -478,20 +464,19 @@
                     </div>
                 @endif
 
-                @if(auth()->user()->hasAnyPermission(PermissionEnum::LIST_PAGES))
+                @if( auth()->user()->hasAnyPermission(PermissionEnum::LIST_PAGES) || auth()->user()->hasAnyPermission(PermissionEnum::newsPermissions()))
                     <div data-kt-menu-trigger="click"
-                         class="menu-item menu-accordion {{setMenuOpenClass(['admin.roles.index','admin.roles.show','admin.permissions.index'])}}">
+                         class="menu-item menu-accordion {{setMenuOpenClass(['admin.cke.about.index','admin.pages.index','admin.news.index'])}}">
                         <span class="menu-link">
                             <span class="menu-icon"><i class="fa-solid fa-screwdriver-wrench"></i></span>
                             <span class="menu-title">{{ __('admin.settings.pages') }}</span>
                             <span class="menu-arrow"></span>
                         </span>
                         <div class="menu-sub menu-sub-accordion">
-                            @if(auth()->user()->hasAnyPermission(PermissionEnum::permissionPermissions()))
                                 <!--begin:Menu item-->
                                 <div class="menu-item">
                                     <!--begin:Menu link-->
-                                    <a class="menu-link {{setActiveClass('admin.cke_pages.create')}}"
+                                    <a class="menu-link {{setActiveClass('admin.pages.index')}}"
                                        href="{{route('admin.pages.index')}}">
                                         <span class="menu-bullet">
                                             <span class="bullet bullet-dot"></span>
@@ -505,7 +490,7 @@
                                 <!--begin:Menu item-->
                                 <div class="menu-item">
                                     <!--begin:Menu link-->
-                                    <a class="menu-link {{setActiveClass('admin.cke-about.index')}}"
+                                    <a class="menu-link {{setActiveClass('admin.cke.about.index')}}"
                                        href="{{route('admin.cke.about.index')}}">
                                         <span class="menu-bullet">
                                             <span class="bullet bullet-dot"></span>
@@ -515,7 +500,21 @@
                                     <!--end:Menu link-->
                                 </div>
                                 <!--end:Menu item-->
-                            @endif
+                                @if(auth()->user()->hasAnyPermission(PermissionEnum::newsPermissions()))
+                                    <!--begin:Menu item-->
+                                    <div class="menu-item">
+                                        <!--begin:Menu link-->
+                                        <a class="menu-link {{setActiveClass('admin.news.index')}}"
+                                           href="{{route('admin.news.index')}}">
+                                            <span class="menu-bullet">
+                                                <span class="bullet bullet-dot"></span>
+                                            </span>
+                                            <span class="menu-title">{{ __('admin.news.title') }}</span>
+                                        </a>
+                                        <!--end:Menu link-->
+                                    </div>
+                                    <!--end:Menu item-->
+                                @endif
                         </div>
                     </div>
                 @endif
