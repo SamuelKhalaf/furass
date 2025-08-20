@@ -1,5 +1,5 @@
 <div class="modal fade" id="kt_modal_add_program" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered mw-900px">
+    <div class="modal-dialog modal-dialog-centered mw-1000px">
         <div class="modal-content">
             <form class="form" action="{{ route('admin.programs.store') }}" id="kt_modal_add_program_form" method="POST" enctype="multipart/form-data">
                 @csrf

@@ -22,12 +22,15 @@
 
         <div class="box position-absolute">
             <div class="container">
-                <div class="row justify-content-center g-4">
+                @php
+                    $bg = ['#1bbeb9', '#f94d85', '#ffbf29'];
+                @endphp
+                <div class="row justify-content-center g-4" >
                     @foreach(__('template.programs_section.programs') as $index => $program)
-                        <div class="col-lg-4 col-md-6">
-                            <div class="element text-center">
-                                <img src="{{ asset('assets/imgs/template/' . ['self_compass.png', 'ready_for_the_future.png', 'explore_your_career.png'][$index]) }}" alt="Icon"
-                                     class="img-fluid mb-3" style="max-width: 100px; height: 100px">
+                        <div class="col-lg-4 col-md-6" >
+                            <div class="element text-center" style="background-color: {{ $bg[$index] }}">
+                                <img src="{{ asset('assets/imgs/' . ['program1.jpg', 'program2.jpg', 'program3.jpg'][$index]) }}" alt="Icon"
+                                     class="img-fluid mb-3" style="width: 180px; height: 100px">
                                 <h4>{{ $program['title'] }}</h4>
                                 <p>{{ $program['desc'] }}</p>
                                 <a href="{{ route('template.programs') }}#{{ ['self-compass', 'explore-career', 'ready-future'][$index] }}"
@@ -52,17 +55,18 @@
                 $programs = ['self_compass', 'explore_career', 'ready_future'];
                 $images = ['program1.jpg', 'program2.jpg', 'program3.jpg'];
                 $anchors = ['self-compass', 'explore-career', 'ready-future'];
+                $bg = ['#1bbeb9', '#f94d85', '#ffbf29'];
             @endphp
 
             @foreach ($programs as $index => $key)
-                <div class="row mt-5" id="{{ $anchors[$index] }}">
+                <div class="row mt-3 p-4 rounded-5" id="{{ $anchors[$index] }}" style="background-color: {{ $bg[$index] }}">
                     <div class="col-lg-4 col-md-12">
-                        <img src="{{ asset('assets/imgs/template/' . $images[$index]) }}" alt="Icon"
+                        <img src="{{ asset('assets/imgs/' . $images[$index]) }}" alt="Icon"
                              class="img-fluid mb-3"
                              style="width: 100%; height: 100%; border-top-left-radius: 100px;">
                     </div>
                     <div class="col-lg-8 col-md-12">
-                        <div class="element">
+                        <div class="element" >
                             <h1 class="feature position-relative mb-5">
                                 {{ __('template.programs_section.' . $key . '.title') }}
                             </h1>

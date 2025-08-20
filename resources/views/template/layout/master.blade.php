@@ -35,11 +35,11 @@
         <div class="collapse navbar-collapse w-100 " id="navbarSupportedContent">
             <ul class="navbar-nav m-auto mb-2 mb-lg-0 w-100 d-flex justify-content-evenly text-center">
 
-                 <li class="nav-item nav-button">
-                    <a class="nav-link text-dark {{ Request::routeIs('template.home') ? 'active' : '' }}"  href="{{route('template.home')}}">
-                        {{ __('template.master.nav.home') }}
-                    </a>
-                </li>
+{{--                 <li class="nav-item nav-button">--}}
+{{--                    <a class="nav-link text-dark {{ Request::routeIs('template.home') ? 'active' : '' }}"  href="{{route('template.home')}}">--}}
+{{--                        {{ __('template.master.nav.home') }}--}}
+{{--                    </a>--}}
+{{--                </li>--}}
                 <li class="nav-item nav-button">
                     <a class="nav-link text-dark {{ Request::routeIs('template.programs') ? 'active' : '' }}"  href="{{route('template.programs')}}">
                         {{ __('template.master.nav.programs') }}
@@ -102,7 +102,7 @@
                 </li>
             </ul>
 
-            <a href="#" class="fw-bold request-demo-btn" >
+            <a href="{{ route('template.school') }}" class="fw-bold request-demo-btn" >
                 {{ __('template.master.nav.request') }}
             </a>
         </div>
@@ -132,11 +132,10 @@ $setting =new \App\Models\Setting;
             <div class="col-6 col-md-3 col-lg-2 d-flex flex-column justify-content-start">
                 <div class="footer-title">{{ __('template.master.footer.links') }}</div>
                 <ul class="footer-links">
-                    <li><a href="{{route('template.home')}}">{{ __('template.master.nav.home') }}</a></li>
-                    <li><a href="{{route('template.programs')}}">{{ __('template.master.nav.programs') }}</a></li>
+{{--                    <li><a href="{{route('template.home')}}">{{ __('template.master.nav.home') }}</a></li>--}}
+{{--                    <li><a href="{{route('template.programs')}}">{{ __('template.master.nav.programs') }}</a></li>--}}
                     <li><a href="{{route('template.news')}}">{{ __('template.master.nav.news') }}</a></li>
                     <li><a href="{{route('template.about')}}">{{ __('template.master.nav.about') }}</a></li>
-                    <li><a href="{{route('template.contact')}}">{{ __('template.master.nav.contact') }}</a></li>
                     <li><a href="{{route('template.questions')}}">{{ __('template.master.footer.questions') }}</a></li>
                 </ul>
             </div>
@@ -154,9 +153,12 @@ $setting =new \App\Models\Setting;
                     {{ __('template.master.footer.tel') }}:
                     <a href="tel:+123456789"><strong>+{{$setting->where('key' ,'telephone')->first()->value ?? '#'}}</strong></a>
                 </div>
-                <div class="footer-contact mb-3">
+                <div class="footer-contact mb-2">
                     {{ __('template.master.footer.email') }}:
                     <a href="{{$setting->where('key' ,'email')->first()->value ?? '#'}}"><strong>{{$setting->where('key' ,'email')->first()->value ?? '#'}}</strong></a>
+                </div>
+                <div class="footer-contact mb-1">
+                    <a href="{{route('template.contact')}}">{{ __('template.master.nav.contact') }}</a>
                 </div>
             </div>
 

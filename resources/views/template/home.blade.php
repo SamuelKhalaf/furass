@@ -40,6 +40,11 @@
                 height: auto;
             }
         }
+        .force-right {
+            text-align: right !important;  /* يجبر النصوص على اليمين */
+            margin-left: auto !important;   /* يجبر الـ div يتحرك ناحية اليمين */
+        }
+
     </style>
 @endpush
 @section('body')
@@ -47,8 +52,8 @@
     <div class="hero-section position-relative" style="height: 100vh; padding-top: 80px; overflow: hidden;">
         <!-- Background Video Container -->
         <div class="video-background position-absolute w-100 h-100">
-            <video autoplay muted loop playsinline class="h-100 w-100" style="object-fit: cover;">
-                <source src="{{ asset('assets/videos/hero_section1.mp4') }}" type="video/mp4">
+            <video autoplay muted loop playsinline class="h-100 w-100" style="object-fit: fill;">
+                <source src="{{ asset('assets/videos/hero_section2.mp4') }}" type="video/mp4">
                 <!-- Fallback image if video doesn't load -->
                 <img src="{{ asset('imgs/template/home.jpeg') }}" alt="Fallback Background" style="object-fit: cover; width: 100%; height: 100%;">
             </video>
@@ -61,17 +66,17 @@
         </div>
 
         <div class="container ssmall-section position-relative" style="z-index: 2; height: 100%;">
-            <div class="row align-items-center h-100">
+            <div class="row align-items-center h-100 justify-content-end">
                 <!-- Left: Text -->
-                <div class="col-lg-6 mb-4 mb-lg-0">
-                    <h1 class="display-5 fw-bold mb-3" style="font-size: 43px; color: white">
+                <div class="col-lg-6 mb-4 mb-lg-0 force-right">
+                    <h1 class="display-5 fw-bold mb-3" style="font-size: 43px; color: white; text-align: right;">
                         {{ __('template.home.img_sec.title') }}
                     </h1>
-                    <p class="lead-section mb-3" style="font-size: 150%; color: white">
+                    <p class="lead-section mb-3" style="font-size: 150%; color: white;text-align: right;">
                         {{ __('template.home.img_sec.desc') }}
                     </p>
                     <div class="position-relative z-2">
-                        <div class="d-flex flex-column flex-sm-row gap-3">
+                        <div class="d-flex flex-column flex-sm-row gap-3 @if(app()->getLocale() == 'en') justify-content-end  @endif">
                             <a href="{{ route('template.programs') }}" class="btn fw-bold px-4 py-2"
                                style="background:#543786; color:#fff; border-radius:24px; border: none;">
                                 {{ __('template.home.img_sec.explore_programs') }}

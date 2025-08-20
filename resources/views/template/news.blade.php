@@ -21,7 +21,7 @@
                                  <span class="byline-separator">|</span>
                                  {{ $latestNews->published_at
                                     ? Carbon\Carbon::parse($latestNews->published_at)->format('d M Y h:i A')
-                                    : 'Not published'}}
+                                    : ''}}
                              </div>
                              <p>{{$latestNews->content ?? ""}}</p>
                          </div>
