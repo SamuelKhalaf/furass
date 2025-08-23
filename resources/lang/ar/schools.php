@@ -17,6 +17,7 @@ return [
     'status' => 'الحالة',
     'created_at' => 'تاريخ الإنشاء',
     'updated_at' => 'تاريخ التحديث',
+    'entity_type' => 'نوع الجهة',
     'actions' => 'الإجراءات',
     'no_schools' => 'لا توجد مدارس',
     'search' => 'بحث في المدارس',

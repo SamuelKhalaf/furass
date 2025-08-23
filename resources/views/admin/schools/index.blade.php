@@ -78,11 +78,12 @@
                             <thead>
                             <!--begin::Table row-->
                             <tr class="text-gray-400 fw-bold fs-7 text-uppercase gs-0 text-center">
-                                <th class="min-w-200px">{{ __('schools.name') }}</th>
-                                <th class="min-w-125px">{{ __('schools.address') }}</th>
-                                <th class="min-w-125px">{{ __('schools.email') }}</th>
-                                <th class="min-w-125px">{{ __('schools.phone') }}</th>
-                                <th class="min-w-100px">{{ __('schools.actions') }}</th>
+                                <th class="w-200px">{{ __('schools.name') }}</th>
+                                <th class="w-125px">{{ __('schools.address') }}</th>
+                                <th class="w-125px">{{ __('schools.email') }}</th>
+                                <th class="w-125px">{{ __('schools.phone') }}</th>
+{{--                                <th class="w-125px">{{ __('schools.entity_type') }}</th>--}}
+                                <th class="w-100px">{{ __('schools.actions') }}</th>
                             </tr>
                             <!--end::Table row-->
                             </thead>
@@ -210,6 +211,13 @@
                                 searchable: false,
                                 className: 'text-center'
                             },
+                            // {
+                            //     data: 'entity_type',
+                            //     name: 'entity_type',
+                            //     orderable: false,
+                            //     searchable: false,
+                            //     className: 'text-center'
+                            // },
                             {
                                 data: 'actions',
                                 name: 'actions',
