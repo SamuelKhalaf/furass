@@ -17,6 +17,7 @@ return [
     'status' => 'Status',
     'created_at' => 'Created At',
     'updated_at' => 'Updated At',
+    'entity_type' => 'Entity Type',
     'actions' => 'Actions',
     'search' => 'Search Schools',
     'no_schools' => 'No schools found',

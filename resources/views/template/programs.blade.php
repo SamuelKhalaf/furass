@@ -27,10 +27,10 @@
                 @endphp
                 <div class="row justify-content-center g-4" >
                     @foreach(__('template.programs_section.programs') as $index => $program)
-                        <div class="col-lg-4 col-md-6" >
+                        <div class="col-lg-4 col-md-6 text-light" >
                             <div class="element text-center" style="background-color: {{ $bg[$index] }}">
                                 <img src="{{ asset('assets/imgs/' . ['program1.jpg', 'program2.jpg', 'program3.jpg'][$index]) }}" alt="Icon"
-                                     class="img-fluid mb-3" style="width: 180px; height: 100px">
+                                     class="img-fluid mb-3" style="width: 180px;">
                                 <h4>{{ $program['title'] }}</h4>
                                 <p>{{ $program['desc'] }}</p>
                                 <a href="{{ route('template.programs') }}#{{ ['self-compass', 'explore-career', 'ready-future'][$index] }}"
@@ -59,18 +59,19 @@
             @endphp
 
             @foreach ($programs as $index => $key)
-                <div class="row mt-3 p-4 rounded-5" id="{{ $anchors[$index] }}" style="background-color: {{ $bg[$index] }}">
-                    <div class="col-lg-4 col-md-12">
+                <div class="row text-light mt-3 p-4 rounded-5" id="{{ $anchors[$index] }}" style="background-color: {{ $bg[$index] }}">
+                    <div class="col-lg-4 col-md-12" style="padding-top: 100px">
                         <img src="{{ asset('assets/imgs/' . $images[$index]) }}" alt="Icon"
                              class="img-fluid mb-3"
-                             style="width: 100%; height: 100%; border-top-left-radius: 100px;">
+                             style="width: 100%; border-top-left-radius: 100px;">
                     </div>
                     <div class="col-lg-8 col-md-12">
                         <div class="element" >
-                            <h1 class="feature position-relative mb-5">
+                            <h1 class="feature position-relative mb-3">
                                 {{ __('template.programs_section.' . $key . '.title') }}
+                                <hr style="height: 3px;border: none; background-color: #FFFFFF !important;opacity: 0.8 !important;">
                             </h1>
-                            <p class="mb-5">
+                            <p class="mb-5 fs-5">
                                 {{ __('template.programs_section.' . $key . '.desc') }}
                             </p>
 

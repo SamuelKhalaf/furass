@@ -57,6 +57,9 @@ class SchoolController extends Controller
             ->addColumn('phone', function ($school) {
                 return $school->user->phone_number;
             })
+            ->addColumn('entity_type', function ($school) {
+                return $school->entity_type;
+            })
             ->addColumn('actions', function ($school) {
                 $actions = '';
                 if (auth()->user()->hasAnyPermission([
@@ -102,6 +105,7 @@ class SchoolController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
             'phone_number' => 'required|string|max:20|unique:users',
+            'entity_type' => 'nullable|in:school,company,educational_institution,consulting_firm,other',
             'address' => 'required|string',
             'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'is_active' => 'nullable|boolean',
@@ -130,6 +134,7 @@ class SchoolController extends Controller
 
             $school->user_id = $user->id;
             $school->address = $request->address;
+            $school->entity_type = $request->entity_type ?? null;
 
             if ($request->hasFile('logo')) {
                 $logo = $request->file('logo');
@@ -166,6 +171,7 @@ class SchoolController extends Controller
             'email' => 'required|string|email|max:255|unique:users,email,' . $school->user_id,
             'phone_number' => 'required|string|max:20|unique:users,phone_number,' . $school->user_id,
             'address' => 'required|string',
+            'entity_type' => 'nullable|in:school,company,educational_institution,consulting_firm,other',
             'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'is_active' => 'nullable|boolean',
         ]);
@@ -186,6 +192,7 @@ class SchoolController extends Controller
             $user->save();
 
             $school->address = $request->address;
+            $school->entity_type = $request->entity_type ?? null;
 
             if ($request->hasFile('logo')) {
                 if ($school->logo) {

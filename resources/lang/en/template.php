@@ -10,7 +10,7 @@ return [
             'about' => 'About us',
             'contact' => 'Contact us',
             'login' => 'Login',
-            'request'=>'Request a Demo',
+            'request'=>'Request partnership',
             'pages' =>'pages',
         ],
         'footer'=>[
@@ -19,8 +19,8 @@ return [
             'links'=>'Links',
             'programs'=>'Programs',
             'self_compass'=>'Self Compass',
-            'explore_career'=>'Explore Career',
-            'ready_future'=>'Ready Future',
+            'explore_career'=>'Explore Your Career',
+            'ready_future'=>'Ready for the future',
             'contacts' => 'Contacts',
             'tel' => 'Tel',
             'email' => 'E-mail',
@@ -37,7 +37,7 @@ return [
             'title' => 'Bridge Education to Real-World Careers',
             'desc' => 'Furass connects students with industries and universities through immersive experiences, helping them discover their passions and plan for the future with confidence.',
             'explore_programs' => 'Explore Our Programs',
-            'request_school' => 'Request a School Partnership',
+            'request_school' => 'Request Partnership',
         ],
         'prog_section' => [
             'title' => 'Furass – Guiding Saudi Students Toward a Brighter Future',
@@ -55,23 +55,23 @@ return [
         'title' => 'Our Programs',
         'programs' => [
             [
-                'title' => 'Self Compass Plus program',
+                'title' => 'Self Compass',
                 'desc' => 'Take test & Know your potential',
                 'btn' => 'Learn more',
             ],
             [
-                'title' => 'Explore Your Career Destination program',
+                'title' => 'Explore Your Career ',
                 'desc' => 'Go on trips & Discover the practical life on field',
                 'btn' => 'Learn more',
             ],
             [
-                'title' => 'Ready For The Future program',
+                'title' => 'Ready For The Future',
                 'desc' => 'Workshop to learn more about Different careers',
                 'btn' => 'Learn more',
             ],
         ],
         'self_compass' => [
-            'title' => 'Self Compass Program',
+            'title' => 'Self Compass ',
             'desc' => 'Every student has an inner compass—and we help them read it with confidence.
                 This program accompanies students throughout their high school years,
                 tracking their development and aligning it with their evolving goals and interests.
@@ -89,7 +89,7 @@ return [
         ],
 
         'explore_career' => [
-            'title' => 'Explore Your Career Program',
+            'title' => 'Explore Your Career',
             'desc' => 'We believe real-world exposure changes everything.
                 Throughout high school, students engage in structured visits to various industries,
                 followed by personalized guidance and reflection. Each experience is linked to the student’s future goals.
@@ -104,7 +104,7 @@ return [
         ],
 
         'ready_future' => [
-            'title' => 'Ready for the Future Program',
+            'title' => 'Ready for the Future',
             'desc' => 'We don’t just build knowledge—we build readiness.
                 Spanning the student’s entire high school journey, this program focuses on developing the personal and professional skills that grow with them.
                 Through hands-on workshops and guided activities, we track their evolving strengths and help them align with their future goals.
@@ -186,7 +186,7 @@ return [
         'send' => 'Send message',
     ],
     'school_request' => [
-        'title' => 'Request a School Partnership',
+        'title' => 'Request Partnership',
         'name' => 'Name',
         'email' => 'E-mail',
         'phone' => 'Phone',
@@ -196,6 +196,12 @@ return [
         'password_confirmation' => 'Confirm Password',
         'agreement' => 'By submitting this form, I agree to WiziQ\'s <a href="#" class="privacy-link">Privacy Policy</a> and <a href="#" class="privacy-link">User Agreement</a>.',
         'send' => 'Send Request',
+        'select_entity_type' => 'Select Entity Type',
+        'entity_type_school' => 'School',
+        'entity_type_company' => 'Company',
+        'entity_type_educational' => 'Educational Institution',
+        'entity_type_consulting' => 'Consulting Firm',
+        'entity_type_other' => 'Other',
     ],
     'faq' => [
         'title' => 'Frequently Asked Questions',

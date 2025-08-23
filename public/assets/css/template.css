@@ -272,14 +272,14 @@ html[lang="ar"] .hero-bg-image {
     align-self: center;
 }
 
-.feature::after {
-    content: '';
-    position: absolute;
-    bottom: -10px;
-    width: 100px;
-    height: 3px;
-    background-color: var(--primary-purple);
-}
+/*.feature::after {*/
+/*    content: '';*/
+/*    position: absolute;*/
+/*    bottom: -10px;*/
+/*    width: 100px;*/
+/*    height: 3px;*/
+/*    background-color: var(--primary-purple);*/
+/*}*/
 
 /* LTR (English) */
 :dir(ltr) .feature::after {
