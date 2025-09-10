@@ -139,6 +139,10 @@ return [
 
     'interest_distribution' => 'Interest Distribution',
     'students' => 'students',
+    'students_by_grade' => 'Students by Grade',
+    'grade_10' => 'Grade 10',
+    'grade_11' => 'Grade 11',
+    'grade_12' => 'Grade 12',
 
     'activity_evaluations' => 'Activity Evaluations',
     'evaluations' => 'evaluations',

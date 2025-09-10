@@ -70,12 +70,16 @@
                                 <!--begin::Summary-->
                                 <div class="d-flex flex-center flex-column mb-5">
                                     <!--begin::Avatar-->
-                                    <div class="symbol symbol-100px symbol-circle mb-7">
+                                    <div class="mb-7">
                                         @if($profileData['has_avatar'] && $profileData['avatar_path'])
-                                            <img src="{{ asset('storage/' . $profileData['avatar_path']) }}" alt="image" />
+                                            <img src="{{ asset('storage/' . $profileData['avatar_path']) }}" 
+                                                 alt="image" 
+                                                 style="max-width: 200px; max-height: 200px; width: auto; height: auto; border-radius: 8px;" />
                                         @else
-                                            <div class="symbol-label fs-3 bg-light-primary text-primary">
-                                                {{ strtoupper(substr($user->name, 0, 1)) }}
+                                            <div class="symbol symbol-100px symbol-circle">
+                                                <div class="symbol-label fs-3 bg-light-primary text-primary">
+                                                    {{ strtoupper(substr($user->name, 0, 1)) }}
+                                                </div>
                                             </div>
                                         @endif
                                     </div>

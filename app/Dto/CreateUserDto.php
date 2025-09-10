@@ -10,6 +10,8 @@ class CreateUserDto
 
     private string $phone_number;
 
+    private string $country_code;
+
     private string $password;
 
     private string $role;
@@ -20,15 +22,17 @@ class CreateUserDto
      * @param string $name
      * @param string $email
      * @param string $phone_number
+     * @param string $country_code
      * @param string $password
      * @param string $role
      * @param int $is_active
      */
-    public function __construct(string $name, string $email, string $phone_number, string $password, string $role, int $is_active)
+    public function __construct(string $name, string $email, string $phone_number, string $country_code, string $password, string $role, int $is_active)
     {
         $this->name = $name;
         $this->email = $email;
         $this->phone_number = $phone_number;
+        $this->country_code = $country_code;
         $this->password = $password;
         $this->role = $role;
         $this->is_active = $is_active;
@@ -47,6 +51,11 @@ class CreateUserDto
     public function getPhoneNumber(): string
     {
         return $this->phone_number;
+    }
+
+    public function getCountryCode(): string
+    {
+        return $this->country_code;
     }
 
     public function getPassword(): string
@@ -73,6 +82,7 @@ class CreateUserDto
             'name' => $this->name,
             'email' => $this->email,
             'phone_number' => $this->phone_number,
+            'country_code' => $this->country_code,
             'password' => $this->password,
             'role' => $this->role,
             'is_active' => $this->is_active

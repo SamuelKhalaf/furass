@@ -1,5 +1,5 @@
 @extends('admin.layouts.master')
-@section('title', __('Workshop Attendance Management'))
+@section('title', __('workshops.management.workshop_attendance_management'))
 
 @section('content')
     <div class="d-flex flex-column flex-column-fluid">
@@ -9,7 +9,7 @@
                 <!--begin::Page title-->
                 <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
                     <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
-                        {{ __('Workshop Attendance') }}
+                        {{ __('workshops.management.workshop_attendance') }}
                     </h1>
                     <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
                         <li class="breadcrumb-item text-muted">
@@ -22,7 +22,7 @@
                 <!--begin::Actions-->
                 <div class="d-flex align-items-center gap-2 gap-lg-3">
                     <a href="{{ route('admin.sub-admin.workshop.students', [$program->id, $pathPoint->id]) }}" class="btn btn-sm btn-secondary">
-                        <i class="fa-solid fa-arrow-left me-1"></i>{{ __('View Students List') }}
+                        <i class="fa-solid fa-arrow-left me-1"></i>{{ __('workshops.management.view_students_list') }}
                     </a>
                 </div>
             </div>
@@ -55,7 +55,7 @@
                     <div class="card-header">
                         <div class="card-title">
                             <h3 class="fw-bold text-dark">
-                                <i class="fa-solid fa-info-circle text-primary me-2"></i>{{ __('Workshop Information') }}
+                                <i class="fa-solid fa-info-circle text-primary me-2"></i>{{ __('workshops.management.workshop_information') }}
                             </h3>
                         </div>
                     </div>
@@ -63,13 +63,13 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="d-flex flex-column">
-                                    <span class="text-gray-600 fw-semibold">{{ __('Workshop Name') }}</span>
+                                    <span class="text-gray-600 fw-semibold">{{ __('workshops.management.workshop_name') }}</span>
                                     <span class="text-gray-800 fw-bold fs-6">{{ $event->event_name }}</span>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="d-flex flex-column">
-                                    <span class="text-gray-600 fw-semibold">{{ __('Company/Organization') }}</span>
+                                    <span class="text-gray-600 fw-semibold">{{ __('workshops.management.company_organization') }}</span>
                                     <span class="text-gray-800 fw-bold fs-6">{{ $event->company_name }}</span>
                                 </div>
                             </div>
@@ -78,19 +78,19 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="d-flex flex-column">
-                                    <span class="text-gray-600 fw-semibold">{{ __('Location') }}</span>
+                                    <span class="text-gray-600 fw-semibold">{{ __('workshops.management.location') }}</span>
                                     <span class="text-gray-800 fw-bold fs-6">{{ $event->location }}</span>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="d-flex flex-column">
-                                    <span class="text-gray-600 fw-semibold">{{ __('Date') }}</span>
+                                    <span class="text-gray-600 fw-semibold">{{ __('workshops.management.date') }}</span>
                                     <span class="text-gray-800 fw-bold fs-6">{{ \Carbon\Carbon::parse($event->start_date)->format('M d, Y') }}</span>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="d-flex flex-column">
-                                    <span class="text-gray-600 fw-semibold">{{ __('Time') }}</span>
+                                    <span class="text-gray-600 fw-semibold">{{ __('workshops.management.time') }}</span>
                                     <span class="text-gray-800 fw-bold fs-6">{{ \Carbon\Carbon::parse($event->start_date)->format('h:i A') }} - {{ \Carbon\Carbon::parse($event->end_date)->format('h:i A') }}</span>
                                 </div>
                             </div>
@@ -104,7 +104,7 @@
                     <div class="card-header">
                         <div class="card-title">
                             <h3 class="fw-bold text-dark">
-                                <i class="fa-solid fa-clipboard-check text-primary me-2"></i>{{ __('Student Attendance') }}
+                                <i class="fa-solid fa-clipboard-check text-primary me-2"></i>{{ __('workshops.management.student_attendance') }}
                             </h3>
                         </div>
                     </div>
@@ -117,11 +117,11 @@
                                 <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
                                     <thead>
                                     <tr class="fw-bold text-muted">
-                                        <th class="min-w-150px">{{ __('Student') }}</th>
-                                        <th class="min-w-100px">{{ __('School') }}</th>
-                                        <th class="min-w-120px">{{ __('Attendance') }}</th>
-                                        <th class="min-w-200px">{{ __('Notes') }}</th>
-                                        <th class="min-w-100px">{{ __('Status') }}</th>
+                                        <th class="min-w-150px">{{ __('workshops.management.student') }}</th>
+                                        <th class="min-w-100px">{{ __('workshops.management.school') }}</th>
+                                        <th class="min-w-120px">{{ __('workshops.management.attendance') }}</th>
+                                        <th class="min-w-200px">{{ __('workshops.management.notes') }}</th>
+                                        <th class="min-w-100px">{{ __('workshops.management.status') }}</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -152,31 +152,31 @@
                                                         <input class="form-check-input" type="radio" name="attendance[{{ $student->id }}]" value="attended"
                                                             {{ $attendance && $attendance->status == 'attended' ? 'checked' : '' }}>
                                                         <span class="form-check-label fw-bold text-success">
-                                                            <i class="fa-solid fa-check me-1"></i>{{ __('Attended') }}
+                                                            <i class="fa-solid fa-check me-1"></i>{{ __('workshops.management.attended') }}
                                                         </span>
                                                     </label>
                                                     <label class="form-check form-check-custom form-check-solid">
                                                         <input class="form-check-input" type="radio" name="attendance[{{ $student->id }}]" value="absent"
                                                             {{ $attendance && $attendance->status == 'absent' ? 'checked' : '' }}>
                                                         <span class="form-check-label fw-bold text-danger">
-                                                            <i class="fa-solid fa-times me-1"></i>{{ __('Absent') }}
+                                                            <i class="fa-solid fa-times me-1"></i>{{ __('workshops.management.absent') }}
                                                         </span>
                                                     </label>
                                                 </div>
                                             </td>
                                             <td>
                                                 <textarea class="form-control form-control-sm" name="notes[{{ $student->id }}]" rows="2"
-                                                          placeholder="{{ __('Optional notes...') }}">{{ $attendance->notes ?? '' }}</textarea>
+                                                          placeholder="{{ __('workshops.management.optional_notes') }}">{{ $attendance->notes ?? '' }}</textarea>
                                             </td>
                                             <td>
                                                 @if($attendance)
                                                     @if($attendance->status == 'attended')
                                                         <span class="badge badge-light-success">
-                                                            <i class="fa-solid fa-check me-1"></i>{{ __('Attended') }}
+                                                            <i class="fa-solid fa-check me-1"></i>{{ __('workshops.management.attended') }}
                                                         </span>
                                                     @else
                                                         <span class="badge badge-light-danger">
-                                                            <i class="fa-solid fa-times me-1"></i>{{ __('Absent') }}
+                                                            <i class="fa-solid fa-times me-1"></i>{{ __('workshops.management.absent') }}
                                                         </span>
                                                     @endif
                                                     <div class="text-muted fs-7 mt-1">
@@ -184,7 +184,7 @@
                                                     </div>
                                                 @else
                                                     <span class="badge badge-light-warning">
-                                                        <i class="fa-solid fa-clock me-1"></i>{{ __('Pending') }}
+                                                        <i class="fa-solid fa-clock me-1"></i>{{ __('workshops.management.pending') }}
                                                     </span>
                                                 @endif
                                             </td>
@@ -198,7 +198,7 @@
                             <!--begin::Actions-->
                             <div class="d-flex justify-content-end mt-10">
                                 <button type="submit" class="btn btn-primary btn-lg">
-                                    <i class="fa-solid fa-save me-2"></i>{{ __('Save Attendance') }}
+                                    <i class="fa-solid fa-save me-2"></i>{{ __('workshops.management.save_attendance') }}
                                 </button>
                             </div>
                             <!--end::Actions-->

@@ -87,23 +87,44 @@
                                                     [data-bs-theme="dark"] .image-input-placeholder {
                                                         background-image: url('{{ asset('assets/media/svg/files/blank-image-dark.svg') }}');
                                                     }
+                                                    
+                                                    /* Custom styling for image wrapper */
+                                                    .image-input-wrapper {
+                                                        min-width: 200px;
+                                                        min-height: 200px;
+                                                        border: 1px solid #e4e6ef;
+                                                        border-radius: 0.475rem;
+                                                        background: #f8f9fa;
+                                                        display: flex;
+                                                        align-items: center;
+                                                        justify-content: center;
+                                                        position: relative;
+                                                        padding: 10px;
+                                                    }
+                                                    
+                                                    .image-input-wrapper img {
+                                                        max-width: 200px;
+                                                        max-height: 200px;
+                                                        width: auto;
+                                                        height: auto;
+                                                        border-radius: 8px;
+                                                        display: block;
+                                                    }
                                                 </style>
                                                 <!--end::Image placeholder-->
                                                 <!--begin::Image input-->
                                                 <div class="image-input image-input-outline image-input-placeholder" data-kt-image-input="true">
                                                     <!--begin::Preview existing image-->
-                                                    <div class="image-input-wrapper w-125px h-125px"
-                                                         @if($profileData['avatar_path'])
-                                                             style="background-image: url('{{ Storage::url($profileData['avatar_path']) }}')"
+                                                    <div class="image-input-wrapper">
+                                                        @if($profileData['avatar_path'])
+                                                            <img src="{{ Storage::url($profileData['avatar_path']) }}" 
+                                                                alt="Preview" />
                                                         @endif
-                                                    ></div>
+                                                    </div>
                                                     <!--end::Preview existing image-->
                                                     <!--begin::Label-->
                                                     <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="{{ __('admin.profile.change_image') }}">
-                                                        <i class="ki-duotone ki-pencil fs-7">
-                                                            <span class="path1"></span>
-                                                            <span class="path2"></span>
-                                                        </i>
+                                                        <i class="fa-solid fa-pen fs-7"></i>
                                                         <!--begin::Inputs-->
                                                         <input type="file" name="{{ $profileData['type'] === 'school' ? 'logo' : 'avatar' }}" accept=".png, .jpg, .jpeg" />
                                                         <input type="hidden" name="{{ $profileData['type'] === 'school' ? 'logo' : 'avatar' }}_remove" />
@@ -112,19 +133,13 @@
                                                     <!--end::Label-->
                                                     <!--begin::Cancel-->
                                                     <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="cancel" data-bs-toggle="tooltip" title="{{ __('admin.profile.cancel_image') }}">
-                                                <i class="ki-duotone ki-cross fs-2">
-                                                    <span class="path1"></span>
-                                                    <span class="path2"></span>
-                                                </i>
-                                            </span>
+                                                        <i class="fa-solid fa-xmark fs-2"></i>
+                                                    </span>
                                                     <!--end::Cancel-->
                                                     <!--begin::Remove-->
                                                     <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="remove" data-bs-toggle="tooltip" title="{{ __('admin.profile.remove_image') }}">
-                                                <i class="ki-duotone ki-cross fs-2">
-                                                    <span class="path1"></span>
-                                                    <span class="path2"></span>
-                                                </i>
-                                            </span>
+                                                        <i class="fa-solid fa-xmark fs-2"></i>
+                                                    </span>
                                                     <!--end::Remove-->
                                                 </div>
                                                 <!--end::Image input-->
@@ -183,9 +198,26 @@
                                     <!--end::Label-->
                                     <!--begin::Col-->
                                     <div class="col-lg-8 fv-row">
-                                        <input type="text" name="phone_number" class="form-control form-control-lg form-control-solid @error('phone_number') is-invalid @enderror"
-                                               placeholder="{{ __('admin.profile.phone') }}" value="{{ old('phone_number', $user->phone_number) }}" />
+                                        <div class="input-group">
+                                            <select name="country_code" class="form-select form-control-lg form-control-solid @error('country_code') is-invalid @enderror" style="max-width: 120px;">
+                                                <option value="+966">+966</option>
+                                                <option value="+971">+971</option>
+                                                <option value="+965">+965</option>
+                                                <option value="+973">+973</option>
+                                                <option value="+974">+974</option>
+                                                <option value="+20">+20</option>
+                                                <option value="+1">+1</option>
+                                                <option value="+44">+44</option>
+                                                <option value="+33">+33</option>
+                                                <option value="+49">+49</option>
+                                            </select>
+                                            <input type="text" name="phone_number" class="form-control form-control-lg form-control-solid @error('phone_number') is-invalid @enderror"
+                                                   placeholder="{{ __('admin.profile.phone') }}" value="{{ old('phone_number', $user->phone_number) }}" />
+                                        </div>
                                         @error('phone_number')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                        @error('country_code')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
@@ -326,45 +358,141 @@
 
 @section('scripts')
     <script>
-        // Image input functionality
         document.addEventListener('DOMContentLoaded', function() {
-            // Initialize image input
             const imageInputs = document.querySelectorAll('[data-kt-image-input="true"]');
+            
             imageInputs.forEach(function(imageInput) {
-                const wrapper = imageInput.querySelector('.image-input-wrapper');
-                const changeBtn = imageInput.querySelector('[data-kt-image-input-action="change"]');
-                const cancelBtn = imageInput.querySelector('[data-kt-image-input-action="cancel"]');
-                const removeBtn = imageInput.querySelector('[data-kt-image-input-action="remove"]');
-                const hiddenInput = imageInput.querySelector('input[type="hidden"]');
-                const fileInput = imageInput.querySelector('input[type="file"]');
+                const imageInputWrapper = imageInput.querySelector('.image-input-wrapper');
+                const imageInputAction = imageInput.querySelector('[data-kt-image-input-action="change"]');
+                const imageInputActionCancel = imageInput.querySelector('[data-kt-image-input-action="cancel"]');
+                const imageInputActionRemove = imageInput.querySelector('[data-kt-image-input-action="remove"]');
+                const imageInputTarget = imageInput.querySelector('input[type="file"]');
+                const imageInputHiddenInput = imageInput.querySelector('input[type="hidden"]');
+                
+                let originalImageSrc = null;
+                
+                // Store original image source if exists
+                const existingImg = imageInputWrapper.querySelector('img');
+                if (existingImg) {
+                    originalImageSrc = existingImg.src;
+                }
 
-                let originalBackground = wrapper.style.backgroundImage;
-
-                changeBtn.addEventListener('click', function() {
-                    fileInput.click();
-                });
-
-                fileInput.addEventListener('change', function() {
-                    if (this.files && this.files[0]) {
-                        const reader = new FileReader();
-                        reader.onload = function(e) {
-                            wrapper.style.backgroundImage = 'url(' + e.target.result + ')';
+                // Handle file selection
+                if (imageInputTarget) {
+                    imageInputTarget.addEventListener('change', function(e) {
+                        const file = e.target.files[0];
+                        
+                        if (file) {
+                            const reader = new FileReader();
+                            
+                            reader.onload = function(e) {
+                                // Remove existing content completely
+                                imageInputWrapper.innerHTML = '';
+                                
+                                // Wait a moment to ensure DOM is updated
+                                setTimeout(function() {
+                                    // Create and add new image
+                                    const img = document.createElement('img');
+                                    img.src = e.target.result;
+                                    img.alt = 'Preview';
+                                    img.style.cssText = 'max-width: 200px; max-height: 200px; width: auto; height: auto; border-radius: 8px; display: block;';
+                                    
+                                    // Clear any existing images first
+                                    const existingImages = imageInputWrapper.querySelectorAll('img');
+                                    existingImages.forEach(function(existingImg) {
+                                        existingImg.remove();
+                                    });
+                                    
+                                    // Add the new image
+                                    imageInputWrapper.appendChild(img);
+                                }, 10);
+                                
+                                // Show cancel and remove buttons, hide change button
+                                if (imageInputAction) imageInputAction.style.display = 'none';
+                                if (imageInputActionCancel) imageInputActionCancel.style.display = 'inline-flex';
+                                if (imageInputActionRemove) imageInputActionRemove.style.display = 'inline-flex';
+                                
+                                // Clear the remove hidden input
+                                if (imageInputHiddenInput) {
+                                    imageInputHiddenInput.value = '';
+                                }
+                            };
+                            
+                            reader.readAsDataURL(file);
                         }
-                        reader.readAsDataURL(this.files[0]);
-                    }
-                });
+                    });
+                }
 
-                cancelBtn.addEventListener('click', function() {
-                    wrapper.style.backgroundImage = originalBackground;
-                    fileInput.value = '';
-                    hiddenInput.value = '';
-                });
+                // Handle cancel action
+                if (imageInputActionCancel) {
+                    imageInputActionCancel.addEventListener('click', function() {
+                        // Clear file input
+                        if (imageInputTarget) {
+                            imageInputTarget.value = '';
+                        }
+                        
+                        // Restore original image or placeholder
+                        imageInputWrapper.innerHTML = '';
+                        
+                        if (originalImageSrc) {
+                            // Clear any existing images first
+                            imageInputWrapper.innerHTML = '';
+                            
+                            const img = document.createElement('img');
+                            img.src = originalImageSrc;
+                            img.alt = 'Preview';
+                            img.style.cssText = 'max-width: 200px; max-height: 200px; width: auto; height: auto; border-radius: 8px; display: block;';
+                            imageInputWrapper.appendChild(img);
+                        } else {
+                            // Show placeholder or initial state
+                            imageInputWrapper.innerHTML = '';
+                        }
+                        
+                        // Show change button, hide cancel and remove buttons
+                        if (imageInputAction) imageInputAction.style.display = 'inline-flex';
+                        if (imageInputActionCancel) imageInputActionCancel.style.display = 'none';
+                        if (imageInputActionRemove) imageInputActionRemove.style.display = originalImageSrc ? 'inline-flex' : 'none';
+                        
+                        // Clear the remove hidden input
+                        if (imageInputHiddenInput) {
+                            imageInputHiddenInput.value = '';
+                        }
+                    });
+                }
 
-                removeBtn.addEventListener('click', function() {
-                    wrapper.style.backgroundImage = 'none';
-                    fileInput.value = '';
-                    hiddenInput.value = '1';
-                });
+                // Handle remove action
+                if (imageInputActionRemove) {
+                    imageInputActionRemove.addEventListener('click', function() {
+                        // Clear file input
+                        if (imageInputTarget) {
+                            imageInputTarget.value = '';
+                        }
+                        
+                        // Remove image and show placeholder
+                        imageInputWrapper.innerHTML = '';
+                        
+                        // Show change button, hide cancel and remove buttons
+                        if (imageInputAction) imageInputAction.style.display = 'inline-flex';
+                        if (imageInputActionCancel) imageInputActionCancel.style.display = 'none';
+                        if (imageInputActionRemove) imageInputActionRemove.style.display = 'none';
+                        
+                        // Set the remove hidden input to indicate removal
+                        if (imageInputHiddenInput) {
+                            imageInputHiddenInput.value = '1';
+                        }
+                    });
+                }
+
+                // Initialize button states based on existing image
+                if (originalImageSrc) {
+                    if (imageInputAction) imageInputAction.style.display = 'inline-flex';
+                    if (imageInputActionCancel) imageInputActionCancel.style.display = 'none';
+                    if (imageInputActionRemove) imageInputActionRemove.style.display = 'inline-flex';
+                } else {
+                    if (imageInputAction) imageInputAction.style.display = 'inline-flex';
+                    if (imageInputActionCancel) imageInputActionCancel.style.display = 'none';
+                    if (imageInputActionRemove) imageInputActionRemove.style.display = 'none';
+                }
             });
         });
     </script>

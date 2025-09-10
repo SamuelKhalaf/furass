@@ -263,6 +263,8 @@ return [
         'gender_female' => 'أنثى',
         'avatar' => 'الصورة الشخصية',
         'logo' => 'الشعار',
+        'max_students' => 'الحد الأقصى للطلاب',
+        'enter_max_students' => 'أدخل الحد الأقصى لعدد الطلاب',
 
         // Password
         'current_password' => 'كلمة المرور الحالية',

@@ -59,8 +59,23 @@
                                 <label class="required fw-semibold fs-6 mb-2">{{ __('users.modal.phone_number') }}</label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
-                                <input type="text" name="phone_number" class="form-control form-control-solid mb-3 mb-lg-0"
-                                       placeholder="{{ __('users.modal.enter_phone') }}" />                                <!--end::Input-->
+                                <div class="input-group">
+                                    <select name="country_code" class="form-select form-control-solid" style="max-width: 120px;">
+                                        <option value="+966">+966</option>
+                                        <option value="+971">+971</option>
+                                        <option value="+965">+965</option>
+                                        <option value="+973">+973</option>
+                                        <option value="+974">+974</option>
+                                        <option value="+20">+20</option>
+                                        <option value="+1">+1</option>
+                                        <option value="+44">+44</option>
+                                        <option value="+33">+33</option>
+                                        <option value="+49">+49</option>
+                                    </select>
+                                    <input type="text" name="phone_number" class="form-control form-control-solid"
+                                           placeholder="{{ __('users.modal.enter_phone') }}" />
+                                </div>
+                                <!--end::Input-->
                             </div>
                             <!--end::Input group-->
                             <!--begin::Input group-->

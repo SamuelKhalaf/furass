@@ -106,6 +106,7 @@
 <script src="{{ asset('assets/js/custom/utilities/modals/upgrade-plan.js') }}"></script>
 <script src="{{ asset('assets/js/custom/utilities/modals/new-target.js') }}"></script>
 <script src="{{ asset('assets/js/custom/utilities/modals/users-search.js') }}"></script>
+<script src="{{ asset('assets/js/custom/password-toggle.js') }}"></script>
 <script>
     document.querySelectorAll('[aria-hidden="true"] input:focus').forEach(input => {
         input.closest('[aria-hidden="true"]').setAttribute('aria-hidden', 'false');

@@ -12,7 +12,8 @@ class School extends Model
     protected $fillable = [
         'user_id',
         'address',
-        'logo'
+        'logo',
+        'max_students'
     ];
 
     public function user()
@@ -36,5 +37,37 @@ class School extends Model
     public function users()
     {
         return $this->belongsToMany(User::class, 'sub_admin_school', 'school_id', 'sub_admin_id');
+    }
+
+    /**
+     * Get the current number of students in this school
+     */
+    public function getCurrentStudentsCount()
+    {
+        return $this->student()->count();
+    }
+
+    /**
+     * Check if the school has reached its maximum student limit
+     */
+    public function hasReachedMaxStudents()
+    {
+        if (is_null($this->max_students)) {
+            return false; // No limit set
+        }
+        
+        return $this->getCurrentStudentsCount() >= $this->max_students;
+    }
+
+    /**
+     * Check if adding one more student would exceed the limit
+     */
+    public function wouldExceedMaxStudents()
+    {
+        if (is_null($this->max_students)) {
+            return false; // No limit set
+        }
+        
+        return $this->getCurrentStudentsCount() >= $this->max_students;
     }
 }

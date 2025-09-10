@@ -65,8 +65,22 @@
                                 <!--begin::Input group-->
                                 <div class="fv-row mb-7">
                                     <label class="required fw-semibold fs-6 mb-2">{{ __('students.modal.phone_number') }}</label>
-                                    <input type="number" name="phone_number"
-                                           class="form-control form-control-solid mb-3 mb-lg-0" placeholder="{{ __('students.modal.enter_phone') }}"/>
+                                    <div class="input-group">
+                                        <select name="country_code" class="form-select form-control-solid" style="max-width: 90px;">
+                                            <option value="+966">+966</option>
+                                            <option value="+971">+971</option>
+                                            <option value="+965">+965</option>
+                                            <option value="+973">+973</option>
+                                            <option value="+974">+974</option>
+                                            <option value="+20">+20</option>
+                                            <option value="+1">+1</option>
+                                            <option value="+44">+44</option>
+                                            <option value="+33">+33</option>
+                                            <option value="+49">+49</option>
+                                        </select>
+                                        <input type="text" name="phone_number"
+                                               class="form-control form-control-solid" placeholder="{{ __('students.modal.enter_phone') }}"/>
+                                    </div>
                                 </div>
                                 <!--end::Input group-->
                             </div>
@@ -159,8 +173,14 @@
                                 <!--begin::Input group-->
                                 <div class="fv-row mb-7">
                                     <label class="required fw-semibold fs-6 mb-2">{{ __('students.modal.password') }}</label>
-                                    <input type="password" name="password"
-                                           class="form-control form-control-solid mb-3 mb-lg-0"/>
+                                    <div class="position-relative">
+                                        <input type="password" name="password"
+                                               class="form-control form-control-solid mb-3 mb-lg-0"/>
+                                        <span class="btn btn-sm btn-icon position-absolute translate-middle top-50 end-0 me-n2" data-kt-password-toggle="visibility">
+                                            <i class="bi bi-eye-slash fs-2"></i>
+                                            <i class="bi bi-eye fs-2 d-none"></i>
+                                        </span>
+                                    </div>
                                 </div>
                                 <!--end::Input group-->
                             </div>
@@ -171,8 +191,14 @@
                                 <!--begin::Input group-->
                                 <div class="fv-row mb-7">
                                     <label class="required fw-semibold fs-6 mb-2">{{ __('students.modal.confirm_password') }}</label>
-                                    <input type="password" name="password_confirmation"
-                                           class="form-control form-control-solid mb-3 mb-lg-0"/>
+                                    <div class="position-relative">
+                                        <input type="password" name="password_confirmation"
+                                               class="form-control form-control-solid mb-3 mb-lg-0"/>
+                                        <span class="btn btn-sm btn-icon position-absolute translate-middle top-50 end-0 me-n2" data-kt-password-toggle="visibility">
+                                            <i class="bi bi-eye-slash fs-2"></i>
+                                            <i class="bi bi-eye fs-2 d-none"></i>
+                                        </span>
+                                    </div>
                                 </div>
                                 <!--end::Input group-->
                             </div>
@@ -228,8 +254,22 @@
                                 <!--begin::Input group-->
                                 <div class="fv-row mb-7">
                                     <label class="fw-semibold fs-6 mb-2">{{ __('students.modal.parent_phone') }}</label>
-                                    <input type="text" name="parent_phone" class="form-control form-control-solid mb-3 mb-lg-0"
-                                           placeholder="{{ __('students.modal.enter_parent_phone') }}"/>
+                                    <div class="input-group">
+                                        <select name="parent_country_code" class="form-select form-control-solid" style="max-width: 90px;">
+                                            <option value="+966">+966</option>
+                                            <option value="+971">+971</option>
+                                            <option value="+965">+965</option>
+                                            <option value="+973">+973</option>
+                                            <option value="+974">+974</option>
+                                            <option value="+20">+20</option>
+                                            <option value="+1">+1</option>
+                                            <option value="+44">+44</option>
+                                            <option value="+33">+33</option>
+                                            <option value="+49">+49</option>
+                                        </select>
+                                        <input type="text" name="parent_phone" class="form-control form-control-solid"
+                                               placeholder="{{ __('students.modal.enter_parent_phone') }}"/>
+                                    </div>
                                 </div>
                                 <!--end::Input group-->
                             </div>
@@ -271,3 +311,19 @@
     </div>
     <!--end::Modal dialog-->
 </div>
+@push('scripts')
+    <script>
+        // this part for change the user active text muted word
+        $(document).ready(function () {
+            $('input[name="is_active"]').on('change', function () {
+                if ($(this).is(':checked')) {
+                    $(this).val(1);
+                    $(this).closest('.form-check').find('.form-check-label').text('{{ __('users.modal.active') }}');
+                } else {
+                    $(this).val(0);
+                    $(this).closest('.form-check').find('.form-check-label').text('{{ __('users.modal.inactive') }}');
+                }
+            });
+        });
+    </script>
+@endpush

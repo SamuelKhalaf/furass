@@ -42,7 +42,7 @@
                 <!--begin::Actions-->
                 <div class="d-flex align-items-center gap-2 gap-lg-3">
                     <a href="{{ route('admin.student.enrollments.show', $program->id) }}" class="btn btn-sm btn-secondary">
-                        <i class="fa-solid fa-arrow-left me-1"></i>{{ __('Back to Program') }}
+                        <i class="fa-solid fa-arrow-left me-1"></i>{{ __('trips.management.back_to_program') }}
                     </a>
                 </div>
                 <!--end::Actions-->
@@ -86,7 +86,7 @@
                             <div class="card-header">
                                 <!--begin::Card title-->
                                 <div class="card-title">
-                                    <h3 class="fw-bold text-dark">{{ __('Trip Status') }}</h3>
+                                    <h3 class="fw-bold text-dark">{{ __('trips.management.trip_status') }}</h3>
                                 </div>
                                 <!--end::Card title-->
                             </div>
@@ -96,17 +96,17 @@
                             <div class="card-body pt-0">
                                 @php
                                     $statusConfig = [
-                                        1 => ['class' => 'secondary', 'icon' => 'lock', 'text' => 'Locked'],
-                                        2 => ['class' => 'warning', 'icon' => 'clock', 'text' => 'Scheduled'],
-                                        3 => ['class' => 'success', 'icon' => 'check', 'text' => 'Completed'],
-                                        4 => ['class' => 'danger', 'icon' => 'times', 'text' => 'Missed'],
+                                        1 => ['class' => 'secondary', 'icon' => 'lock', 'text' => __('trips.management.trip_locked_status')],
+                                        2 => ['class' => 'warning', 'icon' => 'clock', 'text' => __('trips.management.trip_scheduled_status')],
+                                        3 => ['class' => 'success', 'icon' => 'check', 'text' => __('trips.management.trip_completed_status')],
+                                        4 => ['class' => 'danger', 'icon' => 'times', 'text' => __('trips.management.trip_missed_status')],
                                     ];
                                     $config = $statusConfig[$progress->status] ?? $statusConfig[1];
                                 @endphp
 
                                     <!--begin::Status-->
                                 <div class="d-flex flex-stack mb-5">
-                                    <span class="text-gray-700 fw-bold fs-6">{{ __('Status') }}</span>
+                                    <span class="text-gray-700 fw-bold fs-6">{{ __('trips.management.status') }}</span>
                                     <span class="badge badge-light-{{ $config['class'] }} fs-7 fw-bold">
                                         <i class="fa-solid fa-{{ $config['icon'] }} me-1"></i>{{ __($config['text']) }}
                                     </span>
@@ -115,21 +115,21 @@
 
                                 <!--begin::Program-->
                                 <div class="d-flex flex-stack mb-5">
-                                    <span class="text-gray-700 fw-bold fs-6">{{ __('Program') }}</span>
+                                    <span class="text-gray-700 fw-bold fs-6">{{ __('trips.management.program') }}</span>
                                     <span class="text-gray-800 fw-bolder fs-6">{{ $program->{app()->getLocale() == 'ar' ? 'title_ar' : 'title_en'} }}</span>
                                 </div>
                                 <!--end::Program-->
 
                                 <!--begin::Host Company-->
                                 <div class="d-flex flex-stack mb-5">
-                                    <span class="text-gray-700 fw-bold fs-6">{{ __('Host Company') }}</span>
+                                    <span class="text-gray-700 fw-bold fs-6">{{ __('trips.management.host_company') }}</span>
                                     <span class="text-gray-800 fw-bolder fs-6">{{ $event->company_name }}</span>
                                 </div>
                                 <!--end::Host Company-->
 
                                 <!--begin::Location-->
                                 <div class="d-flex flex-stack mb-5">
-                                    <span class="text-gray-700 fw-bold fs-6">{{ __('Location') }}</span>
+                                    <span class="text-gray-700 fw-bold fs-6">{{ __('trips.management.location') }}</span>
                                     <span class="text-gray-800 fw-bolder fs-6">{{ $event->location }}</span>
                                 </div>
                                 <!--end::Location-->
@@ -138,10 +138,10 @@
                                     <!--begin::Attendance Status-->
                                     <div class="separator separator-dashed my-5"></div>
                                     <div class="d-flex flex-stack mb-5">
-                                        <span class="text-gray-700 fw-bold fs-6">{{ __('Attendance') }}</span>
+                                        <span class="text-gray-700 fw-bold fs-6">{{ __('trips.management.attendance') }}</span>
                                         <span class="badge badge-light-{{ $attendance->status == 'attended' ? 'success' : 'danger' }} fs-7 fw-bold">
                                             <i class="fa-solid fa-{{ $attendance->status == 'attended' ? 'check' : 'times' }} me-1"></i>
-                                            {{ __($attendance->status == 'attended' ? 'Attended' : 'Absent') }}
+                                            {{ __($attendance->status == 'attended' ? 'trips.management.attended' : 'trips.management.absent') }}
                                         </span>
                                     </div>
                                     <!--end::Attendance Status-->
@@ -162,7 +162,7 @@
                                 <!--begin::Card title-->
                                 <div class="card-title">
                                     <h3 class="fw-bold text-dark">
-                                        <i class="fa-solid fa-route text-primary me-2"></i>{{ __('Trip Details') }}
+                                        <i class="fa-solid fa-route text-primary me-2"></i>{{ __('trips.management.trip_details') }}
                                     </h3>
                                 </div>
                                 <!--end::Card title-->
@@ -179,9 +179,9 @@
                                                 <i class="fa-solid fa-lock text-secondary fs-1"></i>
                                             </div>
                                         </div>
-                                        <div class="fs-1 fw-bolder text-gray-400 mb-5">{{ __('Trip Locked') }}</div>
+                                        <div class="fs-1 fw-bolder text-gray-400 mb-5">{{ __('trips.management.trip_locked') }}</div>
                                         <div class="fs-6 text-gray-600 text-center mb-8">
-                                            {{ __('This trip is currently locked. Complete the previous activities to unlock this trip.') }}
+                                            {{ __('trips.management.trip_locked_message') }}
                                         </div>
                                     </div>
                                     <!--end::Locked state-->
@@ -190,19 +190,19 @@
                                     <div class="mb-10">
                                         <div class="d-flex align-items-center mb-5">
                                             <i class="fa-solid fa-info-circle text-primary fs-2 me-3"></i>
-                                            <h4 class="text-gray-800 fw-bold mb-0">{{ __('Basic Information') }}</h4>
+                                            <h4 class="text-gray-800 fw-bold mb-0">{{ __('trips.management.basic_information') }}</h4>
                                         </div>
 
                                         <div class="row g-5">
                                             <div class="col-md-6">
                                                 <div class="d-flex flex-column">
-                                                    <span class="text-gray-700 fw-bold fs-7">{{ __('Trip Name') }}</span>
+                                                    <span class="text-gray-700 fw-bold fs-7">{{ __('trips.management.trip_name') }}</span>
                                                     <span class="text-gray-800 fw-bolder fs-6">{{ $event->event_name }}</span>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="d-flex flex-column">
-                                                    <span class="text-gray-700 fw-bold fs-7">{{ __('Host Company') }}</span>
+                                                    <span class="text-gray-700 fw-bold fs-7">{{ __('trips.management.host_company') }}</span>
                                                     <span class="text-gray-800 fw-bolder fs-6">{{ $event->company_name }}</span>
                                                 </div>
                                             </div>
@@ -214,7 +214,7 @@
                                     <div class="mb-10">
                                         <div class="d-flex align-items-center mb-5">
                                             <i class="fa-solid fa-calendar-alt text-warning fs-2 me-3"></i>
-                                            <h4 class="text-gray-800 fw-bold mb-0">{{ __('Trip Schedule') }}</h4>
+                                            <h4 class="text-gray-800 fw-bold mb-0">{{ __('trips.management.trip_schedule') }}</h4>
                                         </div>
 
                                         <div class="row g-5">
@@ -222,7 +222,7 @@
                                                 <div class="d-flex align-items-center mb-3">
                                                     <i class="fa-solid fa-clock text-success fs-5 me-2"></i>
                                                     <div>
-                                                        <span class="text-gray-700 fw-bold fs-7 d-block">{{ __('Start Time') }}</span>
+                                                        <span class="text-gray-700 fw-bold fs-7 d-block">{{ __('trips.management.start_time') }}</span>
                                                         <span class="text-gray-800 fw-bolder fs-6">{{ \Carbon\Carbon::parse($event->start_date)->format('M d, Y - h:i A') }}</span>
                                                     </div>
                                                 </div>
@@ -231,7 +231,7 @@
                                                 <div class="d-flex align-items-center mb-3">
                                                     <i class="fa-solid fa-clock text-danger fs-5 me-2"></i>
                                                     <div>
-                                                        <span class="text-gray-700 fw-bold fs-7 d-block">{{ __('End Time') }}</span>
+                                                        <span class="text-gray-700 fw-bold fs-7 d-block">{{ __('trips.management.end_time') }}</span>
                                                         <span class="text-gray-800 fw-bolder fs-6">{{ \Carbon\Carbon::parse($event->end_date)->format('M d, Y - h:i A') }}</span>
                                                     </div>
                                                 </div>
@@ -241,8 +241,8 @@
                                         <div class="alert alert-light-info d-flex align-items-center p-5 mt-5">
                                             <i class="fa-solid fa-bus text-info fs-3 me-3"></i>
                                             <div>
-                                                <h5 class="text-info mb-1">{{ __('Transportation') }}</h5>
-                                                <span class="text-gray-700">{{ __('Private bus - supervised by school and Foras supervisors') }}</span>
+                                                <h5 class="text-info mb-1">{{ __('trips.management.transportation') }}</h5>
+                                                <span class="text-gray-700">{{ __('trips.management.private_bus_supervised') }}</span>
                                             </div>
                                         </div>
                                     </div>

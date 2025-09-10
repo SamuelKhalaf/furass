@@ -818,6 +818,13 @@
                     form.querySelector('[name="name"]').value = response.consultant.user.name || "";
                     form.querySelector('[name="email"]').value = response.consultant.user.email || "";
                     form.querySelector('[name="phone_number"]').value = response.consultant.user.phone_number || "";
+                    
+                    // Set country code
+                    const countryCodeSelect = form.querySelector('[name="country_code"]');
+                    if (countryCodeSelect && response.consultant.user.country_code) {
+                        countryCodeSelect.value = response.consultant.user.country_code;
+                    }
+                    
                     form.querySelector('[name="bio"]').value = response.consultant.bio || "";
                     $("#kt_modal_update_consultant_form").attr("data-user-id", response.consultant.id);
 

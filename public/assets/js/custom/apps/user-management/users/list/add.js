@@ -117,8 +117,12 @@ var KTUsersAddUser = function () {
 
                                 let errorMessage = "Something went wrong! Please try again later.";
 
-                                if (xhr.responseJSON && xhr.responseJSON.errors) {
-                                    errorMessage = Object.values(xhr.responseJSON.errors).join("\n");
+                                if (xhr.responseJSON) {
+                                    if (xhr.responseJSON.errors) {
+                                        errorMessage = Object.values(xhr.responseJSON.errors).join("\n");
+                                    } else if (xhr.responseJSON.message) {
+                                        errorMessage = xhr.responseJSON.message;
+                                    }
                                 }
 
                                 Swal.fire({

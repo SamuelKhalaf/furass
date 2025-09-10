@@ -97,6 +97,7 @@ class UsersController extends Controller
             'name'          => $user->name,
             'email'         => $user->email,
             'phone_number'  => $user->phone_number,
+            'country_code'  => $user->country_code,
             'role'          => $user->roles->first()?->name,
             'is_active'     => $user->is_active,
             'schools' => $user->schools()

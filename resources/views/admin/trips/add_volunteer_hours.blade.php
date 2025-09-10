@@ -1,5 +1,5 @@
 @extends('admin.layouts.master')
-@section('title', __('Add Volunteer Hours - Trip'))
+@section('title', __('trips.management.add_volunteer_hours'))
 
 @section('content')
     <div class="d-flex flex-column flex-column-fluid">
@@ -9,7 +9,7 @@
                 <!--begin::Page title-->
                 <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
                     <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
-                        {{ __('Add Volunteer Hours') }}
+                        {{ __('trips.management.add_volunteer_hours') }}
                     </h1>
                     <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
                         <li class="breadcrumb-item text-muted">
@@ -22,7 +22,7 @@
                 <!--begin::Actions-->
                 <div class="d-flex align-items-center gap-2 gap-lg-3">
                     <a href="{{ route('admin.sub-admin.trip.students', [$program->id, $pathPoint->id]) }}" class="btn btn-sm btn-secondary">
-                        <i class="fa-solid fa-arrow-left me-1"></i>{{ __('View Students List') }}
+                        <i class="fa-solid fa-arrow-left me-1"></i>{{ __('trips.management.view_students_list') }}
                     </a>
                 </div>
             </div>
@@ -55,7 +55,7 @@
                     <div class="card-header">
                         <div class="card-title">
                             <h3 class="fw-bold text-dark">
-                                <i class="fa-solid fa-info-circle text-primary me-2"></i>{{ __('Trip Information') }}
+                                <i class="fa-solid fa-info-circle text-primary me-2"></i>{{ __('trips.management.trip_information') }}
                             </h3>
                         </div>
                     </div>
@@ -63,13 +63,13 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="d-flex flex-column">
-                                    <span class="text-gray-600 fw-semibold">{{ __('Trip Name') }}</span>
+                                    <span class="text-gray-600 fw-semibold">{{ __('trips.management.trip_name') }}</span>
                                     <span class="text-gray-800 fw-bold fs-6">{{ $event->event_name }}</span>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="d-flex flex-column">
-                                    <span class="text-gray-600 fw-semibold">{{ __('Program') }}</span>
+                                    <span class="text-gray-600 fw-semibold">{{ __('trips.management.program') }}</span>
                                     <span class="text-gray-800 fw-bold fs-6">{{ $program->title_en }}</span>
                                 </div>
                             </div>
@@ -78,19 +78,19 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="d-flex flex-column">
-                                    <span class="text-gray-600 fw-semibold">{{ __('Location') }}</span>
+                                    <span class="text-gray-600 fw-semibold">{{ __('trips.management.location') }}</span>
                                     <span class="text-gray-800 fw-bold fs-6">{{ $event->location }}</span>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="d-flex flex-column">
-                                    <span class="text-gray-600 fw-semibold">{{ __('Date') }}</span>
+                                    <span class="text-gray-600 fw-semibold">{{ __('trips.management.date') }}</span>
                                     <span class="text-gray-800 fw-bold fs-6">{{ \Carbon\Carbon::parse($event->start_date)->format('M d, Y') }}</span>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="d-flex flex-column">
-                                    <span class="text-gray-600 fw-semibold">{{ __('Total Students') }}</span>
+                                    <span class="text-gray-600 fw-semibold">{{ __('trips.management.total_students') }}</span>
                                     <span class="text-gray-800 fw-bold fs-6">{{ $students->count() }}</span>
                                 </div>
                             </div>
@@ -104,7 +104,7 @@
                     <div class="card-header">
                         <div class="card-title">
                             <h3 class="fw-bold text-dark">
-                                <i class="fa-solid fa-clock text-success me-2"></i>{{ __('Student Volunteer Hours') }}
+                                <i class="fa-solid fa-clock text-success me-2"></i>{{ __('trips.management.student_volunteer_hours') }}
                             </h3>
                         </div>
                     </div>
@@ -118,12 +118,12 @@
                                     <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
                                         <thead>
                                         <tr class="fw-bold text-muted">
-                                            <th class="min-w-150px">{{ __('Student') }}</th>
-                                            <th class="min-w-100px">{{ __('Student ID Number') }}</th>
-                                            <th class="min-w-100px">{{ __('Volunteer Hours') }}</th>
-                                            <th class="min-w-120px">{{ __('Volunteer Date') }}</th>
-                                            <th class="min-w-200px">{{ __('Description') }}</th>
-                                            <th class="min-w-100px">{{ __('Current Hours') }}</th>
+                                            <th class="min-w-150px">{{ __('trips.management.student') }}</th>
+                                            <th class="min-w-100px">{{ __('trips.management.student_id_number') }}</th>
+                                            <th class="min-w-100px">{{ __('trips.management.volunteer_hours') }}</th>
+                                            <th class="min-w-120px">{{ __('trips.management.volunteer_date') }}</th>
+                                            <th class="min-w-200px">{{ __('trips.management.description') }}</th>
+                                            <th class="min-w-100px">{{ __('trips.management.current_hours') }}</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -150,7 +150,7 @@
                                                     <input type="text" class="form-control form-control-sm"
                                                            name="volunteer_hours[{{ $index }}][student_id_number]"
                                                            value="{{ $student->student_id_number ?? '' }}"
-                                                           placeholder="{{ __('Enter ID Number') }}" required disabled
+                                                           placeholder="{{ __('trips.management.enter_id_number') }}" required disabled
                                                            style="width: {{ strlen($student->student_id_number ?? '') + 2 }}ch;">
                                                 </td>
                                                 <td>
@@ -169,19 +169,19 @@
                                                 <td>
                                                     <textarea class="form-control form-control-sm"
                                                               name="volunteer_hours[{{ $index }}][description]"
-                                                              rows="2" placeholder="{{ __('Optional description...') }}">{{ $existingVolunteerHour->description ?? '' }}</textarea>
+                                                              rows="2" placeholder="{{ __('trips.management.optional_description') }}">{{ $existingVolunteerHour->description ?? '' }}</textarea>
                                                 </td>
                                                 <td>
                                                     @if($existingVolunteerHour)
                                                         <span class="badge badge-light-success">
-                                                            <i class="fa-solid fa-clock me-1"></i>{{ $existingVolunteerHour->hours }} {{ __('hours') }}
+                                                            <i class="fa-solid fa-clock me-1"></i>{{ $existingVolunteerHour->hours }} {{ __('trips.management.hours') }}
                                                         </span>
                                                         <div class="text-muted fs-7 mt-1">
                                                             {{ $existingVolunteerHour->volunteer_date->format('M d, Y') }}
                                                         </div>
                                                     @else
                                                         <span class="badge badge-light-secondary">
-                                                            <i class="fa-solid fa-plus me-1"></i>{{ __('New Entry') }}
+                                                            <i class="fa-solid fa-plus me-1"></i>{{ __('trips.management.new_entry') }}
                                                         </span>
                                                     @endif
                                                 </td>
@@ -195,7 +195,7 @@
                                 <!--begin::Actions-->
                                 <div class="d-flex justify-content-end mt-10">
                                     <button type="submit" class="btn btn-success btn-lg">
-                                        <i class="fa-solid fa-save me-2"></i>{{ __('Save Volunteer Hours') }}
+                                        <i class="fa-solid fa-save me-2"></i>{{ __('trips.management.save_volunteer_hours') }}
                                     </button>
                                 </div>
                                 <!--end::Actions-->
@@ -207,10 +207,10 @@
                                         <i class="fa-solid fa-exclamation-triangle text-warning fs-1"></i>
                                     </div>
                                 </div>
-                                <div class="fs-1 fw-bolder text-gray-400 mb-5">{{ __('No Attended Students') }}</div>
+                                <div class="fs-1 fw-bolder text-gray-400 mb-5">{{ __('trips.management.no_attended_students') }}</div>
                                 <div class="fs-6 text-gray-600 text-center">
-                                    {{ __('Only students who have attended the trip can have volunteer hours recorded.') }}<br>
-                                    {{ __('Please mark attendance first.') }}
+                                    {{ __('trips.management.only_attended_students') }}<br>
+                                    {{ __('trips.management.mark_attendance_first') }}
                                 </div>
                             </div>
                         @endif

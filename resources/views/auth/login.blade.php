@@ -49,7 +49,13 @@
                             <!--end::Input group=-->
                             <div class="fv-row mb-3">
                                 <!--begin::Password-->
-                                <input type="password" placeholder="Password" name="password" autocomplete="off" class="form-control bg-transparent" />
+                                <div class="position-relative">
+                                    <input type="password" placeholder="Password" name="password" autocomplete="off" class="form-control bg-transparent" />
+                                    <span class="btn btn-sm btn-icon position-absolute translate-middle top-50 end-0 me-n2" data-kt-password-toggle="visibility">
+                                        <i class="bi bi-eye-slash fs-2"></i>
+                                        <i class="bi bi-eye fs-2 d-none"></i>
+                                    </span>
+                                </div>
                                 <!--end::Password-->
                             </div>
                             <!--end::Input group=-->

@@ -103,6 +103,7 @@ class UserService implements IUserService
                 'name' => $dto->getName(),
                 'email' => $dto->getEmail(),
                 'phone_number' => $dto->getPhoneNumber(),
+                'country_code' => $dto->getCountryCode(),
                 'password' => $dto->getPassword(),
                 'is_active' => $dto->getIsActive(),
                 'role' => $dto->getRole(),
@@ -129,6 +130,7 @@ class UserService implements IUserService
                 'name' => $dto->getName(),
                 'email' => $dto->getEmail(),
                 'phone_number' => $dto->getPhoneNumber(),
+                'country_code' => $dto->getCountryCode(),
                 'is_active' => $dto->getIsActive(),
             ];
 

@@ -39,6 +39,7 @@
     <!--end::Global Javascript Bundle-->
     <!--begin::Custom Javascript(used for this page only)-->
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="{{asset('assets/js/custom/password-toggle.js')}}"></script>
     @yield('scripts')
     <!--end::Custom Javascript-->
     <!--end::Javascript-->

@@ -27,8 +27,8 @@ class ConsultantDashboardController extends Controller
             // Student progress
             'studentProgress' => $this->getStudentProgressMetrics($consultant),
 
-            // Program popularity among consultant's students
-            'popularPrograms' => $this->getPopularPrograms($consultant),
+            // Student counts by grade level
+            'studentsByGrade' => $this->getStudentsByGrade($consultant),
         ];
 
         return view('admin.dashboards.consultant', $data);
@@ -104,25 +104,23 @@ class ConsultantDashboardController extends Controller
         ];
     }
 
-    private function getPopularPrograms($consultant)
+    private function getStudentsByGrade($consultant)
     {
-        return Program::select('programs.id', 'programs.title_ar', 'programs.title_en')
-            ->selectRaw('COUNT(enrollments.id) as enrollment_count')
-            ->join('enrollments', 'programs.id', '=', 'enrollments.program_id')
-            ->whereHas('enrollments.student.school.consultants', function($query) use ($consultant) {
-                $query->where('consultant_id', $consultant->id);
-            })
-            ->groupBy('programs.id', 'programs.title_ar', 'programs.title_en')
-            ->orderByDesc('enrollment_count')
-            ->limit(3)
-            ->get()
-            ->map(function ($program) {
-                return [
-                    'id' => $program->id,
-                    'title' => app()->getLocale() == 'ar' ? $program->title_ar : $program->title_en,
-                    'enrollment_count' => $program->enrollment_count,
-                ];
-            });
+        $students = Student::whereHas('school.consultants', function($query) use ($consultant) {
+            $query->where('consultant_id', $consultant->id);
+        })
+        ->whereIn('grade', ['10', '11', '12'])
+        ->selectRaw('grade, COUNT(*) as student_count')
+        ->groupBy('grade')
+        ->orderBy('grade')
+        ->get()
+        ->keyBy('grade');
+
+        return [
+            'grade_10' => $students->get('10')->student_count ?? 0,
+            'grade_11' => $students->get('11')->student_count ?? 0,
+            'grade_12' => $students->get('12')->student_count ?? 0,
+        ];
     }
 
     private function calculatePercentage($value, $total)

@@ -42,7 +42,7 @@
                 <!--begin::Actions-->
                 <div class="d-flex align-items-center gap-2 gap-lg-3">
                     <a href="{{ route('admin.student.enrollments.show', $program->id) }}" class="btn btn-sm btn-secondary">
-                        <i class="fa-solid fa-arrow-left me-1"></i>{{ __('Back to Program') }}
+                        <i class="fa-solid fa-arrow-left me-1"></i>{{ __('workshops.management.back_to_program') }}
                     </a>
                 </div>
                 <!--end::Actions-->
@@ -86,7 +86,7 @@
                             <div class="card-header">
                                 <!--begin::Card title-->
                                 <div class="card-title">
-                                    <h3 class="fw-bold text-dark">{{ __('Workshop Status') }}</h3>
+                                    <h3 class="fw-bold text-dark">{{ __('workshops.management.workshop_status') }}</h3>
                                 </div>
                                 <!--end::Card title-->
                             </div>
@@ -106,7 +106,7 @@
 
                                     <!--begin::Status-->
                                 <div class="d-flex flex-stack mb-5">
-                                    <span class="text-gray-700 fw-bold fs-6">{{ __('Status') }}</span>
+                                    <span class="text-gray-700 fw-bold fs-6">{{ __('workshops.management.status') }}</span>
                                     <span class="badge badge-light-{{ $config['class'] }} fs-7 fw-bold">
                                         <i class="fa-solid fa-{{ $config['icon'] }} me-1"></i>{{ __($config['text']) }}
                                     </span>
@@ -115,21 +115,21 @@
 
                                 <!--begin::Program-->
                                 <div class="d-flex flex-stack mb-5">
-                                    <span class="text-gray-700 fw-bold fs-6">{{ __('Program') }}</span>
+                                    <span class="text-gray-700 fw-bold fs-6">{{ __('workshops.management.program') }}</span>
                                     <span class="text-gray-800 fw-bolder fs-6">{{ $program->{app()->getLocale() == 'ar' ? 'title_ar' : 'title_en'} }}</span>
                                 </div>
                                 <!--end::Program-->
 
                                 <!--begin::Workshop Facilitator-->
                                 <div class="d-flex flex-stack mb-5">
-                                    <span class="text-gray-700 fw-bold fs-6">{{ __('Facilitator') }}</span>
+                                    <span class="text-gray-700 fw-bold fs-6">{{ __('workshops.management.facilitator') }}</span>
                                     <span class="text-gray-800 fw-bolder fs-6">{{ $event->company_name }}</span>
                                 </div>
                                 <!--end::Workshop Facilitator-->
 
                                 <!--begin::Location-->
                                 <div class="d-flex flex-stack mb-5">
-                                    <span class="text-gray-700 fw-bold fs-6">{{ __('Location') }}</span>
+                                    <span class="text-gray-700 fw-bold fs-6">{{ __('workshops.management.location') }}</span>
                                     <span class="text-gray-800 fw-bolder fs-6">{{ $event->location }}</span>
                                 </div>
                                 <!--end::Location-->
@@ -138,10 +138,10 @@
                                     <!--begin::Attendance Status-->
                                     <div class="separator separator-dashed my-5"></div>
                                     <div class="d-flex flex-stack mb-5">
-                                        <span class="text-gray-700 fw-bold fs-6">{{ __('Attendance') }}</span>
+                                        <span class="text-gray-700 fw-bold fs-6">{{ __('workshops.management.attendance') }}</span>
                                         <span class="badge badge-light-{{ $attendance->status == 'attended' ? 'success' : 'danger' }} fs-7 fw-bold">
                                             <i class="fa-solid fa-{{ $attendance->status == 'attended' ? 'check' : 'times' }} me-1"></i>
-                                            {{ __($attendance->status == 'attended' ? 'Attended' : 'Absent') }}
+                                            {{ __($attendance->status == 'attended' ? 'workshops.management.attended' : 'workshops.management.absent') }}
                                         </span>
                                     </div>
                                     <!--end::Attendance Status-->
@@ -162,7 +162,7 @@
                                 <!--begin::Card title-->
                                 <div class="card-title">
                                     <h3 class="fw-bold text-dark">
-                                        <i class="fa-solid fa-chalkboard-teacher text-primary me-2"></i>{{ __('Workshop Details') }}
+                                        <i class="fa-solid fa-chalkboard-teacher text-primary me-2"></i>{{ __('workshops.management.workshop_details') }}
                                     </h3>
                                 </div>
                                 <!--end::Card title-->
@@ -179,9 +179,9 @@
                                                 <i class="fa-solid fa-lock text-secondary fs-1"></i>
                                             </div>
                                         </div>
-                                        <div class="fs-1 fw-bolder text-gray-400 mb-5">{{ __('Workshop Locked') }}</div>
+                                        <div class="fs-1 fw-bolder text-gray-400 mb-5">{{ __('workshops.management.workshop_locked') }}</div>
                                         <div class="fs-6 text-gray-600 text-center mb-8">
-                                            {{ __('This workshop is currently locked. Complete the previous activities to unlock this workshop.') }}
+                                            {{ __('workshops.management.workshop_locked_message') }}
                                         </div>
                                     </div>
                                     <!--end::Locked state-->
@@ -190,19 +190,19 @@
                                     <div class="mb-10">
                                         <div class="d-flex align-items-center mb-5">
                                             <i class="fa-solid fa-info-circle text-primary fs-2 me-3"></i>
-                                            <h4 class="text-gray-800 fw-bold mb-0">{{ __('Basic Information') }}</h4>
+                                            <h4 class="text-gray-800 fw-bold mb-0">{{ __('workshops.management.basic_information') }}</h4>
                                         </div>
 
                                         <div class="row g-5">
                                             <div class="col-md-6">
                                                 <div class="d-flex flex-column">
-                                                    <span class="text-gray-700 fw-bold fs-7">{{ __('Workshop Name') }}</span>
+                                                    <span class="text-gray-700 fw-bold fs-7">{{ __('workshops.management.workshop_name') }}</span>
                                                     <span class="text-gray-800 fw-bolder fs-6">{{ $event->event_name }}</span>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="d-flex flex-column">
-                                                    <span class="text-gray-700 fw-bold fs-7">{{ __('Facilitator') }}</span>
+                                                    <span class="text-gray-700 fw-bold fs-7">{{ __('workshops.management.facilitator') }}</span>
                                                     <span class="text-gray-800 fw-bolder fs-6">{{ $event->company_name }}</span>
                                                 </div>
                                             </div>
@@ -214,7 +214,7 @@
                                     <div class="mb-10">
                                         <div class="d-flex align-items-center mb-5">
                                             <i class="fa-solid fa-calendar-alt text-warning fs-2 me-3"></i>
-                                            <h4 class="text-gray-800 fw-bold mb-0">{{ __('Workshop Schedule') }}</h4>
+                                            <h4 class="text-gray-800 fw-bold mb-0">{{ __('workshops.management.workshop_schedule') }}</h4>
                                         </div>
 
                                         <div class="row g-5">
@@ -222,7 +222,7 @@
                                                 <div class="d-flex align-items-center mb-3">
                                                     <i class="fa-solid fa-clock text-success fs-5 me-2"></i>
                                                     <div>
-                                                        <span class="text-gray-700 fw-bold fs-7 d-block">{{ __('Start Time') }}</span>
+                                                        <span class="text-gray-700 fw-bold fs-7 d-block">{{ __('workshops.management.start_time') }}</span>
                                                         <span class="text-gray-800 fw-bolder fs-6">{{ \Carbon\Carbon::parse($event->start_date)->format('M d, Y - h:i A') }}</span>
                                                     </div>
                                                 </div>
@@ -231,7 +231,7 @@
                                                 <div class="d-flex align-items-center mb-3">
                                                     <i class="fa-solid fa-clock text-danger fs-5 me-2"></i>
                                                     <div>
-                                                        <span class="text-gray-700 fw-bold fs-7 d-block">{{ __('End Time') }}</span>
+                                                        <span class="text-gray-700 fw-bold fs-7 d-block">{{ __('workshops.management.end_time') }}</span>
                                                         <span class="text-gray-800 fw-bolder fs-6">{{ \Carbon\Carbon::parse($event->end_date)->format('M d, Y - h:i A') }}</span>
                                                     </div>
                                                 </div>
@@ -241,8 +241,8 @@
                                         <div class="alert alert-light-info d-flex align-items-center p-5 mt-5">
                                             <i class="fa-solid fa-user-graduate text-info fs-3 me-3"></i>
                                             <div>
-                                                <h5 class="text-info mb-1">{{ __('Workshop Format') }}</h5>
-                                                <span class="text-gray-700">{{ __('Interactive session with hands-on activities and group discussions') }}</span>
+                                                <h5 class="text-info mb-1">{{ __('workshops.management.workshop_format') }}</h5>
+                                                <span class="text-gray-700">{{ __('workshops.management.interactive_session') }}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -252,32 +252,32 @@
                                     <div class="mb-10">
                                         <div class="d-flex align-items-center mb-5">
                                             <i class="fa-solid fa-bullseye text-success fs-2 me-3"></i>
-                                            <h4 class="text-gray-800 fw-bold mb-0">{{ __('Workshop Objectives') }}</h4>
+                                            <h4 class="text-gray-800 fw-bold mb-0">{{ __('workshops.management.workshop_objectives') }}</h4>
                                         </div>
 
                                         <div class="row g-3">
                                             <div class="col-12">
                                                 <div class="d-flex align-items-center mb-2">
                                                     <i class="fa-solid fa-check-circle text-success fs-6 me-2"></i>
-                                                    <span class="text-gray-700">{{ __('Develop practical skills in the chosen field') }}</span>
+                                                    <span class="text-gray-700">{{ __('workshops.management.develop_practical_skills') }}</span>
                                                 </div>
                                             </div>
                                             <div class="col-12">
                                                 <div class="d-flex align-items-center mb-2">
                                                     <i class="fa-solid fa-check-circle text-success fs-6 me-2"></i>
-                                                    <span class="text-gray-700">{{ __('Gain hands-on experience with real-world applications') }}</span>
+                                                    <span class="text-gray-700">{{ __('workshops.management.gain_hands_on_experience') }}</span>
                                                 </div>
                                             </div>
                                             <div class="col-12">
                                                 <div class="d-flex align-items-center mb-2">
                                                     <i class="fa-solid fa-check-circle text-success fs-6 me-2"></i>
-                                                    <span class="text-gray-700">{{ __('Enhance teamwork and collaboration skills') }}</span>
+                                                    <span class="text-gray-700">{{ __('workshops.management.enhance_teamwork_skills') }}</span>
                                                 </div>
                                             </div>
                                             <div class="col-12">
                                                 <div class="d-flex align-items-center mb-2">
                                                     <i class="fa-solid fa-check-circle text-success fs-6 me-2"></i>
-                                                    <span class="text-gray-700">{{ __('Build confidence in applying learned concepts') }}</span>
+                                                    <span class="text-gray-700">{{ __('workshops.management.build_confidence') }}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -288,32 +288,32 @@
                                     <div class="mb-10">
                                         <div class="d-flex align-items-center mb-5">
                                             <i class="fa-solid fa-suitcase text-info fs-2 me-3"></i>
-                                            <h4 class="text-gray-800 fw-bold mb-0">{{ __('What to Bring') }}</h4>
+                                            <h4 class="text-gray-800 fw-bold mb-0">{{ __('workshops.management.what_to_bring') }}</h4>
                                         </div>
 
                                         <div class="row g-3">
                                             <div class="col-md-6">
                                                 <div class="d-flex align-items-center mb-2">
                                                     <i class="fa-solid fa-id-card text-primary fs-6 me-2"></i>
-                                                    <span class="text-gray-700">{{ __('ID Card / School Card') }}</span>
+                                                    <span class="text-gray-700">{{ __('workshops.management.id_card_school_card') }}</span>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="d-flex align-items-center mb-2">
                                                     <i class="fa-solid fa-laptop text-primary fs-6 me-2"></i>
-                                                    <span class="text-gray-700">{{ __('Laptop (if required)') }}</span>
+                                                    <span class="text-gray-700">{{ __('workshops.management.laptop_if_required') }}</span>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="d-flex align-items-center mb-2">
                                                     <i class="fa-solid fa-notebook text-primary fs-6 me-2"></i>
-                                                    <span class="text-gray-700">{{ __('Notebook and Pen') }}</span>
+                                                    <span class="text-gray-700">{{ __('workshops.management.notebook_and_pen') }}</span>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="d-flex align-items-center mb-2">
                                                     <i class="fa-solid fa-bottle-water text-primary fs-6 me-2"></i>
-                                                    <span class="text-gray-700">{{ __('Water Bottle') }}</span>
+                                                    <span class="text-gray-700">{{ __('workshops.management.water_bottle') }}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -324,18 +324,18 @@
                                     <div class="mb-10">
                                         <div class="d-flex align-items-center mb-5">
                                             <i class="fa-solid fa-exclamation-triangle text-warning fs-2 me-3"></i>
-                                            <h4 class="text-gray-800 fw-bold mb-0">{{ __('Workshop Guidelines') }}</h4>
+                                            <h4 class="text-gray-800 fw-bold mb-0">{{ __('workshops.management.workshop_guidelines') }}</h4>
                                         </div>
 
                                         <div class="alert alert-light-warning d-flex align-items-start p-5">
                                             <i class="fa-solid fa-info-circle text-warning fs-3 me-3 mt-1"></i>
                                             <div>
                                                 <ul class="mb-0 ps-3">
-                                                    <li class="text-gray-700 mb-2">{{ __('Arrive on time to participate in all activities') }}</li>
-                                                    <li class="text-gray-700 mb-2">{{ __('Minimize phone use during the session') }}</li>
-                                                    <li class="text-gray-700 mb-2">{{ __('Participate actively in discussions and activities') }}</li>
-                                                    <li class="text-gray-700 mb-2">{{ __('Respect others\' opinions and contributions') }}</li>
-                                                    <li class="text-gray-700 mb-2">{{ __('Ask questions and seek clarification when needed') }}</li>
+                                                    <li class="text-gray-700 mb-2">{{ __('workshops.management.arrive_on_time') }}</li>
+                                                    <li class="text-gray-700 mb-2">{{ __('workshops.management.minimize_phone_use') }}</li>
+                                                    <li class="text-gray-700 mb-2">{{ __('workshops.management.participate_actively') }}</li>
+                                                    <li class="text-gray-700 mb-2">{{ __('workshops.management.respect_others_opinions') }}</li>
+                                                    <li class="text-gray-700 mb-2">{{ __('workshops.management.ask_questions') }}</li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -347,7 +347,7 @@
                                         <div class="mb-10">
                                             <div class="d-flex align-items-center mb-5">
                                                 <i class="fa-solid fa-play-circle text-primary fs-2 me-3"></i>
-                                                <h4 class="text-gray-800 fw-bold mb-0">{{ __('Introductory Materials') }}</h4>
+                                                <h4 class="text-gray-800 fw-bold mb-0">{{ __('workshops.management.introductory_materials') }}</h4>
                                             </div>
 
                                             <div class="card card-flush">
@@ -355,7 +355,7 @@
                                                     @if(str_contains($event->media_path, '.mp4'))
                                                         <video controls class="w-100" style="max-height: 400px;">
                                                             <source src="{{ asset($event->media_path) }}" type="video/mp4">
-                                                            {{ __('Your browser does not support the video tag.') }}
+                                                            {{ __('workshops.management.browser_not_support_video') }}
                                                         </video>
                                                     @else
                                                         <img src="{{ asset($event->media_path) }}" class="img-fluid rounded" alt="{{ $event->event_name }}">
@@ -371,7 +371,7 @@
                                         <div class="mb-10">
                                             <div class="d-flex align-items-center mb-5">
                                                 <i class="fa-solid fa-align-left text-info fs-2 me-3"></i>
-                                                <h4 class="text-gray-800 fw-bold mb-0">{{ __('About the Workshop') }}</h4>
+                                                <h4 class="text-gray-800 fw-bold mb-0">{{ __('workshops.management.about_the_workshop') }}</h4>
                                             </div>
 
                                             <div class="text-gray-700 fs-6 lh-lg">
@@ -387,7 +387,7 @@
                                         <div class="mb-10">
                                             <div class="d-flex align-items-center mb-5">
                                                 <i class="fa-solid fa-tasks text-success fs-2 me-3"></i>
-                                                <h4 class="text-gray-800 fw-bold mb-0">{{ __('After the Workshop') }}</h4>
+                                                <h4 class="text-gray-800 fw-bold mb-0">{{ __('workshops.management.after_the_workshop') }}</h4>
                                             </div>
 
                                             <div class="row g-5">
@@ -397,9 +397,9 @@
                                                         <div class="card card-flush border-secondary">
                                                             <div class="card-body text-center">
                                                                 <i class="fa-solid fa-clock text-muted fs-2x mb-3"></i>
-                                                                <h5 class="text-muted mb-3">{{ __('Pending Attendance') }}</h5>
+                                                                <h5 class="text-muted mb-3">{{ __('workshops.management.pending_attendance') }}</h5>
                                                                 <p class="text-gray-600 mb-4">
-                                                                    {{ __('Your attendance has not been recorded yet. Please wait for your consultant to mark it.') }}
+                                                                    {{ __('workshops.management.attendance_not_recorded') }}
                                                                 </p>
                                                             </div>
                                                         </div>
@@ -408,8 +408,8 @@
                                                         <div class="card card-flush border-danger">
                                                             <div class="card-body text-center">
                                                                 <i class="fa-solid fa-times-circle text-danger fs-2x mb-3"></i>
-                                                                <h5 class="text-danger mb-3">{{ __('You were marked absent') }}</h5>
-                                                                <p class="text-gray-600 mb-4">{{ __('Unfortunately, you did not attend this workshop.') }}</p>
+                                                                <h5 class="text-danger mb-3">{{ __('workshops.management.you_were_marked_absent') }}</h5>
+                                                                <p class="text-gray-600 mb-4">{{ __('workshops.management.unfortunately_absent') }}</p>
                                                             </div>
                                                         </div>
                                                     @elseif (!$hasEvaluated && $attendance->status === 'attended')
@@ -417,10 +417,10 @@
                                                         <div class="card card-flush border-warning">
                                                             <div class="card-body text-center">
                                                                 <i class="fa-solid fa-star text-warning fs-2x mb-3"></i>
-                                                                <h5 class="text-warning mb-3">{{ __('Workshop Evaluation') }}</h5>
-                                                                <p class="text-gray-600 mb-4">{{ __('Please evaluate your workshop experience') }}</p>
+                                                                <h5 class="text-warning mb-3">{{ __('workshops.management.workshop_evaluation') }}</h5>
+                                                                <p class="text-gray-600 mb-4">{{ __('workshops.management.please_evaluate') }}</p>
                                                                 <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#evaluationModal">
-                                                                    <i class="fa-solid fa-edit me-2"></i>{{ __('Evaluate Workshop') }}
+                                                                    <i class="fa-solid fa-edit me-2"></i>{{ __('workshops.management.evaluate_workshop') }}
                                                                 </button>
                                                             </div>
                                                         </div>
@@ -429,8 +429,8 @@
                                                         <div class="card card-flush border-success">
                                                             <div class="card-body text-center">
                                                                 <i class="fa-solid fa-check-circle text-success fs-2x mb-3"></i>
-                                                                <h5 class="text-success mb-3">{{ __('Evaluation Completed') }}</h5>
-                                                                <p class="text-gray-600 mb-4">{{ __('Thank you for your evaluation!') }}</p>
+                                                                <h5 class="text-success mb-3">{{ __('workshops.management.evaluation_completed') }}</h5>
+                                                                <p class="text-gray-600 mb-4">{{ __('workshops.management.thank_you_evaluation') }}</p>
                                                             </div>
                                                         </div>
                                                     @endif
@@ -440,10 +440,10 @@
                                                         <div class="card card-flush border-primary">
                                                             <div class="card-body text-center">
                                                                 <i class="fa-solid fa-certificate text-primary fs-2x mb-3"></i>
-                                                                <h5 class="text-primary mb-3">{{ __('Participation Certificate') }}</h5>
-                                                                <p class="text-gray-600 mb-4">{{ __('Download your participation certificate') }}</p>
+                                                                <h5 class="text-primary mb-3">{{ __('workshops.management.participation_certificate') }}</h5>
+                                                                <p class="text-gray-600 mb-4">{{ __('workshops.management.download_certificate') }}</p>
                                                                 <a target="_blank" href="{{ route('admin.student.trip.certificate', ['program' => $program->id, 'pathPoint' => $pathPoint->id]) }}" class="btn btn-primary">
-                                                                    <i class="fa-solid fa-download me-2"></i>{{ __('Download Certificate') }}
+                                                                    <i class="fa-solid fa-download me-2"></i>{{ __('workshops.management.download_certificate_button') }}
                                                                 </a>
                                                             </div>
                                                         </div>
@@ -451,10 +451,10 @@
                                                         <div class="card card-flush border-secondary">
                                                             <div class="card-body text-center">
                                                                 <i class="fa-solid fa-certificate text-secondary fs-2x mb-3"></i>
-                                                                <h5 class="text-secondary mb-3">{{ __('Certificate Available') }}</h5>
-                                                                <p class="text-gray-600 mb-4">{{ __('Complete evaluation to download certificate') }}</p>
+                                                                <h5 class="text-secondary mb-3">{{ __('workshops.management.certificate_available') }}</h5>
+                                                                <p class="text-gray-600 mb-4">{{ __('workshops.management.complete_evaluation') }}</p>
                                                                 <button class="btn btn-secondary" disabled>
-                                                                    <i class="fa-solid fa-lock me-2"></i>{{ __('Certificate Locked') }}
+                                                                    <i class="fa-solid fa-lock me-2"></i>{{ __('workshops.management.certificate_locked') }}
                                                                 </button>
                                                             </div>
                                                         </div>
@@ -489,13 +489,13 @@
                     <form method="POST" action="{{ route('admin.student.workshop.evaluate', ['program' => $program->id, 'pathPoint' => $pathPoint->id]) }}">
                         @csrf
                         <div class="modal-header">
-                            <h5 class="modal-title">{{ __('Workshop Evaluation') }}</h5>
+                            <h5 class="modal-title">{{ __('workshops.management.workshop_evaluation') }}</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <!--begin::Rating-->
                             <div class="mb-8">
-                                <label class="required form-label">{{ __('Overall Rating') }}</label>
+                                <label class="required form-label">{{ __('workshops.management.overall_rating') }}</label>
                                 <div class="rating-stars">
                                     @for($i = 1; $i <= 5; $i++)
                                         <input type="radio" name="rating" value="{{ $i }}" id="star{{ $i }}" required>
@@ -509,28 +509,28 @@
 
                             <!--begin::Feedback-->
                             <div class="mb-8">
-                                <label class="required form-label">{{ __('Workshop Feedback') }}</label>
-                                <textarea name="feedback" class="form-control" rows="4" placeholder="{{ __('Share your overall experience about the workshop...') }}" required></textarea>
+                                <label class="required form-label">{{ __('workshops.management.workshop_feedback') }}</label>
+                                <textarea name="feedback" class="form-control" rows="4" placeholder="{{ __('workshops.management.share_experience') }}" required></textarea>
                             </div>
                             <!--end::Feedback-->
 
                             <!--begin::Learning Outcomes-->
                             <div class="mb-8">
-                                <label class="required form-label">{{ __('Learning Outcomes') }}</label>
-                                <textarea name="learning_outcomes" class="form-control" rows="4" placeholder="{{ __('What skills or knowledge did you gain from this workshop?') }}" required></textarea>
+                                <label class="required form-label">{{ __('workshops.management.learning_outcomes') }}</label>
+                                <textarea name="learning_outcomes" class="form-control" rows="4" placeholder="{{ __('workshops.management.what_skills_gained') }}" required></textarea>
                             </div>
                             <!--end::Learning Outcomes-->
 
                             <!--begin::Suggestions-->
                             <div class="mb-8">
-                                <label class="form-label">{{ __('Suggestions for Improvement') }}</label>
-                                <textarea name="suggestions" class="form-control" rows="3" placeholder="{{ __('Any suggestions to improve future workshops?') }}"></textarea>
+                                <label class="form-label">{{ __('workshops.management.suggestions_improvement') }}</label>
+                                <textarea name="suggestions" class="form-control" rows="3" placeholder="{{ __('workshops.management.improve_future_workshops') }}"></textarea>
                             </div>
                             <!--end::Suggestions-->
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
-                            <button type="submit" class="btn btn-primary">{{ __('Submit Evaluation') }}</button>
+                            <button type="submit" class="btn btn-primary">{{ __('workshops.management.submit_evaluation') }}</button>
                         </div>
                     </form>
                 </div>

@@ -10,15 +10,15 @@
             <div class="col-lg-7 contact-left d-flex flex-column justify-content-center">
                 <div class="contact-title">{{ __('template.contact.title') }}</div>
                 <div class="row">
-                    <div class="col-md-6 contact-info">
+                    <!-- <div class="col-md-6 contact-info">
                         <div class="contact-section-title">{{ __('template.contact.office_title') }}</div>
                         <div><strong>{{$setting->where('key' ,'head_office')->first()->value ?? '#'}}</strong></div>
                         <div>{{ __('template.contact.telephone') }} : {{$setting->where('key' ,'telephone')->first()->value ?? '#'}}</div>
                         <div><a href="{{$setting->where('key' ,'email')->first()->value ?? '#'}}">{{$setting->where('key' ,'email')->first()->value ?? '#'}}</a></div>
-                    </div>
+                    </div> -->
                     <div class="col-md-6 contact-info">
-                        <div class="contact-section-title">{{ __('template.contact.support_title') }}</div>
-                        <div><strong>{{$setting->where('key' ,'support')->first()->value ?? '#'}}</strong></div>
+                        <!-- <div class="contact-section-title">{{ __('template.contact.support_title') }}</div> -->
+                        <!-- <div><strong>{{$setting->where('key' ,'support')->first()->value ?? '#'}}</strong></div> -->
                         <div>{{ __('template.contact.telephone') }} : {{$setting->where('key' ,'telephone')->first()->value ?? '#'}}</div>
                         <div><a href="{{$setting->where('key' ,'email')->first()->value ?? '#'}}">{{$setting->where('key' ,'email')->first()->value ?? '#'}}</a></div>
                     </div>
@@ -46,7 +46,21 @@
                             <input type="email" class="form-control" placeholder="{{ __('template.contact.email') }}" required>
                         </div>
                         <div class="mb-3">
-                            <input type="tel" class="form-control" placeholder="{{ __('template.contact.phone') }}">
+                            <div class="input-group">
+                                <select class="form-control" style="max-width: 120px;">
+                                    <option value="+966">+966</option>
+                                    <option value="+971">+971</option>
+                                    <option value="+965">+965</option>
+                                    <option value="+973">+973</option>
+                                    <option value="+974">+974</option>
+                                    <option value="+20">+20</option>
+                                    <option value="+1">+1</option>
+                                    <option value="+44">+44</option>
+                                    <option value="+33">+33</option>
+                                    <option value="+49">+49</option>
+                                </select>
+                                <input type="tel" class="form-control" placeholder="{{ __('template.contact.phone') }}">
+                            </div>
                         </div>
                         <div class="mb-3">
                             <textarea class="form-control" rows="3" placeholder="{{ __('template.contact.message') }}" required></textarea>

@@ -807,8 +807,12 @@
 
                                             let errorMessage = "Something went wrong! Please try again later.";
 
-                                            if (xhr.responseJSON && xhr.responseJSON.errors) {
-                                                errorMessage = Object.values(xhr.responseJSON.errors).join("\n");
+                                            if (xhr.responseJSON) {
+                                                if (xhr.responseJSON.errors) {
+                                                    errorMessage = Object.values(xhr.responseJSON.errors).join("\n");
+                                                } else if (xhr.responseJSON.message) {
+                                                    errorMessage = xhr.responseJSON.message;
+                                                }
                                             }
 
                                             Swal.fire({
@@ -943,10 +947,24 @@
                     form.querySelector('[name="name"]').value = response.user.name || "";
                     form.querySelector('[name="email"]').value = response.user.email || "";
                     form.querySelector('[name="phone_number"]').value = response.user.phone_number || "";
+                    
+                    // Set country code
+                    const countryCodeSelect = form.querySelector('[name="country_code"]');
+                    if (countryCodeSelect && response.user.country_code) {
+                        countryCodeSelect.value = response.user.country_code;
+                    }
+                    
                     form.querySelector('[name="birth_date"]').value = response.birth_date || "";
                     form.querySelector('[name="student_id_number"]').value = response.student_id_number || "";
                     form.querySelector('[name="parent_name"]').value = response.parent_name || "";
                     form.querySelector('[name="parent_phone"]').value = response.parent_phone || "";
+                    
+                    // Set parent country code
+                    const parentCountryCodeSelect = form.querySelector('[name="parent_country_code"]');
+                    if (parentCountryCodeSelect && response.parent_country_code) {
+                        parentCountryCodeSelect.value = response.parent_country_code;
+                    }
+                    
                     $("#kt_modal_update_user_form").attr("data-user-id", response.id);
 
                     // Set the selected school and grade in the edit modal
@@ -1099,8 +1117,12 @@
 
                                             let errorMessage = "Something went wrong! Please try again later.";
 
-                                            if (xhr.responseJSON && xhr.responseJSON.errors) {
-                                                errorMessage = Object.values(xhr.responseJSON.errors).join("\n");
+                                            if (xhr.responseJSON) {
+                                                if (xhr.responseJSON.errors) {
+                                                    errorMessage = Object.values(xhr.responseJSON.errors).join("\n");
+                                                } else if (xhr.responseJSON.message) {
+                                                    errorMessage = xhr.responseJSON.message;
+                                                }
                                             }
 
                                             Swal.fire({

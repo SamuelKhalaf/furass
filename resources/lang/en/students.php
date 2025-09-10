@@ -41,6 +41,7 @@ return [
         'academic_info' => 'Academic Information',
         'contact_info' => 'Contact Information',
     ],
+    'parent_info' => 'Parent Information',
     'modal' => [
         'parent_information' => 'Parent Information',
         'parent_name' => 'Parent Name',

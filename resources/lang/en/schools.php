@@ -48,6 +48,8 @@ return [
         'address' => 'Address',
         'enter_address' => 'Enter school address',
         'logo' => 'Logo',
+        'max_students' => 'Maximum Students',
+        'enter_max_students' => 'Enter maximum number of students',
         'password' => 'Password',
         'confirm_password' => 'Confirm Password',
         'discard' => 'Discard',

@@ -41,6 +41,7 @@ return [
         'academic_info' => 'المعلومات الأكاديمية',
         'contact_info' => 'معلومات الاتصال',
     ],
+    'parent_info' => 'معلومات ولي الأمر',
     'modal' => [
         'parent_information' => 'معلومات ولي الأمر',
         'parent_name' => 'اسم ولي الأمر',

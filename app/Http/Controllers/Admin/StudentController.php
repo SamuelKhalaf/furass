@@ -57,7 +57,7 @@ class StudentController extends Controller
             ->addColumn('avatar_name', function ($student) {
                 if ($student->avatar) {
                     $avatarUrl = asset('storage/' . $student->avatar);
-                    $imgTag = '<img src="' . $avatarUrl . '" alt="Avatar" width="40" height="40" class="rounded-circle me-3 border" style="object-fit:cover; background:#f3f6f9;">';
+                    $imgTag = '<img src="' . $avatarUrl . '" alt="Avatar" width="40" class="me-3 border" style="object-fit:cover; background:#f3f6f9; border-radius:6px;">';
                 } else {
                     $imgTag = '<span class="rounded-circle me-3 border" style="width:40px;height:40px;background:#f3f6f9;display:flex;align-items:center;justify-content:center;">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -139,6 +139,7 @@ class StudentController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'phone_number' => 'required|string|max:20|unique:users',
+            'country_code' => 'required|string|max:10',
             'password' => 'required|string|min:6|confirmed',
             'school_id' => 'required|exists:schools,id',
             'student_id_number' => 'required|string|max:30|unique:students,student_id_number',
@@ -149,6 +150,7 @@ class StudentController extends Controller
             'is_active' => 'nullable|boolean',
             'parent_name' => 'nullable|string|max:255',
             'parent_phone' => 'nullable|string|max:20',
+            'parent_country_code' => 'nullable|string|max:10',
             'parent_relationship' => 'nullable|integer|in:1,2,3,4',
         ]);
 
@@ -159,12 +161,24 @@ class StudentController extends Controller
         }
 
         try {
+            // Check if school has reached maximum students limit
+            $school = School::findOrFail($request->school_id);
+            if ($school->wouldExceedMaxStudents()) {
+                $currentCount = $school->getCurrentStudentsCount();
+                $maxStudents = $school->max_students;
+                return response()->json([
+                    'message' => "Cannot add student. This school has reached its maximum student limit of {$maxStudents} students. Current count: {$currentCount}.",
+                    'error' => 'max_students_exceeded'
+                ], 422);
+            }
+
             DB::beginTransaction();
             // Create user
             $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'phone_number' => $request->phone_number,
+                'country_code' => $request->country_code,
                 'password' => Hash::make($request->password),
                 'role' => RoleEnum::STUDENT->value,
                 'is_active' => $is_active
@@ -189,6 +203,7 @@ class StudentController extends Controller
                 'avatar' => $avatarPath,
                 'parent_name' => $request->parent_name,
                 'parent_phone' => $request->parent_phone,
+                'parent_country_code' => $request->parent_country_code,
                 'parent_relationship' => $request->parent_relationship,
             ]);
 
@@ -222,6 +237,7 @@ class StudentController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . $student->user_id,
             'phone_number' => 'required|string|max:20',
+            'country_code' => 'required|string|max:10',
             'school_id' => 'required|exists:schools,id',
             'student_id_number' => 'required|string|max:30|unique:students,student_id_number,' . $student->id,
             'grade' => 'required|string|max:50',
@@ -231,6 +247,7 @@ class StudentController extends Controller
             'is_active' => 'nullable|boolean',
             'parent_name' => 'nullable|string|max:255',
             'parent_phone' => 'nullable|string|max:20',
+            'parent_country_code' => 'nullable|string|max:10',
             'parent_relationship' => 'nullable|integer|in:1,2,3,4',
         ]);
 
@@ -240,6 +257,19 @@ class StudentController extends Controller
             $is_active = false;
         }
         try {
+            // Check if changing to a different school and if that school has reached maximum students limit
+            if ($request->school_id != $student->school_id) {
+                $newSchool = School::findOrFail($request->school_id);
+                if ($newSchool->wouldExceedMaxStudents()) {
+                    $currentCount = $newSchool->getCurrentStudentsCount();
+                    $maxStudents = $newSchool->max_students;
+                    return response()->json([
+                        'message' => "Cannot move student to this school. The school has reached its maximum student limit of {$maxStudents} students. Current count: {$currentCount}.",
+                        'error' => 'max_students_exceeded'
+                    ], 422);
+                }
+            }
+
             DB::beginTransaction();
 
             // Update user
@@ -247,6 +277,7 @@ class StudentController extends Controller
                 'name' => $request->name,
                 'email' => $request->email,
                 'phone_number' => $request->phone_number,
+                'country_code' => $request->country_code,
                 'is_active' => $is_active
             ]);
             $student->user->assignRole(RoleEnum::STUDENT);
@@ -271,6 +302,7 @@ class StudentController extends Controller
                 'gender' => $request->gender,
                 'parent_name' => $request->parent_name,
                 'parent_phone' => $request->parent_phone,
+                'parent_country_code' => $request->parent_country_code,
                 'parent_relationship' => $request->parent_relationship,
             ]);
 

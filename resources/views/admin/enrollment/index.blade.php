@@ -1,27 +1,79 @@
 @extends('admin.layouts.master')
 
 @section('content')
-    <div class="container py-4">
-        <div class="row justify-content-center">
-            <div class="col-md-12">
-                <div class="card shadow-sm">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <h3 class="mb-0">{{ __('Assign Programs to Students') }}</h3>
-                        <div class="dropdown">
-                            <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="bulkActionsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                {{ __('Bulk Actions') }}
-                            </button>
-                            <ul class="dropdown-menu" aria-labelledby="bulkActionsDropdown">
-                                <li><a class="dropdown-item bulk-grade-btn" data-grade="10" href="#">{{ __('Assign to All Grade 10') }}</a></li>
-                                <li><a class="dropdown-item bulk-grade-btn" data-grade="11" href="#">{{ __('Assign to All Grade 11') }}</a></li>
-                                <li><a class="dropdown-item bulk-grade-btn" data-grade="12" href="#">{{ __('Assign to All Grade 12') }}</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="#" id="bulkSelectBtn">{{ __('Select Multiple Students') }}</a></li>
-                            </ul>
-                        </div>
-                    </div>
+    <!--begin::Content wrapper-->
+    <div class="d-flex flex-column flex-column-fluid">
+        <!--begin::Toolbar-->
+        <div id="kt_app_toolbar" class="app-toolbar py-3 py-lg-6">
+            <!--begin::Toolbar container-->
+            <div id="kt_app_toolbar_container" class="app-container container-xxl d-flex flex-stack">
+                <!--begin::Page title-->
+                <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
+                    <!--begin::Title-->
+                    <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
+                        {{ __('Assign Programs to Students') }}
+                    </h1>
+                    <!--end::Title-->
+                    <!--begin::Breadcrumb-->
+                    <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
+                        <li class="breadcrumb-item text-muted">
+                            <a href="{{ route('admin.dashboard') }}" class="text-muted text-hover-primary">
+                                {{ __('admin.dashboard.title') }}
+                            </a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <span class="bullet bg-gray-400 w-5px h-2px"></span>
+                        </li>
+                        <li class="breadcrumb-item text-muted">{{ __('Programs') }}</li>
+                        <li class="breadcrumb-item">
+                            <span class="bullet bg-gray-400 w-5px h-2px"></span>
+                        </li>
+                        <li class="breadcrumb-item text-muted">{{ __('Assign to Students') }}</li>
+                    </ul>
+                    <!--end::Breadcrumb-->
+                </div>
+                <!--end::Page title-->
+            </div>
+            <!--end::Toolbar container-->
+        </div>
+        <!--end::Toolbar-->
 
-                    <div class="card-body">
+        <!--begin::Content-->
+        <div id="kt_app_content" class="app-content flex-column-fluid">
+            <!--begin::Content container-->
+            <div id="kt_app_content_container" class="app-container container-xxl">
+                <!--begin::Card-->
+                <div class="card">
+                    <!--begin::Card header-->
+                    <div class="card-header border-0 pt-6">
+                        <!--begin::Card title-->
+                        <div class="card-title">
+                            <div class="d-flex align-items-center position-relative my-1">
+                                <h3 class="fw-bold m-0">{{ __('Assign Programs to Students') }}</h3>
+                            </div>
+                        </div>
+                        <!--end::Card title-->
+                        <!--begin::Card toolbar-->
+                        <div class="card-toolbar">
+                            <div class="dropdown">
+                                <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="bulkActionsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    {{ __('Bulk Actions') }}
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="bulkActionsDropdown">
+                                    <li><a class="dropdown-item bulk-grade-btn" data-grade="10" href="#">{{ __('Assign to All Grade 10') }}</a></li>
+                                    <li><a class="dropdown-item bulk-grade-btn" data-grade="11" href="#">{{ __('Assign to All Grade 11') }}</a></li>
+                                    <li><a class="dropdown-item bulk-grade-btn" data-grade="12" href="#">{{ __('Assign to All Grade 12') }}</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="#" id="bulkSelectBtn">{{ __('Select Multiple Students') }}</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!--end::Card toolbar-->
+                    </div>
+                    <!--end::Card header-->
+
+                    <!--begin::Card body-->
+                    <div class="card-body pt-0">
                         <form id="assignmentForm" method="POST" action="{{ route('admin.programs.enroll.store') }}">
                             @csrf
                             <div class="mb-3">
@@ -114,10 +166,15 @@
                             </div>
                         </form>
                     </div>
+                    <!--end::Card body-->
                 </div>
+                <!--end::Card-->
             </div>
+            <!--end::Content container-->
         </div>
+        <!--end::Content-->
     </div>
+    <!--end::Content wrapper-->
 
     <!-- Confirmation Modal -->
     <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
@@ -147,6 +204,9 @@
         }
         .bulk-select-col {
             width: 40px;
+        }
+        .card-header {
+            background-color: #f8f9fa;
         }
     </style>
 @endpush

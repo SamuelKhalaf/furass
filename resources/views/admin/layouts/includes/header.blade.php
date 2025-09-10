@@ -1,3 +1,19 @@
+<style>
+    /* Fix image stretching in symbol containers */
+    .symbol-update img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+    }
+    
+    /* Ensure symbol containers maintain aspect ratio */
+    .symbol-update {
+        overflow: hidden;
+        border-radius: 8px;
+    }
+</style>
+
 <div id="kt_app_header" class="app-header">
     <!--begin::Header container-->
     <div class="app-container container-fluid d-flex align-items-stretch justify-content-between" id="kt_app_header_container">
@@ -176,11 +192,11 @@
                     <!--begin::User menu-->
                     <div class="app-navbar-item ms-1 ms-md-3" id="kt_header_user_menu_toggle">
                         <!--begin::Menu wrapper-->
-                        <div class="cursor-pointer symbol symbol-30px symbol-md-40px"
+                        <div class="cursor-pointer symbol-update w-30px w-md-40px"
                              data-kt-menu-trigger="{default: 'click', lg: 'hover'}"
                              data-kt-menu-attach="parent"
                              data-kt-menu-placement="bottom-end">
-                            <img src="{{ asset('assets/media/avatars/300-1.jpg') }}" alt="user" />
+                            <img src="{{ getUserAvatar() }}" alt="user" />
                         </div>
 
                         <!--begin::User account menu-->
@@ -190,15 +206,15 @@
                             <!--begin::Menu item-->
                             <div class="menu-item px-3">
                                 <div class="menu-content d-flex align-items-center px-3">
-                                    <div class="symbol symbol-50px me-5">
-                                        <img alt="Logo" src="{{ asset('assets/media/avatars/300-1.jpg') }}" />
+                                    <div class="symbol-update w-50px me-5">
+                                        <img alt="Avatar" src="{{ getUserAvatar() }}" />
                                     </div>
                                     <div class="d-flex flex-column">
                                         <div class="fw-bold d-flex align-items-center fs-5">
                                             {{ auth()->user()?->name }}
                                             <span class="badge badge-light-success fw-bold fs-8 px-2 py-1 ms-2">
-                                {{ auth()->user()?->roles->first()?->name }}
-                            </span>
+                                                {{ auth()->user()?->roles->first()?->name }}
+                                            </span>
                                         </div>
                                         <a href="#" class="fw-semibold text-muted text-hover-primary fs-7">
                                             {{ auth()->user()?->email }}

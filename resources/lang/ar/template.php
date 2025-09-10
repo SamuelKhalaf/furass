@@ -188,6 +188,7 @@ return [
         'phone' => 'رقم الهاتف',
         'address' => 'عنوانك',
         'logo' => 'الشعار',
+        'max_students' => 'الحد الأقصى للطلاب',
         'password' => 'كلمة المرور',
         'password_confirmation' => 'تأكيد كلمة المرور',
         'agreement' => 'من خلال إرسال هذا النموذج، أوافق على <a href="#" class="privacy-link">سياسة الخصوصية</a> و <a href="#" class="privacy-link">اتفاقية المستخدم</a> الخاصة بـ WiziQ.',
