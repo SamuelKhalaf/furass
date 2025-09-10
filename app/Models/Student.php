@@ -25,6 +25,7 @@ class Student extends Model
         'avatar',
         'parent_name',
         'parent_phone',
+        'parent_country_code',
         'parent_relationship'
     ];
 

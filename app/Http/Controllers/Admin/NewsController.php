@@ -168,7 +168,6 @@ class NewsController extends Controller
                 }
 
                 $mediaPath = $request->file('media')->store('news/media', 'public');
-                dd($mediaPath);
                 $mediaPath = 'storage/'.$mediaPath;
             } elseif (!$request->filled('current_media_path')) {
                 // Remove if current is not set and no new file uploaded

@@ -53,11 +53,13 @@ class ProfileController extends Controller
     {
         $user = auth()->user();
 
+
         // Base validation rules
         $rules = [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . $user->id],
             'phone_number' => ['required', 'string', 'max:255'],
+            'country_code' => ['required', 'string', 'max:10'],
         ];
 
         // Add role-specific validation rules
@@ -73,6 +75,7 @@ class ProfileController extends Controller
                 'name' => $validatedData['name'],
                 'email' => $validatedData['email'],
                 'phone_number' => $validatedData['phone_number'],
+                'country_code' => $validatedData['country_code'],
             ]);
 
             // Update role-specific data
@@ -167,11 +170,13 @@ class ProfileController extends Controller
         } elseif ($user->hasRole(RoleEnum::SCHOOL->value)) {
             $rules['address'] = ['nullable', 'string', 'max:255'];
             $rules['logo'] = ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'];
+            $rules['logo_remove'] = ['nullable', 'string', 'in:1'];
         } elseif ($user->hasRole(RoleEnum::STUDENT->value)) {
             $rules['grade'] = ['required', 'in:10,11,12'];
             $rules['birth_date'] = ['nullable', 'date', 'before:today'];
             $rules['gender'] = ['required', 'in:male,female'];
             $rules['avatar'] = ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'];
+            $rules['avatar_remove'] = ['nullable', 'string', 'in:1'];
         }
     }
 
@@ -194,8 +199,17 @@ class ProfileController extends Controller
                     'address' => $request->address,
                 ];
 
+                // Handle logo removal
+                if ($request->has('logo_remove') && $request->logo_remove == '1') {
+                    // Delete old logo from storage
+                    if ($school->logo && Storage::disk('public')->exists($school->logo)) {
+                        Storage::disk('public')->delete($school->logo);
+                    }
+                    $updateData['logo'] = null;
+                }
                 // Handle logo upload
-                if ($request->hasFile('logo')) {
+                elseif ($request->hasFile('logo')) {
+                    
                     // Delete old logo
                     if ($school->logo && Storage::disk('public')->exists($school->logo)) {
                         Storage::disk('public')->delete($school->logo);
@@ -203,6 +217,7 @@ class ProfileController extends Controller
 
                     $logoPath = $request->file('logo')->store('logos', 'public');
                     $updateData['logo'] = $logoPath;
+                    
                 }
 
                 $school->update($updateData);
@@ -223,8 +238,17 @@ class ProfileController extends Controller
                     $this->progressService->refreshPathPointsForGradeChange($student->id);
                 }
 
+                // Handle avatar removal
+                if ($request->has('avatar_remove') && $request->avatar_remove == '1') {
+                    // Delete old avatar from storage
+                    if ($student->avatar && Storage::disk('public')->exists($student->avatar)) {
+                        Storage::disk('public')->delete($student->avatar);
+                    }
+                    $updateData['avatar'] = null;
+                }
                 // Handle avatar upload
-                if ($request->hasFile('avatar')) {
+                elseif ($request->hasFile('avatar')) {
+                    
                     // Delete old avatar
                     if ($student->avatar && Storage::disk('public')->exists($student->avatar)) {
                         Storage::disk('public')->delete($student->avatar);
@@ -232,6 +256,7 @@ class ProfileController extends Controller
 
                     $avatarPath = $request->file('avatar')->store('avatars', 'public');
                     $updateData['avatar'] = $avatarPath;
+                    
                 }
 
                 $student->update($updateData);

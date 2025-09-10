@@ -1,5 +1,5 @@
 @extends('admin.layouts.master')
-@section('title', __('Manage Trips'))
+@section('title', __('trips.management.manage_trips'))
 @section('content')
     <!--begin::Content wrapper-->
     <div class="d-flex flex-column flex-column-fluid">
@@ -11,7 +11,7 @@
                 <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
                     <!--begin::Title-->
                     <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
-                        {{ __('Manage Trips') }}
+                        {{ __('trips.management.manage_trips') }}
                     </h1>
                     <!--end::Title-->
                     <!--begin::Breadcrumb-->
@@ -22,7 +22,7 @@
                         <li class="breadcrumb-item">
                             <span class="bullet bg-gray-400 w-5px h-2px"></span>
                         </li>
-                        <li class="breadcrumb-item text-muted">{{ __('Manage Trips') }}</li>
+                        <li class="breadcrumb-item text-muted">{{ __('trips.management.manage_trips') }}</li>
                     </ul>
                     <!--end::Breadcrumb-->
                 </div>
@@ -106,22 +106,22 @@
                                         <div class="separator separator-dashed my-4"></div>
 
                                         <div class="d-flex justify-content-between mb-2">
-                                            <span class="text-gray-600 fw-semibold fs-7">{{ __('Total Students') }}</span>
+                                            <span class="text-gray-600 fw-semibold fs-7">{{ __('trips.management.total_students') }}</span>
                                             <span class="text-gray-800 fw-bold fs-7">{{ $programData['total_students'] }}</span>
                                         </div>
 
                                         <div class="d-flex justify-content-between mb-2">
-                                            <span class="text-success fw-semibold fs-7">{{ __('Attended') }}</span>
+                                            <span class="text-success fw-semibold fs-7">{{ __('trips.management.attended') }}</span>
                                             <span class="text-success fw-bold fs-7">{{ $programData['attended_count'] }}</span>
                                         </div>
 
                                         <div class="d-flex justify-content-between mb-2">
-                                            <span class="text-danger fw-semibold fs-7">{{ __('Absent') }}</span>
+                                            <span class="text-danger fw-semibold fs-7">{{ __('trips.management.absent') }}</span>
                                             <span class="text-danger fw-bold fs-7">{{ $programData['absent_count'] }}</span>
                                         </div>
 
                                         <div class="d-flex justify-content-between mb-4">
-                                            <span class="text-warning fw-semibold fs-7">{{ __('Pending') }}</span>
+                                            <span class="text-warning fw-semibold fs-7">{{ __('trips.management.pending') }}</span>
                                             <span class="text-warning fw-bold fs-7">{{ $programData['pending_count'] }}</span>
                                         </div>
 
@@ -132,7 +132,7 @@
                                                 : 0;
                                         @endphp
                                         <div class="d-flex align-items-center mb-4">
-                                            <span class="text-gray-600 fw-semibold fs-7 me-2">{{ __('Progress') }}</span>
+                                            <span class="text-gray-600 fw-semibold fs-7 me-2">{{ __('trips.management.progress') }}</span>
                                             <div class="progress bg-light-primary flex-grow-1 me-2" style="height: 6px">
                                                 <div class="progress-bar bg-primary" style="width: {{ $completionPercentage }}%"></div>
                                             </div>
@@ -147,7 +147,7 @@
 {{--                                        <div class="d-flex justify-content-between">--}}
                                             <a href="{{ route('admin.sub-admin.trip.students', [$programData['program']->id, $trip->id]) }}"
                                                class="btn btn-sm btn-light-primary">
-                                                <i class="fa-solid fa-users me-1"></i>{{ __('View Students') }}
+                                                <i class="fa-solid fa-users me-1"></i>{{ __('trips.management.view_students') }}
                                             </a>
 {{--                                            <a href="{{ route('admin.consultant.trip.attendance', [$programData['program']->id, $trip->id]) }}"--}}
 {{--                                               class="btn btn-sm btn-primary">--}}
@@ -170,9 +170,9 @@
                                                 <i class="fa-solid fa-route text-primary fs-1"></i>
                                             </div>
                                         </div>
-                                        <div class="fs-1 fw-bolder text-gray-400 mb-5">{{ __('No Trips Found') }}</div>
+                                        <div class="fs-1 fw-bolder text-gray-400 mb-5">{{ __('trips.management.no_trips_found') }}</div>
                                         <div class="fs-6 text-gray-600 text-center">
-                                            {{ __('No trips with enrolled students found for your schools.') }}
+                                            {{ __('trips.management.no_trips_enrolled') }}
                                         </div>
                                     </div>
                                 </div>

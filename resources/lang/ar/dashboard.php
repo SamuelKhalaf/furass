@@ -139,6 +139,10 @@ return [
 
     'interest_distribution' => 'توزيع الاهتمامات',
     'students' => 'طالب',
+    'students_by_grade' => 'الطلاب حسب الصف',
+    'grade_10' => 'الصف العاشر',
+    'grade_11' => 'الصف الحادي عشر',
+    'grade_12' => 'الصف الثاني عشر',
 
     'activity_evaluations' => 'تقييمات الأنشطة',
     'evaluations' => 'تقييم',

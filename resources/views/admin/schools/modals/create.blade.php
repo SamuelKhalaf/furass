@@ -62,8 +62,22 @@
                             <label class="required fw-semibold fs-6 mb-2">{{ __('schools.modal.phone_number') }}</label>
                             <!--end::Label-->
                             <!--begin::Input-->
-                            <input type="text" name="phone_number"
-                                   class="form-control form-control-solid mb-3 mb-lg-0" placeholder="{{ __('schools.modal.enter_phone') }}" required/>
+                            <div class="input-group">
+                                <select name="country_code" class="form-select form-control-solid" style="max-width: 120px;">
+                                    <option value="+966">+966</option>
+                                    <option value="+971">+971</option>
+                                    <option value="+965">+965</option>
+                                    <option value="+973">+973</option>
+                                    <option value="+974">+974</option>
+                                    <option value="+20">+20</option>
+                                    <option value="+1">+1</option>
+                                    <option value="+44">+44</option>
+                                    <option value="+33">+33</option>
+                                    <option value="+49">+49</option>
+                                </select>
+                                <input type="text" name="phone_number"
+                                       class="form-control form-control-solid" placeholder="{{ __('schools.modal.enter_phone') }}" required/>
+                            </div>
                             <!--end::Input-->
                         </div>
                         <!--end::Input group-->
@@ -114,11 +128,28 @@
                         <!--begin::Input group-->
                         <div class="fv-row mb-7">
                             <!--begin::Label-->
+                            <label class="fw-semibold fs-6 mb-2">{{ __('schools.modal.max_students') }}</label>
+                            <!--end::Label-->
+                            <!--begin::Input-->
+                            <input type="number" name="max_students" min="1" class="form-control form-control-solid mb-3 mb-lg-0"
+                                   placeholder="{{ __('schools.modal.enter_max_students') }}"/>
+                            <!--end::Input-->
+                        </div>
+                        <!--end::Input group-->
+                        <!--begin::Input group-->
+                        <div class="fv-row mb-7">
+                            <!--begin::Label-->
                             <label class="required fw-semibold fs-6 mb-2">{{ __('schools.modal.password') }}</label>
                             <!--end::Label-->
                             <!--begin::Input-->
-                            <input type="password" name="password"
-                                   class="form-control form-control-solid mb-3 mb-lg-0"/>
+                            <div class="position-relative">
+                                <input type="password" name="password"
+                                       class="form-control form-control-solid mb-3 mb-lg-0"/>
+                                <span class="btn btn-sm btn-icon position-absolute translate-middle top-50 end-0 me-n2" data-kt-password-toggle="visibility">
+                                    <i class="bi bi-eye-slash fs-2"></i>
+                                    <i class="bi bi-eye fs-2 d-none"></i>
+                                </span>
+                            </div>
                             <!--end::Input-->
                         </div>
                         <!--end::Input group-->
@@ -128,8 +159,14 @@
                             <label class="required fw-semibold fs-6 mb-2">{{ __('schools.modal.confirm_password') }}</label>
                             <!--end::Label-->
                             <!--begin::Input-->
-                            <input type="password" name="password_confirmation"
-                                   class="form-control form-control-solid mb-3 mb-lg-0"/>
+                            <div class="position-relative">
+                                <input type="password" name="password_confirmation"
+                                       class="form-control form-control-solid mb-3 mb-lg-0"/>
+                                <span class="btn btn-sm btn-icon position-absolute translate-middle top-50 end-0 me-n2" data-kt-password-toggle="visibility">
+                                    <i class="bi bi-eye-slash fs-2"></i>
+                                    <i class="bi bi-eye fs-2 d-none"></i>
+                                </span>
+                            </div>
                             <!--end::Input-->
                         </div>
                         <!--end::Input group-->

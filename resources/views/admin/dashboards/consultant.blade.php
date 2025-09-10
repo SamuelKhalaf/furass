@@ -148,34 +148,55 @@
                 </div>
                 <!--end::Recent Consultations Row-->
 
-                <!--begin::Popular Programs Row-->
+                <!--begin::Students by Grade Row-->
                 <div class="row g-5 g-xl-8 mb-5 mb-xl-10">
                     <div class="col-12">
                         <div class="card card-flush">
                             <div class="card-header pt-7">
                                 <h3 class="card-title align-items-start flex-column">
-                                    <span class="card-label fw-bold text-gray-800">{{ __('dashboard.popular_programs') }}</span>
+                                    <span class="card-label fw-bold text-gray-800">{{ __('dashboard.students_by_grade') }}</span>
                                 </h3>
                             </div>
                             <div class="card-body pt-6">
-                                @forelse($popularPrograms as $index => $program)
-                                    <div class="d-flex align-items-center mb-6">
-                                        <span class="bullet bullet-vertical h-40px bg-{{ ['primary', 'success', 'warning'][$index] }} me-5"></span>
-                                        <div class="flex-grow-1">
-                                            <span class="text-gray-800 fw-bold d-block fs-6">{{ $program['title'] }}</span>
-                                            <span class="text-gray-500 fw-semibold fs-7">{{ $program['enrollment_count'] }} {{ __('dashboard.students_enrolled') }}</span>
+                                <div class="row g-5">
+                                    <!-- Grade 10 -->
+                                    <div class="col-md-4">
+                                        <div class="d-flex align-items-center mb-6">
+                                            <span class="bullet bullet-vertical h-40px bg-primary me-5"></span>
+                                            <div class="flex-grow-1">
+                                                <span class="text-gray-800 fw-bold d-block fs-6">{{ __('dashboard.grade_10') }}</span>
+                                                <span class="text-gray-500 fw-semibold fs-7">{{ $studentsByGrade['grade_10'] }} {{ __('dashboard.students') }}</span>
+                                            </div>
                                         </div>
                                     </div>
-                                @empty
-                                    <div class="text-center py-10">
-                                        <span class="text-muted fs-6">{{ __('dashboard.no_popular_programs') }}</span>
+                                    
+                                    <!-- Grade 11 -->
+                                    <div class="col-md-4">
+                                        <div class="d-flex align-items-center mb-6">
+                                            <span class="bullet bullet-vertical h-40px bg-success me-5"></span>
+                                            <div class="flex-grow-1">
+                                                <span class="text-gray-800 fw-bold d-block fs-6">{{ __('dashboard.grade_11') }}</span>
+                                                <span class="text-gray-500 fw-semibold fs-7">{{ $studentsByGrade['grade_11'] }} {{ __('dashboard.students') }}</span>
+                                            </div>
+                                        </div>
                                     </div>
-                                @endforelse
+                                    
+                                    <!-- Grade 12 -->
+                                    <div class="col-md-4">
+                                        <div class="d-flex align-items-center mb-6">
+                                            <span class="bullet bullet-vertical h-40px bg-warning me-5"></span>
+                                            <div class="flex-grow-1">
+                                                <span class="text-gray-800 fw-bold d-block fs-6">{{ __('dashboard.grade_12') }}</span>
+                                                <span class="text-gray-500 fw-semibold fs-7">{{ $studentsByGrade['grade_12'] }} {{ __('dashboard.students') }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!--end::Popular Programs Row-->
+                <!--end::Students by Grade Row-->
             </div>
         </div>
     </div>

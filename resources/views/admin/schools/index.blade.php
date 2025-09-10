@@ -826,7 +826,15 @@
                     form.querySelector('[name="name"]').value = response.user.name || "";
                     form.querySelector('[name="email"]').value = response.user.email || "";
                     form.querySelector('[name="phone_number"]').value = response.user.phone_number || "";
+                    
+                    // Set country code
+                    const countryCodeSelect = form.querySelector('[name="country_code"]');
+                    if (countryCodeSelect && response.user.country_code) {
+                        countryCodeSelect.value = response.user.country_code;
+                    }
+                    
                     form.querySelector('[name="address"]').value = response.address || "";
+                    form.querySelector('[name="max_students"]').value = response.max_students || "";
                     $("#kt_modal_update_school_form").attr("data-user-id", response.id);
 
                     // check the user is active or not

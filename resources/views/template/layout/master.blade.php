@@ -195,6 +195,7 @@ $setting =new \App\Models\Setting;
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{{asset('assets/js/custom/password-toggle.js')}}"></script>
 <script>
     let scrollTimer = null;
     const navbar = document.querySelector('.navbar');

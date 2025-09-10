@@ -12,6 +12,13 @@ var KTUsersUpdateDetails = function () {
         form.querySelector('[name="name"]').value = userData.name || "";
         form.querySelector('[name="email"]').value = userData.email || "";
         form.querySelector('[name="phone_number"]').value = userData.phone_number || "";
+        
+        // Set country code
+        const countryCodeSelect = form.querySelector('[name="country_code"]');
+        if (countryCodeSelect && userData.country_code) {
+            countryCodeSelect.value = userData.country_code;
+        }
+        
         $("#kt_modal_update_user_form").attr("data-user-id", userData.id);
 
         // Select the user's roles
@@ -209,8 +216,12 @@ var KTUsersUpdateDetails = function () {
 
                                 let errorMessage = "Something went wrong! Please try again later.";
 
-                                if (xhr.responseJSON && xhr.responseJSON.errors) {
-                                    errorMessage = Object.values(xhr.responseJSON.errors).join("\n");
+                                if (xhr.responseJSON) {
+                                    if (xhr.responseJSON.errors) {
+                                        errorMessage = Object.values(xhr.responseJSON.errors).join("\n");
+                                    } else if (xhr.responseJSON.message) {
+                                        errorMessage = xhr.responseJSON.message;
+                                    }
                                 }
 
                                 Swal.fire({

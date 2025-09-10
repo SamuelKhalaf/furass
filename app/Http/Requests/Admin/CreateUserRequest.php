@@ -33,6 +33,7 @@ class CreateUserRequest extends FormRequest
             'name'          => ['required','string','max:20','min:3'],
             'email'         => ['required','email','unique:users,email'],
             'phone_number'  => ['required','string','max:20','min:11','unique:users,phone_number'],
+            'country_code'  => ['required','string','max:10'],
             'password'      => ['required','string','min:6','confirmed'],
             'role'          => ['required', 'exists:roles,name'],
             'is_active'     => ['nullable', 'boolean'],
@@ -45,6 +46,7 @@ class CreateUserRequest extends FormRequest
             $this->input('name'),
             $this->input('email'),
             $this->input('phone_number'),
+            $this->input('country_code'),
             $this->input('password'),
             $this->input('role'),
             $this->input('is_active') ?? 0

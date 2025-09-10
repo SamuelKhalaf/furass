@@ -192,6 +192,7 @@ return [
         'phone' => 'Phone',
         'address' => 'Your address',
         'logo' => 'Logo',
+        'max_students' => 'Maximum Students',
         'password' => 'Password',
         'password_confirmation' => 'Confirm Password',
         'agreement' => 'By submitting this form, I agree to WiziQ\'s <a href="#" class="privacy-link">Privacy Policy</a> and <a href="#" class="privacy-link">User Agreement</a>.',

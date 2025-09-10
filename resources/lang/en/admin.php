@@ -266,6 +266,8 @@ return [
         'female' => 'Female',
         'avatar' => 'Avatar',
         'logo' => 'Logo',
+        'max_students' => 'Maximum Students',
+        'enter_max_students' => 'Enter maximum number of students',
 
         // Password
         'current_password' => 'Current Password',

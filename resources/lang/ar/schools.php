@@ -48,6 +48,8 @@ return [
         'address' => 'العنوان',
         'enter_address' => 'أدخل عنوان المدرسة',
         'logo' => 'الشعار',
+        'max_students' => 'الحد الأقصى للطلاب',
+        'enter_max_students' => 'أدخل الحد الأقصى لعدد الطلاب',
         'password' => 'كلمة المرور',
         'confirm_password' => 'تأكيد كلمة المرور',
         'discard' => 'إلغاء',

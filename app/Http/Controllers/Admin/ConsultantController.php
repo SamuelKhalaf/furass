@@ -98,6 +98,7 @@ class ConsultantController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
             'phone_number' => 'required|string|max:20|unique:users',
+            'country_code' => 'required|string|max:10',
             'bio' => 'required|string',
             'school_ids' => 'array',
             'school_ids.*' => 'exists:schools,id',
@@ -116,6 +117,7 @@ class ConsultantController extends Controller
                 'name'          => $request->name,
                 'email'         => $request->email,
                 'phone_number'  => $request->phone_number,
+                'country_code'  => $request->country_code,
                 'role'          => RoleEnum::CONSULTANT->value,
                 'password'      => Hash::make($request->password),
                 'is_active'     => $is_active
@@ -176,6 +178,7 @@ class ConsultantController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . $consultant->user_id,
             'phone_number' => 'required|string|max:20|unique:users,phone_number,' . $consultant->user_id,
+            'country_code' => 'required|string|max:10',
             'bio' => 'required|string',
             'school_ids' => 'array',
             'school_ids.*' => 'exists:schools,id',
@@ -195,6 +198,7 @@ class ConsultantController extends Controller
             $user->name = $request->name;
             $user->email = $request->email;
             $user->phone_number = $request->phone_number;
+            $user->country_code = $request->country_code;
             $user->is_active = $is_active;
             $user->save();
 

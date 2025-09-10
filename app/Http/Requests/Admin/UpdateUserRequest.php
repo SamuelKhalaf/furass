@@ -13,6 +13,7 @@ use Illuminate\Validation\Rules\Enum;
  * @property string name
  * @property string email
  * @property string phone_number
+ * @property string country_code
  * @property string role
  */
 class UpdateUserRequest extends FormRequest
@@ -36,6 +37,7 @@ class UpdateUserRequest extends FormRequest
             'name'          => ['required','string','max:20','min:3'],
             'email'         => ['required','email','unique:users,email,' . $this->route('user')],
             'phone_number'  => ['required','string','max:20','min:11','unique:users,phone_number,' . $this->route('user')],
+            'country_code'  => ['required','string','max:10'],
             'role'          => ['required', 'exists:roles,name'],
             'is_active'     => ['nullable', 'boolean'],
         ];
@@ -47,6 +49,7 @@ class UpdateUserRequest extends FormRequest
             $this->input('name'),
             $this->input('email'),
             $this->input('phone_number'),
+            $this->input('country_code'),
             $this->input('role'),
             $this->input('is_active') ?? 0
         );

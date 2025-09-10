@@ -32,10 +32,27 @@
                     </div>
 
                     <div class="mb-3">
-                        <input type="text" name="phone_number" value="{{ old('phone_number') }}"
-                               class="form-control @error('phone_number') is-invalid @enderror"
-                               placeholder="{{ __('template.school_request.phone') }}" required>
+                        <div class="input-group">
+                            <select name="country_code" class="form-control @error('country_code') is-invalid @enderror" style="max-width: 120px;">
+                                <option value="+966">+966</option>
+                                <option value="+971">+971</option>
+                                <option value="+965">+965</option>
+                                <option value="+973">+973</option>
+                                <option value="+974">+974</option>
+                                <option value="+20">+20</option>
+                                <option value="+1">+1</option>
+                                <option value="+44">+44</option>
+                                <option value="+33">+33</option>
+                                <option value="+49">+49</option>
+                            </select>
+                            <input type="text" name="phone_number" value="{{ old('phone_number') }}"
+                                   class="form-control @error('phone_number') is-invalid @enderror"
+                                   placeholder="{{ __('template.school_request.phone') }}" required>
+                        </div>
                         @error('phone_number')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                        @error('country_code')
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
@@ -72,17 +89,31 @@
                     </div>
 
                     <div class="mb-3">
-                        <input type="password" name="password"
-                               class="form-control @error('password') is-invalid @enderror"
-                               placeholder="{{ __('template.school_request.password') }}" required>
+                        <div class="position-relative">
+                            <input type="password" name="password"
+                                class="form-control @error('password') is-invalid @enderror"
+                                placeholder="{{ __('template.school_request.password') }}" required>
+                            <!-- <span class="btn btn-sm btn-icon position-absolute translate-middle top-50 end-0 me-n2" 
+                                data-kt-password-toggle="visibility" style="cursor: pointer;">
+                                <i class="bi bi-eye-slash fs-2"></i>
+                                <i class="bi bi-eye fs-2 d-none"></i>
+                            </span> -->
+                        </div>
                         @error('password')
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
 
                     <div class="mb-3">
-                        <input type="password" name="password_confirmation" class="form-control"
-                               placeholder="{{ __('template.school_request.password_confirmation') }}" required>
+                        <div class="position-relative">
+                            <input type="password" name="password_confirmation" class="form-control"
+                                placeholder="{{ __('template.school_request.password_confirmation') }}" required>
+                            <!-- <span class="btn btn-sm btn-icon position-absolute translate-middle top-50 end-0 me-n2" 
+                                data-kt-password-toggle="visibility" style="cursor: pointer;">
+                                <i class="bi bi-eye-slash fs-2"></i>
+                                <i class="bi bi-eye fs-2 d-none"></i>
+                            </span> -->
+                        </div>
                     </div>
 
                     <div class="form-check mb-2">

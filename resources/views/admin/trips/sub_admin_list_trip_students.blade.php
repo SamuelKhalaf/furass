@@ -1,5 +1,5 @@
 @extends('admin.layouts.master')
-@section('title', __('Trip Students List'))
+@section('title', __('trips.management.trip_students_list'))
 @section('content')
     <!--begin::Content wrapper-->
     <div class="d-flex flex-column flex-column-fluid">
@@ -11,7 +11,7 @@
                 <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
                     <!--begin::Title-->
                     <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
-                        {{ __('Trip Students List') }}
+                        {{ __('trips.management.trip_students_list') }}
                     </h1>
                     <!--end::Title-->
                     <!--begin::Breadcrumb-->
@@ -35,12 +35,12 @@
                 <!--end::Page title-->
                 <!--begin::Actions-->
                 <div class="d-flex align-items-center gap-2 gap-lg-3">
-                    <a href="{{ route('admin.sub-admin.volunteer-hours.add', [$program->id, $pathPoint->id]) }}" class="btn btn-sm btn-success">
-                        <i class="fa-solid fa-clock me-1"></i>{{ __('Add Volunteer Hours') }}
-                    </a>
-                    <a href="{{ route('admin.sub-admin.trip.attendance', [$program->id, $pathPoint->id]) }}" class="btn btn-sm btn-primary">
-                        <i class="fa-solid fa-user-check me-1"></i>{{ __('Manage Attendance') }}
-                    </a>
+                            <a href="{{ route('admin.sub-admin.volunteer-hours.add', [$program->id, $pathPoint->id]) }}" class="btn btn-sm btn-success">
+                                <i class="fa-solid fa-clock me-1"></i>{{ __('trips.management.add_volunteer_hours') }}
+                            </a>
+                            <a href="{{ route('admin.sub-admin.trip.attendance', [$program->id, $pathPoint->id]) }}" class="btn btn-sm btn-primary">
+                                <i class="fa-solid fa-user-check me-1"></i>{{ __('trips.management.manage_attendance') }}
+                            </a>
                 </div>
                 <!--end::Actions-->
             </div>
@@ -62,7 +62,7 @@
                             <div class="card-header">
                                 <!--begin::Card title-->
                                 <div class="card-title">
-                                    <h3 class="fw-bold text-dark">{{ __('Trip Details') }}</h3>
+                                    <h3 class="fw-bold text-dark">{{ __('trips.management.trip_details') }}</h3>
                                 </div>
                                 <!--end::Card title-->
                             </div>
@@ -72,27 +72,27 @@
                             <div class="card-body pt-0">
                                 <!--begin::Trip Info-->
                                 <div class="d-flex flex-stack mb-4">
-                                    <span class="text-gray-700 fw-bold fs-6">{{ __('Trip Name') }}</span>
+                                    <span class="text-gray-700 fw-bold fs-6">{{ __('trips.management.trip_name') }}</span>
                                     <span class="text-gray-800 fw-bolder fs-6">{{ $event->event_name }}</span>
                                 </div>
 
                                 <div class="d-flex flex-stack mb-4">
-                                    <span class="text-gray-700 fw-bold fs-6">{{ __('Company') }}</span>
+                                    <span class="text-gray-700 fw-bold fs-6">{{ __('trips.management.company') }}</span>
                                     <span class="text-gray-800 fw-bolder fs-6">{{ $event->company_name }}</span>
                                 </div>
 
                                 <div class="d-flex flex-stack mb-4">
-                                    <span class="text-gray-700 fw-bold fs-6">{{ __('Location') }}</span>
+                                    <span class="text-gray-700 fw-bold fs-6">{{ __('trips.management.location') }}</span>
                                     <span class="text-gray-800 fw-bolder fs-6">{{ $event->location }}</span>
                                 </div>
 
                                 <div class="d-flex flex-stack mb-4">
-                                    <span class="text-gray-700 fw-bold fs-6">{{ __('Date') }}</span>
+                                    <span class="text-gray-700 fw-bold fs-6">{{ __('trips.management.date') }}</span>
                                     <span class="text-gray-800 fw-bolder fs-6">{{ \Carbon\Carbon::parse($event->start_date)->format('M d, Y') }}</span>
                                 </div>
 
                                 <div class="d-flex flex-stack mb-4">
-                                    <span class="text-gray-700 fw-bold fs-6">{{ __('Time') }}</span>
+                                    <span class="text-gray-700 fw-bold fs-6">{{ __('trips.management.time') }}</span>
                                     <span class="text-gray-800 fw-bolder fs-6">
                                         {{ \Carbon\Carbon::parse($event->start_date)->format('h:i A') }} -
                                         {{ \Carbon\Carbon::parse($event->end_date)->format('h:i A') }}
@@ -100,7 +100,7 @@
                                 </div>
 
                                 <div class="d-flex flex-stack mb-4">
-                                    <span class="text-gray-700 fw-bold fs-6">{{ __('Total Students') }}</span>
+                                    <span class="text-gray-700 fw-bold fs-6">{{ __('trips.management.total_students') }}</span>
                                     <span class="text-gray-800 fw-bolder fs-6">{{ $students->count() }}</span>
                                 </div>
 
@@ -128,7 +128,7 @@
                                                 <i class="fa-solid fa-user-check text-success fs-5"></i>
                                             </div>
                                         </div>
-                                        <span class="text-gray-700 fw-bold fs-6">{{ __('Attended') }}</span>
+                                        <span class="text-gray-700 fw-bold fs-6">{{ __('trips.management.attended') }}</span>
                                     </div>
                                     <span class="text-gray-800 fw-bolder fs-6">{{ $attendedCount }}</span>
                                 </div>
@@ -140,7 +140,7 @@
                                                 <i class="fa-solid fa-user-times text-danger fs-5"></i>
                                             </div>
                                         </div>
-                                        <span class="text-gray-700 fw-bold fs-6">{{ __('Absent') }}</span>
+                                        <span class="text-gray-700 fw-bold fs-6">{{ __('trips.management.absent') }}</span>
                                     </div>
                                     <span class="text-gray-800 fw-bolder fs-6">{{ $absentCount }}</span>
                                 </div>
@@ -152,7 +152,7 @@
                                                 <i class="fa-solid fa-star text-warning fs-5"></i>
                                             </div>
                                         </div>
-                                        <span class="text-gray-700 fw-bold fs-6">{{ __('Evaluated') }}</span>
+                                        <span class="text-gray-700 fw-bold fs-6">{{ __('trips.management.evaluated') }}</span>
                                     </div>
                                     <span class="text-gray-800 fw-bolder fs-6">{{ $evaluatedCount }}</span>
                                 </div>
@@ -172,7 +172,7 @@
                             <div class="card-header">
                                 <!--begin::Card title-->
                                 <div class="card-title">
-                                    <h3 class="fw-bold text-dark">{{ __('Students List') }}</h3>
+                                    <h3 class="fw-bold text-dark">{{ __('trips.management.students_list') }}</h3>
                                 </div>
                                 <!--end::Card title-->
                                 <!--begin::Card toolbar-->
@@ -182,7 +182,7 @@
                                             <i class="fas fa-search"></i>
                                         </span>
                                         <input type="text" class="form-control form-control-solid w-250px ps-12"
-                                               placeholder="{{ __('Search students') }}"
+                                               placeholder="{{ __('trips.management.search_students') }}"
                                                id="trip-students-search"/>
                                     </div>
                                     <!-- Export buttons will be inserted here by DataTables -->
@@ -197,10 +197,10 @@
                                 <div class="table-responsive">
                                     <table class="table table-striped table-row-bordered gy-5 gs-7" id="trip-students-table">                                        <thead>
                                         <tr class="fw-semibold fs-6 text-gray-800 border-bottom-2 border-gray-200">
-                                            <th class="min-w-200px">{{ __('Student Name') }}</th>
-                                            <th class="min-w-150px">{{ __('School') }}</th>
-                                            <th class="min-w-100px">{{ __('Attendance') }}</th>
-                                            <th class="min-w-100px">{{ __('Evaluation') }}</th>
+                                            <th class="min-w-200px">{{ __('trips.management.student_name') }}</th>
+                                            <th class="min-w-150px">{{ __('trips.management.school') }}</th>
+                                            <th class="min-w-100px">{{ __('trips.management.attendance') }}</th>
+                                            <th class="min-w-100px">{{ __('trips.management.evaluation') }}</th>
 {{--                                            <th class="min-w-100px">{{ __('Certificate') }}</th>--}}
                                         </tr>
                                         </thead>
@@ -231,30 +231,30 @@
                                                     @if($attendance)
                                                         @if($attendance->status == 'attended')
                                                             <span class="badge badge-light-success">
-                                                                    <i class="fa-solid fa-check me-1"></i>{{ __('Attended') }}
+                                                                    <i class="fa-solid fa-check me-1"></i>{{ __('trips.management.attended') }}
                                                                 </span>
                                                         @else
                                                             <span class="badge badge-light-danger">
-                                                                    <i class="fa-solid fa-times me-1"></i>{{ __('Absent') }}
+                                                                    <i class="fa-solid fa-times me-1"></i>{{ __('trips.management.absent') }}
                                                                 </span>
                                                         @endif
                                                     @else
                                                         <span class="badge badge-light-secondary">
-                                                                <i class="fa-solid fa-clock me-1"></i>{{ __('Pending') }}
+                                                                <i class="fa-solid fa-clock me-1"></i>{{ __('trips.management.pending') }}
                                                             </span>
                                                     @endif
                                                 </td>
                                                 <td>
                                                     @if($evaluation)
                                                         <span class="badge badge-light-success">
-                                                                <i class="fa-solid fa-star me-1"></i>{{ __('Completed') }}
+                                                                <i class="fa-solid fa-star me-1"></i>{{ __('trips.management.completed') }}
                                                             </span>
                                                         <div class="text-muted fs-7 mt-1">
-                                                            {{ __('Rating') }}: {{ $evaluation->rating }}/5
+                                                            {{ __('trips.management.rating') }}: {{ $evaluation->rating }}/5
                                                         </div>
                                                     @else
                                                         <span class="badge badge-light-warning">
-                                                                <i class="fa-solid fa-hourglass-half me-1"></i>{{ __('Pending') }}
+                                                                <i class="fa-solid fa-hourglass-half me-1"></i>{{ __('trips.management.pending') }}
                                                             </span>
                                                     @endif
                                                 </td>
@@ -283,9 +283,9 @@
                                                 <i class="fa-solid fa-users text-info fs-1"></i>
                                             </div>
                                         </div>
-                                        <div class="fs-1 fw-bolder text-gray-400 mb-5">{{ __('No Students Found') }}</div>
+                                        <div class="fs-1 fw-bolder text-gray-400 mb-5">{{ __('trips.management.no_students_found') }}</div>
                                         <div class="fs-6 text-gray-600 text-center">
-                                            {{ __('No students are enrolled in this program yet.') }}
+                                            {{ __('trips.management.no_students_enrolled') }}
                                         </div>
                                     </div>
                                 @endif

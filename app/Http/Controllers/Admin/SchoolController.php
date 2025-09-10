@@ -32,7 +32,7 @@ class SchoolController extends Controller
             ->addColumn('name', function ($school) {
                 if ($school->logo) {
                     $logoUrl = asset('storage/' . $school->logo);
-                    $imgTag = '<img src="' . $logoUrl . '" alt="Avatar" width="40" height="40" class="rounded-circle me-3 border" style="object-fit:cover; background:#f3f6f9;">';
+                    $imgTag = '<img src="' . $logoUrl . '" alt="Avatar" width="40" class="me-3 border" style="object-fit:cover; background:#f3f6f9; border-radius:6px;">';
                 } else {
                     // Inline SVG placeholder
                     $imgTag = '<span class="rounded-circle me-3 border" style="width:40px;height:40px;background:#f3f6f9;display:flex;align-items:center;justify-content:center;">
@@ -105,8 +105,10 @@ class SchoolController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
             'phone_number' => 'required|string|max:20|unique:users',
+            'country_code' => 'required|string|max:10',
             'entity_type' => 'nullable|in:school,company,educational_institution,consulting_firm,other',
             'address' => 'required|string',
+            'max_students' => 'nullable|integer|min:1|max:999999',
             'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'is_active' => 'nullable|boolean',
         ]);
@@ -123,6 +125,7 @@ class SchoolController extends Controller
                 'name'          => $request->name,
                 'email'         => $request->email,
                 'phone_number'  => $request->phone_number,
+                'country_code'  => $request->country_code,
                 'role'          => RoleEnum::SCHOOL->value,
                 'password'      => Hash::make($request->password),
                 'is_active'     => $is_active
@@ -135,6 +138,7 @@ class SchoolController extends Controller
             $school->user_id = $user->id;
             $school->address = $request->address;
             $school->entity_type = $request->entity_type ?? null;
+            $school->max_students = $request->max_students;
 
             if ($request->hasFile('logo')) {
                 $logo = $request->file('logo');
@@ -170,8 +174,10 @@ class SchoolController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . $school->user_id,
             'phone_number' => 'required|string|max:20|unique:users,phone_number,' . $school->user_id,
+            'country_code' => 'required|string|max:10',
             'address' => 'required|string',
             'entity_type' => 'nullable|in:school,company,educational_institution,consulting_firm,other',
+            'max_students' => 'nullable|integer|min:1|max:999999',
             'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'is_active' => 'nullable|boolean',
         ]);
@@ -188,11 +194,13 @@ class SchoolController extends Controller
             $user->name = $request->name;
             $user->email = $request->email;
             $user->phone_number = $request->phone_number;
+            $user->country_code = $request->country_code;
             $user->is_active = $is_active;
             $user->save();
 
             $school->address = $request->address;
             $school->entity_type = $request->entity_type ?? null;
+            $school->max_students = $request->max_students;
 
             if ($request->hasFile('logo')) {
                 if ($school->logo) {
