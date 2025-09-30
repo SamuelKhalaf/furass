@@ -144,6 +144,30 @@ Route::middleware(['auth'])->name('admin.')->group(function () {
 
     Route::get('/students/program-status', [SchoolController::class, 'studentProgramStatus'])
         ->name('school.students.program-status');
+
+    // Companies Routes
+    Route::middleware('permission:'. PermissionEnum::LIST_SCHOOLS->value)->group(function () {
+        Route::get('companies', [SchoolController::class, 'companiesIndex'])->name('companies.index');
+        Route::get('companies/all', [SchoolController::class, 'getCompaniesData'])->name('companies.datatable');
+    });
+
+    // Educational Institutions Routes
+    Route::middleware('permission:'. PermissionEnum::LIST_SCHOOLS->value)->group(function () {
+        Route::get('educational-institutions', [SchoolController::class, 'educationalInstitutionsIndex'])->name('educational-institutions.index');
+        Route::get('educational-institutions/all', [SchoolController::class, 'getEducationalInstitutionsData'])->name('educational-institutions.datatable');
+    });
+
+    // Consulting Firms Routes
+    Route::middleware('permission:'. PermissionEnum::LIST_SCHOOLS->value)->group(function () {
+        Route::get('consulting-firms', [SchoolController::class, 'consultingFirmsIndex'])->name('consulting-firms.index');
+        Route::get('consulting-firms/all', [SchoolController::class, 'getConsultingFirmsData'])->name('consulting-firms.datatable');
+    });
+
+    // Other Entities Routes
+    Route::middleware('permission:'. PermissionEnum::LIST_SCHOOLS->value)->group(function () {
+        Route::get('other-entities', [SchoolController::class, 'otherEntitiesIndex'])->name('other-entities.index');
+        Route::get('other-entities/all', [SchoolController::class, 'getOtherEntitiesData'])->name('other-entities.datatable');
+    });
     ###############################  End:Schools Routes  #####################################
 
     ##############################  Start:Students Routes  ####################################

@@ -26,7 +26,7 @@ class SchoolController extends Controller
 
     public function getSchoolsData()
     {
-        $schools = School::with('user')->get();
+        $schools = School::with('user')->where('entity_type', 'school')->get();
 
         return DataTables::of($schools)
             ->addColumn('name', function ($school) {
@@ -137,7 +137,7 @@ class SchoolController extends Controller
 
             $school->user_id = $user->id;
             $school->address = $request->address;
-            $school->entity_type = $request->entity_type ?? null;
+            $school->entity_type = $request->entity_type ?? 'school';
             $school->max_students = $request->max_students;
 
             if ($request->hasFile('logo')) {
@@ -199,7 +199,7 @@ class SchoolController extends Controller
             $user->save();
 
             $school->address = $request->address;
-            $school->entity_type = $request->entity_type ?? null;
+            $school->entity_type = $request->entity_type ?? 'school';
             $school->max_students = $request->max_students;
 
             if ($request->hasFile('logo')) {
@@ -289,5 +289,126 @@ class SchoolController extends Controller
             ->paginate(10);
 
         return view('admin.schools.student_program_status', compact('students'));
+    }
+
+    // Companies methods
+    public function companiesIndex()
+    {
+        return view('admin.schools.companies.index');
+    }
+
+    public function getCompaniesData()
+    {
+        $companies = School::with('user')->where('entity_type', 'company')->get();
+        return $this->getEntityData($companies, false); // false = no edit button
+    }
+
+    // Educational Institutions methods
+    public function educationalInstitutionsIndex()
+    {
+        return view('admin.schools.educational_institutions.index');
+    }
+
+    public function getEducationalInstitutionsData()
+    {
+        $institutions = School::with('user')->where('entity_type', 'educational_institution')->get();
+        return $this->getEntityData($institutions, false); // false = no edit button
+    }
+
+    // Consulting Firms methods
+    public function consultingFirmsIndex()
+    {
+        return view('admin.schools.consulting_firms.index');
+    }
+
+    public function getConsultingFirmsData()
+    {
+        $firms = School::with('user')->where('entity_type', 'consulting_firm')->get();
+        return $this->getEntityData($firms, false); // false = no edit button
+    }
+
+    // Other Entities methods
+    public function otherEntitiesIndex()
+    {
+        return view('admin.schools.other_entities.index');
+    }
+
+    public function getOtherEntitiesData()
+    {
+        $entities = School::with('user')->where('entity_type', 'other')->get();
+        return $this->getEntityData($entities, false); // false = no edit button
+    }
+
+    // Helper method to generate DataTable for different entity types
+    private function getEntityData($entities, $allowEdit = true)
+    {
+        return DataTables::of($entities)
+            ->addColumn('name', function ($entity) {
+                if ($entity->logo) {
+                    $logoUrl = asset('storage/' . $entity->logo);
+                    $imgTag = '<img src="' . $logoUrl . '" alt="Avatar" width="40" class="me-3 border" style="object-fit:cover; background:#f3f6f9; border-radius:6px;">';
+                } else {
+                    // Inline SVG placeholder
+                    $imgTag = '<span class="rounded-circle me-3 border" style="width:40px;height:40px;background:#f3f6f9;display:flex;align-items:center;justify-content:center;">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="12" cy="8" r="4" fill="#b5b5c3"/>
+                            <rect x="4" y="16" width="16" height="6" rx="3" fill="#b5b5c3"/>
+                        </svg>
+                    </span>';
+                }
+                $html = '<div class="d-flex align-items-center">';
+                $html .= $imgTag;
+                $html .= '<span>' . e($entity->user->name) . '</span>';
+                $html .= '</div>';
+                return $html;
+            })
+            ->addColumn('address', function ($entity) {
+                return $entity->address;
+            })
+            ->addColumn('email', function ($entity) {
+                return $entity->user->email;
+            })
+            ->addColumn('phone', function ($entity) {
+                return $entity->user->phone_number;
+            })
+            ->addColumn('entity_type', function ($entity) {
+                return ucfirst(str_replace('_', ' ', $entity->entity_type));
+            })
+            ->addColumn('actions', function ($entity) use ($allowEdit) {
+                $actions = '';
+                if (auth()->user()->hasAnyPermission([
+                    PermissionEnum::UPDATE_SCHOOLS->value,
+                    PermissionEnum::DELETE_SCHOOLS->value
+                ])) {
+                    $actions = '<a href="#" class="btn btn-light btn-active-light-primary btn-sm" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                    '.__("schools.actions").'
+                                    <span class="svg-icon svg-icon-5 m-0">
+                                       <i class="fa-solid fa-caret-down"></i>
+                                   </span>
+                                </a>';
+
+                    $actions .= '<div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4" data-kt-menu="true">';
+
+                    if ($allowEdit && auth()->user()->hasPermissionTo(PermissionEnum::UPDATE_SCHOOLS->value)) {
+                        $actions .= '<div class="menu-item px-3">
+                            <a href="#" class="menu-link px-3" data-user-id="' . $entity->id . '" data-bs-toggle="modal" data-bs-target="#kt_modal_update_school">
+                                '.__("schools.edit").'
+                            </a>
+                        </div>';
+                    }
+
+                    if (auth()->user()->hasPermissionTo(PermissionEnum::DELETE_SCHOOLS->value)) {
+                        $actions .= '<div class="menu-item px-3">
+                            <a href="#" class="menu-link px-3" data-kt-users-table-filter="delete_row"
+                               data-user-id="' . $entity->id . '">'.__("schools.delete").'</a>
+                        </div>';
+                    }
+
+                    $actions .= '</div>';
+                }
+                return $actions;
+            })
+            ->rawColumns(['name', 'actions'])
+            ->make(true);
     }
 }

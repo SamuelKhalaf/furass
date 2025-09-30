@@ -1,6 +1,61 @@
 @extends('template/layout/master')
 @section('body')
 
+<style>
+.ckeditor-content {
+    line-height: 1.6;
+}
+
+.ckeditor-content h1,
+.ckeditor-content h2,
+.ckeditor-content h3,
+.ckeditor-content h4,
+.ckeditor-content h5,
+.ckeditor-content h6 {
+    margin-bottom: 1rem;
+    font-weight: bold;
+}
+
+.ckeditor-content p {
+    margin-bottom: 1rem;
+}
+
+.ckeditor-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.ckeditor-content figure {
+    margin: 1rem 0;
+    text-align: center;
+}
+
+.ckeditor-content figure img {
+    display: block;
+    margin: 0 auto;
+}
+
+.ckeditor-content strong {
+    font-weight: bold;
+}
+
+.ckeditor-content em {
+    font-style: italic;
+}
+
+.ckeditor-content ul,
+.ckeditor-content ol {
+    margin: 1rem 0;
+    padding-left: 2rem;
+}
+
+.ckeditor-content li {
+    margin-bottom: 0.5rem;
+}
+</style>
+
     @php
     $page = \App\Models\Ckeditor::where('page' , 'about')->first();
     @endphp
@@ -15,21 +70,20 @@
                 }
             @endphp
             {!! $img !!}
-            <div class="overlay-wrapper">
-                <div class="container">
-                    <div class="overlay-text text-white">
-                        <h1 class="h3 fw-bold " style="text-align: justify">
-                            @php
-                            $title = '';
-                            if (app()->getLocale() == 'ar'){
-                                $title = $page->variables_ar['section1_title'];
-                            }else{
-                                $title = $page->variables_en['section1_title'];
-                            }
-                            @endphp
-                            {!! $title !!}
-                        </h1>
-                    </div>
+        </div>
+        
+        <div class="container mt-4">
+            <div class="text-center">
+                @php
+                $content = '';
+                if (app()->getLocale() == 'ar'){
+                    $content = $page->variables_ar['section1_content'];
+                }else{
+                    $content = $page->variables_en['section1_content'];
+                }
+                @endphp
+                <div class="ckeditor-content" style="text-align: justify;">
+                    {!! $content !!}
                 </div>
             </div>
         </div>
