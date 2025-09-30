@@ -144,14 +144,87 @@
 
                 @if(auth()->user()->hasAnyPermission(PermissionEnum::schoolPermissions()))
                     <!--begin:Menu item-->
-                    <div class="menu-item {{setMenuOpenClass(['admin.schools.index'])}}">
-                        <!--begin:Menu link-->
-                        <a class="menu-link {{setActiveClass('admin.schools.index')}}"
-                           href="{{route('admin.schools.index')}}">
-                            <span class="menu-icon"><i class="fa-solid fa-school"></i></span>
-                            <span class="menu-title">{{ __('admin.schools.title') }}</span>
-                        </a>
-                        <!--end:Menu link-->
+                    <div data-kt-menu-trigger="click"
+                         class="menu-item menu-accordion
+                         {{setMenuOpenClass([
+                            'admin.schools.index',
+                            'admin.companies.index',
+                            'admin.educational-institutions.index',
+                            'admin.consulting-firms.index',
+                            'admin.other-entities.index'
+                        ])}}">
+                        <span class="menu-link">
+                            <span class="menu-icon"><i class="fa-solid fa-building"></i></span>
+                            <span class="menu-title">Entities</span>
+                            <span class="menu-arrow"></span>
+                        </span>
+                        <div class="menu-sub menu-sub-accordion">
+                            <!--begin:Menu item-->
+                            <div class="menu-item">
+                                <!--begin:Menu link-->
+                                <a class="menu-link {{setActiveClass('admin.schools.index')}}"
+                                   href="{{route('admin.schools.index')}}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title">Schools</span>
+                                </a>
+                                <!--end:Menu link-->
+                            </div>
+                            <!--end:Menu item-->
+                            <!--begin:Menu item-->
+                            <div class="menu-item">
+                                <!--begin:Menu link-->
+                                <a class="menu-link {{setActiveClass('admin.companies.index')}}"
+                                   href="{{route('admin.companies.index')}}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title">Companies</span>
+                                </a>
+                                <!--end:Menu link-->
+                            </div>
+                            <!--end:Menu item-->
+                            <!--begin:Menu item-->
+                            <div class="menu-item">
+                                <!--begin:Menu link-->
+                                <a class="menu-link {{setActiveClass('admin.educational-institutions.index')}}"
+                                   href="{{route('admin.educational-institutions.index')}}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title">Educational Institutions</span>
+                                </a>
+                                <!--end:Menu link-->
+                            </div>
+                            <!--end:Menu item-->
+                            <!--begin:Menu item-->
+                            <div class="menu-item">
+                                <!--begin:Menu link-->
+                                <a class="menu-link {{setActiveClass('admin.consulting-firms.index')}}"
+                                   href="{{route('admin.consulting-firms.index')}}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title">Consulting Firms</span>
+                                </a>
+                                <!--end:Menu link-->
+                            </div>
+                            <!--end:Menu item-->
+                            <!--begin:Menu item-->
+                            <div class="menu-item">
+                                <!--begin:Menu link-->
+                                <a class="menu-link {{setActiveClass('admin.other-entities.index')}}"
+                                   href="{{route('admin.other-entities.index')}}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title">Other Entities</span>
+                                </a>
+                                <!--end:Menu link-->
+                            </div>
+                            <!--end:Menu item-->
+                        </div>
                     </div>
                     <!--end:Menu item-->
                 @endif
