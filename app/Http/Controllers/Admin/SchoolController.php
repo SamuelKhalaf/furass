@@ -162,6 +162,82 @@ class SchoolController extends Controller
             return redirect()->back()->with('error', 'Something went wrong. Please try again.');        }
     }
 
+    public function storePartnershipRequest(Request $request)
+    {
+        try {
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'email' => 'required|string|email|max:255|unique:users',
+                'password' => 'required|string|min:6|confirmed',
+                'phone_number' => 'required|string|max:20|unique:users',
+                'country_code' => 'required|string|max:10',
+                'entity_type' => 'nullable|in:school,company,educational_institution,consulting_firm,other',
+                'address' => 'required|string',
+                'max_students' => 'nullable|integer|min:1|max:999999',
+                'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'is_active' => 'nullable|boolean',
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            // Handle validation errors
+            $errors = $e->validator->errors()->all();
+            $errorMessage = implode('<br>', $errors);
+            
+            return response()->json([
+                'status' => 'error',
+                'message' => $errorMessage
+            ], 422);
+        }
+
+        if ($request->has('is_active')) {
+            $is_active = $request->is_active;
+        } else {
+            $is_active = false;
+        }
+
+        try {
+            DB::beginTransaction();
+            $user = User::create([
+                'name'          => $request->name,
+                'email'         => $request->email,
+                'phone_number'  => $request->phone_number,
+                'country_code'  => $request->country_code,
+                'role'          => RoleEnum::SCHOOL->value,
+                'password'      => Hash::make($request->password),
+                'is_active'     => $is_active
+            ]);
+
+            $user->assignRole(RoleEnum::SCHOOL->value);
+
+            $school = new School();
+
+            $school->user_id = $user->id;
+            $school->address = $request->address;
+            $school->entity_type = $request->entity_type ?? 'school';
+            $school->max_students = $request->max_students;
+
+            if ($request->hasFile('logo')) {
+                $logo = $request->file('logo');
+                $logoName = time() . '.' . $logo->getClientOriginalExtension();
+                $logo->storeAs('public/schools/logos', $logoName);
+                $school->logo = 'schools/logos/' . $logoName;
+            }
+            $school->save();
+            DB::commit();
+            
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Your partnership request has been submitted successfully! We will review your application and get back to you soon.'
+            ]);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Something went wrong while processing your request. Please try again later.'
+            ], 500);
+        }
+    }
+
     public function edit(string $id)
     {
         $school = School::with(['user'])->findOrFail($id);

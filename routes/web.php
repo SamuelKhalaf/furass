@@ -28,7 +28,7 @@ Route::get('/test', function () {
     $adminRole->givePermissionTo(PermissionEnum::all());
 });
 
-Route::post('request-school', [SchoolController::class, 'store'])->name('request-school.store');
+Route::post('request-school', [SchoolController::class, 'storePartnershipRequest'])->name('request-school.store');
 
 Route::get('language/{locale}', [LanguageController::class, 'switchLang'])->name('language.switch');
 
