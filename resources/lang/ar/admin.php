@@ -48,6 +48,16 @@ return [
         'permissions' => 'صلاحيات المستخدم',
     ],
 
+    // Entities
+    'entities' => [
+        'title' => 'الجهات',
+        'schools' => 'المدارس',
+        'companies' => 'الشركات',
+        'educational_institutions' => 'المؤسسات التعليمية',
+        'consulting_firms' => 'شركات الاستشارات',
+        'other_entities' => 'جهات أخرى',
+    ],
+
     // Schools
     'schools' => [
         'title' => ' المدارس',

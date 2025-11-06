@@ -155,7 +155,7 @@
                         ])}}">
                         <span class="menu-link">
                             <span class="menu-icon"><i class="fa-solid fa-building"></i></span>
-                            <span class="menu-title">Entities</span>
+                            <span class="menu-title">{{ __('admin.entities.title') }}</span>
                             <span class="menu-arrow"></span>
                         </span>
                         <div class="menu-sub menu-sub-accordion">
@@ -167,7 +167,7 @@
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>
-                                    <span class="menu-title">Schools</span>
+                                    <span class="menu-title">{{ __('admin.entities.schools') }}</span>
                                 </a>
                                 <!--end:Menu link-->
                             </div>
@@ -180,7 +180,7 @@
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>
-                                    <span class="menu-title">Companies</span>
+                                    <span class="menu-title">{{ __('admin.entities.companies') }}</span>
                                 </a>
                                 <!--end:Menu link-->
                             </div>
@@ -193,7 +193,7 @@
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>
-                                    <span class="menu-title">Educational Institutions</span>
+                                    <span class="menu-title">{{ __('admin.entities.educational_institutions') }}</span>
                                 </a>
                                 <!--end:Menu link-->
                             </div>
@@ -206,7 +206,7 @@
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>
-                                    <span class="menu-title">Consulting Firms</span>
+                                    <span class="menu-title">{{ __('admin.entities.consulting_firms') }}</span>
                                 </a>
                                 <!--end:Menu link-->
                             </div>
@@ -219,7 +219,7 @@
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>
-                                    <span class="menu-title">Other Entities</span>
+                                    <span class="menu-title">{{ __('admin.entities.other_entities') }}</span>
                                 </a>
                                 <!--end:Menu link-->
                             </div>

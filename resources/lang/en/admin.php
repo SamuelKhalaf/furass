@@ -48,6 +48,16 @@ return [
         'permissions' => 'User Permissions',
     ],
 
+    // Entities
+    'entities' => [
+        'title' => 'Entities',
+        'schools' => 'Schools',
+        'companies' => 'Companies',
+        'educational_institutions' => 'Educational Institutions',
+        'consulting_firms' => 'Consulting Firms',
+        'other_entities' => 'Other Entities',
+    ],
+
     // Schools
     'schools' => [
         'title' => ' Schools',
