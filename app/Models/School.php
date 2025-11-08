@@ -13,7 +13,8 @@ class School extends Model
         'user_id',
         'address',
         'logo',
-        'max_students'
+        'max_students',
+        'is_opened'
     ];
 
     public function user()
