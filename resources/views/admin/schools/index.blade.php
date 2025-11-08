@@ -82,6 +82,8 @@
                                 <th class="w-125px">{{ __('schools.address') }}</th>
                                 <th class="w-125px">{{ __('schools.email') }}</th>
                                 <th class="w-125px">{{ __('schools.phone') }}</th>
+                                <th class="w-100px">{{ __('schools.is_active') }}</th>
+                                <th class="w-100px">{{ __('schools.is_opened') }}</th>
 {{--                                <th class="w-125px">{{ __('schools.entity_type') }}</th>--}}
                                 <th class="w-100px">{{ __('schools.actions') }}</th>
                             </tr>
@@ -106,14 +108,24 @@
         <!--end::Content-->
     </div>
     @if(auth()->user()->hasPermissionTo(\App\Enums\PermissionEnum::CREATE_SCHOOLS->value))
-        <!--begin::Modal - Add Users-->
-        @include('admin.schools.modals.create')
-        <!--end::Modal - Add Users-->
+        <!--begin::Modal - Add School-->
+        @include('admin.schools.modals.create', [
+            'modalId' => 'kt_modal_add_school',
+            'formId' => 'kt_modal_add_school_form',
+            'entityType' => 'school',
+            'title' => __('schools.modal.add_school')
+        ])
+        <!--end::Modal - Add School-->
     @endif
     @if(auth()->user()->hasPermissionTo(\App\Enums\PermissionEnum::UPDATE_SCHOOLS->value))
-        <!--begin::Modal - Update user-->
-        @include('admin.schools.modals.edit')
-        <!--end::Modal - Update user-->
+        <!--begin::Modal - Update School-->
+        @include('admin.schools.modals.edit', [
+            'modalId' => 'kt_modal_update_school',
+            'formId' => 'kt_modal_update_school_form',
+            'entityType' => 'school',
+            'title' => __('schools.modal.update_school')
+        ])
+        <!--end::Modal - Update School-->
     @endif
 @endsection
 @section('scripts')
@@ -207,6 +219,20 @@
                             {
                                 data: 'phone',
                                 name: 'phone',
+                                orderable: false,
+                                searchable: false,
+                                className: 'text-center'
+                            },
+                            {
+                                data: 'is_active',
+                                name: 'is_active',
+                                orderable: false,
+                                searchable: false,
+                                className: 'text-center'
+                            },
+                            {
+                                data: 'is_opened',
+                                name: 'is_opened',
                                 orderable: false,
                                 searchable: false,
                                 className: 'text-center'
@@ -856,7 +882,7 @@
 
                     if (userId) {
                         $.ajax({
-                            url: `/schools/${userId}/edit`,
+                            url: `{{ route('admin.schools.edit', ':id') }}`.replace(':id', userId),
                             type: "GET",
                             success: function (response) {
                                 populateForm(response);
@@ -929,7 +955,7 @@
                                     // Get form data and send AJAX request
                                     let formData = new FormData(form);
                                     let userId = $('#kt_modal_update_school_form').data('user-id');
-                                    let updateUrl = `/schools/${userId}`;
+                                    let updateUrl = `{{ route('admin.schools.update', ':id') }}`.replace(':id', userId);
                                     $.ajax({
                                         url: updateUrl,
                                         type: "POST",

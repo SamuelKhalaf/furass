@@ -149,24 +149,36 @@ Route::middleware(['auth'])->name('admin.')->group(function () {
     Route::middleware('permission:'. PermissionEnum::LIST_SCHOOLS->value)->group(function () {
         Route::get('companies', [SchoolController::class, 'companiesIndex'])->name('companies.index');
         Route::get('companies/all', [SchoolController::class, 'getCompaniesData'])->name('companies.datatable');
+        Route::post('companies', [SchoolController::class, 'store'])->name('companies.store');
+        Route::get('companies/{id}/edit', [SchoolController::class, 'edit'])->name('companies.edit');
+        Route::put('companies/{school}', [SchoolController::class, 'update'])->name('companies.update');
     });
 
     // Educational Institutions Routes
     Route::middleware('permission:'. PermissionEnum::LIST_SCHOOLS->value)->group(function () {
         Route::get('educational-institutions', [SchoolController::class, 'educationalInstitutionsIndex'])->name('educational-institutions.index');
         Route::get('educational-institutions/all', [SchoolController::class, 'getEducationalInstitutionsData'])->name('educational-institutions.datatable');
+        Route::post('educational-institutions', [SchoolController::class, 'store'])->name('educational-institutions.store');
+        Route::get('educational-institutions/{id}/edit', [SchoolController::class, 'edit'])->name('educational-institutions.edit');
+        Route::put('educational-institutions/{school}', [SchoolController::class, 'update'])->name('educational-institutions.update');
     });
 
     // Consulting Firms Routes
     Route::middleware('permission:'. PermissionEnum::LIST_SCHOOLS->value)->group(function () {
         Route::get('consulting-firms', [SchoolController::class, 'consultingFirmsIndex'])->name('consulting-firms.index');
         Route::get('consulting-firms/all', [SchoolController::class, 'getConsultingFirmsData'])->name('consulting-firms.datatable');
+        Route::post('consulting-firms', [SchoolController::class, 'store'])->name('consulting-firms.store');
+        Route::get('consulting-firms/{id}/edit', [SchoolController::class, 'edit'])->name('consulting-firms.edit');
+        Route::put('consulting-firms/{school}', [SchoolController::class, 'update'])->name('consulting-firms.update');
     });
 
     // Other Entities Routes
     Route::middleware('permission:'. PermissionEnum::LIST_SCHOOLS->value)->group(function () {
         Route::get('other-entities', [SchoolController::class, 'otherEntitiesIndex'])->name('other-entities.index');
         Route::get('other-entities/all', [SchoolController::class, 'getOtherEntitiesData'])->name('other-entities.datatable');
+        Route::post('other-entities', [SchoolController::class, 'store'])->name('other-entities.store');
+        Route::get('other-entities/{id}/edit', [SchoolController::class, 'edit'])->name('other-entities.edit');
+        Route::put('other-entities/{school}', [SchoolController::class, 'update'])->name('other-entities.update');
     });
     ###############################  End:Schools Routes  #####################################
 

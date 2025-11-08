@@ -57,7 +57,13 @@
                         <div class="card-toolbar">
                             <!--begin::Toolbar-->
                             <div class="d-flex justify-content-end" data-kt-user-table-toolbar="base">
-                                <!-- No create button for educational institutions - view/delete only -->
+                                @if(auth()->user()->hasPermissionTo(\App\Enums\PermissionEnum::CREATE_SCHOOLS->value))
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                            data-bs-target="#kt_modal_add_educational_institution">
+                                        <span class="svg-icon svg-icon-2"><i class="fa-solid fa-plus"></i></span>
+                                        {{ __('admin.entities.educational_institutions') }} - {{ __('schools.create') }}
+                                    </button>
+                                @endif
                             </div>
                             <!--end::Toolbar-->
                         </div>
@@ -76,6 +82,8 @@
                                 <th class="w-125px">{{ __('schools.address') }}</th>
                                 <th class="w-125px">{{ __('schools.email') }}</th>
                                 <th class="w-125px">{{ __('schools.phone') }}</th>
+                                <th class="w-100px">{{ __('schools.is_active') }}</th>
+                                <th class="w-100px">{{ __('schools.is_opened') }}</th>
                                 <th class="w-125px">Entity Type</th>
                                 <th class="w-100px">{{ __('schools.actions') }}</th>
                             </tr>
@@ -99,6 +107,26 @@
         </div>
         <!--end::Content-->
     </div>
+    @if(auth()->user()->hasPermissionTo(\App\Enums\PermissionEnum::CREATE_SCHOOLS->value))
+        <!--begin::Modal - Add Educational Institution-->
+        @include('admin.schools.modals.create', [
+            'modalId' => 'kt_modal_add_educational_institution',
+            'formId' => 'kt_modal_add_educational_institution_form',
+            'entityType' => 'educational_institution',
+            'title' => __('admin.entities.educational_institutions') . ' - ' . __('schools.create')
+        ])
+        <!--end::Modal - Add Educational Institution-->
+    @endif
+    @if(auth()->user()->hasPermissionTo(\App\Enums\PermissionEnum::UPDATE_SCHOOLS->value))
+        <!--begin::Modal - Update Educational Institution-->
+        @include('admin.schools.modals.edit', [
+            'modalId' => 'kt_modal_update_educational_institution',
+            'formId' => 'kt_modal_update_educational_institution_form',
+            'entityType' => 'educational_institution',
+            'title' => __('admin.entities.educational_institutions') . ' - ' . __('schools.modal.update_school')
+        ])
+        <!--end::Modal - Update Educational Institution-->
+    @endif
 @endsection
 
 @section('scripts')
@@ -189,6 +217,20 @@
                             {
                                 data: 'phone',
                                 name: 'phone',
+                                orderable: false,
+                                searchable: false,
+                                className: 'text-center'
+                            },
+                            {
+                                data: 'is_active',
+                                name: 'is_active',
+                                orderable: false,
+                                searchable: false,
+                                className: 'text-center'
+                            },
+                            {
+                                data: 'is_opened',
+                                name: 'is_opened',
                                 orderable: false,
                                 searchable: false,
                                 className: 'text-center'
