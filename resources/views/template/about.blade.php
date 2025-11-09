@@ -63,10 +63,12 @@
         <div class="section-img">
             @php
                 $img = '';
-                if (app()->getLocale() == 'ar'){
-                    $img = $page->variables_ar['section1_img'];
-                }else{
-                    $img = $page->variables_en['section1_img'];
+                if ($page) {
+                    if (app()->getLocale() == 'ar'){
+                        $img = $page->variables_ar['section1_img'] ?? '';
+                    }else{
+                        $img = $page->variables_en['section1_img'] ?? '';
+                    }
                 }
             @endphp
             {!! $img !!}
@@ -76,10 +78,12 @@
             <div class="text-center">
                 @php
                 $content = '';
-                if (app()->getLocale() == 'ar'){
-                    $content = $page->variables_ar['section1_content'];
-                }else{
-                    $content = $page->variables_en['section1_content'];
+                if ($page) {
+                    if (app()->getLocale() == 'ar'){
+                        $content = $page->variables_ar['section1_content'] ?? '';
+                    }else{
+                        $content = $page->variables_en['section1_content'] ?? '';
+                    }
                 }
                 @endphp
                 <div class="ckeditor-content" style="text-align: justify;">
