@@ -36,7 +36,7 @@ class UpdateUserRequest extends FormRequest
         return [
             'name'          => ['required','string','max:20','min:3'],
             'email'         => ['required','email','unique:users,email,' . $this->route('user')],
-            'phone_number'  => ['required','string','max:20','min:11','unique:users,phone_number,' . $this->route('user')],
+            'phone_number'  => ['required','string','max:20','unique:users,phone_number,' . $this->route('user')],
             'country_code'  => ['required','string','max:10'],
             'role'          => ['required', 'exists:roles,name'],
             'is_active'     => ['nullable', 'boolean'],
