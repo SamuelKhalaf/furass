@@ -32,7 +32,7 @@ class CreateUserRequest extends FormRequest
         return [
             'name'          => ['required','string','max:20','min:3'],
             'email'         => ['required','email','unique:users,email'],
-            'phone_number'  => ['required','string','max:20','min:11','unique:users,phone_number'],
+            'phone_number'  => ['required','string','max:20','unique:users,phone_number'],
             'country_code'  => ['required','string','max:10'],
             'password'      => ['required','string','min:6','confirmed'],
             'role'          => ['required', 'exists:roles,name'],
