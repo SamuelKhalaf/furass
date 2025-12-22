@@ -27,7 +27,7 @@ class AdminDashboardController extends Controller
             // Basic counts
             'totalModerators' => User::whereIn('role', [RoleEnum::ADMIN, RoleEnum::SUB_ADMIN])->count(),
             'activeConsultants' => Consultant::count(),
-            'registeredSchools' => School::count(),
+            'registeredSchools' => School::where('entity_type', 'school')->count(),
             'totalStudents' => Student::count(),
 
             // Most desired programs
@@ -96,19 +96,21 @@ class AdminDashboardController extends Controller
 
     private function getSchoolCommitment()
     {
-        $totalSchools = School::count();
+        $totalSchools = School::where('entity_type', 'school')->count();
 
         // Schools with active students
-        $activeSchools = School::whereHas('student', function ($query) {
-            $query->whereHas('enrollments', function ($enrollmentQuery) {
-                $enrollmentQuery->where('status', 'active');
-            });
-        })->count();
+        $activeSchools = School::where('entity_type', 'school')
+            ->whereHas('student', function ($query) {
+                $query->whereHas('enrollments', function ($enrollmentQuery) {
+                    $enrollmentQuery->where('status', 'active');
+                });
+            })->count();
 
         // Schools with recent activity (students with progress in last 30 days)
-        $recentlyActiveSchools = School::whereHas('student.studentPathProgress', function ($query) {
-            $query->where('updated_at', '>=', Carbon::now()->subDays(30));
-        })->count();
+        $recentlyActiveSchools = School::where('entity_type', 'school')
+            ->whereHas('student.studentPathProgress', function ($query) {
+                $query->where('updated_at', '>=', Carbon::now()->subDays(30));
+            })->count();
 
         return [
             'total' => $totalSchools,

@@ -17,7 +17,10 @@ class StudentDashboardController extends Controller
         $student = Student::where('user_id', Auth::id())->first();
 
         if (!$student) {
-            return redirect()->route('profile.complete');
+            // Force logout due to incomplete account
+            Auth::logout();
+            return redirect()->route('login')
+                ->with('error', 'An error occurred. Please try again.');
         }
 
         $data = $this->getStudentDashboardData($student);
