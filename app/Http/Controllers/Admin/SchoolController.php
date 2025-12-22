@@ -12,10 +12,13 @@ use App\Models\Student;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
+use App\Mail\PartnershipVerificationCode;
 
 class SchoolController extends Controller
 {
@@ -50,6 +53,116 @@ class SchoolController extends Controller
         return $this->storeEntity($request);
     }
 
+    public function sendVerificationCode(Request $request)
+    {
+        try {
+            $request->validate([
+                'email' => 'required|string|email|max:255',
+            ]);
+
+            $email = $request->email;
+
+            // Check if email already exists
+            if (User::where('email', $email)->exists()) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'This email is already registered. Please use a different email address.'
+                ], 422);
+            }
+
+            // Generate 6-digit verification code
+            $verificationCode = str_pad(rand(0, 999999), 6, '0', STR_PAD_LEFT);
+
+            // Store code in cache for 10 minutes (keyed by email)
+            $cacheKey = 'partnership_verification_' . md5($email);
+            Cache::put($cacheKey, $verificationCode, now()->addMinutes(10));
+
+            // Send email
+            try {
+                Mail::to($email)->send(new PartnershipVerificationCode($verificationCode));
+            } catch (\Exception $e) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Failed to send verification email. Please try again later.'
+                ], 500);
+            }
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Verification code has been sent to your email address.'
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            $errors = $e->validator->errors()->all();
+            $errorMessage = implode('<br>', $errors);
+            
+            return response()->json([
+                'status' => 'error',
+                'message' => $errorMessage
+            ], 422);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Something went wrong. Please try again later.'
+            ], 500);
+        }
+    }
+
+    public function verifyEmailCode(Request $request)
+    {
+        try {
+            $request->validate([
+                'email' => 'required|string|email|max:255',
+                'verification_code' => 'required|string|size:6',
+            ]);
+
+            $email = $request->email;
+            $code = $request->verification_code;
+
+            // Get stored code from cache
+            $cacheKey = 'partnership_verification_' . md5($email);
+            $storedCode = Cache::get($cacheKey);
+
+            if (!$storedCode) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Verification code has expired or was not found. Please request a new code.'
+                ], 422);
+            }
+
+            if ($storedCode !== $code) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Invalid verification code. Please check and try again.'
+                ], 422);
+            }
+
+            // Mark email as verified in cache (valid for 30 minutes)
+            $verifiedKey = 'partnership_email_verified_' . md5($email);
+            Cache::put($verifiedKey, true, now()->addMinutes(30));
+
+            // Remove the verification code from cache
+            Cache::forget($cacheKey);
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Email verified successfully!'
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            $errors = $e->validator->errors()->all();
+            $errorMessage = implode('<br>', $errors);
+            
+            return response()->json([
+                'status' => 'error',
+                'message' => $errorMessage
+            ], 422);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Something went wrong. Please try again later.'
+            ], 500);
+        }
+    }
+
     public function storePartnershipRequest(Request $request)
     {
         try {
@@ -64,6 +177,7 @@ class SchoolController extends Controller
                 'max_students' => 'nullable|integer|min:1|max:999999',
                 'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
                 'is_active' => 'nullable|boolean',
+                'verification_code' => 'required|string|size:6',
             ]);
         } catch (\Illuminate\Validation\ValidationException $e) {
             // Handle validation errors
@@ -74,6 +188,31 @@ class SchoolController extends Controller
                 'status' => 'error',
                 'message' => $errorMessage
             ], 422);
+        }
+
+        // Verify email code
+        $email = $request->email;
+        $code = $request->verification_code;
+
+        // Check if email is verified
+        $verifiedKey = 'partnership_email_verified_' . md5($email);
+        $isVerified = Cache::get($verifiedKey);
+
+        if (!$isVerified) {
+            // Double-check the code
+            $cacheKey = 'partnership_verification_' . md5($email);
+            $storedCode = Cache::get($cacheKey);
+
+            if (!$storedCode || $storedCode !== $code) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Email verification is required. Please verify your email address first.'
+                ], 422);
+            }
+
+            // Mark as verified
+            Cache::put($verifiedKey, true, now()->addMinutes(30));
+            Cache::forget($cacheKey);
         }
 
         if ($request->has('is_active')) {
@@ -111,6 +250,10 @@ class SchoolController extends Controller
             }
             $school->save();
             DB::commit();
+            
+            // Clean up verification cache after successful submission
+            $verifiedKey = 'partnership_email_verified_' . md5($email);
+            Cache::forget($verifiedKey);
             
             return response()->json([
                 'status' => 'success',

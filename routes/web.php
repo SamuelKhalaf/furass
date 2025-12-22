@@ -28,6 +28,8 @@ Route::get('/test', function () {
     $adminRole->givePermissionTo(PermissionEnum::all());
 });
 
+Route::post('request-school/send-verification', [SchoolController::class, 'sendVerificationCode'])->name('request-school.send-verification');
+Route::post('request-school/verify-email', [SchoolController::class, 'verifyEmailCode'])->name('request-school.verify-email');
 Route::post('request-school', [SchoolController::class, 'storePartnershipRequest'])->name('request-school.store');
 
 Route::get('language/{locale}', [LanguageController::class, 'switchLang'])->name('language.switch');
