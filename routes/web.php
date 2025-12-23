@@ -3,6 +3,7 @@
 use App\Enums\PermissionEnum;
 use App\Enums\RoleEnum;
 use App\Http\Controllers\Admin\SchoolController;
+use App\Http\Controllers\ContactController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Spatie\Permission\Models\Role;
@@ -49,6 +50,8 @@ Route::get('our-programs', function (){
 Route::get('contact', function (){
     return view('template.contact');
 })->name('template.contact');
+
+Route::post('contact', [ContactController::class, 'store'])->name('template.contact.store');
 
 Route::get('request-school', function (){
     return view('template.request_school');

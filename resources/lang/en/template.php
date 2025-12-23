@@ -184,6 +184,8 @@ return [
         'message' => 'Type your Message here',
         'privacy' => "By submitting this form, I agree to WiziQ's <a href=\"#\" class=\"privacy-link\">Privacy Policy</a> and <a href=\"#\" class=\"privacy-link\">User Agreement</a>.",
         'send' => 'Send message',
+        'success_message' => 'Thank you for contacting us! We have received your message and will get back to you soon.',
+        'error_message' => 'Sorry, there was an error sending your message. Please try again later.',
     ],
     'school_request' => [
         'title' => 'Request Partnership',
